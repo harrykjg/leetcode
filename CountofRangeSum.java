@@ -88,6 +88,12 @@ public class CountofRangeSum {
                     e = mid;
                 }
             }
+            if(m==-1){
+                m=r.length;
+            }
+            if(n==-1){
+                n=l.length;
+            }
             rs+=m-n;
 
         }
