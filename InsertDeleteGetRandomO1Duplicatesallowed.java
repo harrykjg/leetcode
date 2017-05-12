@@ -11,6 +11,8 @@ public class InsertDeleteGetRandomO1Duplicatesallowed {
 //那么也是添加到数组最后一位,所以说添加和删除都应该发生在这个下标数组的最后一位应该没问题,但是如果说删除某个元素的时候,要把al里的最后一个元素换到删掉的那个
 //元素的位置上,那么也要更新这个最后元素的下标,这一更新就可能使这个元素的下标数组打乱了,原本这个下标数组的最后一位肯定使最大的,现在可能不是了,看网上说
 //用priorityqueue 来代替list数组,但是这样的话不就不是O(1)操作了吗,然后自己写了priorityqueue的写法就accept了
+//http://www.cnblogs.com/grandyang/p/5756148.html
+//https://segmentfault.com/a/1190000008119229
  class RandomizedCollection {
 
      Map<Integer,PriorityQueue<Integer>> map;
