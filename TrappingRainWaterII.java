@@ -8,6 +8,8 @@ public class TrappingRainWaterII {
     //自己回想不出来
     //http://www.cnblogs.com/grandyang/p/5928987.html 自己很难想,有的帖子说和第一题核心思想一样的但我看不大出来,主要是思路,想想为啥bfs只看周围
     //四个临近点就够了.
+    //http://blog.csdn.net/mebiuw/article/details/52664669
+    //http://blog.csdn.net/qq508618087/article/details/52698175  没看出来怎么是第一题的思维一样的
     public int trapRainWater(int[][] m) {
         if(m.length<3){
             return 0;
