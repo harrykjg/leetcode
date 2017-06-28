@@ -1,3 +1,5 @@
+package binarysearch;
+
 /**
  * Created by 502575560 on 6/21/17.
  */
@@ -41,7 +43,7 @@ public class SplitArrayLargestSum {
                 low = mid + 1;
             }
         }
-        return high;//left也行,因为当推出while循环是low和high肯定是相等的
+        return high;//low,因为当推出while循环是low和high肯定是相等的
     }
 
     private static boolean valid(int[] nums, int m, long max){
