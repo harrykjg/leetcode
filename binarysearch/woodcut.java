@@ -1,3 +1,5 @@
+package binarysearch;
+
 /**
  * Created by 502575560 on 6/27/17.
  */
