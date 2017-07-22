@@ -7,7 +7,8 @@ import java.util.PriorityQueue;
 public class TrappingRainWaterII {
     //自己回想不出来
     //http://www.cnblogs.com/grandyang/p/5928987.html 自己很难想,有的帖子说和第一题核心思想一样的但我看不大出来,主要是思路,想想为啥bfs只看周围
-    //四个临近点就够了.
+    //四个临近点就够了. 它这个解释有一点貌似不准确,海平面不是逐一上升的,而是看queue里poll出来的元素的高度上升的,可以想象为海平面上升,比如高度到达了
+    //某个点四周最矮的那个柱那,就可以理解为水会漫过来填平这个点
     //http://blog.csdn.net/mebiuw/article/details/52664669
     //http://blog.csdn.net/qq508618087/article/details/52698175  没看出来怎么是第一题的思维一样的
     public int trapRainWater(int[][] m) {
@@ -35,11 +36,11 @@ public class TrappingRainWaterII {
             q.offer(new cord(i,0,m[i][0]));
             q.offer(new cord(i,m[0].length-1,m[i][m[0].length-1]));
         }
-        int[][] dir={{-1,0},{0,1},{1,0},{0,-1}};//顺时针方向某点在m里的上,右,下,左边的点的坐标
+        int[][] dir={{-1,0},{0,1},{1,0},{0,-1}};//顺时针方向某点在m里的上,右,下,左边的点的坐标,类似的见numbersofisland2
         while (!q.isEmpty()){
             cord c=q.poll();
             h=Math.max(h,c.z);
-            for(int i=0;i<dir.length;i++){
+            for(int i=0;i<dir.length;i++){//某个点被poll出来后,再看四个方向上的点,可以想想成这一步就是水漫过去的瞬间,漫过去才计算体积,而不是poll这个点时计算
                 int x=c.x+dir[i][0];
                 int y=c.y+dir[i][1];
 
@@ -66,4 +67,7 @@ public class TrappingRainWaterII {
             z=c;
         }
     }
+
+
+    //第二次还是不会,没写
 }

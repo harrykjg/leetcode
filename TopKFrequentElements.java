@@ -32,6 +32,7 @@ public class TopKFrequentElements {
             pq.offer(map.get(it.next()));
         }
         for(int i=0;i<k;i++){
+
             rs.add(pq.poll().k);
         }
         return rs;

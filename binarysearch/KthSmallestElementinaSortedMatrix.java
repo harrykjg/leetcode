@@ -1,3 +1,5 @@
+package binarysearch;
+
 /**
  * Created by 502575560 on 5/8/17.
  */
@@ -10,8 +12,9 @@ public class KthSmallestElementinaSortedMatrix {
     }
     //想不到好方法,用堆的话不就没意思了吗,不过好像也能accept,用二分法的方法才有意思,自己想不出来
     //
-    //https://discuss.leetcode.com/topic/52948/share-my-thoughts-and-clean-java-code/2  这题算非主流二分法,看他分析
+    //https://discuss.leetcode.com/topic/52948/share-my-thoughts-and-clean-java-code/2  这题算非主流二分法,看他分析,其实就是九章说的二分on值而不是on索引
     //http://www.cnblogs.com/grandyang/p/5727892.html  他们用了c++的vector的某些方法,应该是和leetcode discuss的思想是一样的吧
+    //http://www.jianshu.com/p/902e13f7eee5
     public static int kthSmallest(int[][] m, int k) {
         if(m.length==0){
             return -1;

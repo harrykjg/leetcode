@@ -7,11 +7,11 @@ import java.util.Queue;
  * Created by 502575560 on 6/27/16.
  */
 public class NumberofIslands {
-    public static void main(String[] args){
-        char[][] g={{'1','1','1','1','0'},{'1','1','0','1','0'},{'1','1','0','0','0'},{'0','0','0','0','0'}};
+    public static void main(String[] args) {
+        char[][] g = {{'1', '1', '1', '1', '0'}, {'1', '1', '0', '1', '0'}, {'1', '1', '0', '0', '0'}, {'0', '0', '0', '0', '0'}};
         System.out.print(numIslands(g));
     }
-    //2016年6月26 dfs一次过,bfs 改了2下过了?
+//    2016年6月26 dfs一次过,bfs 改了2下过了?
     static int count=0;
     public static int numIslands(char[][] grid) {
         if(grid.length==0){
@@ -78,3 +78,5 @@ class ilandPair{
         j=b;
     }
 }
+
+

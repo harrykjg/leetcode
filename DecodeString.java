@@ -7,7 +7,7 @@ public class DecodeString {
 
     public static void main(String[] args){
 //        String s="3[a]3[g2[bc2[d]2[kj]]]";
-        System.out.println(DecodeString.decodeString("2[2[2[b]]]"));//注意sd2[f2[2]g]i这样的字母前面没有数字的例子
+        System.out.println(DecodeString.decodeString("2[2[2[b]]]"));//注意 这样的字母前面没有数字的例子
     }
 
     //看这个3[a]3[g2[bc4[d]2[kj]]]例子想,tag用stack,自己想的,改了很久终于accept了,

@@ -5,7 +5,7 @@ import java.util.HashMap;
  */
 public class Trie {
 
-    //july2017有个typo一次过.root是不存character的,都去children存了
+    //july2016有个typo一次过.root是不存character的,都去children存了
     public static void main(String[] args){
         Trie t=new Trie();
         t.insert("ab");
