@@ -3,6 +3,7 @@ package ArrayListAndNumbers;
 /**
  * Created by 502575560 on 7/10/17.
  */
+//双指针
 public class SortLettersbyCase {
     public void sortLetters(char[] chars) {
         //简单一次过

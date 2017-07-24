@@ -53,15 +53,11 @@ public class SortList {
                 cur=cur.next;
             }
         }
-        while (l1!=null){
+        if (l1!=null){
             cur.next=l1;
-            cur=cur.next;
-            l1=l1.next;
         }
-        while (l2!=null){
+        if (l2!=null){
             cur.next=l2;
-            cur=cur.next;
-            l2=l2.next;
         }
         return dum.next;
     }
