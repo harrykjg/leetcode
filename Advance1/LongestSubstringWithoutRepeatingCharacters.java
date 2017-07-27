@@ -1,6 +1,9 @@
 package Advance1;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by 502575560 on 7/15/17.
@@ -12,6 +15,7 @@ public class LongestSubstringWithoutRepeatingCharacters {
         if(s.length()==0){
             return 0;
         }
+        Math.abs(3-2);
         int rs=Integer.MIN_VALUE;
         int b=0;
         int e=0;
@@ -35,3 +39,4 @@ public class LongestSubstringWithoutRepeatingCharacters {
         return rs;
     }
 }
+
