@@ -1,11 +1,13 @@
 package binarysearch;
 
+import java.util.Arrays;
+
 /**
  * Created by 502575560 on 6/21/17.
  */
 public class SplitArrayLargestSum {
     public static void main(String[] args){
-        System.out.println(splitArray(new int[]{7,2,5,10,8},3));
+        System.out.println(splitArray3(new int[]{7,2,5,10,8},3));
     }
     //目测只能想到暴力法,nums长度减1就是数组可插的空隙,m-1就是要插几个隔板,所以是就暴力回溯法咯,传递一个长度为m的数组,存的数就是第1,2,3..段
     //nums数组的元素的和,然后超时了
@@ -93,4 +95,47 @@ public class SplitArrayLargestSum {
         }
 
     }
+    //7月26/2017再写一次
+    public static int splitArray3(int[] nums, int m) {
+        long e=0;
+        long b=Integer.MIN_VALUE;
+        for(int i:nums){
+            e+=i;
+            b=Math.max(b,i);
+        }
+        long mid=0;
+        int rs=0;
+        while (b<e){
+            mid=b+(e-b)/2;
+            if(isgood(mid,m,nums)){//这个isgood和别人的代码意义刚好相反
+                b=mid+1;
+            }else{
+                e=mid;
+            }
+        }
+        return (int)b;
+    }
+
+    static boolean isgood(long len,int m,int[] nums){
+        int count=1;
+        int cursum=0;
+        int i=0;
+        while (i<nums.length){
+
+            if(cursum+nums[i]<=len){
+                cursum+=nums[i];
+                i++;
+                continue;
+            }else{
+                count++;
+                cursum=0;
+                if(count>m){
+                    return true;
+                }
+            }
+
+        }
+        return false;
+    }
+
 }
