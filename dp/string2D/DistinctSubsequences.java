@@ -32,4 +32,31 @@ public class DistinctSubsequences {
         }
         return dp[dp.length-1][dp[0].length-1];
     }
+
+    public static int numDistinct2(String s, String t) {
+        if(s.length()==0){
+            return 0;
+        }
+        if(t.length()==0){
+            return 1;
+        }
+        int[][] dp=new int[s.length()+1][t.length()+1];
+        for(int i=0;i<dp.length;i++){
+            dp[i][0]=1;
+        }
+        for(int i=1;i<dp.length;i++){
+            for(int j=1;j<dp[0].length;j++){
+                if(j>i){
+                    dp[i][j]=0;
+                    continue;
+                }
+                if(s.charAt(i-1)==t.charAt(j-1)){
+                    dp[i][j]=dp[i-1][j-1]+dp[i-1][j];
+                }else{
+                    dp[i][j]=dp[i-1][j];
+                }
+            }
+        }
+        return dp[dp.length-1][dp[0].length-1];
+    }
 }

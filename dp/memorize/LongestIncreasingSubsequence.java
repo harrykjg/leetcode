@@ -1,0 +1,30 @@
+package dp.memorize;
+
+/**
+ * Created by 502575560 on 7/31/17.
+ */
+//应该也是记忆化搜索吧
+public class LongestIncreasingSubsequence {
+    public int lengthOfLIS(int[] nums) {
+        // lintcode写的，对dp的理解有点偏差导致错了
+        if(nums.length==0){
+            return 0;
+        }
+        int[] dp=new int[nums.length];
+        int rs=Integer.MIN_VALUE;
+        dp[0]=1;
+        for(int i=1;i<nums.length;i++){//自己之前想的是dp[i]存的是数组到i位最大的上升序列长度，比如1，2，3，1这个数组，dp［3］按我的想法就应该
+            //是3了，其实不对，如果后面再加一个数字2，则发现2大于1那么dp［4］就是4了，所以说dp［i］存的应该是
+            for(int j=i-1;j>=0;j--){    //这个位置的数与之前的数能组成的最长上升序列长度，而不是村的整个数组到这个位置的最长上升序列长度
+                if(nums[i]>nums[j]){
+                    dp[i]=Math.max(dp[i],dp[j]+1);
+                }
+            }
+            dp[i]=Math.max(1,dp[i]);//默认值是1，因为就他一个数也算是长度为1的上升序列
+            rs=Math.max(dp[i],rs);
+        }
+
+
+        return rs==Integer.MIN_VALUE?1:rs;
+    }
+}
