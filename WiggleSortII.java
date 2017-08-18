@@ -9,7 +9,7 @@ public static void main(String[] args){
     wiggleSort(a);
 }
     //不会啊,只能参考别人的,O(n)的方法还没仔细想,第一种方法都写的很烂
-    //http://www.cnblogs.com/grandyang/p/5139057.html
+    //http://www.cnblogs.com/grandyang/p/5139057.html   为啥不能取前半段的第一个,然后后半段的第一个,再前半段的第二个,再后半段的第二个?
     //http://www.cnblogs.com/grandyang/p/5177285.html 他第一问[1,1,1,4,5,6] 这样的例子也不行,但是leetcode没这样的test case
     //https://segmentfault.com/a/1190000003783283  他第一问不对的,第二问[1,1,1,4,5,6] 这样的例子也不行,但是leetcode没这样的test case
 
