@@ -43,5 +43,7 @@ public class FindPeakElement {
         return b;
 
     }
+    //第二轮
+    //如果不是知道是二分法的话,思路还是不容易直接想到,这题用模版好,mid+1不会越界,就是a[mid+1]>a[mid]的话,那么右边肯定有答案
 
 }

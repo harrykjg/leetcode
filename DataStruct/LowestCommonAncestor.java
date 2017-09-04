@@ -33,4 +33,24 @@ class TreeNode {
          this.left = this.right = null;
      }
 }
+//08/20/2017
+//还是不熟,不能很好的理解,靠记忆写的
+    public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode A, TreeNode B){
+        if(root==null){
+            return null;
+        }
+        if(root==A||root==B){
+            return root;
+        }
+        TreeNode l=lowestCommonAncestor2(root.left,A,B);
+        TreeNode r=lowestCommonAncestor2(root.right,A,B);
+        if(l!=null&&r!=null){
+            return root;
+        }
+        if(l==null&&r==null){
+            return null;
+        }
+        return l==null?r:l;
+
+    }
 }

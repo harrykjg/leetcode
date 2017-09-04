@@ -53,4 +53,39 @@ public class woodcut {
         return false;
 
     }
+    //第二次做
+    //初始b和e的值开始想错了,想成了L数组的最大的那个数是和最小的数,还有用模版的话还是结果要检测两个
+    public int woodCut2(int[] L, int k) {
+        int sum=0;
+        for(int i:L){
+            sum+=i;
+        }
+        int b=1;
+        int e=sum/k;
+        int mid=0;
+        while (b+1<e){
+            mid=b+(e-b)/2;
+            if(good(mid,L,k)){
+                b=mid;
+            }else{
+                e=mid;
+            }
+        }
+        return b;
+    }
+    boolean good(int len,int[] l,int k){
+        int count=0;
+        for(int i=0;i<l.length;i++){
+            int n=l[i];
+
+            while (n>len){
+                n-=len;
+                count++;
+                if(count>=k){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
