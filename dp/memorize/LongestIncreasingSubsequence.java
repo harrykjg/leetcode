@@ -27,4 +27,25 @@ public class LongestIncreasingSubsequence {
 
         return rs==Integer.MIN_VALUE?1:rs;
     }
+    //九章第二轮
+    public int lengthOfLIS2(int[] nums) {
+        if(nums.length==0){
+            return 0;
+        }
+        int[] dp=new int[nums.length];
+        dp[0]=1;
+        int rs=1;
+        for(int i=1;i<nums.length;i++){
+            for(int j=0;j<i;j++){//这个j的顺序和上次写的不一样了
+                if(nums[i]>nums[j]){
+                    dp[i]=Math.max(dp[j]+1,dp[i]);
+                }else {
+                    dp[i]=Math.max(1,dp[i]);//这个喀什直接写成dp[i]=1就错了,因为dp[i]在内层遍历j的时候可能已经有一个值大于1了
+                }
+
+            }
+            rs=Math.max(rs,dp[i]);
+        }
+        return rs;
+    }
 }

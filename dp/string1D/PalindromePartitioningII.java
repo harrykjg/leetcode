@@ -5,8 +5,8 @@ package dp.string1D;
  */
 public class PalindromePartitioningII {
     public static void main(String[] args){
-        System.out.println(minCut("abcccb"));
-    }
+        System.out.println(minCut2("aab"));
+    }//abcccb
 //lintcode写的,下标还是很恶心,那个判断字串是否回文那里的下标已经很恶心了,而且lintcode的dp的意义和以前写的不一样,lintcode这个要dp最后一个值-1
     public static int minCut(String s) {
         // write your code here
@@ -40,5 +40,44 @@ public class PalindromePartitioningII {
             }
         }
         return dp[dp.length-1]-1;
+    }
+
+    //九章第二轮,9/10/2017,还是下标比较恶心
+    public static int minCut2(String s) {
+
+        boolean[][] cut=new boolean[s.length()][s.length()];
+        for(int i=0;i<s.length();i++){
+            cut[i][i]=true;
+        }
+        for(int i=1;i<s.length();i++){
+            if(s.charAt(i)==s.charAt(i-1)){
+                cut[i-1][i]=true;
+            }
+        }
+        for(int i=2;i<s.length();i++){
+            for(int j=0;j+i<s.length();j++){
+                int end=j+i;
+                if(cut[j+1][end-1]&&s.charAt(j)==s.charAt(end)){
+                    cut[j][end]=true;
+                }
+            }
+        }
+
+        int[] dp=new int[s.length()];
+        for(int i=0;i<s.length();i++){
+            dp[i]=i;//思路就是外层i指0到i这个字符串要切几刀,那么默认一个字符切一道即dp[i]=i,然后内层j属于0到i,看j到i这之间是回文的话,就更新dp[i]
+            for(int j=0;j<=i;j++){
+                if(cut[j][i]){
+                    if(j==0){//这里写的比较奇怪不过也对了,其实以前也是差不多这样的,就是为了避开j=0时j-1为负数的情况
+                        dp[i]=0;
+                    }else{
+                        dp[i]=Math.min(dp[i],dp[j-1]+1);
+                    }
+
+                }
+            }
+        }
+        return dp[dp.length-1];
+
     }
 }
