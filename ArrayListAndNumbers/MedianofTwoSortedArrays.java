@@ -4,6 +4,13 @@ package ArrayListAndNumbers;
  * Created by 502575560 on 7/9/17.
  */
 public class MedianofTwoSortedArrays {
+    public static void main(String[] s){
+        int[] a={1,3};
+        int[] b={2};
+        MedianofTwoSortedArrays mt=new MedianofTwoSortedArrays();
+        System.out.println(mt.findMedianSortedArrays(a,b));
+
+    }
     //还是很难
     //http://www.cnblogs.com/zuoyuan/p/3759682.html
     //http://blog.csdn.net/zxzxy1988/article/details/8587244
@@ -22,7 +29,7 @@ public class MedianofTwoSortedArrays {
     int find(int[] nums1,int b1,int e1,int[] nums2,int b2,int e2,int k){
         int l1=e1-b1+1;
         int l2=e2-b2+1;
-        if(l1>l2){//保证l1比较小,否则nums1和nums2换一下
+        if(l1>l2){//保证l1比较小,否则nums1和nums2换一下,删掉这个还真不对
             return find(nums2,b2,e2,nums1,b1,e1,k);
         }
         if(l1==0){
@@ -37,9 +44,15 @@ public class MedianofTwoSortedArrays {
             return nums1[b1+i1-1];
         }
         else if(nums1[b1+i1-1]<nums2[b2+i2-1]){
-            return find(nums1,b1+i1,e1,nums2,b2,e2+i2-1,k-i1);
+            return find(nums1,b1+i1,e1,nums2,b2,e2,k-i1);//就是把nums1的前面去掉了,nums2不变,不知道code ganker那个代码为啥nums2的e2也要变
         }else{
-            return find(nums1,b1,b1+i1-1,nums2,b2+i2-1,e2,k-i2);
+            return find(nums1,b1,e1,nums2,b2+i2,e2,k-i2);
         }
     }
+
+    //九章第二轮 10/07/2017,还是看回第一次的代码把,加了点注解
+//    public double findMedianSortedArrays2(int[] nums1, int[] nums2) {
+//
+//
+//    }
 }

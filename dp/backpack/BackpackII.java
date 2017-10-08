@@ -24,4 +24,20 @@ public class BackpackII {
         }
         return dp[dp.length-1][dp[0].length-1];
     }
+
+    //九章第二轮,9/24/2017,思路不好想,还是靠画图,还是不太熟,并且还可以优化成1维空间
+    public int backPackII2(int m, int[] A, int V[]) {
+        int rs=Integer.MIN_VALUE;
+        int[][] dp=new int[A.length+1][m+1];
+        for(int i=1;i<dp.length;i++){
+            for(int j=0;j<dp[0].length;j++){
+                if(A[i-1]>j){
+                    dp[i][j]=dp[i-1][j];
+                }else{
+                    dp[i][j]=Math.max(dp[i-1][j-A[i-1]]+V[i-1],dp[i-1][j]);//注意dp[i-1][j]是看上一行的同列,而不是看同行前一个列
+                }
+            }
+        }
+        return dp[dp.length-1][dp[0].length-1];
+    }
 }

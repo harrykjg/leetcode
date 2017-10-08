@@ -26,32 +26,6 @@ public class EditDistance {
         return dp[dp.length-1][dp[0].length-1];
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //还是差一点,没彻底想清楚dp加减替换的操作,比如dp[i-1][j]的含义我就卡住了,看九章ppt的advance dp下的18页的图,可以理解kar怎么转换成ma
     public int minDistance2(String word1, String word2) {
         int[][] dp=new int[word1.length()+1][word2.length()+1];
@@ -68,6 +42,34 @@ public class EditDistance {
                     continue;
                 }
                 dp[i][j]=Math.min(dp[i-1][j-1],Math.min(dp[i][j-1],dp[i-1][j]))+1;
+            }
+        }
+        return dp[dp.length-1][dp[0].length-1];
+    }
+
+    //九章第二轮,9/17/2017,画个图勉强能写出来了,但是链接的那个解答为啥要从后往前说? 他的解答的添加对应画图不要好理解,删除和替换对应图还好理解一些
+    public int minDistance3(String word1, String word2) {
+        if(word1.length()==0){
+            return word2.length();
+        }
+        if(word2.length()==0){
+            return word1.length();
+        }
+
+        int[][] dp=new int[word1.length()+1][word2.length()+1];
+        for(int i=0;i<=word2.length();i++){
+            dp[0][i]=i;
+        }
+        for(int j=0;j<=word1.length();j++){
+            dp[j][0]=j;
+        }
+        for(int i=1;i<=word1.length();i++){
+            for(int j=1;j<=word2.length();j++){
+                if(word1.charAt(i-1)==word2.charAt(j-1)){
+                    dp[i][j]=dp[i-1][j-1];
+                }else{
+                    dp[i][j]=Math.min(dp[i][j-1]+1,Math.min(dp[i-1][j]+1,dp[i-1][j-1]+1));
+                }
             }
         }
         return dp[dp.length-1][dp[0].length-1];

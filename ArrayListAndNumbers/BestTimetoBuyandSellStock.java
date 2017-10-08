@@ -21,4 +21,23 @@ public class BestTimetoBuyandSellStock {
         }
         return rs;
     }
+
+    //九章第二轮,10/7/2017,还是不太确定的却一次过
+    public int maxProfit2(int[] prices) {
+        int rs=0;
+        if(prices.length==0){
+            return 0;
+        }
+        int buy=prices[0];
+        for (int i=1;i<prices.length;i++){
+            if(prices[i]>buy){
+                rs=Math.max(rs,prices[i]-buy);
+            }else{
+                buy=Math.min(buy,prices[i]);
+            }
+        }
+        return rs;
+
+
+    }
 }

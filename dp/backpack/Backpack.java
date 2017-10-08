@@ -7,7 +7,7 @@ import java.util.Arrays;
  */
 public class Backpack {
     public static void main(String[] args){
-        System.out.println(backPack(10,new int[]{3,4,8,5}));
+        System.out.println(backPack2(10,new int[]{3,4,8,5}));
     }
     //http://www.cnblogs.com/EdwardLiu/p/4269149.html
     //http://blog.csdn.net/wutingyehe/article/details/46910103  dp是数字的写法
@@ -36,6 +36,27 @@ public class Backpack {
                     }
                 }else{
                     dp[i][j]=dp[i-1][j];//这里不论是true还是false都不用检测rs最大值,因为肯定是上一行它是true时已经检测了
+                }
+            }
+        }
+        return rs;
+    }
+
+    //九章第二轮9/24/2017,大部分思路还行,就是漏了两点点,就是没初始化第一列,如果不初始化也行,则内层循环要从0开始,还有就是当当前A[i]大于包的大小时,dp[i][j]
+    //不一定时false,他要取决于上一行即dp[i-1][j]的值,即不加入当前A[i]时,j大小的包能不能装满
+    public static int backPack2(int m, int[] A) {
+        boolean[][] dp=new boolean[A.length+1][m+1];
+        dp[0][0]=true;
+        Arrays.sort(A);
+        int rs=Integer.MIN_VALUE;
+        for(int i=1;i<dp.length;i++){
+            for(int j=0;j<dp[0].length;j++){
+                if(A[i-1]>j){
+                    dp[i][j]=dp[i-1][j];
+                }
+                if(j-A[i-1]>=0&&dp[i-1][j-A[i-1]]){
+                    dp[i][j]=true;
+                    rs=Math.max(rs,j);
                 }
             }
         }

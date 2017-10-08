@@ -5,7 +5,7 @@ package dp.string2D;
  */
 public class InterleavingString {
     public static void main(String[] args){
-        System.out.println(isInterleave2("a","","a"));
+        System.out.println(isInterleave3("db","b","cbb"));
     }
     //http://blog.csdn.net/u011095253/article/details/9248073  还是靠画图再推公式
     public static boolean isInterleave(String s1, String s2, String s3) {
@@ -53,6 +53,34 @@ public class InterleavingString {
                     dp[i][j]=true;
                 }
                 if(dp[i][j-1]&&s2.charAt(j-1)==s3.charAt(i+j-1)){
+                    dp[i][j]=true;
+                }
+            }
+        }
+        return dp[dp.length-1][dp[0].length-1];
+    }
+
+    //九章第二轮 09/23/2017,想了一会,还算ok
+    public static boolean isInterleave3(String s1, String s2, String s3) {
+        if(s1==null||s1.length()==0){
+            return s2.equals(s3);
+        }
+        if(s2==null||s2.length()==0){
+            return s1.equals(s3);
+        }
+        if(s1.length()+s2.length()!=s3.length()){
+            return false;
+        }
+        boolean[][] dp=new boolean[s1.length()+1][s2.length()+1];
+        for(int i=1;i<dp.length;i++){
+            dp[i][0]= s1.substring(0,i).equals(s3.substring(0,i))?true:false;
+        }
+        for(int i=1;i<dp[0].length;i++){
+            dp[0][i]= s2.substring(0,i).equals(s3.substring(0,i))?true:false;
+        }
+        for(int i=1;i<dp.length;i++){
+            for(int j=1;j<dp[0].length;j++){
+                if((s1.charAt(i-1)==s3.charAt(i+j-1)&&dp[i-1][j])||(s2.charAt(j-1)==s3.charAt(i+j-1)&&dp[i][j-1])){
                     dp[i][j]=true;
                 }
             }
