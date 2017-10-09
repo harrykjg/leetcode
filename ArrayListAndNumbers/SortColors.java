@@ -32,4 +32,28 @@ public class SortColors {
 
         return;
     }
+//九章第二轮,举个例子以为能写出来,结果还是错了,大概思路是记得的,就是一个cur一个b一个e三个pointer互相换
+    public void sortColors2(int[] nums) {
+        int b=0;
+        int e=nums.length-1;
+        int cur=0;
+        while (cur<=e){//开始这里写成b<e就错了
+            if(nums[cur]==1){
+                cur++;
+                continue;
+            }
+            if(nums[cur]==0){//这里开始想着nums[cur]=0的话则和b换,b上的东西换过来我不知道是1还是2,所以cur不变要继续检查,其实不是这样的,b上面只有2中可能:0
+                int temp=nums[b]; //或者1,会是2,因为如果b是2的话,一开始进来while循环就把他换到后面了.既然b上面是0或者1,两种情况都是要cur++,这里是关键点,
+                nums[b]=0;    //否则无法处理原数组第一个数就是0的情况
+                nums[cur]=temp;
+                b++;
+                cur++;//开始这里少些了cur++就错了
+            }else{
+                int temp=nums[e];
+                nums[e]=2;
+                nums[cur]=temp;
+                e--;
+            }
+        }
+    }
 }

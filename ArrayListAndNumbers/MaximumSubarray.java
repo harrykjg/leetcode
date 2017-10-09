@@ -40,4 +40,23 @@ public class MaximumSubarray {
 
         return max;
     }
+
+    //九章第二轮,10/7/2017,改了2次,第一次提交居然超时,再提交一次就对了
+    public int maxSubArray3(int[] nums) {
+        if (nums.length==0){
+            return 0;
+        }
+        if(nums.length==1){return nums[0];}//开始忘了这个就错了
+        int rs=nums[0];//写成Integer.minvalue的话不行
+        int cur=nums[0];
+        for(int i=1;i<nums.length;i++){
+            if(cur<0){
+                cur=nums[i];
+            }else{
+                cur+=nums[i];
+            }
+            rs=Math.max(rs,cur);
+        }
+        return rs;
+    }
 }
