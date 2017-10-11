@@ -35,4 +35,9 @@ public class TwoSum {
         return rs;
 
     }
+
+    //九章第二轮，hashmap的方法还是不记得，看回以前的把，懒得写了
+//    public int[] twoSum2(int[] nums, int target) {
+//
+//    }
 }
