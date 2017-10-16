@@ -72,7 +72,7 @@ public class FourSum {
     }
 
     //九章第二轮，懒得写了
-    public List<List<Integer>> fourSum2(int[] num, int target) {
-
-    }
+//    public List<List<Integer>> fourSum2(int[] num, int target) {
+//
+//    }
 }
