@@ -44,4 +44,9 @@ public class LargestRectangleinHistogram {
         }
         return rs;
     }
+//九章第二轮,10/13/2017,bart上想了一大半,大部分记得,就是出栈的时候要比当前遇到的bar小才出,并且,栈空与否关系到面积的计算的原因看了答案才想起来,
+    //也是给予出栈的时候要小于当前bar才出这个规则,懒得写了
+    public static int largestRectangleArea(int[] height) {
+
+    }
 }
