@@ -50,4 +50,8 @@ public class MaximalRectangle {
         }
         return rs;
     }
+    //12/8/2017
+//    public int maximalRectangle(char[][] matrix) {
+//
+//    }
 }

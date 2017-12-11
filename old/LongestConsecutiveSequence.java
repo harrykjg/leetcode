@@ -1,11 +1,11 @@
 import java.util.Arrays;
 //http://blog.csdn.net/linhuanmars/article/details/22964467
 //http://jixiangsanbao.wordpress.com/2014/06/19/longest-consecutive-sequence/ 吉祥的好理解
-//这是我自己写的，过了，但是是nlogn的
+
 //如果允许 O(n log n) 的复杂度，那么可以先排序，可是本题要求 O(n)。由于序列里的元素是
 //无序的，又要求 O(n)，首先要想到用哈希表。用一个哈希表 unordered_map<int, bool> used 记录
 //每个元素是否使用，对每个元素，以该元素为中心，往左右扩张，直到不连续为止，记录下最长的长度。
-
+//这是我自己写的，过了，但是是nlogn的
 public class LongestConsecutiveSequence {
 	
 	 public int longestConsecutive(int[] num) {

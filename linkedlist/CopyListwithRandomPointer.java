@@ -42,6 +42,43 @@ public class CopyListwithRandomPointer {
         return map.get(head);//返回head对应的copy就行了,因为map存的是引用,所以实际的对象改变了这个引用还是指向它
 
     }
+    //12/11/2017九章第二轮一次过
+    public RandomListNode copyRandomList2(RandomListNode head) {
+        if(head==null){
+            return null;
+        }
+        HashMap<RandomListNode,RandomListNode> map=new HashMap<>();
+        RandomListNode cpHead=new RandomListNode(head.label);
+        map.put(head,cpHead);
+        RandomListNode cur=head;
+        while (cur!=null){
+            RandomListNode cp=null;
+            if(map.containsKey(cur)){
+                cp=map.get(cur);
+            }else{
+                cp=new RandomListNode(cur.label);
+                map.put(cur,cp);
+            }
+            if(cur.random!=null){
+                if(map.containsKey(cur.random)){
+                    cp.random=map.get(cur.random);
+                }else{
+                    cp.random=new RandomListNode(cur.random.label);
+                    map.put(cur.random,cp.random);
+                }
+            }
+            if(cur.next!=null){
+                if(map.containsKey(cur.next)){
+                    cp.next=map.get(cur.next);
+                }else{
+                    cp.next=new RandomListNode(cur.next.label);
+                    map.put(cur.next,cp.next);
+                }
+            }
+            cur=cur.next;
+        }
+        return cpHead;
+    }
 }
 class RandomListNode {
          int label;
