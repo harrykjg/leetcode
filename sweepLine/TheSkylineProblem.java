@@ -7,7 +7,7 @@ import java.util.*;
  */
 public class TheSkylineProblem {
     public static void main(String[] args){
-        int[][] b={{1,2,1},{1,2,2},{1,2,3}};
+        int[][] b={{0,2,3},{2,5,3}};
         TheSkylineProblem sk=new TheSkylineProblem();
         sk.getSkyline(b);
     }
@@ -30,7 +30,7 @@ public class TheSkylineProblem {
                     return o1.h-o2.h;
                 }
                 //横坐标相同,o1 和o2是一左一右,则左的排前面
-                return o1.isRight?1:-1;//想,一般降序就是o1-o2,则如果o1-o2>0则o1就排去后面了
+                return o1.isRight?1:-1;//想,一般升序就是o1-o2,则如果o1-o2>0则o1就排去后面了
             }
         });
         PriorityQueue<Integer> heap=new PriorityQueue<>(10, Collections.reverseOrder());
@@ -60,6 +60,56 @@ public class TheSkylineProblem {
         }
         return rs;
     }
+//1/20/2018 九章第二轮还是不会,看回以前的分析
+    public List<int[]> getSkyline2(int[][] b) {
+        List<int[]> rs=new ArrayList<>();
+
+        PriorityQueue<edge> pq=new PriorityQueue<>(new Comparator<edge>() {
+            @Override
+            public int compare(edge o1, edge o2) {
+                if(o1.x!=o2.x){
+                    return o1.x-o2.x;
+                }
+                if(!o1.isRight&&!o2.isRight){//这里要注意，比较难想到了,看回之前的解释
+                    return o2.h-o1.h;
+                }
+                if(o1.isRight&&o2.isRight){//一样不好想，画图可以理解
+                    return o1.h-o2.h;
+                }
+                return o1.isRight?1:-1;
+            }
+        });
+        for(int i=0;i<b.length;i++){
+            edge e1=new edge(b[i][0],b[i][2],false);
+            edge e2=new edge(b[i][1],b[i][2],true);
+            pq.offer(e1);
+            pq.offer(e2);
+        }
+        PriorityQueue<Integer> heap=new PriorityQueue<>(Comparator.reverseOrder());
+        while (!pq.isEmpty()){
+            edge cur=pq.poll();
+            if(cur.isRight){//注意，还就是要先按isRight与否来判断，否则判断很复杂而且容易错
+                heap.remove(cur.h);//在想如果有两栋楼有高度，那么remove了一个高度那不就把另一个也remove了？结果不会，因为heap可以有重复的元素。。可以画图理解
+                if(heap.isEmpty()){
+                    rs.add(new int[]{cur.x,0});
+                }else{
+                    if(heap.peek()<cur.h){
+                        rs.add(new int[]{cur.x,heap.peek()});
+                    }
+                }
+            }else{
+                if(heap.isEmpty()||heap.peek()<cur.h){//这写成<=也错了
+                    rs.add(new int[]{cur.x,cur.h});
+                }
+                heap.offer(cur.h);
+            }
+        }
+
+        return rs;
+    }
+
+
+
     class edge{
         int x;
         int h;
