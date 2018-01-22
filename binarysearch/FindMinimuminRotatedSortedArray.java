@@ -58,4 +58,27 @@ public class FindMinimuminRotatedSortedArray {
         }
         return nums[b]<nums[e]?nums[b]:nums[e];
     }
+//1／21／2018，九章第二轮，用模版,居然还是不能一次过
+    public int findMin3(int[] nums) {
+        if(nums.length==0){
+            return -1;
+        }
+        int b=0;
+        int e=nums.length-1;
+        int m=0;
+        while (b+1<e){
+            m=b+(e-b)/2;
+            if(nums[m]<nums[e]&&nums[m]<nums[b]){//还是要画图看看才好理解
+                e=m;
+            }else if(nums[m]>nums[e]) {
+                b=m;
+            }else{
+                e=m;
+            }
+        }
+        if(nums[b]<nums[e]){
+            return nums[b];
+        }
+        return nums[e];
+    }
 }

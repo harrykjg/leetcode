@@ -50,4 +50,40 @@ public class SearchinRotatedSortedArray {
         }
         return -1;
     }
+//1／21／2018，九章第二轮,还是不能一次过，下面逻辑大于和小于那少了=号
+    public static int search2(int[] nums, int target) {
+        if(nums.length==0){
+            return -1;
+        }
+        int b=0;
+        int e=nums.length-1;
+        int m=0;
+        while (b<e-1){
+            m=b+(e-b)/2;
+            if(nums[m]==target){
+                return m;
+            }
+            if(nums[m]>nums[e]){//还是要画图才好理解
+                if(nums[m]>target&&nums[b]<=target){
+                    e=m;
+                }else{
+                    b=m;
+                }
+            }else{
+                if(nums[e]>=target&&nums[m]<target){
+                    b=m;
+                }else{
+                    e=m;
+                }
+            }
+        }
+        if(nums[b]==target){
+            return b;
+        }
+        if(nums[e]==target){
+            return e;
+        }
+        return -1;
+
+    }
 }

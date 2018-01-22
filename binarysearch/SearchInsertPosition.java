@@ -70,4 +70,5 @@ public class SearchInsertPosition {
             return A.length;
         }
     }
+    //1/21/2018,九章第二轮懒得写了
 }

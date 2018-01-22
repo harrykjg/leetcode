@@ -88,4 +88,48 @@ public class woodcut {
         }
         return false;
     }
+
+    //1/21/2018,九章第二轮，觉得写的很顺，结果还是不能一次过,因为错误的以为b初始值可以是L中间最小的那个，其实应该是1,还有e的值以为是L中最大的，
+    //其实应该是sum／k，而且还要用long才行，否则会越界
+    public int woodCut3(int[] L, int k) {
+        if(L.length==0){
+            return 0;
+        }
+        long b=1;
+
+        long sum=0;
+        for(int i:L){
+            sum+=i;
+        }
+        long e=sum/k;
+        long m=0;
+        while (b+1<e){
+            m=b+(e-b)/2;
+            if(good2(L,m,k)){
+                b=m;
+            }else{
+                e=m;
+            }
+        }
+        if(good2(L,e,k)){
+            return (int)e;
+        }
+        return (int)b;
+
+    }
+    boolean good2(int[] l, long m,int k){
+        int count=0;
+        for (int i=0;i<l.length;i++){
+            int cur=l[i];
+            while (cur>=m){
+                count++;
+                cur-=m;
+                if(count>=k){
+                    return true;
+                }
+            }
+
+        }
+        return false;
+    }
 }

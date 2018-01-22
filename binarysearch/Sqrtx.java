@@ -26,4 +26,28 @@ public class Sqrtx {
 
         return b;
     }
+    //1/21/2017，九章第二轮,用模版一次过
+    public int sqrt2(int x) {
+        if(x<=1){
+            return x;
+        }
+        int b=0;
+        int e=x/2;
+        int m=0;
+        while (b+1<e){
+            m=b+(e-b)/2;
+            if(m==x/m){
+                return m;
+            }
+            if(m<x/m){
+                b=m;
+            }else{
+                e=m;
+            }
+        }
+        if(e>x/e){
+            return b;
+        }
+        return e;
+    }
 }

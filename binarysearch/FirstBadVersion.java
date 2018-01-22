@@ -28,4 +28,5 @@ public class FirstBadVersion {
     boolean isBadVersion(int n){
         return true;
     }
+    //1/21/2018,九章第二轮懒得写了
 }

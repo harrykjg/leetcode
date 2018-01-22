@@ -14,6 +14,7 @@ public class TheSkylineProblem {
     //不会,
     //http://blog.csdn.net/qq508618087/article/details/51311778  看他第二个解法的思路
     //https://codesolutiony.wordpress.com/2015/06/01/leetcode-the-skyline-problem-lintcode-building-outline/ 代码可以看他的
+    //https://briangordon.github.io/2014/08/the-skyline-problem.html 动图
     //http://blog.csdn.net/xudli/article/details/46349383   它的compartor不同,而且edge的高度可以是负的
     public List<int[]> getSkyline(int[][] buildings) {
         List<int[]> rs=new ArrayList<>();

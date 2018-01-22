@@ -48,4 +48,9 @@ public class CountofSmallerNumber {
         }
         return 0;
     }
+
+    //1／21／2018，九章第二轮，线段树法还是不会，要练，sort之后再二分法就没意思了
+    public List<Integer> countOfSmallerNumber2(int[] A, int[] queries) {
+
+    }
 }
