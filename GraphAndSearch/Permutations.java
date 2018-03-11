@@ -1,6 +1,7 @@
 package GraphAndSearch;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -33,5 +34,13 @@ public class Permutations {
             }
 
         }
+    }
+    //23/2/2018
+    public List<List<Integer>> permute2(int[] nums) {
+        if(nums.length==0){
+            return rs;
+        }
+
+
     }
 }
