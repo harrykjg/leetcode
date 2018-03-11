@@ -35,12 +35,42 @@ public class Permutations {
 
         }
     }
-    //23/2/2018
+    //23/2/2018,居然还写的不顺,还没以前写的好
     public List<List<Integer>> permute2(int[] nums) {
+        List<List<Integer>> rs=new ArrayList<>();
         if(nums.length==0){
+            rs.add(new ArrayList<>());
             return rs;
         }
 
+        List<Integer> a=new ArrayList<>();
+        HashSet<Integer> set=new HashSet<>();
+        for(int i=0;i<nums.length;i++){
+            a.add(nums[i]);
+            set.add(nums[i]);
+            helper(a,nums,rs,set);
+            set.remove(nums[i]);
+            a.remove(a.size()-1);
+        }
+        return rs;
 
     }
+    void helper(List<Integer> a,int[] nums,List<List<Integer>> rs,HashSet<Integer> set){
+        if(a.size()==nums.length){
+            rs.add(new ArrayList<Integer>(a));
+            return;
+        }
+        for(int i=0;i<nums.length;i++){
+            if(set.contains(nums[i])){
+                continue;
+            }else{
+                a.add(nums[i]);
+                set.add(nums[i]);
+                helper(a,nums,rs,set);
+                a.remove(a.size()-1);
+                set.remove(nums[i]);
+            }
+        }
+    }
+
 }
