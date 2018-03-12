@@ -1,6 +1,7 @@
 package GraphAndSearch;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ import java.util.List;
 public class NQueens {
     public static void main(String[] args){
         NQueens nq=new NQueens();
-        nq.solveNQueens(4);
+        nq.solveNQueens2(4);
     }
 //这次自己写的还不算差,构造棋盘没有像以前那样用的二维char数组,而是直接一个list of string array,转化成char数组操作
     List<List<String>> rs=new ArrayList<>();
@@ -54,6 +55,76 @@ public class NQueens {
                 return false;
             }//右上对角线
             if(col+(row-i)<ch.length&&ch[col+(row-i)]=='Q'){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    //3/11/2018,九章第二轮，写的不好，debug了挺久才accept，还是看回之前的code，关键是ch[][]数组的还原，不好想
+    public List<List<String>> solveNQueens2(int n) {
+        if(n<=0){
+            return rs;
+        }
+        StringBuilder sb=new StringBuilder();
+        char[][] ch=new char[n][n];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                ch[i][j]='.';
+            }
+        }
+        helper(ch,0);
+        return rs;
+    }
+    void helper(char[][] ch,int b){
+        StringBuilder sb=new StringBuilder();
+        for(int i=b;i<ch.length;i++){
+            for(int j=0;j<ch.length;j++){
+                ch[i][j]='Q';
+                if(valid2(i,j,ch)){
+                    helper(ch,i+1);
+                    if(i==ch.length-1){//构造结果
+                        List<String> list=new ArrayList<>();
+
+                        for(int k=0;k<ch.length;k++){
+                            String s="";
+                            sb=new StringBuilder();
+                            for(int l=0;l<ch[0].length;l++){
+                                sb.append(ch[k][l]);
+                            }
+                            s=sb.toString();
+                            list.add(s);
+                        }
+                        rs.add(new ArrayList<>(list));
+                    }
+                    ch[i][j]='.';
+                }
+                ch[i][j]='.';
+                if(j==ch.length-1){//这里是关键，比如第一第二行都valid了，到了第三行，所有位置都试了都不valid，那么就不应该再去forloop试第四行了，
+                        //而应该返回，到了第二行，再试第二行的下一个位置
+                    return;
+                }
+
+
+
+            }
+        }
+    }
+
+    boolean valid2(int row,int col,char[][] ch){
+        for(int i=0;i<=row;i++){
+            if(i==row){
+                continue;
+            }
+            if(ch[i][col]=='Q'){
+                return false;
+            }
+        }
+        for(int i=0;i<=row;i++){
+            if(i==row){
+                continue;
+            }
+            if((col-(row-i)>=0&&ch[i][col-row+i]=='Q')||col+(row-i)<ch.length&&ch[i][col+row-i]=='Q'){
                 return false;
             }
         }
