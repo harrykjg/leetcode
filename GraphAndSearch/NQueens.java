@@ -10,7 +10,7 @@ import java.util.List;
 public class NQueens {
     public static void main(String[] args){
         NQueens nq=new NQueens();
-        nq.solveNQueens2(4);
+        nq.solveNQueens(4);
     }
 //这次自己写的还不算差,构造棋盘没有像以前那样用的二维char数组,而是直接一个list of string array,转化成char数组操作
     List<List<String>> rs=new ArrayList<>();
@@ -101,7 +101,7 @@ public class NQueens {
                 }
                 ch[i][j]='.';
                 if(j==ch.length-1){//这里是关键，比如第一第二行都valid了，到了第三行，所有位置都试了都不valid，那么就不应该再去forloop试第四行了，
-                        //而应该返回，到了第二行，再试第二行的下一个位置
+                        //而应该返回，到了第二行，再试第二行的下一个位置.以前没出过这个问题，因为这里用的是2重循环，以前helper都是单重的
                     return;
                 }
 

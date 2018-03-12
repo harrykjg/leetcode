@@ -9,7 +9,7 @@ import java.util.List;
 public class PalindromePartitioning {
     public static void main(String[] args){
         PalindromePartitioning pp=new PalindromePartitioning();
-        pp.partition("abbab");
+        pp.partition2("aab");
     }
 
     // 先用二维dp记录每一小段是palindorme的位置,再根据这个dfs就行了,但这个dfs还没那么好理解,改了好几次
@@ -59,5 +59,47 @@ public class PalindromePartitioning {
                 al.remove(al.size()-1);
             }
         }
+    }
+//九章第二轮，3／11／2018,好想以前的更简单，二维dp的构造复杂度比较高（没利用上dp），还是没写好，还是犯了用了二重循环的错,还有dfs的各种index也容易错
+    public List<List<String>> partition2(String s) {
+        boolean[][] dp=new boolean[s.length()][s.length()];
+
+        for(int i=0;i<s.length();i++){
+            for(int j=0;j+i<s.length();j++){
+                if(valid(s,i,i+j)){
+                    dp[i][i+j]=true;
+                }
+            }
+        }
+        List<String> ls=new ArrayList<>();
+        dfs2(0,ls,dp,s);
+        return rs;
+    }
+    void dfs2(int b,List<String> ls,boolean[][] dp,String s){
+        if(b==s.length()){
+            rs.add(new ArrayList<>(ls));
+            return;
+        }
+        for(int i=0;i+b<s.length();i++){//注意这个i是长度，容易理解错
+            if(dp[b][i+b]){
+                ls.add(s.substring(b,i+b+1));
+                dfs2(i+b+1,ls,dp,s);
+                ls.remove(ls.size()-1);
+            }
+        }
+
+    }
+    boolean valid(String s,int b,int e){
+        if(b==e){
+            return true;
+        }
+        while (b<e){
+            if(s.charAt(b)!=s.charAt(e)){
+                return false;
+            }
+            b++;
+            e--;
+        }
+        return true;
     }
 }
