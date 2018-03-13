@@ -34,4 +34,30 @@ public class CombinationSum {
             }
         }
     }
+//3/12/2018九章第二轮，还是以为不用b，其实是要的，例如[2,3,6,7] target=7的例子，不用b的话就会有2，2，3和2，3，2这样的结果
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        if(candidates.length==0){
+            rs.add(new ArrayList<>());
+            return rs;
+        }
+        Arrays.sort(candidates);
+        ArrayList<Integer> a=new ArrayList<>();
+        helper2(0,0,a,candidates,target);
+        return rs;
+    }
+
+    void helper2(int cur,int b,ArrayList a,int[] nums,int target){
+        if(cur==target){
+            rs.add(new ArrayList<>(a));
+            return;
+        }
+        for(int i=b;i<nums.length;i++){
+            if(nums[i]+cur>target){
+                return;
+            }
+            a.add(nums[i]);
+            helper2(cur+nums[i],i,a,nums,target);
+            a.remove(a.size()-1);
+        }
+    }
 }
