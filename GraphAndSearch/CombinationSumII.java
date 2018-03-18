@@ -40,4 +40,42 @@ public class CombinationSumII {
 
         }
     }
+    //3/17/2018 九章第二轮,改了一次对了
+    public List<List<Integer>> combinationSum22(int[] can, int tar) {
+        List<List<Integer>> rs=new ArrayList<>();
+        List<Integer> al=new ArrayList<>();
+        if(can.length==0){
+
+            rs.add(al);
+            return rs;
+        }
+        Arrays.sort(can);
+        boolean[] memo=new boolean[can.length];
+        helper2(0,0,al,can,tar,rs,memo);
+        return rs;
+    }
+    void helper2(int cur,int b,List<Integer> al, int[] can,int tar,List<List<Integer>> rs,boolean[] memo){
+        if(cur==tar){
+            rs.add(new ArrayList<>(al));
+            return;
+        }
+        for(int i=b;i<can.length;i++){
+            if(i>0&&can[i-1]==can[i]&&!memo[i-1]){//看回以前的old code发现，这里就是permutation2的去重的方法，多用了个boolean数组，而上面这个code用的i>b就不用booleam数组了
+                continue;
+            }
+            int now=cur+can[i];
+            if(now>tar){
+                return;
+            }
+            memo[i]=true;
+            al.add(can[i]);
+
+
+            helper2(now,i+1,al,can,tar,rs,memo);
+            al.remove(al.size()-1);
+            memo[i]=false;
+
+        }
+
+    }
 }

@@ -1,9 +1,6 @@
 package GraphAndSearch;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by 502575560 on 7/14/17.
@@ -61,5 +58,33 @@ public class WordLadderII {
             }
         }
         return rs;
+    }
+
+    //3/19/2018,九章第二轮,还是很难，放弃
+    public List<List<String>> findLadders2(String start, String end, List<String> dict) {
+        List<List<String>> rs=new ArrayList<>();
+        List<String> l=new ArrayList<>();
+        if(start.equals(end)){
+            l.add(start);
+            l.add(end);
+            rs.add(l);
+            return rs;
+        }
+        HashSet<String> set=new HashSet<>();
+        for(String s: dict){
+            set.add(s);
+        }
+        HashSet<String> set2=new HashSet<>();
+        Queue<String> q=new LinkedList<>();
+        q.add(start);
+        int count1=1;
+        int count2=0;
+        int step=1;
+        while (!q.isEmpty()){
+
+        }
+
+
+
     }
 }

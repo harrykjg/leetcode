@@ -20,7 +20,7 @@ public class WordLadder {
 
         System.out.println(wl.ladderLength("hot", "cog", set));
     }
-    //我自己想的其实是dfs,貌似是会超时,看回答案应该用bfs,不知道为啥更新后leetcode把dict换成list,这样用list的contains方法好像会慢导致超时,
+    //我自己想的其实是dfs,貌似是会超时,看回答案应该用bfs,不知道为啥更新后leetcode把dict换成list(可能是因为以前的方法要把set转成array再做，所以leetcode改了),这样用list的contains方法好像会慢导致超时,
     //那么我先把dict复制到一个set里就可以accept了
     //如果end不在dict的话就是没有路径了,除非start==end
     public int ladderLength(String start, String end, List<String> dict) {
@@ -64,6 +64,57 @@ public class WordLadder {
                 count=count2;
                 count2=0;
             }
+        }
+        return 0;
+    }
+
+    //3/17/2018,九章第二轮，忘了写set去记录访问过的单词,改了之后就对了，还有就是每次这个层数的count1和count2都会觉得别扭，还是写对了
+    public int ladderLength2(String start, String end, List<String> dict) {
+        if(start.equals(end)){
+            return 1;
+        }
+        HashSet<String> set=new HashSet<>(dict);
+        if(!set.contains(end)){
+            return 0;
+        }
+
+        int rs=1;
+        int count1=1;
+        int count2=0;
+
+        Queue<String> q=new LinkedList<>();
+        q.add(start);
+        while (!q.isEmpty()){
+            String temp=q.poll();
+            count1--;
+
+            char[] ch=temp.toCharArray();
+            for(int i=0;i<ch.length;i++){
+                char origin=ch[i];
+                for(char c='a';c<='z';c++){
+                    if(ch[i]==c){
+                        continue;
+                    }
+                    ch[i]=c;
+                    String next=new String(ch);
+                    if(next.equals(end)){
+                        return rs+1;
+                    }
+                    if(set.contains(next)){
+                        count2++;
+                        q.offer(next);
+                        set.remove(next);
+                    }
+                }
+                ch[i]=origin;
+            }
+            if(count1==0){
+
+                count1=count2;
+                count2=0;
+                rs++;
+            }
+
         }
         return 0;
     }
