@@ -1,15 +1,17 @@
 package Advance1;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Created by 502575560 on 7/15/17.
  */
 //2 pointer
 public class LongestSubstringWithoutRepeatingCharacters {
+    public static void main(String[] args){
+        LongestSubstringWithoutRepeatingCharacters ls=new LongestSubstringWithoutRepeatingCharacters();
+        ls.lengthOfLongestSubstring2("abcabcbb");
+
+    }
     public int lengthOfLongestSubstring(String s) {
         //由于做了前一题minimumsizesubarraysum,这题改了2次accept了,也是2 pointer
         if(s.length()==0){
@@ -36,6 +38,38 @@ public class LongestSubstringWithoutRepeatingCharacters {
             }
         }
         rs=Math.max(rs,e-b);
+        return rs;
+    }
+    //3/19/2018，九章第二轮，还是写的不好，用了map而且还改了一两次才对，用set就行了，但是上面的写法感觉b++那里也容易错
+    public int lengthOfLongestSubstring2(String s) {
+        if(s.length()==0){
+            return 0;
+        }
+        int i=0;
+        int j=0;
+        int rs=Integer.MIN_VALUE;
+        HashMap<Character,Integer> map=new HashMap<>();
+        char[] ch=s.toCharArray();
+        while (j<ch.length){
+            while (j<ch.length&&!map.containsKey(ch[j])){
+                map.put(ch[j],1);
+                j++;
+            }
+            rs=Math.max(rs,j-i);//这楼之前写的j-i+1就错了
+            if(j<ch.length){
+                map.put(ch[j],map.get(ch[j]+1));
+            }
+            while (i<j&&j<s.length()){//这里容易喽js.length的条件
+                if(ch[i]==ch[j]){
+                    map.put(ch[i],1);
+                    i++;
+                    break;
+                }
+                map.remove(ch[i]);
+                i++;
+            }
+            j++;
+        }
         return rs;
     }
 }
