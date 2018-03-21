@@ -8,7 +8,7 @@ import java.util.HashMap;
 //2 pointer
 public class MinimumWindowSubstring {
     public static void main(String[] args){
-        System.out.println(minWindow("bdab","ab"));
+        System.out.println(minWindow2("aaabbbbbcdd","abcd"));
     }
     //自己写的,改了几次accept了
     public static String minWindow(String source, String target) {
@@ -63,6 +63,59 @@ public class MinimumWindowSubstring {
             e++;
         }
         return rsb==-1?"":source.substring(rsb,rsb+len);
+
+    }
+    //3/20/2018,九章第二轮,自己想的，写的比较慢而且改了几次,基本没啥不同，如何判断找全了字母的那里想了比较久
+    public static String minWindow2(String source, String target) {
+        if(source.length()==0||target.length()==0){
+            return "";
+        }
+        HashMap<Character,Integer> map=new HashMap<>();
+        int count=0;
+        char[] ch=target.toCharArray();
+        for(int i=0;i<ch.length;i++){
+            if(!map.containsKey(ch[i])){
+                map.put(ch[i],1);
+            }else{
+                map.put(ch[i],map.get(ch[i])+1);
+            }
+        }
+        count=map.size();
+        boolean found=false;
+        int b=0;
+        int e=0;
+        int rsbegin=-1;
+        int rslength=Integer.MAX_VALUE;
+        ch=source.toCharArray();
+        while (e<source.length()){
+            if(map.containsKey(ch[e])){
+                map.put(ch[e],map.get(ch[e])-1);
+                if(map.get(ch[e])==0){
+                    count--;
+                }
+            }
+            e++;
+            if(count==0){
+                found=true;
+            }
+            while (found&&b<e){
+                if(map.containsKey(ch[b])){
+                    if(map.get(ch[b])==0){
+                        break;
+                    }else {
+                        map.put(ch[b],map.get(ch[b])+1);
+                        b++;
+                    }
+                }else{
+                    b++;
+                }
+            }
+            if(found&&e-b<rslength){
+                rsbegin=b;
+                rslength=e-b;
+            }
+        }
+        return rsbegin==-1?"":source.substring(rsbegin,rsbegin+rslength);
 
     }
 }
