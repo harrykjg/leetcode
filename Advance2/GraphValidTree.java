@@ -15,15 +15,13 @@ public class GraphValidTree {
     //,如果最后有节点没遍历到则说明不相连,也不能成为tree
     //第二个链接并查集思路是开始每个点根都是-1,然后再逐个赋值,如果发现某个点已经有根节点了就说明有环了
     public static void main(String[] args){
-        int[][] e=new int[][]{{1,0},{1,2},{2,3},{3,2}};
-        System.out.println(validTree(5,e));
+        int[][] e=new int[][]{{0,1},{5,6},{6,7},{9,0},{3,7},{4,8},{1,8},{5,2},{5,7}};
+        System.out.println(validTree(10,e));
     }
-
-
+    //这个写法不知道对不对，尽管lintcode是accept了
     public static boolean validTree(int n, int[][] edges) {
         // Write your code here
         int[] ids=new int[n];
-        int count=n;
         Arrays.fill(ids,-1);
         for(int i=0;i<edges.length;i++){
             int first=edges[i][0];
@@ -35,7 +33,7 @@ public class GraphValidTree {
             if(idf==idsec){
                 return false;
             }
-            ids[idsec]=idf;//其实这个就是union方法了,貌似这里反过来写成ids[idf]=idsec也对
+            ids[idsec]=idf;//注意这里是先找到了sec的根节点，再把sec的根节点的根改变了，才是union方法了,以前一直以为直接ids[sec]=idf，那样是错的
         }
         return edges.length==n-1;//题目假设了edges不会有重复,所以edges应该刚好是n-1个,多了或者少了都不行,而链接1的是用count去算的,就是脱离了题目的假设也可以
 
@@ -49,5 +47,34 @@ public class GraphValidTree {
             p=ids[p];
         }
         return p;
+    }
+//九章第二轮，知道是并查集之后,以为写起来还可以，结果ids[root2]=root1那里写成了ids[edges[i][1]],那样就是改了子节点的根节点，而不是改根节点的父节点，卡了很久
+// 还有，不知道如果是两个分开的树没有连在一起的情况是如何判断，还是看回第一个链接的写法，用了count
+    public static boolean validTree2(int n, int[][] edges) {
+        if(edges.length==0){
+            if(n>1){//n大于1则说明是分开的几个点，那么也不是树了
+                return false;
+            }
+            return true;
+        }
+        int[] ids=new int[n];
+        for(int i=0;i<ids.length;i++){
+            ids[i]=i;
+        }
+        for(int i=0;i<edges.length;i++){
+            int root1=find2(ids,edges[i][0]);
+            int root2=find2(ids,edges[i][1]);
+            if(root1==root2){
+                return false;
+            }
+            ids[root2]=root1 ;
+        }
+        return edges.length==n-1;//这里有可能是两个分开的树没有连载一起，那么也不是树
+    }
+    static int find2(int[] ids,int i){
+        if(ids[i]==i){
+            return i;
+        }
+        return ids[i]=find2(ids,ids[i]);
     }
 }

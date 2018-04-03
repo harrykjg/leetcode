@@ -25,7 +25,7 @@ public class KthSmallestElementinaSortedMatrix {
 
             for(int i=0;i<matrix.length;i++){
                 int j=0;//这里j是正着数还是倒着数应该是一样的把，但是count那里就合之前写的code不一样的，多了=号
-                while (j<matrix[0].length&&matrix[i][j]<=m){//这里=号我觉得就是靠感觉，很难解释
+                while (j<matrix[0].length&&matrix[i][j]<=m){//这里=号意思是小于等于这个数的都算上
                     j++;
                     count++;
                 }

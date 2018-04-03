@@ -8,13 +8,23 @@ import java.util.List;
  * Created by 502575560 on 7/16/17.
  */
 public class NumberofIslandsII {
+    public static void main(String[] a){
+        NumberofIslandsII ni=new NumberofIslandsII();
+        Point p1=new Point(0,0);
+        Point p2=new Point(0,1);
+        Point p3=new Point(2,2);
+        Point p4=new Point(2,2);
+        Point[] p=new Point[]{p1,p2,p3,p4};
+        ni.numIslands22(3,3,p);
+
+    }
     //http://blog.csdn.net/dm_vincent/article/details/7655764 将union find原理
     //http://blog.csdn.net/jmspan/article/details/51189502  题目在这
-    // https://discuss.leetcode.com/topic/29518/java-python-clear-solution-with-unionfind-class-weighting-and-path-compression
-    //https://discuss.leetcode.com/topic/29613/easiest-java-solution-with-explanations/2  这个值
+    // https://discuss.leetcode.com/topic/29518/java-python-clear-solution-with-unionfind-class-weighting-and-path-compression  链接失效
+    //https://discuss.leetcode.com/topic/29613/easiest-java-solution-with-explanations/2 链接失效
     // 其实就是往一个空的图里的m,n这个位置块陆地,求加完后有几个岛,
     //这个positions是a list of operations如 [[0,0], [0,1], [1,2], [2,1]]代表先加0,0这个位置再加0,1.....
-    //主要是按着链接的思路自己想的
+    //主要是按着链接的思路自己想的,应该没有提交过
     int[] ids;
     public List<Integer> numIslands2(int m, int n, int[][] positions) {
         ids=new int[m*n];//它的意义就是记录这个m*n矩阵上每个点的identifier
@@ -60,4 +70,79 @@ public class NumberofIslandsII {
         }
         return p;
     }
+//3/31/2018九章第二轮，还是看别人的思路的
+    //https://blog.csdn.net/qq508618087/article/details/50985158
+//https://www.cnblogs.com/grandyang/p/5190419.html
+
+    public List<Integer> numIslands22(int n, int m, Point[] operators) {
+        List<Integer> rs=new ArrayList<>();
+        ids=new int[m*n];
+        Arrays.fill(ids,-1);
+        if(m==0||n==0){
+            return rs;
+        }
+        if(operators==null||operators.length==0){
+            return rs;
+        }
+        int count=0;
+
+        for(int i=0;i<operators.length;i++){
+            int a=operators[i].x;
+            int b=operators[i].y;
+            if(ids[a*m+b]==-1){//这个if是考虑重复的点加进来
+                count++;
+                ids[a*m+b]=a*m+b;
+            }
+
+            if(rs.size()==0){
+                rs.add(count);
+                continue;
+            }
+            if(a-1>=0&&ids[(a-1)*m+b]!=-1){
+                if(find2(m*a+b)!=find2((a-1)*m+b)){
+                    union(m*a+b,(a-1)*m+b);
+                    count--;
+                }
+            }
+            if(b+1<m&&ids[a*m+b+1]!=-1){
+                if(find2(m*a+b)!=find2(m*a+b+1)){
+                    union(m*a+b,m*a+b+1);
+                    count--;
+                }
+            }
+            if(a+1<n&&ids[(a+1)*m+b]!=-1){
+                if(find2(m*a+b)!=find2(m*(a+1)+b)){
+                    union(m*a+b,m*(a+1)+b);
+                    count--;
+                }
+            }
+            if(b-1>=0&&ids[a*m+b-1]!=-1){
+                if(find2(m*a+b)!=find2(m*a+b-1)){
+                    union(m*a+b,m*a+b-1);
+                    count--;
+                }
+            }
+            rs.add(count);
+        }
+        return rs;
+    }
+    int find2(int x){
+        if(ids[x]==x){
+            return x;
+        }
+        return ids[x]=find2(ids[x]);
+    }
+    void union(int a,int b){
+        int root1=find2(a);
+        int root2=find2(b);
+        ids[root1]=ids[root2];
+    }
+
+
+}
+class Point {
+    int x;
+    int y;
+    Point() { x = 0; y = 0; }
+    Point(int a, int b) { x = a; y = b; }
 }

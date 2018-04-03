@@ -34,7 +34,7 @@ public class LongestSubstringwithAtMostTwoDistinctCharacters {
                 e++;
                 continue;
             }
-            if(map.size()==2||map.size()==1&&map.containsKey(c)){
+            if(map.size()==2&&map.containsKey(c)){
                 map.put(c,map.get(c)+1);
                 e++;
                 continue;
