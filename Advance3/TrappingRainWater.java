@@ -2,6 +2,10 @@ package Advance3;
 
 import sun.nio.cs.ext.MacHebrew;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.PriorityQueue;
+
 /**
  * Created by 502575560 on 7/20/17.
  */
@@ -34,5 +38,41 @@ public class TrappingRainWater {
 
         return rs;
 
+    }
+//九章第二轮，4／5／2018,想了半天突然想到好想是左右扫一遍的,写的是两个数组，还加了个heap，基本一次过，但是上面的就用了一个数组而已更好，而且其实不用heap也行
+    public int trapRainWater2(int[] heights) {
+        if(heights.length==0||heights.length<3){
+            return 0;
+        }
+        int[] left=new int[heights.length];
+        int[] right=new int[heights.length];
+        PriorityQueue<Integer> pq=new PriorityQueue<>(Collections.reverseOrder());
+        for(int i=0;i<left.length;i++){
+            if(i==0){
+                left[i]=0;
+                pq.offer(heights[i]);
+                continue;
+            }
+            left[i]=pq.peek();
+            pq.offer(heights[i]);
+        }
+        pq.clear();
+        for(int i=right.length-1;i>=0;i--){
+            if(i==right.length-1){
+                right[i]=0;
+                pq.offer(heights[i]);
+                continue;
+            }
+            right[i]=pq.peek();
+            pq.offer(heights[i]);
+        }
+        int rs=0;
+        for(int i=1;i<left.length-1;i++){
+            int temp=Math.min(left[i],right[i]);
+            if(temp>heights[i]){
+                rs+=temp-heights[i];
+            }
+        }
+        return rs;
     }
 }

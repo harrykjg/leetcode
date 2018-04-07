@@ -17,9 +17,11 @@ public class WordSearchII {
     public static void main(String[] args){
         WordSearchII ws=new WordSearchII();
         char[][] b=new char[][]{{'a','b'},{'c','d'}};
-        ws.findWords(b,new String []{"ab","ac","bd"});
+//        char[][] b=new char[][]{{'a'}};
+        ws.findWords2(b,new String []{"abcd"});
     }
-    HashSet<String> rs = new HashSet<>();
+    HashSet<String> rs = new HashSet<>();//结果集要用set的原因是，因为是用的是target建的树（为啥不用board建树？因为board建树的话就等于要dfs所有可能的字串了，那不如直接dfs了）
+                                                // ，而我们从board里dfs出各种可能性去match字典树，因此board的有可能有重复的字串，所以要用set
     public List<String> findWords(char[][] board, String[] words) {
         ImplementTrie trie = new ImplementTrie();
         for (String s : words) {
@@ -53,9 +55,8 @@ public class WordSearchII {
                 dfs(row, col + 1, cur, memo, trie, board);
             }
             if (row + 1 < board.length) {
-                {
-                    dfs(row + 1, col, cur, memo, trie, board);
-                }
+
+                dfs(row + 1, col, cur, memo, trie, board);
             }
             if (col - 1 >= 0) {
                 dfs(row, col - 1, cur, memo, trie, board);
@@ -63,4 +64,56 @@ public class WordSearchII {
         }
         memo[row][col] = false;
     }
+//4/4/2018九章第二轮,自己想的话估计只能dfs了，看了视频后知道用trie枝剪,写的不顺,要练
+    public List<String> findWords2(char[][] board, String[] words) {
+        ImplementTrie trie = new ImplementTrie();
+        for(String word:words){
+            trie.insert(word);
+        }
+        boolean[][] memo=new boolean[board.length][board[0].length];
+        for(int i=0;i<board.length;i++){
+            for(int j=0;j<board[0].length;j++){
+                dfs2(board,i,j,"",trie,memo);//这个dfs，开始两层for是再dfs里面的，那样写貌似不好写对，要放在外面，代表每个点东从""开始搜，而且只能往上下左右去扩展，
+                //而如果两层for循环写在dfs里面的话，就会导致从board的第一行最后一个可以扩展到第二行第一个这样的情况，比较难想，而且容易和
+                //combinationsum和permutation那些搞混，那些就是for循环都在dfs里的
+            }
+        }
+
+        ArrayList<String> al=new ArrayList<>(rs);
+        return al;
+    }
+
+    void dfs2(char[][] board,int row,int col,String cur,ImplementTrie trie,boolean[][] memo){
+        if(memo[row][col]){
+            return;
+        }
+        memo[row][col]=true;
+        if(trie.search(cur)){
+            rs.add(cur);
+        }
+
+        if(trie.search(cur+board[row][col])){
+            rs.add(cur+board[row][col]);
+        }
+        if(trie.startsWith(cur+board[row][col])){
+
+            if(row>0){
+                dfs2(board,row-1,col,cur+board[row][col],trie,memo);
+            }
+            if(col+1<board[0].length){
+                dfs2(board,row,col+1,cur+board[row][col],trie,memo);
+            }
+            if(row+1<board.length){
+                dfs2(board,row+1,col,cur+board[row][col],trie,memo);
+            }
+            if(col>0){
+                dfs2(board,row,col-1,cur+board[row][col],trie,memo);
+            }
+
+        }
+
+        memo[row][col]=false;
+    }
+
+
 }
