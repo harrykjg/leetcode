@@ -91,3 +91,45 @@ public class ImplementQueuebyTwoStacks {
 
 
 }
+//4/7/2018九章第二轮，还是不会写，用的是唇方法pop和peek都要全部倒腾一遍,这个是好的方法
+class ImplementQueuebyTwoStacks2 {
+    private Stack<Integer> st1;
+    private Stack<Integer> st2;
+    public ImplementQueuebyTwoStacks2() {
+        st1=new Stack<>();
+        st2=new Stack<>();
+    }
+
+    /** Push element x to the back of queue. */
+    public void push(int x) {
+
+        st1.push(x);
+
+    }
+
+    /** Removes the element from in front of queue and returns that element. */
+    public int pop() {
+        if (st2.isEmpty()){
+            while (!st1.isEmpty()){
+                st2.push(st1.pop());
+            }
+        }
+        int rs=st2.pop();
+        return rs;
+    }
+
+    /** Get the front element. */
+    public int peek() {
+        if (st2.isEmpty()){
+            while (!st1.isEmpty()){
+                st2.push(st1.pop());
+            }
+        }
+        return st2.peek();
+    }
+
+    /** Returns whether the queue is empty. */
+    public boolean empty() {
+        return st1.isEmpty()&&st2.isEmpty();
+    }
+}

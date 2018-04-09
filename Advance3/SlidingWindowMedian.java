@@ -12,7 +12,7 @@ public class SlidingWindowMedian {
 //        int[] n={1,2};
 //        int[] n={1,2,3,4,2,3,1,4,2};
 //        int[] n={1,3,1,4,1,2,3};
-        double[] rs=medianSlidingWindow(n,3);
+        double[] rs=medianSlidingWindow2(n,3);
         for(double d:rs){
             System.out.println(d);
         }
@@ -22,8 +22,6 @@ public class SlidingWindowMedian {
             return new double[0];
         }
         double[] rs=new double[nums.length-k+1];
-        int k1=k/2;
-        int k2=k-k1;//这样弄的话k2是>=k1的
         int index=0;
         PriorityQueue<Integer> p1=new PriorityQueue<>();//默认升序,是最小堆,存的是前k1大的
         PriorityQueue<Integer> p2=new PriorityQueue<>(10, Collections.reverseOrder());//装的最小
@@ -56,6 +54,54 @@ public class SlidingWindowMedian {
                 p2.remove(nums[begin]);
             }
 
+        }
+        return rs;
+    }
+//3/7/2018九章第二轮
+    public static double[] medianSlidingWindow2(int[] nums, int k) {
+        PriorityQueue<Integer> p1=new PriorityQueue<>();//默认升序,是最小堆,存的是前k1大的
+        PriorityQueue<Integer> p2=new PriorityQueue<>(10, Collections.reverseOrder());//装的最小
+        double[] rs=new double[nums.length-k+1];
+        int index=0;
+        for(int i=0;i<nums.length;i++){
+            if(p2.size()==0){
+                p2.offer(nums[i]);
+            }
+            else if(p1.size()==p2.size()){
+                if(nums[i]<=p1.peek()){
+                    p2.offer(nums[i]);
+                }else{
+                    p2.offer(p1.poll());
+                    p1.offer(nums[i]);
+                }
+            }else{
+                if(nums[i]<=p2.peek()){
+                    p1.offer(p2.poll());
+                    p2.offer(nums[i]);
+                }else{
+                    p1.offer(nums[i]);
+                }
+            }
+            if(p1.size()+p2.size()==k){
+                if(k%2==0){
+                    rs[index]=(double)p2.peek()/2.0+(double)p1.peek()/2.0;
+                }else{
+                    rs[index]=(double)p2.peek();
+                }
+                index++;
+
+                if(p1.contains(nums[i-k+1])){//这个删除有可能把两个q的size的差距变成2
+                    p1.remove(nums[i-k+1]);
+                }else{
+                    p2.remove(nums[i-k+1]);
+                }
+                while (p1.size()>p2.size()){//奇怪，第一次写的不用这两个while也能accept，这个就必须要
+                    p2.offer(p1.poll());
+                }
+                while ((p1.size()<p2.size()-1)){
+                    p1.offer(p2.poll());
+                }
+            }
         }
         return rs;
     }

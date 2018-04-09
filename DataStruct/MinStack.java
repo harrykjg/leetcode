@@ -6,7 +6,7 @@ import java.util.Stack;
  * Created by 502575560 on 7/11/17.
  */
 public class MinStack {
-    //还不太会做,看了要用2个stack才自己想的
+    //还不太会做,看了要用2个stack才自己想的,这个是lintcode的和leetcode方法名不同
     Stack<Integer> st;
     Stack<Integer> minst;
     public MinStack() {
