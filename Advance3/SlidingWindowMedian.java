@@ -95,7 +95,7 @@ public class SlidingWindowMedian {
                 }else{
                     p2.remove(nums[i-k+1]);
                 }
-                while (p1.size()>p2.size()){//奇怪，第一次写的不用这两个while也能accept，这个就必须要
+                while (p1.size()>p2.size()){//奇怪，上面代码写的不用这两个while也能accept，这个就必须要
                     p2.offer(p1.poll());
                 }
                 while ((p1.size()<p2.size()-1)){

@@ -1,9 +1,9 @@
+
+import java.util.LinkedList;
 //http://blog.csdn.net/doc_sgl/article/details/11832965
 //http://blog.csdn.net/linhuanmars/article/details/24444491
 //http://www.cnblogs.com/easonliu/p/3657489.html
 //http://www.cnblogs.com/jdflyfly/p/3815885.html
-import java.util.LinkedList;
-
 public class MaximalRectangle {
 	public static void main(String[] args) {
 		MaximalRectangle mr=new MaximalRectangle();

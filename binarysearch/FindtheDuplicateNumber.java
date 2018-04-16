@@ -47,7 +47,7 @@ public class FindtheDuplicateNumber {
                 count++;
             }
         }
-        if(count>=1){
+        if(count>1){
             return b;
         }
         return e;

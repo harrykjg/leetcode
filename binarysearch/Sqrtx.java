@@ -10,7 +10,7 @@ public class Sqrtx {
         if(x<=1){
             return x;
         }
-        int b=0;//注意开始这里写成b=1是错的
+        int b=0;//注意开始这里写成b=1也对
         int e=x;//这里开始写成x/2的话处理不了x=2的情况,其实e写成x的话也就是比写成x/2少了一次循环而已
         while (b+1<e){
             int mid=b+(e-b)/2;
