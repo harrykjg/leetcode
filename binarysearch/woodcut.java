@@ -36,7 +36,7 @@ public class woodcut {
         if(validate(sum,e,k,L)){
             return (int)e;
         }
-        return (int)b;
+        return (int)b;//奇怪这里不会出现无解吗？那样return0才对，但是这样也accept了
     }
     boolean validate(long sum,long mid,int k,int[] l){
         int count=0;
