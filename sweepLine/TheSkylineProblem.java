@@ -11,7 +11,7 @@ public class TheSkylineProblem {
         TheSkylineProblem sk=new TheSkylineProblem();
         sk.getSkyline(b);
     }
-    //不会,
+    //不会,九章的题目返回的是三个数，leetcode返回的是点就行了，不一样
     //http://blog.csdn.net/qq508618087/article/details/51311778  看他第二个解法的思路
     //https://codesolutiony.wordpress.com/2015/06/01/leetcode-the-skyline-problem-lintcode-building-outline/ 代码可以看他的
     //https://briangordon.github.io/2014/08/the-skyline-problem.html 动图
