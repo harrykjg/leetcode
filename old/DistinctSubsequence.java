@@ -1,22 +1,22 @@
-public class DistinceSequence {
-//http://jixiangsanbao.wordpress.com/2014/06/30/distinct-subsequences/
-//Ó¦¸Ã¿´¼ªÏéÕâ¸ö±í±È½ÏºÏÀí£¬ÒªÆäÊµÖ»ÒªÏÈ³õÊ¼»¯µÚÒ»ÐÐ£¬µÚÒ»ÁÐ²»ÓÃ¶¯¡£¹Ø¼üÊÇ×´Ì¬·½³ÌµÄÀí½â
-//´ÓÉÏµ½ÏÂ£¬´Ó×óµ½ÓÒ¸³Öµ£¬ËùÒÔËµÆäÊµÊÇ¹Ì¶¨ÁËTµÄÇ°i¸ö×Ö·û£¬È»ºó²»¶Ï¼ÓÈëSµÄ×Ö·û£¬½øÐÐ±È½Ï
-//Èç¹ûÈç¹ûÐÂ¼ÓÈëµÄSµÄµÚj¸ö×Ö·ûºÍTµÄµÚi¸ö×Ö·û²»Í¬µÄ»°,ÄÇÃ´dp[i][j]µÄÖµµÈÓÚdp[i][j-1]£¬¼´
-//Õâ¸öµÚj¸ö×Ö·û¼Ó²»¼Ó½øÀ´¶¼Ã»Ó°Ïì£¬·´Õý²»ÏàÍ¬
-//Èç¹ûÏàÍ¬µÄ»°£¬ÄÇÃ´ËûÃÇµÄËûµÄÖµÓÉ2²¿·Ö×é³É£º1£¬ºÍ²»¼ÓËûÃÇÁ½Ò²ÊÇÒ»ÑùµÄ¼´dp[i-1][j-1]¡£
-//2£¬dp[i][j-1],¼´²»¼ÓµÚj¸ö×Ö·ûÖ®Ç°ËûÔ­À´µÄÖµ¡£»¹ÊÇÍ¦ÄÑÀí½âµÄ
+public class DistinctSubsequence {
+	//http://jixiangsanbao.wordpress.com/2014/06/30/distinct-subsequences/
+//åº”è¯¥çœ‹å‰ç¥¥è¿™ä¸ªè¡¨æ¯”è¾ƒåˆç†ï¼Œè¦å…¶å®žåªè¦å…ˆåˆå§‹åŒ–ç¬¬ä¸€è¡Œï¼Œç¬¬ä¸€åˆ—ä¸ç”¨åŠ¨ã€‚å…³é”®æ˜¯çŠ¶æ€æ–¹ç¨‹çš„ç†è§£
+//ä»Žä¸Šåˆ°ä¸‹ï¼Œä»Žå·¦åˆ°å³èµ‹å€¼ï¼Œæ‰€ä»¥è¯´å…¶å®žæ˜¯å›ºå®šäº†Tçš„å‰iä¸ªå­—ç¬¦ï¼Œç„¶åŽä¸æ–­åŠ å…¥Sçš„å­—ç¬¦ï¼Œè¿›è¡Œæ¯”è¾ƒ
+//å¦‚æžœå¦‚æžœæ–°åŠ å…¥çš„Sçš„ç¬¬jä¸ªå­—ç¬¦å’ŒTçš„ç¬¬iä¸ªå­—ç¬¦ä¸åŒçš„è¯,é‚£ä¹ˆdp[i][j]çš„å€¼ç­‰äºŽdp[i][j-1]ï¼Œå³
+//è¿™ä¸ªç¬¬jä¸ªå­—ç¬¦åŠ ä¸åŠ è¿›æ¥éƒ½æ²¡å½±å“ï¼Œåæ­£ä¸ç›¸åŒ
+//å¦‚æžœç›¸åŒçš„è¯ï¼Œé‚£ä¹ˆä»–ä»¬çš„ä»–çš„å€¼ç”±2éƒ¨åˆ†ç»„æˆï¼š1ï¼Œå’Œä¸åŠ ä»–ä»¬ä¸¤ä¹Ÿæ˜¯ä¸€æ ·çš„å³dp[i-1][j-1]ã€‚
+//2ï¼Œdp[i][j-1],å³ä¸åŠ ç¬¬jä¸ªå­—ç¬¦ä¹‹å‰ä»–åŽŸæ¥çš„å€¼ã€‚è¿˜æ˜¯æŒºéš¾ç†è§£çš„
 //http://blog.csdn.net/linhuanmars/article/details/23589057
 //http://www.blogjava.net/menglee/archive/2013/12/31/408231.html
 	public static void main(String[] args) {
-		
-		
-		DistinceSequence ds=new DistinceSequence();
+
+
+		DistinctSubsequence ds=new DistinctSubsequence();
 		String S="abccde";
 		String T ="ace";
 		int k=ds.numDistinct2(S, T);
 		System.out.println(k);
-		
+
 
 	}
 
@@ -48,9 +48,9 @@ public class DistinceSequence {
 					else if(i==0){
 						dp[i][j]=dp[i][j-1]+1;
 					}else if(j==0&&i>j){
-						
-							dp[i][j]=0;
-						
+
+						dp[i][j]=0;
+
 					}
 					else{
 						dp[i][j]=dp[i-1][j-1]+dp[i][j-1];
@@ -60,18 +60,18 @@ public class DistinceSequence {
 		}
 		return dp[T.length()-1][S.length()-1];
 	}
-	//µÚ¶þ´Î×Ô¼ºÃ»Ð´
-	//µÚÈýÂÖ,¶Ô·½³ÌµÄÀí½âÃ»ÓÐ¶Ô£¬Òª¿´»ØÔ­À´µÄ
+	//ç¬¬äºŒæ¬¡è‡ªå·±æ²¡å†™
+	//ç¬¬ä¸‰è½®,å¯¹æ–¹ç¨‹çš„ç†è§£æ²¡æœ‰å¯¹ï¼Œè¦çœ‹å›žåŽŸæ¥çš„
 	public int numDistinct2(String S, String T) {
 		if(T.length()>S.length()){
 			return 0;
 		}
 		int[][] dp=new int[T.length()+1][S.length()+1];
-		for(int i=0;i<=S.length();i++){//Õâ¶Î³õÊ¼»¯¿ÉÒÔÀí½âÎªtÎª¿ÕÊ±¼´³¤¶ÈÎª0Ê±£¬ÄÇsÖÐÖ»ÄÜÕÒµ½1¸öt£¬¶ø²»ÊÇs³¤¶È¸öt
+		for(int i=0;i<=S.length();i++){//è¿™æ®µåˆå§‹åŒ–å¯ä»¥ç†è§£ä¸ºtä¸ºç©ºæ—¶å³é•¿åº¦ä¸º0æ—¶ï¼Œé‚£sä¸­åªèƒ½æ‰¾åˆ°1ä¸ªtï¼Œè€Œä¸æ˜¯sé•¿åº¦ä¸ªt
 			dp[0][i]=1;
-			
+
 		}
-	
+
 		for(int i=1;i<=T.length();i++){
 			for(int j=1;j<=S.length();j++){
 				if(T.charAt(i-1)==S.charAt(j-1)){
@@ -85,4 +85,3 @@ public class DistinceSequence {
 	}
 
 }
-

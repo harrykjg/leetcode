@@ -1,5 +1,4 @@
 //经典动态规划题,最长上升子序
-//http://blog.csdn.net/mtttt/article/details/5744431
 //http://www.cnblogs.com/dolphin0520/archive/2011/07/09/2102044.html
 //http://blog.csdn.net/wangkechuang/article/details/7949151
 public class LongestIncreasingSubsequence {
