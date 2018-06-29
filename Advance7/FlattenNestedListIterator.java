@@ -41,4 +41,42 @@ public class FlattenNestedListIterator {
         }
         return false;
     }
+//6/25/2018,还是不会，不好写
+    class FlattenNestedListIterator2{
+        Stack<NestedInteger> st;
+        public FlattenNestedListIterator2(List<NestedInteger> nestedList) {
+            // Initialize your data structure here.
+            st=new Stack<>();
+            for(int i=nestedList.size()-1;i>=0;i--){
+                st.push(nestedList.get(i));
+            }
+        }
+
+        // @return {int} the next element in the iteration
+
+        public Integer next() {//开始写的是递归调用next，是可以，但是遇到[[],[]]这样的就不行了，应为递归之后就不知道st是不是空了，按理说空的话就不能调用next了
+            // Write your code here
+            return st.pop().getInteger();
+        }
+
+        // @return {boolean} true if the iteration has more element or false
+
+        public boolean hasNext() {
+            // Write your code here
+
+            while (!st.isEmpty()){
+                NestedInteger temp=st.peek();
+                if (temp.isInteger()){
+                    return true;
+                }else{
+                    List<NestedInteger> ls=temp.getList();
+                    st.pop();
+                    for(int i=ls.size()-1;i>=0;i--){
+                        st.push(ls.get(i));
+                    }
+                }
+            }
+            return false;
+        }
+    }
 }

@@ -1,6 +1,8 @@
 package Advance7;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by 502575560 on 8/9/17.
@@ -35,5 +37,23 @@ public class SubarraySum {
             }
         }
         return new ArrayList<Integer>();
+    }
+//6/19/2018这次勉强记得可能用前缀和可能用map，但是还是写不出来,懂了之后代码还是很好写的
+    public static ArrayList<Integer> subarraySum2(int[] nums) {
+        Map<Integer,Integer> map=new HashMap<>();
+        ArrayList<Integer> rs=new ArrayList<>();
+        map.put(0,-1);
+        int sum=0;
+        for(int i=0;i<nums.length;i++){
+            sum+=nums[i];
+            if(map.containsKey(sum)){
+                rs.add(map.get(sum)+1);
+                rs.add(i);
+                return rs;
+            }
+            map.put(sum,i);
+        }
+        return rs;
+
     }
 }

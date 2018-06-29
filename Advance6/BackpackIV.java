@@ -11,6 +11,7 @@ public class BackpackIV {
     //https://segmentfault.com/a/1190000006325321
     //不太会，感觉不用dp用dfs做,应该是可以的但是超时，而且容易和permutation2搞混，区别是那里nums里有重复的，而这里是无重复的但是可以重复使用
     // 后来看了答案，用的一维dp,还是可以用二维的dp来理解，就是行改成用nums表示，列用1，2，3，4，5，6，7。。。target表示,列个表可以理解，写出来有点恶心
+    //再和combinationsum2比较一下
  public static void main(String[] args){
      BackpackIV bp=new BackpackIV();
      int[] nums={2,3,6,7};

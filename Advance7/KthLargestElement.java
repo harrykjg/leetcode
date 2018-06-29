@@ -58,4 +58,48 @@ public class KthLargestElement {
         nums[i]=pivot;
         return i;
     }
+//6／23／2018，还是以为用heap，结果是有O(n）的方法,还是不好写,partition的方法我以为不用b和e直接整个数组找pivit的位置，其实还是加上b和e比较好
+    public int kthLargestElement2(int k, int[] nums) {
+        return helper2(nums,k,0,nums.length-1);
+    }
+    int helper2(int[] nums,int k,int b,int e){
+        if(b>=e){
+            return nums[b];
+        }
+        int index=partition2(nums, b,e);
+        if(index==nums.length-k){
+            return nums[index];
+        }
+        if(index<nums.length-k){
+            return helper2(nums,k,index+1,e);
+        }else{
+            return helper2(nums,k,b,index-1);
+        }
+
+    }
+    int partition2(int[] nums,int b,int e){
+        int p=nums[b];
+        int i=b;
+        int j=e;
+        while (i<j){
+            while (i<j&&nums[j]>=p){
+                j--;
+            }
+            if(i<j){
+                nums[i]=nums[j];
+                i++;
+            }
+            while (i<j&&nums[i]<p){
+                i++;
+            }
+            if(i<j){
+                nums[j]=nums[i];
+                j--;
+            }
+        }
+        nums[i]=p;
+        return i;
+
+    }
+
 }

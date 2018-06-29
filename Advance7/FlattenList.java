@@ -1,5 +1,7 @@
 package Advance7;
 
+import sun.jvm.hotspot.debugger.win32.coff.COFFFileParser;
+
 import java.util.*;
 
 /**
@@ -32,6 +34,30 @@ public class FlattenList {
     public List<Integer> flatten2(List<NestedInteger> nestedList) {
 
         List<Integer> rs=new ArrayList<>();
+        return rs;
+    }
+//6/25/2018,试着写non recursive的,想的用queue和stack貌似都不行，还容易遇到concurent modify list的问题，所以要建另一个list来用来copy操作,还是不好写
+    public List<Integer> flatten3(List<NestedInteger> nestedList) {
+
+        List<Integer> rs=new ArrayList<>();
+        List<NestedInteger> copy=nestedList;
+        boolean flag=true;
+        while (flag){
+            List<NestedInteger> ls=new ArrayList<>();
+            flag=false;
+            for(NestedInteger ni:copy){
+                if(ni.isInteger()){
+                    ls.add(ni);//这里开始直接写rs.add(ni.getInteger())，这样是错的，举个例子【【1，1】，2，【1，2】】就知道了
+                }else {
+                    ls.addAll(ni.getList());
+                    flag=true;
+                }
+            }
+            copy=ls;
+        }
+        for(NestedInteger ni:copy){
+            rs.add(ni.getInteger());
+        }
         return rs;
     }
 
