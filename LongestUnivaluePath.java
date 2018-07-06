@@ -38,7 +38,7 @@ public class LongestUnivaluePath {
             right=helper(r.right)+(r.right.val==r.val?1:0);
 
         }
-        if(r.right!=null&&r.right.val==r.val){//这里很容易漏！比如一个root，其左右子树相等，但是不和root相等，那么左边和右边也只能算成0
+        if(r.right!=null&&r.right.val==r.val){//这里很容易漏！比如一个root，其左子树与右子树相等，但是不和root相等，那么左边或右边也只能算成0，作为当层返回的结果
 
         }else{
             right=0;
