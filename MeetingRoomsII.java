@@ -6,7 +6,7 @@ import java.util.Stack;
 /**
  * Created by yufengzhu on 6/29/18.
  */
-//区间类
+//区间类，interval
 public class MeetingRoomsII {
     public static void main(String[] args){
         MeetingRoomsII mr=new MeetingRoomsII();
@@ -15,7 +15,7 @@ public class MeetingRoomsII {
     }
     //Given an array of meeting time intervals consisting of start and end times [[s1,e1],[s2,e2],...] find the minimum number of conference rooms required.
     //我以为用stack能做结果是不行的，stack只能把按start先后顺序排了放进去，但是要从stack中peak出元素和当前interval start的时候，peak出来的元素要先
-    //peak出end为先的inverval，stack无法满足此要求，因此要用priorityqueue
+    //peak出end为先的inverval，stack无法满足此要求（我觉得可以构造某个class表明是start还是end，还有时间戳），因此要用priorityqueue
     //https://blog.csdn.net/bsbcarter/article/details/50005563
     //https://leetcode.com/problems/meeting-rooms-ii/discuss/67883/Super-Easy-Java-Solution-Beats-98.8
     public int minMeetingRooms(Interval[] intervals) {

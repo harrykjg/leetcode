@@ -4,6 +4,10 @@ package dp.string2D;
  * Created by 502575560 on 7/7/17.
  */
 public class EditDistance {
+    public static void main(String[]a){
+        EditDistance oe=new EditDistance();
+        System.out.println(oe.minDistance("ab","acb"));
+    }
     //http://blog.163.com/gjx_12358@126/blog/static/895363452014232191498/
     //lintcode写的,但是还是不太顺,还是dp的理解问题,还有index要注意
     public int minDistance(String word1, String word2) {
@@ -17,7 +21,8 @@ public class EditDistance {
         for(int i=1;i<dp.length;i++){
             for(int j=1;j<dp[0].length;j++){
                 if(word1.charAt(j-1)==word2.charAt(i-1)){
-                    dp[i][j]=dp[i-1][j-1];//这里开始写成math.min(dp[i][j],dp[i-1][j-1])
+                    dp[i][j]=dp[i-1][j-1];//这里开始写成math.min(dp[i][j],dp[i-1][j-1])，那就错了，i，j不可能是0了，所以dp[i][j]还没初始化，是0。
+                    // https://www.jiuzhang.com/solutions/edit-distance/,看他第二个写法那样就对
                 }else{
                     dp[i][j]=Math.min(dp[i-1][j]+1,Math.min(dp[i][j-1]+1,dp[i-1][j-1]+1));
                 }

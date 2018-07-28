@@ -1,3 +1,4 @@
+package old;
 //http://blog.163.com/gjx_12358@126/blog/static/895363452014232191498/ 这个说的好
 //解释一下：做的添加删除等操作是作用在word1身上，认真看他的解释。
 //他说的word1添加的话，即word1添加一个字母，该字母与word2对应的字母相等，如abc要变成de，现在
@@ -14,10 +15,10 @@
 public class EditDistance {
 	public static void main(String[] args) {
 
-		String s1 = "a";
-		String s2 = "ab";
+		String s1 = "ab";
+		String s2 = "acb";
 		EditDistance ed = new EditDistance();
-		System.out.println(ed.minDistance(s1, s2));
+		System.out.println(ed.minDistance2(s1, s2));
 	}
 
 	public int minDistance(String word1, String word2) {

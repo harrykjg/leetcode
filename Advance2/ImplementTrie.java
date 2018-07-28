@@ -63,7 +63,6 @@ public class ImplementTrie {
 class TrieNode {
     // Initialize your data structure here.
     boolean isEnd;
-    TrieNode next;
     HashMap<Character,TrieNode> children;
     char val;
     public TrieNode() {

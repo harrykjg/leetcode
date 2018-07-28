@@ -14,6 +14,7 @@ public class ToeplitzMatrix {
                }
            }
        }
+        Object.
         return true;
 
     }

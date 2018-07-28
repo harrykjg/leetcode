@@ -1,6 +1,7 @@
 
 //http://jixiangsanbao.wordpress.com/2014/06/23/next-permutation/
 //http://blog.csdn.net/linhuanmars/article/details/20434115
+//https://leetcode.com/problems/next-permutation/solution/
 
 public class NextPermutation {
 	//知道思路之后一侧accept

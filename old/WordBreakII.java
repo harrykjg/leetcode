@@ -126,12 +126,12 @@ public class WordBreakII {
 		}
 		//还是搞错，还是用了2层循环就错！记好是1层！
 		
-			for(int j=1;j<=s.length()-b;j++){
-				String temp=s.substring(b,j+b);
-				if(memo[b]&&dict.contains(temp)){
-					go2(b+j,cur+temp+" ",memo,s,dict,a);
-				}
+		for(int j=1;j<=s.length()-b;j++){
+			String temp=s.substring(b,j+b);
+			if(memo[b]&&dict.contains(temp)){
+				go2(b+j,cur+temp+" ",memo,s,dict,a);
 			}
+		}
 		
 	}
 }

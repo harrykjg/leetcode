@@ -3,6 +3,7 @@ import java.util.*;
 /**
  * Created by yufengzhu on 7/4/18.
  */
+//拓扑 topology
 public class SequenceReconstruction {
     public static void main(String[] a){
         SequenceReconstruction sr=new SequenceReconstruction();

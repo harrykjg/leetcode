@@ -1,4 +1,6 @@
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 //http://blog.csdn.net/linhuanmars/article/details/22964467
 //http://jixiangsanbao.wordpress.com/2014/06/19/longest-consecutive-sequence/ 吉祥的好理解
 

@@ -114,7 +114,37 @@ public class PalindromePairs {
         return true;
     }
 
+//7／22/2018
+    public List<List<Integer>> palindromePairs3(String[] words) {
+        List<List<Integer>> rs = new ArrayList<>();
+        if (words == null || words.length < 2) return rs;
+        Map<String, Integer> map = new HashMap<>();
+        for(int i=0;i<words.length;i++){
+            map.put(words[i],i);
+        }
+        for(int i=0;i<words.length;i++){
 
+            for(int j=0;j<=words[i].length();j++){
+                String left=words[i].substring(0,j);//有可能是""空字符
+                String right=words[i].substring(j,words[i].length());//j<=words[i]。length，所以右边也会是""，这样会有一个问题，就是【"bat", "tab"】这样会导致答案是【1，0】【0，1】【0，1】【1，0】
+                String reverseLeft=new StringBuilder(left).reverse().toString();
+                String reverseRight=new StringBuilder(right).reverse().toString();
+                if(isPalindrome(left)&&map.containsKey(reverseRight)&&map.get(reverseRight)!=i){//比如"s"，j=0时，left是""，reverseRight是s自己，那就不行
+                    ArrayList<Integer> al=new ArrayList<>();
+                    al.add(map.get(reverseRight));
+                    al.add(i);
+                    rs.add(al);
+                }
+                if(isPalindrome(right)&&right.length()!=0&&map.containsKey(reverseLeft)&&map.get(reverseLeft)!=i){
+                    ArrayList<Integer> al=new ArrayList<>();
+                    al.add(i);
+                    al.add(map.get(reverseLeft));
+                    rs.add(al);
+                }
+            }
+        }
 
+        return rs;
+    }
 }
 

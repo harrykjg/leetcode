@@ -7,7 +7,10 @@ import java.util.Map;
 /**
  * Created by 502575560 on 8/9/17.
  */
+//array
 public class SubarraySum {
+    //ContinuouseSubarraySum，都有hashmap的解法
+    //和lc的maximumsubarray不一样
     public static void main(String[] args){
         subarraySum(new int[]{-3,1,2,-3,4});
     }

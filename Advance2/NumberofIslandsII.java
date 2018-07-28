@@ -18,13 +18,13 @@ public class NumberofIslandsII {
         ni.numIslands22(3,3,p);
 
     }
-    //http://blog.csdn.net/dm_vincent/article/details/7655764 将union find原理
+    //http://blog.csdn.net/dm_vincent/article/details/7655764 讲union find原理
     //http://blog.csdn.net/jmspan/article/details/51189502  题目在这
     // https://discuss.leetcode.com/topic/29518/java-python-clear-solution-with-unionfind-class-weighting-and-path-compression  链接失效
     //https://discuss.leetcode.com/topic/29613/easiest-java-solution-with-explanations/2 链接失效
-    // 其实就是往一个空的图里的m,n这个位置块陆地,求加完后有几个岛,
+    // 其实就是往一个空的图里的m,n这个位置加陆地,求加完后有几个岛,
     //这个positions是a list of operations如 [[0,0], [0,1], [1,2], [2,1]]代表先加0,0这个位置再加0,1.....
-    //主要是按着链接的思路自己想的,应该没有提交过
+    //主要是按着链接的思路自己想的
     int[] ids;
     public List<Integer> numIslands2(int m, int n, int[][] positions) {
         ids=new int[m*n];//它的意义就是记录这个m*n矩阵上每个点的identifier
@@ -100,7 +100,7 @@ public class NumberofIslandsII {
             }
             if(a-1>=0&&ids[(a-1)*m+b]!=-1){
                 if(find2(m*a+b)!=find2((a-1)*m+b)){
-                    union(m*a+b,(a-1)*m+b);
+                    union(m*a+b,(a-1)*m+b);//这个union的方向好想反了吧，应该把四周的点的根节点union到这个点
                     count--;
                 }
             }
@@ -137,7 +137,6 @@ public class NumberofIslandsII {
         int root2=find2(b);
         ids[root1]=ids[root2];
     }
-
 
 }
 class Point {

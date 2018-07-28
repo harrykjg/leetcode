@@ -1,6 +1,8 @@
+//array
 //经典动态规划题,最长上升子序
 //http://www.cnblogs.com/dolphin0520/archive/2011/07/09/2102044.html
 //http://blog.csdn.net/wangkechuang/article/details/7949151
+//别和longest continuous increasing subsequence还有 Longest Consecutive Sequence
 public class LongestIncreasingSubsequence {
 	public static void main(String[] args) {
 		LongestIncreasingSubsequence li=new LongestIncreasingSubsequence();

@@ -36,4 +36,23 @@ public class FirstUniqueCharacterinaString {
         }
         return al.get(0);
     }
+    //7/15/2018
+    public int firstUniqChar2(String s) {
+        if(s == null || s.length() ==0){
+            return -1;
+        }
+        int[] a=new int[256];
+        char[] ch=s.toCharArray();
+        for(int i=0;i<ch.length;i++){
+            int temp=ch[i]-'a';
+            a[temp]+=1;
+        }
+        for(int i=0;i<ch.length;i++){
+            int temp=ch[i]-'a';
+            if(a[temp]==1){
+                return i;
+            }
+        }
+        return -1;
+    }
 }

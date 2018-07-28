@@ -8,6 +8,7 @@ import java.util.HashMap;
 /**
  * Created by 502575560 on 8/9/17.
  */
+//array
 public class LintcodeContinuousSubarraySum {
     public static void main(String[] sa){
         continuousSubarraySum(new int[]{1,-1});

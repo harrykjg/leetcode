@@ -7,7 +7,9 @@ import java.util.List;
 /**
  * Created by yufengzhu on 6/23/18.
  */
+//array
 public class ContinuousSubarraySum {
+    //这是lintcode的，leetcode的同样的名字但是题目是不一样的！
     //https://www.jiuzhang.com/solution/continuous-subarray-sum/
     //自己瞎写的也对了,但是用了一个map记录，看了答案发现不需要map
     public List<Integer> continuousSubarraySum(int[] A) {
@@ -38,4 +40,5 @@ public class ContinuousSubarraySum {
         }
         return rs;
     }
+
 }

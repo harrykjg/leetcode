@@ -1,6 +1,9 @@
 package Advance2;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by 502575560 on 7/18/17.
@@ -13,7 +16,7 @@ public class GraphValidTree {
     //
     //http://www.cnblogs.com/grandyang/p/5257919.html  还讲了dfs,bfs法,就是从一个点开始出发,一个一个往下走,如果遍历到一个已经访问过的点,说明有环,
     //,如果最后有节点没遍历到则说明不相连,也不能成为tree
-    //第二个链接并查集思路是开始每个点根都是-1,然后再逐个赋值,如果发现某个点已经有根节点了就说明有环了
+    //第二个链接并查集思路是开始每个点根都是-1,然后再逐个赋值,如果发现某个点已经有根节点了就说明有环了，
     public static void main(String[] args){
         int[][] e=new int[][]{{0,1},{5,6},{6,7},{9,0},{3,7},{4,8},{1,8},{5,2},{5,7}};
         System.out.println(validTree(10,e));
@@ -76,5 +79,67 @@ public class GraphValidTree {
             return i;
         }
         return ids[i]=find2(ids,ids[i]);
+    }
+//7/12/2018,开始还是想的是拓扑排序，但是看他第二个例子，[[0,1], [1,2], [2,3], [1,3], [1,4]]貌似拓扑排序能找到一个一笔画的路径，和树没啥关系。而且也没说要是二叉树，
+    //所以说就是检测有没有环,但是还不够，还有可能是两个分开的树，那样的话只要从任意节点出发，能访问所有节点才对
+//  https://www.cnblogs.com/TenosDoIt/p/3644225.html 这个帖子说如何检测图有无环
+    //dfs版本
+    public boolean validTree3(int n, int[][] edges) {
+        if(n==1&&edges.length==0){
+            return true;
+        }
+        boolean[] memo=new boolean[n];
+        HashMap<Integer,Set<Integer>> map=new HashMap<>();
+        for(int[] edge:edges){
+            int a=edge[0];
+            int b=edge[1];
+            if(!map.containsKey(a)){
+                HashSet<Integer> set=new HashSet<>();
+                set.add(b);
+                map.put(a,set);
+            }else{
+                map.get(a).add(b);
+            }
+            if(!map.containsKey(b)){
+                HashSet<Integer> set=new HashSet<>();
+                set.add(a);
+                map.put(b,set);
+            }else{
+                map.get(b).add(a);
+            }
+        }
+        memo[0]=true;
+        if(!dfs(0,map,memo)){
+            return false;
+        };
+        for(int i=0;i<memo.length;i++){
+            if(memo[i]==false){
+                return false;
+            }
+
+        }
+        return true;
+
+    }
+    boolean dfs(int i,HashMap<Integer,Set<Integer>> map,boolean[] memo){//dfs写的不顺
+        if(!map.containsKey(i)){
+            return false;
+        }
+        for(int nei:map.get(i)){
+            if (memo[nei]==true){
+                return false;
+            }else{
+                memo[nei]=true;
+                map.get(nei).remove(i);//开始这里忘了写这个，比如从1到了2，现在2的邻居也有1，再走回去的话那就不对了，所以要把1从2的邻居里删掉
+                if(!dfs(nei,map,memo)){
+                    return false;
+                };
+            }
+        }
+        return true;
+    }
+
+    public boolean validTree4(int n, int[][] edges) {
+
     }
 }
