@@ -7,7 +7,7 @@ public class LongestAbsoluteFilePath {
     public static void main(String[] args){
        System.out.println( LongestAbsoluteFilePath.lengthLongestPath("dir\n\tsubdir1\n\tsubdir2\n\t\tfile.ext"));
     }
-    //自己想应该是dfs,貌似不是这样,这题解法还挺巧妙挺难想的 "dir\n\tsubdir1\n\t\tfile1.ext\n\t\tsubsubdir1\n\tsubdir2\n\t\tsubsubdir2\n\t\t\tfile2.ext"
+    //自己想应该是dfs,貌似不是这样,这题解法还挺巧妙挺难想的 "dir\n\tsubdir1\n\Root\tfile1.ext\n\Root\tsubsubdir1\n\tsubdir2\n\Root\tsubsubdir2\n\Root\Root\tfile2.ext"
     //http://blog.csdn.net/zjucor/article/details/72417061
     //https://discuss.leetcode.com/topic/55247/9-lines-4ms-java-solution
     //https://discuss.leetcode.com/topic/55561/two-different-solutions-in-java-using-stack-and-hashmap/2  他的map存的是层级和长度

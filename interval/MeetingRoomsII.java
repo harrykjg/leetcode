@@ -1,8 +1,6 @@
 package interval;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * Created by yufengzhu on 6/29/18.
@@ -52,19 +50,46 @@ public class MeetingRoomsII {
         }
         return rs;
     }
+    //这个是numberofairplaneinthesky直接copy过来的改了对应变量名而已，直接accept了。说明不需要priorityqueue也行，就是要新建个class
+    public int minMeetingRooms2(Interval[] intervals) {
+        int rs = 0;
+        if (intervals.length == 0) {
+            return 0;
+        }
+        List<point> ls = new ArrayList<>();
+        for (Interval v : intervals) {
+            ls.add(new point(v.start, 1));
+            ls.add(new point(v.end, 0));
+        }
+        Collections.sort(ls, new Comparator<point>() {
+            @Override
+            public int compare(point o1, point o2) {
+                if (o1.time == o2.time) {
+                    return o1.flag - o2.flag;
+                }
+                return o1.time - o2.time;
+            }
+        });
 
-}
-class Interval {
-    int start;
-    int end;
-
-    Interval() {
-        start = 0;
-        end = 0;
+        int cur = 0;
+        for (int i = 0; i < ls.size(); i++) {
+            if (ls.get(i).flag == 1) {
+                cur++;
+            } else {
+                cur--;
+            }
+            rs = Math.max(cur, rs);
+        }
+        return rs;
+    }
+    class point{
+        int time;
+        int flag;
+        public point(int time,int flag){
+            this.time=time;
+            this.flag=flag;
+        }
     }
 
-    Interval(int s, int e) {
-        start = s;
-        end = e;
-    }
 }
+

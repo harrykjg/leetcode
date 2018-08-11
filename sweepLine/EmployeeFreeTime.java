@@ -5,6 +5,7 @@ import java.util.*;
 /**
  * Created by yufengzhu on 7/21/18.
  */
+//区间类 interval
 public class EmployeeFreeTime {
     //看了一下确定是sweepline问题之后然后知道要排序后自己想的
     public List<Interval> employeeFreeTime(List<List<Interval>> schedule) {

@@ -130,4 +130,41 @@ public class DecodeWay {
 		}
 		return true;
 	}
+	//8/4/2018,ø¥¡Àdecode
+	public int numDecodings4(String s){
+		if(s.length()==0){
+			return 0;
+		}
+		int[] dp=new int[s.length()+1];
+		dp[0]=1;
+		char[] ch=s.toCharArray();
+		for(int i=1;i<=ch.length;i++){
+			if(i==1){
+				dp[i]=helper(s.substring(i-1,i))*dp[i-1];
+				continue;
+			}
+			dp[i]=helper(s.substring(i-2,i))*dp[i-2]+helper(s.substring(i-1,i))*dp[i-1];
+		}
+		return dp[dp.length-1];
+	}
+	int helper(String s){
+		char[] ch=s.toCharArray();
+
+		if(ch.length==1){
+			if(ch[0]-'1'>=0&&ch[0]-'1'<=8){
+				return 1;
+			}
+		}
+		if(ch.length==2){
+
+			if(ch[0]=='1'&&ch[1]-'0'>=0&&ch[1]-'0'<=9){
+				return 1;
+			}
+			if(ch[0]=='2'&&ch[1]-'0'>=0&&ch[1]-'0'<=6){
+				return 1;
+			}
+		}
+		return 0;
+	}
+
 }

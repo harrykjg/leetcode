@@ -3,6 +3,7 @@ package dp.memorize;
 /**
  * Created by 502575560 on 7/31/17.
  */
+//array //increasing subsequence/subarray
 //应该也是记忆化搜索吧
 public class LongestIncreasingSubsequence {
     public int lengthOfLIS(int[] nums) {

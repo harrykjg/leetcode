@@ -1,4 +1,5 @@
-import java.util.ArrayList;
+package interval;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class DataStreamasDisjointIntervals {
     public DataStreamasDisjointIntervals() {
 
     }
-
+//https://leetcode.com/problems/data-stream-as-disjoint-intervals/discuss/82553/Java-solution-using-TreeMap-real-O(logN)-per-adding.  这个是用的treeMap
     public void addNum(int val) {
         if (list.size() == 0) {
             Interval in = new Interval(val, val);
@@ -70,7 +71,7 @@ public class DataStreamasDisjointIntervals {
  * Your SummaryRanges object will be instantiated and called as such:
  * SummaryRanges obj = new SummaryRanges();
  * obj.addNum(val);
- * List<Interval> param_2 = obj.getIntervals();
+ * List<interval.Interval> param_2 = obj.getIntervals();
  */
 
 class Interval {

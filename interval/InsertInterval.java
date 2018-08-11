@@ -1,3 +1,5 @@
+package interval;
+
 import java.util.ArrayList;
 //http://jixiangsanbao.wordpress.com/2014/07/17/insert-interval/
 public class InsertInterval {

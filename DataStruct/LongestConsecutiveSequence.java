@@ -6,6 +6,7 @@ import java.util.HashSet;
 /**
  * Created by yufengzhu on 12/10/17.
  */
+//array //increasing subsequence/subarray
 public class LongestConsecutiveSequence {
     //还是不好想啊，做不出来，开始想的是用map，其实用set，看会old package里的解释
     public int longestConsecutive(int[] nums) {

@@ -1,13 +1,10 @@
+package interval;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-class Interval {
-    int start;
-    int end;
-    Interval() { start = 0; end = 0; }
-    Interval(int s, int e) { start = s; end = e; }
-}
+
 //http://blog.csdn.net/linhuanmars/article/details/21857617
 //http://jixiangsanbao.wordpress.com/2014/07/14/merge-intervals/
 //

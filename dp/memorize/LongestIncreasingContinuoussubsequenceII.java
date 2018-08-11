@@ -3,6 +3,7 @@ package dp.memorize;
 /**
  * Created by 502575560 on 7/31/17.
  */
+//array //increasing subsequence/subarray
 public class LongestIncreasingContinuoussubsequenceII {
     //https://algorithm.yuanbin.me/zh-hans/dynamic_programming/longest_increasing_continuous_subsequence_ii.html 题目在这
     //https://codesolutiony.wordpress.com/2015/05/25/lintcode-longest-increasing-continuous-subsequence-ii/ 代码看他的

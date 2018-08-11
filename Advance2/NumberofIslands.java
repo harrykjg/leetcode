@@ -1,5 +1,7 @@
 package Advance2;
 
+import java.util.Arrays;
+
 /**
  * Created by yufengzhu on 3/31/18.
  */
@@ -104,5 +106,29 @@ public class NumberofIslands {
                 count--;
             }
         }
+    }
+    //Uber变形，找到最大的那个岛，并且把1变成0，想的是用并查集，但是如何统计集合大小不知道，参考这个https://blog.csdn.net/wangwei6125/article/details/68954171
+    public int numIslands3(char[][] grid) {
+
+    }
+    class Union{
+        int[] ids;
+        int[] count;
+        public Union(int size){
+            ids=new int[size];
+            count=new int[size];
+            Arrays.fill(count,1);
+        }
+        int find(int a){
+            if(ids[a]==a){
+                return a;
+            }
+            ids[a]=find(ids[a]);//这一步记错了！
+            return ids[a];
+        }
+        void union(int a,int b){
+            if()
+        }
+
     }
 }

@@ -9,6 +9,8 @@ public class ConvertSortedListtoBinarySearchTree {
         ListNode n=new ListNode(0);
         n.next=new ListNode(2);
         n.next.next=new ListNode(3);
+        n.next.next.next=new ListNode(4);
+        n.next.next.next.next=new ListNode(5);
         ConvertSortedListtoBinarySearchTree cs=new ConvertSortedListtoBinarySearchTree();
         cs.sortedListToBST(n);
     }

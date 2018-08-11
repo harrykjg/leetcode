@@ -58,5 +58,40 @@ public class ReverseWordsinaStringII {
             e--;
         }
     }
+    //6/8/2018还是不会好的方法，原来是先整个reverse然后再每一个reverse
+    public static void reverseWords2(char[] s) {
+        if(s.length<2){
+            return;
+        }
+        int b=0;
+        int e=s.length-1;
+        while (b<e){
+            char temp=s[b];
+            s[b]=s[e];
+            s[e]=temp;
+            b++;
+            e--;
+        }
+        int i=0;
+        while (i<s.length){
+            if(s[i]==' '){
+                i++;
+                continue;
+            }
+            int b2=i;
+            int e2=b2;
+            while (e2+1<s.length&&s[e2+1]!=' '){
+                e2++;
+            }
+            i=e2+1;
+            while (b2<s.length&&b2<e2){
+                char temp=s[b2];
+                s[b2]=s[e2];
+                s[e2]=temp;
+                b2++;
+                e2--;
+            }
 
+        }
+    }
 }

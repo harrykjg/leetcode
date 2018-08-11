@@ -1,4 +1,4 @@
-package Advance4;
+package interval;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,6 +9,7 @@ import java.util.List;
  * Created by yufengzhu on 4/18/18.
  */
 public class NumberofAirplanesintheSky {
+    //https://www.lintcode.com/problem/number-of-airplanes-in-the-sky/description  lintcode的
     //4/18/2018九章第二轮，还是不会
     public int countOfAirplanes(List<Interval> airplanes) {
         int rs=0;

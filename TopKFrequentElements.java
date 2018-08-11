@@ -6,6 +6,8 @@ import java.util.*;
 public class TopKFrequentElements {
 
     //自己想的,不是太顺
+    //https://leetcode.com/problems/top-k-frequent-elements/discuss/81635/3-Java-Solution-using-Array-MaxHeap-TreeMap
+    //https://leetcode.com/problems/top-k-frequent-elements/discuss/81602/Java-O(n)-Solution-Bucket-Sort  这个是bucket sort复杂度更低
     public List<Integer> topKFrequent(int[] nums, int k) {
         List<Integer> rs=new ArrayList<>();
         if(nums.length==0){
