@@ -158,7 +158,7 @@ class tweet{
     }
 
 }
-class tuser{//这里想了一下要不要重写hashcode,见https://zhidao.baidu.com/question/56026085.html?fr=qrl&index=0&qbl=topic_question_0&word=java%20%B6%D4%CF%F3%20%C4%AC%C8%CFhashcode
+class tuser{//这里想了一下要不要重写hashcode,见https://zhidao.baidu.com/question/56026085.html?fr=qrl&map=0&qbl=topic_question_0&word=java%20%B6%D4%CF%F3%20%C4%AC%C8%CFhashcode
     //一半hashcode重写的话也要重写equals方法,判断一个set是否有一个对象是就先看hashcode是否相通,(hashcode是有可能相同的,因为对象可以无限多但是hashcode是有限的),
     //hashcode相同的话再用equals方法判断
     int userid;

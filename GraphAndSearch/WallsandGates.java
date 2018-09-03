@@ -7,10 +7,11 @@ import java.util.Queue;
  * Created by yufengzhu on 7/31/18.
  */
 public class WallsandGates {
+    //类似zeroonematrix
     //值想到暴力法，他答案的暴力法居然不用memo的？正确的解法是反向bfs,并且是从所有gate同时开始。开始担心这么多起始点会不会导致问题，要不要多个memo去记录这个点访问过没有，会不会说从一个gate开始bfs到某个点
-    //的距离比如是3，会不会出现从另一个点出发到这个点的距离会更短，画图发现是不会的，因为是层次遍历
+    //的距离比如是3，会不会出现从另一个点出发到这个点的距离会更短，画图发现是不会的，因为是层次遍历。这样其实是多个bfs起点但是用一个queue，暴力的做法是多个bfs起点用各自不同的queue
     //https://leetcode.com/problems/walls-and-gates/solution/  答案的写法不太一样，是当层就更新下一层一层的数据了，而且还省了memo
-    //https://segmentfault.com/a/1190000003906674 他这个bfs好像有点原始，就是多个bfs，这样会快吗
+    //https://segmentfault.com/a/1190000003906674 他这个bfs好像有点原始，就是多个bfs，这样会快吗，应该不会
     public void wallsAndGates(int[][] rooms) {
         if(rooms.length==0){
             return;

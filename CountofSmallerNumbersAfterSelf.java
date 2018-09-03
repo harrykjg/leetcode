@@ -47,12 +47,12 @@ public class CountofSmallerNumbersAfterSelf {
             while (i < left.length && j < right.length) {//第一个链接那个代码这里写的精妙，自己很难想
                 if (left[i].num <= right[j].num) {//这里容易少了等于号，少了的话就不是稳定排序了
                     indexs[i + j] = left[i];
-                    count[left[i].index] += j; //这里难想，开始写成count[right[j].index]++;是不对的，比如比较1和2，
+                    count[left[i].index] += j; //这里难想，开始写成count[right[j].map]++;是不对的，比如比较1和2，
                     i++;                  //那么实际上2的count是不用++的因为1本来就在2的左边
                 } else {
                     indexs[i + j] = right[j];
-                    //count[left[i].index]++;//注意这里只要记录从右边跳到左边的，因为题目要的是这个数的右边比他小的数，
-                    j++;                //不需要算本来在他左边且小于他的数,因此不能写count[left[i].index]++;这句
+                    //count[left[i].map]++;//注意这里只要记录从右边跳到左边的，因为题目要的是这个数的右边比他小的数，
+                    j++;                //不需要算本来在他左边且小于他的数,因此不能写count[left[i].map]++;这句
                 }
             }
             while (i < left.length) {

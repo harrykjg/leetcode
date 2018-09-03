@@ -43,6 +43,7 @@ public class ClosestBinarySearchTreeValueII {
         while (!heap.isEmpty()){
             rs.add(rs.size(),heap.poll().val);//注意这里之前写的rs.add(rs.size()-1,val)就outboundexception了
         }
+
         return rs;
 
     }

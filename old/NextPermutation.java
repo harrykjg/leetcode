@@ -2,6 +2,7 @@
 //http://jixiangsanbao.wordpress.com/2014/06/23/next-permutation/
 //http://blog.csdn.net/linhuanmars/article/details/20434115
 //https://leetcode.com/problems/next-permutation/solution/
+//https://blog.csdn.net/c18219227162/article/details/50301513  这个还有几个很难的拓展
 
 public class NextPermutation {
 	//知道思路之后一侧accept
@@ -28,7 +29,7 @@ public class NextPermutation {
 			}
 		}else{
 			for(int i=num.length-1;i>=0;i--){
-				if(num[i]>num[index1-1]){
+				if(num[i]>num[index1-1]){//找第一个大过num[index1-1]那个数就行了
 					int temp=num[index1-1];
 					num[index1-1]=num[i];
 					num[i]=temp;

@@ -35,12 +35,10 @@ public class IsGraphBipartite {
                     }else{
                         map.put(graph[node][j],map.get(node)==1?2:1);
                         q.offer(graph[node][j]);
-
                     }
                 }
             }
         }
-
         return true;
     }
 //dfs,写的也有点奇怪，每次dfs 新建一个memo，用于防止每次dfs走回头路，他们的dfs不用这样，他们的不怎么看得懂
@@ -53,7 +51,6 @@ public class IsGraphBipartite {
                 return false;
             }
         }
-
         return true;
     }
     boolean dfs(HashMap<Integer,Integer> map, int[][] graph,int node,boolean[] memo){

@@ -108,6 +108,89 @@ public class LRUCache {
         cur--;
         map.remove(last.key);
     }
+
+//8/15/2018,还算比较顺
+    public int get2(int key) {
+        if(!map.containsKey(key)){
+            return -1;
+        }
+        doublyLinkedList dl=map.get(key);
+        putFirst(dl);
+        return dl.val;
+    }
+
+    public void put2(int key, int value) {
+        if(map.containsKey(key)){
+            map.get(key).val=value;
+            putFirst(map.get(key));
+            return;
+        }else{
+            if(cur+1>cap){
+                removeLast();
+            }
+            doublyLinkedList node=new doublyLinkedList(key,value);
+            map.put(key,node);
+            if(head==null){
+                head=node;
+                last=node;
+                head.pre=last;
+                last.next=head;
+            }else{
+                putFirst(node);
+            }
+            cur++;
+        }
+
+    }
+    void putFirst(doublyLinkedList node){
+        if(node==head){
+            return;
+        }
+        if(node==last){
+            last=node.pre;
+            head=node;
+            return;
+        }
+        //这个putFirst方法在insert的时候也用到，所以也要考虑node前后都是null的情况
+        if(node.pre==null||node.next==null){
+            //就是把node放到head和last中间,画个图，就算head=last也是可以的
+            last.next=node;
+            node.pre=last;
+            head.pre=node;
+            node.next=head;
+            head=node;
+            return;
+        }
+        //先把node切出来
+        node.pre.next=node.next;
+        node.next.pre=node.pre;
+        //再放到last和head中间
+        last.next=node;
+        node.pre=last;
+        head.pre=node;
+        node.next=head;
+        //把head指向node
+        head=node;
+    }
+    void removeLast(){
+        if(last==null){
+            return;
+        }
+        if(head==last){
+            map.remove(last.key);
+            head=null;
+            last=null;
+            cur--;
+            return;
+        }
+        //先切出来最后一个，那么head。pre就是last了
+        map.remove(last.key);
+        last.pre.next=last.next;
+        last.next.pre=last.pre;
+        last=head.pre;
+
+        cur--;
+    }
 }
 
 class doublyLinkedList{

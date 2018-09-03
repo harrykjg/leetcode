@@ -51,4 +51,47 @@ public class search2dmatrix {
         return false;
 
     }
+    //8/15/2018基本一次过
+    public boolean searchMatrix22(int[][] matrix, int target) {
+        if(matrix.length==0||matrix[0].length==0){
+            return false;
+        }
+        int b=0;
+        int e=matrix.length-1;
+        int m=0;
+        while (b+1<e){
+            m=b+(e-b)/2;
+            if(matrix[m][0]==target){
+                return true;
+            }
+            if(matrix[m][0]>target){
+                e=m;
+            }else{
+                b=m;
+            }
+        }
+        int index=0;
+        if(matrix[e][0]>target){
+            index=b;
+        }else{
+            index=e;
+        }
+        b=0;
+        e=matrix[0].length-1;
+        while (b+1<e){
+            m=b+(e-b)/2;
+            if(matrix[index][m]==target){
+                return true;
+            }
+            if(matrix[index][m]>target){
+                e=m;
+            }else{
+                b=m;
+            }
+        }
+        if(matrix[index][b]==target||matrix[index][e]==target){
+            return true;
+        }
+        return false;
+    }
 }

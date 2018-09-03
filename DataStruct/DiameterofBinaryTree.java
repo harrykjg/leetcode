@@ -39,4 +39,18 @@ class TreeNode {
     TreeNode left;
     TreeNode right;
     TreeNode(int x) { val = x; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TreeNode treeNode = (TreeNode) o;
+
+        if (val != treeNode.val) return false;
+        if (!left.equals(treeNode.left)) return false;
+        return right.equals(treeNode.right);
+
+    }
+
 }

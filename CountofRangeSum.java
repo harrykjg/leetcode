@@ -62,8 +62,8 @@ public class CountofRangeSum {
             }
             m=0;
             n=0;
-            //m is the first index satisfy sums[m] - sums[i] > upper and
-            //n is the first index satisfy sums[n] - sums[i] >= lower.  然后m-n就得出这段区间符合条件的个数,
+            //m is the first map satisfy sums[m] - sums[i] > upper and
+            //n is the first map satisfy sums[n] - sums[i] >= lower.  然后m-n就得出这段区间符合条件的个数,
             // 自己举个例子,假如0,1,2,3四个数,r[3]-l[i]的时候就大于up了,说明3时零界点,如果r[1]-l[i]>=low说明到r数
             //组中index为1,2即2个数符合条件,即3-1=2个
             //开始想用用二分法找到m和n,m-n就是符合条件的个数,但是有一种情况不好处理就是比如r数组是{2,2},然后这两个数都符合r-l[i]符合low和up,那么二分法

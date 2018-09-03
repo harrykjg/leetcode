@@ -51,6 +51,12 @@ public class LongestCommonSubsequence {
             }
         }
         return dp[dp.length-1][dp[0].length-1];
+    }
 
+    //8／22／2018
+    public int longestCommonSubsequence4(String A, String B) {
+        int[][] dp=new int[A.length()+1][B.length()+1];
+        dp[i][j]=dp[i-1][j-1]+1
+                =dp[i-1][j]
     }
 }

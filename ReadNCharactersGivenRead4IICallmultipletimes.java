@@ -32,4 +32,30 @@ public class ReadNCharactersGivenRead4IICallmultipletimes {
         }
         return index;
     }
+
+    //8/16/2018还是不会
+    Queue<Character> queue=new LinkedList<>();
+    public int read(char[] buf, int n) {
+        if(n==0){
+            return 0;
+        }
+        int cur=0;
+        while (cur<n){
+            char[] ch=new char[4];
+            int index4=read4(ch);
+            if(index4==0){
+                break;
+            }
+            int i=0;
+            while (i<index4){//奇怪这里不能加cur<n这个条件，加了就错，没搞明白
+                queue.offer(ch[i++]);
+                cur++;
+            }
+        }
+        int i=0;
+        while (!queue.isEmpty()&&i<n){//并且这里一定要有i<n这个条件，没有就错，也没搞明白
+            buf[i++]=queue.poll();
+        }
+        return i;
+    }
 }

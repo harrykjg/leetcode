@@ -23,4 +23,26 @@ public class ReadNCharactersGivenRead4 {
         return b;
 
     }
+    //8/16/2018,题目还是很怪,read4要先读一段东西放在一个长度为4的临时buff里，再放进输入参数的buf里
+    public int read2(char[] buf, int n) {
+        if (n==0){
+            return n;
+        }
+        int cur=0;
+        while (cur<n){
+            char[] buf4=new char[4];
+            int index=read4(buf4);
+            if(index==0){
+                break;
+            }
+            int i=0;
+            while (i<index&&cur<n){
+                buf[cur++]=buf4[i++];
+            }
+
+        }
+        return cur;
+
+
+    }
 }

@@ -1,6 +1,7 @@
 package ArrayListAndNumbers;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
 /**
@@ -36,8 +37,29 @@ public class TwoSum {
 
     }
 
-    //九章第二轮，hashmap的方法还是不记得，看回以前的把，懒得写了
-//    public int[] twoSum2(int[] nums, int target) {
-//
-//    }
+//8/29/2018 原来是不能排序的
+    public int[] twoSum2(int[] nums, int target) {
+        if(nums.length<2){
+            return null;
+        }
+        int[] rs=new int[2];
+        HashMap<Integer,Integer> map=new HashMap<>();
+        for(int i=0;i<nums.length;i++){
+            int temp=target-nums[i];
+            if(map.containsKey(temp)){
+                if(map.get(temp)>i){
+                    rs[0]=i;
+                    rs[1]=map.get(temp);
+                }else{
+                    rs[1]=i;
+                    rs[0]=map.get(temp);
+                }
+                return rs;
+            }
+            map.put(nums[i],i);
+        }
+
+        return null;
+
+    }
 }
