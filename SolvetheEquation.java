@@ -1,10 +1,13 @@
+import java.util.Stack;
+
 /**
  * Created by yufengzhu on 8/30/18.
  */
 public class SolvetheEquation {
     public static void main(String[] a){
         SolvetheEquation se=new SolvetheEquation();
-        se.solveEquation("x+5-3+x=6+x-2");
+//        se.solveEquation("x+5-3+x=6+x-2");
+        System.out.print(se.solveEquation2("3-2-(2x-(3x+1)+2)+5+2y+x=3+1+x+y",2));
     }
     int x=0;
     int num=0;
@@ -65,5 +68,72 @@ public class SolvetheEquation {
         num-=sign*rs;
 
     }
+    //uber的变形题，解2x-(x-((3x+1)+2))+4=x+y,给你x值，求y，没有乘除
+    int numX=0;
+    int numY=0;//x放右边，y放左边
+    int num2=0;
+    public String solveEquation2(String equation,int x) {
+        String[] eq=equation.split("=");
+        helper2(eq[0],0);
+        helper2(eq[1],1);
 
+        if(numY==0){
+            return "";
+        }
+        return String.valueOf((numX*x+num2)/numY);
+
+    }
+    void helper2(String s,int left){
+        Stack<Integer> st=new Stack<>();
+        int sign=1;
+        int globle=left==0?-1:1;
+        char[] ch=s.toCharArray();
+        st.push(1);
+        int i=0;
+        while (i<ch.length){
+            if(ch[i]=='+'){
+                sign=1;
+                i++;
+                continue;
+            }
+            if(ch[i]=='-'){
+                sign=-1;
+                i++;
+                continue;
+            }
+            if(ch[i]=='('){
+                st.push(st.peek()*sign);
+                sign=1;
+                i++;
+                continue;
+            }
+            if(ch[i]==')'){
+                st.pop();
+                sign=1;
+                i++;
+                continue;
+            }
+            int temp=0;
+            while (i<ch.length&&Character.isDigit(ch[i])){
+                temp=temp*10+ch[i]-'0';
+                i++;
+            }
+            if(i<ch.length&&ch[i]=='x'){
+                if(temp==0){//这里容易漏，用来处理temp为0的x和y的情况
+                    temp=1;
+                }
+                numX+=temp*globle*st.peek()*sign;
+                i++;
+            }else if(i<ch.length&&ch[i]=='y'){
+                if(temp==0){
+                    temp=1;
+                }
+                numY-=temp*globle*st.peek()*sign;//这里x和y还要区别用+=还是-=
+                i++;
+            }else{
+                num2+=temp*globle*st.peek()*sign;//这里就不用i++了
+
+            }
+        }
+    }
 }

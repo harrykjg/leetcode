@@ -10,7 +10,7 @@ public class BasicCalculator {
     //容易和expandexpression搞混
     public static void main(String[] a){
         BasicCalculator bc=new BasicCalculator();
-        bc.calculate2("2-1+1");
+        bc.calculate3("2-1+2");
     }
 
     //2016年7月,两星期前才看了思路但是还是实现不出来,就是没弄清楚其实. stack里装的是1或-1,是按括号是"("还是")"来决定是push还是pop的,
@@ -106,5 +106,50 @@ public class BasicCalculator {
         }
         return rs;
 
+    }
+    //9/16/2018,还算记的，改了几个typo accept了
+    public int calculate3(String s) {
+        if(s.length()==0){
+            return 0;
+        }
+        int rs=0;
+        s=s.replace(" ","");
+        Stack<Integer> st=new Stack<>();
+        st.push(1);
+        int sign=1;
+        char[] ss=s.toCharArray();
+        int i=0;
+        while (i<ss.length){
+            if(ss[i]=='+'){
+                sign=1;
+                i++;
+                continue;
+            }
+            if(ss[i]=='-'){
+                sign=-1;
+                i++;
+                continue;
+            }
+            if(ss[i]=='('){
+                st.push(st.peek()*sign);
+                sign=1;
+                i++;
+                continue;
+            }
+            if(ss[i]==')'){
+                st.pop();
+                i++;
+                sign=1;
+                continue;
+            }
+            int a=0;
+            while (i<ss.length&&Character.isDigit(ss[i])){
+                a=a*10+ss[i]-'0';
+                i++;
+            }
+            rs+=st.peek()*sign*a;
+
+        }
+        return rs;
     }
 }

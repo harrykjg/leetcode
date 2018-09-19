@@ -10,7 +10,7 @@ public class PermutationsII {
     public static void main(String[] args){
         PermutationsII p=new PermutationsII();
         int[] a={1,1,2};
-        p.permuteUnique2(a);
+        p.permuteUnique3(a);
     }
 
     //居然写错了,就是略去重复那个条件,忘了原来还要memo[i-1]==false这个条件
@@ -74,6 +74,38 @@ public class PermutationsII {
                 a.remove(a.size()-1);
                 set.remove(i);
             }
+        }
+    }
+//9/13/2018,卧槽做不对了,还想复杂了，dfs以为要加begin，其实就是忘了检测set中有没有访问过这个node
+    public List<List<Integer>> permuteUnique3(int[] nums) {
+        List<List<Integer>> rs=new ArrayList<>();
+        List<Integer> al=new ArrayList<>();
+        if(nums.length==0){
+            return rs;
+        }
+        Arrays.sort(nums);
+        HashSet<Integer> set=new HashSet<>();
+        dfs3(nums,al,rs,set);
+
+        return rs;
+    }
+    void dfs3(int[] nums,List<Integer> al,List<List<Integer>> rs,HashSet<Integer> set){
+        if(al.size()==nums.length){
+            rs.add(new ArrayList<>(al));
+            return;
+        }
+        for(int i=0;i<nums.length;i++){
+            if(i>0&&nums[i]==nums[i-1]&&!set.contains(i-1)){
+                continue;
+            }
+            if(set.contains(i)){
+                continue;
+            }
+            set.add(i);
+            al.add(nums[i]);
+            dfs3(nums,al,rs,set);
+            set.remove(i);
+            al.remove(al.size()-1);
         }
     }
 

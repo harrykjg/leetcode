@@ -1,7 +1,6 @@
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Set;
+package old;
+import java.util.*;
+
 //http://blog.csdn.net/yutianzuijin/article/details/12887747 思路看他
 //http://blog.csdn.net/linhuanmars/article/details/23029973  代码看他
 //
@@ -17,7 +16,15 @@ public class WordLadder {
 		set.add("dog");
 		set.add("lot");
 		set.add("log");
-		System.out.println(wd.ladderLength3("hot", "cog", set));
+		List<String> ls=new ArrayList<>();
+		ls.add("hit");
+		ls.add("hik");
+		ls.add("hot");
+		ls.add("dot");
+		ls.add("dog");
+		ls.add("lot");
+		ls.add("log");
+		System.out.println(wd.ladderLength5("hit", "cog", ls));
 		
 	}
 	
@@ -228,6 +235,53 @@ public class WordLadder {
 		}
 		return 0;
 		
+	}
+
+	///9/10/2018,思路记得，细节没写对
+	public int ladderLength5(String start, String end, List<String> dict) {
+		if(start==null||end==null||dict==null||!dict.contains(end)){
+			return 0;
+		}
+		if(start.equals(end)){
+			return 1;
+		}
+		HashSet<String> set=new HashSet<>(dict);
+		set.add(start);
+		Queue<String> q=new LinkedList<>();
+		int rs=1;//这个开始rs就是1，因为start和end相等的时候也算1步
+		int count=1;
+		int count2=0;
+		q.offer(start);
+		while (!q.isEmpty()){
+			String cur=q.poll();
+			char[] ch=cur.toCharArray();
+			count--;
+			for(int i=0;i<ch.length;i++){
+				char c=ch[i];
+				for(int j=0;j<26;j++){
+					if(c==(char)j){
+						continue;
+					}
+					ch[i]=(char)(j+'a');
+					String temp=new String(ch);
+					if(temp.equals(end)){
+						return rs+1;//开始忘了+1
+					}
+					if(set.contains(temp)){
+						q.offer(temp);
+						count2++;
+						set.remove(temp);
+					}
+				}
+				ch[i]=c;
+			}
+			if(count==0){
+				rs++;
+				count=count2;
+				count2=0;
+			}
+		}
+		return 0;
 	}
 	
 }

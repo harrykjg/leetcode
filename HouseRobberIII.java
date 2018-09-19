@@ -7,6 +7,7 @@ import java.util.function.BooleanSupplier;
  * Created by 502575560 on 6/25/16.
  */
 public class HouseRobberIII {
+    //https://leetcode.com/problems/house-robber-iii/discuss/79330/Step-by-step-tackling-of-the-problem 大神解释
     //http://www.cnblogs.com/grandyang/p/5275096.html
     //http://bookshadow.com/weblog/2016/03/13/leetcode-house-robber-iii/?utm_source=tuicool&utm_medium=referral 这个dfs也accept,比较绕
     //自己不会,自己想的是层次遍历然后找规律啥的看这个节点的往下哪个节点不能取那样取做,没想出来
@@ -71,5 +72,32 @@ public class HouseRobberIII {
             }
             return temp;
         }
+    }
+    //9／9／2018，还是不会，见大神解释
+
+    public  int rob2(TreeNode root) {
+        if(root==null){
+            return 0;
+        }
+        HashMap<TreeNode,Integer> map=new HashMap<>();
+        return helper(root,map);
+    }
+    int helper(TreeNode root, HashMap<TreeNode, Integer> map){
+        if(root==null){
+            return 0;
+        }
+        if(map.containsKey(root)){
+            return map.get(root);
+        }
+        int val=0;
+        if(root.left!=null){
+            val+=helper(root.left.left,map)+helper(root.left.right,map);
+        }
+        if(root.right!=null){
+            val+=helper(root.right.left,map)+helper(root.right.right,map);
+        }
+        int rs= Math.max(root.val+val,helper(root.left,map)+helper(root.right,map));
+        map.put(root,rs);
+        return rs;
     }
 }

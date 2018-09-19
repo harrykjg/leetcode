@@ -5,7 +5,7 @@ package dp.string2D;
  */
 public class InterleavingString {
     public static void main(String[] args){
-        System.out.println(isInterleave3("db","b","cbb"));
+        System.out.println(isInterleave4("db","b","cbb"));
     }
     //http://blog.csdn.net/u011095253/article/details/9248073  还是靠画图再推公式
     public static boolean isInterleave(String s1, String s2, String s3) {
@@ -87,4 +87,10 @@ public class InterleavingString {
         }
         return dp[dp.length-1][dp[0].length-1];
     }
+
+    //9／15／2018,还是不会
+    public static boolean isInterleave4(String s1, String s2, String s3) {
+
+    }
+
 }

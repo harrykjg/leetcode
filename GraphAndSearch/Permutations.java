@@ -73,4 +73,35 @@ public class Permutations {
         }
     }
 
+    //9/13/2017,没有重复的,typo之后一次过
+    public List<List<Integer>> permute3(int[] nums) {
+        List<List<Integer>> rs=new ArrayList<>();
+        if(nums.length==0){
+            rs.add(new ArrayList<>());
+            return rs;
+        }
+
+        List<Integer> a=new ArrayList<>();
+        HashSet<Integer> set=new HashSet<>();
+        dfs2(0,nums,set,a,rs);
+        return rs;
+    }
+    void dfs2(int cur,int[] nums,HashSet<Integer> set,List<Integer> al,List<List<Integer>> rs){
+
+        if(cur==nums.length){
+            rs.add(new ArrayList<>(al));
+            return;
+        }
+        for(int i=0;i<nums.length;i++){
+            if(set.contains(nums[i])){
+                continue;
+            }
+            set.add(nums[i]);
+            al.add(nums[i]);
+            dfs2(cur+1,nums,set,al,rs);
+            al.remove(al.size()-1);
+            set.remove(nums[i]);
+        }
+    }
+
 }

@@ -51,6 +51,39 @@ public class ConvertSortedListtoBinarySearchTree {
     }
     //后来有个想法就是把wal设成null,想着可以把原list的那个节点设成null,其实是不行的,wal=null只是把wal这个pointer变成null了,list里的那个节点还是存在的
 
+    //9／16／2018,靠背的
+    ListNode cur2;
+    public TreeNode sortedListToBST2(ListNode head) {
+        if(head==null){
+            return null;
+        }
+        cur2=head;
+        int len=0;
+        ListNode temp=head;
+        while (temp!=null){
+            len++;
+            temp=temp.next;
+        }
+        return helper2(0,len-1);
+    }
+    TreeNode helper2(int b,int e){
+        if(b>e){
+            return null;
+        }
+        if(b==e){
+            TreeNode n=new TreeNode(cur2.val);
+            cur2=cur2.next;
+            return n;
+        }
+        int m=b+(e-b)/2;
+        TreeNode left=helper2(b,m-1);
+        TreeNode n=new TreeNode(cur2.val);
+        cur2=cur2.next;//这里容易忘
+        TreeNode right=helper2(m+1,e);
+        n.left=left;
+        n.right=right;
+        return n;
+    }
 }
 
 class TreeNode {

@@ -55,7 +55,7 @@ public class ValidateBinarySearchTree {
 		}
 		return true;
 	}
-	//第二次写,还比较顺
+	//第二次写,还比较顺，这代码不对的，Integer。max和min不行的
 	public boolean isValidBST3(TreeNode root) { 
 		if(root==null){
 			return true;

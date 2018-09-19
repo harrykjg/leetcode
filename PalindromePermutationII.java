@@ -51,4 +51,54 @@ public class PalindromePermutationII {
             }
         }
     }
+//9/9/2018,不到两个星期感觉就忘了
+    public List<String> generatePalindromes2(String s) {
+        List<String> rs=new ArrayList<>();
+        if(s.length()==0){
+            return rs;
+        }
+        char[] ch=s.toCharArray();
+        int[] count=new int[128];
+        for(int i=0;i<ch.length;i++){
+            count[ch[i]]++;
+        }
+        int single=0;
+        for(int i=0;i<count.length;i++){
+            if(count[i]%2!=0){
+                single++;
+                if (single>=2){
+                    return rs;
+                }
+            }
+        }
+        StringBuilder sb=new StringBuilder();
+        for(int i=0;i<s.length();i++){
+            sb.append(" ");
+        }
+        dfs2(0,s.length()-1,sb,count,rs);//开始还写错了，dfs要一个begin，其实不用
+        return rs;
+    }
+    void dfs2(int left,int right,StringBuilder cur,int[] count,List<String> rs){
+        if(left>right){
+            rs.add(cur.toString());
+            return;
+        }
+        if(left==right){
+            for(int i=0;i<count.length;i++){
+                if(count[i]%2!=0){
+                    cur.setCharAt(left,(char)i);
+                }
+            }
+            rs.add(cur.toString());
+        }
+        for(int i=0;i<count.length;i++){
+            if(count[i]>=2){
+                cur.setCharAt(left,(char)i);
+                cur.setCharAt(right,(char)i);
+                count[i]-=2;
+                dfs2(left+1,right-1,cur,count,rs);
+                count[i]+=2;
+            }
+        }
+    }
 }

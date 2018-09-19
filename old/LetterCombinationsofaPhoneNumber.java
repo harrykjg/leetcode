@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 //他们有他们的写法，思路都一样就是dfs每个候选字符串取一个字母，再去拼下一个候选字符串的一个字母
 
 
@@ -53,6 +55,42 @@ public class LetterCombinationsofaPhoneNumber {
 			find(p,begin+1,ss);//再取下一个待选字符串
 		}
 	}
-	
+
+	//9/13/2018,写的有点卡，基本还是一次过
+	public List<String> letterCombinations2(String digits) {
+		List<String> rs=new ArrayList<>();
+
+		String[] pool=new String[10];
+
+		pool[2]="abc";
+		pool[3]="def";
+		pool[4]="ghi";
+		pool[5]="jkl";
+		pool[6]="mno";
+		pool[7]="pqrs";
+		pool[8]="tuv";
+		pool[9]="wxyz";
+		if(digits.length()==0){
+			return rs;
+		}
+		char[] ch=digits.toCharArray();
+		dfs("",0,ch,pool,rs);
+		return rs;
+
+	}
+	void dfs(String cur,int b, char[] digits, String[] pool,List<String> rs){
+		if(cur.length()==digits.length){
+			rs.add(cur);
+			return;
+		}
+		if(b>=digits.length){
+			return;
+		}
+		int index=digits[b]-'0';
+		char[] ch=pool[index].toCharArray();
+		for(int i=0;i<ch.length;i++){
+			dfs(cur+ch[i],b+1,digits,pool,rs);
+		}
+	}
 }
 

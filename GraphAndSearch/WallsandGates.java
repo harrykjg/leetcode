@@ -67,4 +67,50 @@ public class WallsandGates {
 
         }
     }
+    //9／15／2018,居然一次过，关键是只要看旁边的点是不是max就行了，只要是max那么就肯定没更新过，或者是block，一旦更新过那么他的值就肯定好似最短的距离了，也没必要再更新，直接memo都不需要
+    public void wallsAndGates2(int[][] rooms) {
+        Queue<int[]> q=new LinkedList<>();
+        for(int i=0;i<rooms.length;i++){
+            for(int j=0;j<rooms[0].length;j++){
+                if(rooms[i][j]==0){
+                    q.offer(new int[]{i,j});
+                }
+            }
+        }
+        int max=Integer.MAX_VALUE;
+        int step=0;
+        int count1=q.size();
+        int count2=0;
+        while (!q.isEmpty()){
+            int[] cur=q.poll();
+            int x=cur[0];
+            int y=cur[1];
+            count1--;
+            if(x-1>=0&&rooms[x-1][y]==max){
+                rooms[x-1][y]=step+1;
+                q.offer(new int[]{x-1,y});
+                count2++;
+            }
+            if(y+1<rooms[0].length&&rooms[x][y+1]==max){
+                rooms[x][y+1]=step+1;
+                q.offer(new int[]{x,y+1});
+                count2++;
+            }
+            if(x+1<rooms.length&&rooms[x+1][y]==max){
+                rooms[x+1][y]=step+1;
+                q.offer(new int[]{x+1,y});
+                count2++;
+            }
+            if(y-1>=0&&rooms[x][y-1]==max){
+                rooms[x][y-1]=step+1;
+                q.offer(new int[]{x,y-1});
+                count2++;
+            }
+            if (count1==0){
+                count1=count2;
+                count2=0;
+                step++;
+            }
+        }
+    }
 }

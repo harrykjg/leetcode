@@ -1,5 +1,6 @@
 package DataStruct.Stack;
 
+import java.util.SplittableRandom;
 import java.util.Stack;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Stack;
 public class BasicCalculatorIII {
     public static void main(String[] args){
         BasicCalculatorIII bc=new BasicCalculatorIII();
-        System.out.print(bc.calculate("2*(5+5*2)/3+(6/2+8)"));
+        System.out.print(bc.calculate2("2*(5+5*2)/3+(6/2+8)"));
 
     }
 
@@ -103,6 +104,103 @@ public class BasicCalculatorIII {
                 }
                 i++;
                 continue;
+            }
+            i++;
+        }
+        return -1;
+    }
+//9／16／2018,背的,比较顺
+    public int calculate2(String s) {
+        if(s.length()==0){
+            return 0;
+        }
+        s=s.replace(" ","");
+        Stack<Integer> st=new Stack<>();
+        char sign='+';
+        int rs=0;
+        char[] ch=s.toCharArray();
+        int i=0;
+        int first=0;
+        boolean neg=false;
+        if(ch[0]=='-'){
+            neg=true;
+            i++;
+        }
+        if(ch[i]=='('){
+            int end=findPranthesis2(i+1,s);
+            first=calculate2(s.substring(i+1,end));
+            i=end+1;
+        }else{
+            while (i<ch.length&&Character.isDigit(ch[i])){
+                first=first*10+ch[i]-'0';
+                i++;
+            }
+        }
+
+        if(neg){
+            st.push(-1*first);
+        }else{
+            st.push(first);
+        }
+        while (i<ch.length){
+            sign=ch[i];
+            i++;
+            int a=0;
+//            if (i>=ch.length){//不写也对
+//                break;
+//            }
+            if(ch[i]=='('){
+                int end=findPranthesis2(i+1,s);
+                a=calculate2(s.substring(i+1,end));
+                i=end+1;
+            }else{
+                while (i<ch.length&&Character.isDigit(ch[i])){
+                    a=a*10+ch[i]-'0';
+                    i++;
+                }
+            }
+            if(sign=='*'){
+                st.push(st.pop()*a);
+                //这里容易多写i++；
+                continue;
+            }
+            if(sign=='/'){
+                st.push(st.pop()/a);
+                continue;
+            }
+            if(sign=='+'){
+                st.push(a);
+                continue;
+            }
+            if(sign=='-'){
+                st.push(-1*a);
+                continue;
+            }
+
+        }
+
+        while (!st.isEmpty()){
+            rs+=st.pop();
+        }
+
+        return rs;
+    }
+    //找括号这个方法开始想错了，要找到对应的，而不是第一个遇到的'）'
+    int findPranthesis2(int b,String s){
+        char[] ch=s.toCharArray();
+        int left=1;
+        int i=b;
+        while (i<ch.length){
+            if(ch[i]=='('){
+                left++;
+                i++;
+                continue;
+            }
+            if(ch[i]==')'){
+                left--;
+            }
+            if(left==0){
+                return i;
             }
             i++;
         }

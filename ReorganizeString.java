@@ -6,7 +6,7 @@ import java.util.*;
 public class ReorganizeString {
     public static void main(String[] args){
         ReorganizeString rs=new ReorganizeString();
-        rs.reorganizeString("lblflxl");
+        rs.reorganizeString2("lblflxl");
     }
     //看了提示要sort和hashmap还有greedy，统计每个字符出现的数字，按出现的多少排序，最多的排最前，开始想的是然后按这个顺序每次从一个字符那娶一个，其实娶一个是不行的，要取2个，看答案2
     //https://leetcode.com/problems/reorganize-string/solution/
@@ -65,5 +65,50 @@ public class ReorganizeString {
             c=a;
             count=b;
         }
+    }
+    //9/11/2018,改了一次过
+    public String reorganizeString2(String S) {
+        PriorityQueue<pair> pq=new PriorityQueue<>(new Comparator<pair>() {
+            @Override
+            public int compare(pair o1, pair o2) {
+                return o2.count-o1.count;
+            }
+        });
+        if(S.length()==0){
+            return "";
+        }
+        String rs="";
+        char[] ch=S.toCharArray();
+        int[] count=new int[128];
+        for(int i=0;i<ch.length;i++){
+            count[ch[i]]++;
+        }
+        for(int i=0;i<count.length;i++){
+            if(count[i]>0){
+                pq.offer(new pair((char)i,count[i]));
+            }
+        }
+        while (!pq.isEmpty()){
+            pair p1=pq.poll();
+            if(pq.isEmpty()&&p1.count>1){
+                return "";
+            }
+            if(pq.isEmpty()){
+                rs+=p1.c;
+                return rs;
+            }
+            rs+=p1.c;
+            pair p2=pq.poll();
+            rs+=p2.c;
+            p1.count--;
+            p2.count--;
+            if(p1.count>0){
+                pq.offer(p1);
+            }
+            if(p2.count>0){
+                pq.offer(p2);
+            }
+        }
+        return rs;
     }
 }

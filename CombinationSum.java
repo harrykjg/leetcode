@@ -9,7 +9,7 @@ import java.util.List;
 public class CombinationSum {
     public static void main(String[] args){
         int[] a={2,3,6,7};
-        System.out.print(combinationSum(a,7));
+        System.out.print(combinationSum2(a,7));
     }
 //july2017 改了一次过
     public static List<List<Integer>> combinationSum(int[] can, int tar) {
@@ -40,5 +40,6 @@ public class CombinationSum {
             al.remove(al.size()-1);
         }
     }
+
 
 }

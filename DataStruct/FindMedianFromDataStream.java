@@ -1,5 +1,7 @@
 package DataStruct;
 
+import java.lang.reflect.Constructor;
+import java.util.Collections;
 import java.util.PriorityQueue;
 
 /**
@@ -57,5 +59,43 @@ public class FindMedianFromDataStream {
             return (double)(pq1.peek()+pq2.peek())/2;//妈的没转类型就错了
         }
         return pq1.peek();
+    }
+
+    //9／8／2018, 不记得怎么做,直到2个pq之后还是写错了，不能简单的说心来的num就先去pq1再从pq1倒倒pq2，要判断
+    class FindMedianFromDataStream2 {
+        PriorityQueue<Integer> pq1;//最小堆，装大的
+        PriorityQueue<Integer> pq2;
+
+        public FindMedianFromDataStream2() {
+            pq1 = new PriorityQueue<>();
+            pq2 = new PriorityQueue<>(Collections.reverseOrder());
+        }
+
+        public void addNum(int num) {
+            if(pq1.isEmpty()){
+                pq1.offer(num);
+                return;
+            }
+            if(num>=pq1.peek()){//不写等号也accept了，没仔细想
+                pq1.offer(num);
+            }else{
+                pq2.offer(num);
+            }
+            while (pq1.size()>pq2.size()+1){
+                pq2.offer(pq1.poll());
+            }
+            while (pq2.size()>pq1.size()){
+                pq1.offer(pq2.poll());
+            }
+
+        }
+
+        public double findMedian() {
+            if(pq1.size()>pq2.size()){
+                return pq1.peek();
+            }else{
+                return (pq1.peek()+pq2.peek())/2.0;
+            }
+        }
     }
 }

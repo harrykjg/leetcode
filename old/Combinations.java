@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 //dfs的思想
 
 public class Combinations {
@@ -82,6 +83,50 @@ public class Combinations {
 				a.remove(a.size()-1);
 				
 			
+		}
+	}
+	//9/9/2018,妈的写的还不好
+	public List<List<Integer>> combine3(int n, int k){
+		List<List<Integer>> rs=new ArrayList<>();
+		if(k==0&&k>n){
+			return rs;
+		}
+		ArrayList<Integer> al=new ArrayList<>();
+
+		dfs3(1,rs,al,k,n);
+		return rs;
+	}
+	void dfs3(int b,List<List<Integer>> rs,ArrayList<Integer> al,int k,int n){
+		if(al.size()==k){
+			rs.add(new ArrayList<>(al));
+			return;
+		}
+		for(int i=b;i<=n;i++){
+			al.add(i);
+			dfs3(i+1,rs,al,k,n);
+			al.remove(al.size()-1);
+		}
+	}
+//9/13/2018,还好一次过
+	public List<List<Integer>> combine4(int n, int k){
+		List<List<Integer>> rs=new ArrayList<>();
+		if(k==0&&k>n){
+			return rs;
+		}
+		ArrayList<Integer> al=new ArrayList<>();
+		dfs4(1,0,n,k,al,rs);
+
+		return rs;
+	}
+	void dfs4(int b,int cur,int n,int k,List<Integer> al,List<List<Integer>> rs){
+		if(cur==k){
+			rs.add(new ArrayList<>(al));
+			return;
+		}
+		for(int i=b;i<=n;i++){
+			al.add(i);
+			dfs4(i+1,cur+1,n,k,al,rs);
+			al.remove(al.size()-1);
 		}
 	}
 

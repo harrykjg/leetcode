@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 //http://blog.csdn.net/linhuanmars/article/details/20828631
 public class CombinationSum {
 //思路就是每次试着在num数组里取一个数，用target减去这个数看是否为0，为0即符合条件，不为0则把这个
@@ -8,12 +10,12 @@ public class CombinationSum {
 	
 	public static void main(String[] args) {
 
-		int[] a = { 2,2,3,6,7 };
+		int[] a = { 2,3,6,7 };
 		CombinationSum c = new CombinationSum();
-		ArrayList<ArrayList<Integer>> all = new ArrayList<ArrayList<Integer>>();
+		List<List<Integer>> all = new ArrayList<>();
 
-		all = c.combinationSum2(a, 7);
-		for (ArrayList<Integer> k : all) {
+		all = c.combinationSum3(a, 7);
+		for (List<Integer> k : all) {
 			for (int i : k) {
 				System.out.print(i);
 			}
@@ -88,5 +90,60 @@ public class CombinationSum {
 	}
 	//30/9发现一个问题，这里不需要判断if(i>0 && candidates[i]==candidates[i-1])的原因是题目说了
 	//candidate是set所以不会有重复，否则的话就要这个if判断，否则会错
-    
+
+
+	//9/9/2018,居然还是没写对,忘了用begin做限制
+	public   List<List<Integer>> combinationSum3(int[] can, int tar) {
+		List<List<Integer>> rs=new ArrayList<>();
+		List<Integer> al=new ArrayList<>();
+		if(can.length==0){
+
+			rs.add(al);
+			return rs;
+		}
+		Arrays.sort(can);
+
+		helper2(0,0,tar,can,al,rs);
+		return rs;
+
+	}
+	 void  helper2(int cur,int b,int tar,int[] can,List<Integer> al,List<List<Integer>> rs){
+		if(cur==tar){
+			rs.add(new ArrayList<>(al));
+			return;
+		}
+		for(int i=b;i<can.length;i++){
+			if(cur+can[i]<=tar){
+				al.add(can[i]);
+				helper2(cur+can[i],i,tar,can,al,rs);
+				al.remove(al.size()-1);
+			}
+
+		}
+	}
+//9／13／2018
+	public  List<List<Integer>> combinationSum4(int[] can, int tar) {
+		List<List<Integer>> rs=new ArrayList<>();
+		List<Integer> al=new ArrayList<>();
+		if(can.length==0){
+			return rs;
+		}
+		Arrays.sort(can);
+		dfs4(0,0,can,tar,al,rs);
+		return rs;
+	}
+	void dfs4(int b,int cur,int[] can,int target,List<Integer> al,List<List<Integer>> rs){
+		if(cur==target){
+			rs.add(new ArrayList<>(al));
+			return;
+		}
+		for(int i=b;i<can.length;i++){
+			if(cur+can[i]>target){
+				return;
+			}
+			al.add(can[i]);
+			dfs4(i,cur+can[i],can,target,al,rs);
+			al.remove(al.size()-1);
+		}
+	}
 }

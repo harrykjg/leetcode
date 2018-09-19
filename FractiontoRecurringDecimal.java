@@ -1,10 +1,15 @@
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 /**
  * Created by yufengzhu on 7/8/18.
  */
 public class FractiontoRecurringDecimal {
+    public static void main(String[] args){
+        FractiontoRecurringDecimal fr=new FractiontoRecurringDecimal();
+        System.out.print(fr.fractionToDecimal4(1,6));
+    }
     //别人的代码,16年左右写的
     public static String fractionToDecimal(int numerator, int denominator) {
 
@@ -42,37 +47,105 @@ public class FractiontoRecurringDecimal {
         }
         return sb;
     }
-//7／8／2018还是写不出来，看别人的代码把
+//7／8／2018还是写不出来，看别人的代码把,这个代码不行的
     public String fractionToDecimal2(int numerator, int denominator) {
-        if(numerator%denominator==0){
-            return String.valueOf(numerator/denominator);
-        }
-        int integer=numerator/denominator;
-        int rem=numerator%denominator;
+        return "";
+    }
 
-        String deci=helper(rem,denominator);
-        return integer+"."+deci;
+    //9/6/2018,想着用recursive的写，还是不行,long越界问题很恶心
+    public String fractionToDecimal3(int numerator, int denominator) {
+        if(denominator==0){
+            return "";
+        }
+
+        boolean neg=(long)numerator*(long)denominator>=0?false:true;
+        long n1=numerator;
+        long n2=denominator;
+        long a=Math.abs(n1/n2);
+        long remainder=n1%n2;
+        if(remainder==0){
+            if(neg){
+                return "-"+a;
+            }
+            return a+"";
+        }
+        String rs=a+".";
+        String dec=helper2(Math.abs(remainder),Math.abs(n2));
+        if(neg){
+            return "-"+rs+dec;
+        }else{
+            return rs+dec;
+        }
 
     }
-    String helper(long rem,int den){
-        Map<Long, Integer> map=new HashMap<>();
+    String helper2(long remain,long de){
+        if(remain==0){
+            return "";
+        }
+        HashMap<Long,Integer> map=new HashMap<>();
         int index=0;
+        long cur=remain;
         StringBuilder sb=new StringBuilder();
-        long copyRem=rem;
-
-        while (copyRem!=0){
-            long integer=rem*10/den;//rem肯定不会大于den，如果不乘以10的话integer肯定是0了
-             copyRem=rem*10%den;//注意这里容易漏了rem*10，否则非循环小数也变成循环了，比如1／2
-            if(!map.containsKey(copyRem)){
-                sb.append(integer);
-                map.put(copyRem,index);
+        while (cur>0){
+            if(!map.containsKey(cur)){
+                map.put(cur,index);
             }else{
-                sb.insert(map.get(copyRem),"(");
+                sb.insert(map.get(cur),"(");
                 sb.append(")");
                 return sb.toString();
             }
-            index++;
 
+            cur=cur*10;//这里比如4／333的例子，开始以为4要一直乘10直到大于333才行，其实不是，直接乘一次10，得出来的a是0或者不是0都一样append上去就行了
+
+            long a=cur/de;
+            cur=cur%de;
+            sb.append(a);
+            index++;
+        }
+        return sb.toString();
+    }
+
+    //9/16/2018,记得，写的居然还比较顺，但是helper那里顺序好想不太好，看回上一个的比较好
+    public String fractionToDecimal4(int numerator, int denominator) {
+        if(denominator==0){
+            return "";
+        }
+        String rs="";
+        boolean neg=(long)numerator*(long)denominator>=0?false:true;
+        rs+=Math.abs((long)numerator/(long)denominator);
+        if(numerator%denominator==0){
+            if(neg){
+                return "-"+rs;
+            }
+            return rs;
+        }
+
+        String deci=helper3(Math.abs((long)(numerator%denominator)),Math.abs((long)denominator));
+        if(neg){
+            return "-"+rs+"."+deci;
+        }
+        return rs+"."+deci;
+    }
+    String helper3(long num,long den){
+        HashMap<Long,Integer> map=new HashMap<>();
+        int index=0;
+        map.put(num,0);
+        long cur=num*10;
+        StringBuilder sb=new StringBuilder();
+        while (cur!=0){
+            long a=cur/den;
+            long remain=cur%den;
+            sb.append(a);
+            index++;
+            if(!map.containsKey(remain)){
+                map.put(remain,index);
+            }else{
+                int pos=map.get(remain);
+                sb.insert(pos,"(");
+                sb.append(")");
+                return sb.toString();
+            }
+            cur=remain*10;
         }
         return sb.toString();
     }

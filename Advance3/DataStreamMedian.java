@@ -32,9 +32,7 @@ public class DataStreamMedian {
             while (q2.size()<q1.size()-1){
                 q2.offer(q1.poll());
             }
-
             rs[i]=q1.peek();
-
         }
         return rs;
     }
@@ -73,4 +71,5 @@ public class DataStreamMedian {
         }
         return rs;
     }
+
 }

@@ -150,25 +150,78 @@ public class SurroundedRegions {
         }
         return ids[x]=find(ids,ids[x]);
     }
+    class UnionFind{
+        int[] parents;
+        public UnionFind(int n) {
+            parents = new int[n];
+            for (int i = 0; i < n; i++) parents[i] = i;
+        }
+        public void union(int n1, int n2) {
+            int r1 = find(n1);
+            int r2 = find(n2);
+            if (r1 != r2) parents[r1] = r2;
+        }
+        public int find(int node) {
+            if (parents[node] == node) return node;
+            parents[node] = find(parents[node]);
+            return parents[node];
+        }
+        public boolean isConnected(int n1, int n2) {
+            return find(n1) == find(n2);
+        }
+    }
 
-}
-class UnionFind{
-    int[] parents;
-    public UnionFind(int n) {
-        parents = new int[n];
-        for (int i = 0; i < n; i++) parents[i] = i;
+//9/9/2018，先全部O变成'-'，再找边界点dfs把'-'变回O,再把剩下的O再变成X,貌似可以少一个for循环
+    //https://leetcode.com/problems/surrounded-regions/discuss/41633/Java-DFS-+-boundary-cell-turning-solution-simple-and-clean-code-commented. 他就是少了第一个O变'-'
+    public void surroundedRegions3(char[][] board) {
+        if(board.length==0){
+            return;
+        }
+        for(int i=0;i<board.length;i++){
+            for(int j=0;j<board[0].length;j++){
+                if(board[i][j]=='O'){
+                    board[i][j]='-';
+                }
+            }
+        }
+        for(int i=0;i<board.length;i++){
+            if(board[i][0]=='-'){
+                dfs(i,0,board);
+            }
+            if(board[i][board[0].length-1]=='-'){
+                dfs(i,board[0].length-1,board);
+            }
+        }
+        for(int i=1;i<board[0].length-1;i++){
+            if(board[0][i]=='-'){
+                dfs(0,i,board);
+            }
+            if(board[board.length-1][i]=='-'){
+                dfs(board.length-1,i,board);
+            }
+        }
+        for(int i=0;i<board.length;i++){
+            for(int j=0;j<board[0].length;j++){
+                if(board[i][j]=='-'){
+                    board[i][j]='X';
+                }
+            }
+        }
+
     }
-    public void union(int n1, int n2) {
-        int r1 = find(n1);
-        int r2 = find(n2);
-        if (r1 != r2) parents[r1] = r2;
-    }
-    public int find(int node) {
-        if (parents[node] == node) return node;
-        parents[node] = find(parents[node]);
-        return parents[node];
-    }
-    public boolean isConnected(int n1, int n2) {
-        return find(n1) == find(n2);
+    void dfs(int row,int col,char[][] board){
+        board[row][col]='O';
+        if(row-1>=0&&board[row-1][col]=='-'){
+            dfs(row-1,col,board);
+        }
+        if(col+1<board[0].length&&board[row][col+1]=='-'){
+            dfs(row,col+1,board);
+        }
+        if(row+1<board.length&&board[row+1][col]=='-'){
+            dfs(row+1,col,board);
+        }
+        if(col-1>=0&&board[row][col-1]=='-'){
+            dfs(row,col-1,board);
+        }
     }
 }

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 //http://blog.csdn.net/linhuanmars/article/details/19873463
 //http://jixiangsanbao.wordpress.com/2014/03/27/generate-parentheses/
 
@@ -68,5 +69,29 @@ public class GenerateParentheses {
 			s=s.substring(0,s.length()-1);
 		}
 	}
+//9£¯5£¯2018,Ò»´Î¹ý
+	public List<String> generateParenthesis3(int n) {
+		List<String> rs=new ArrayList<>();
+		if(n==0){
+			return rs;
+		}
+
+		helper(rs,"",n,n);
+		return rs;
+	}
+	void helper(List<String> rs,String cur,int left,int right){
+		if(right==0){
+			rs.add(cur);
+			return;
+		}
+		int i=0;
+		if(left>0){
+			helper(rs,cur+"(",left-1,right);
+		}
+		if(left<right){
+			helper(rs,cur+")",left,right-1);
+		}
+	}
+
 
 }

@@ -53,4 +53,21 @@ public class WordBreak {
         }
         return dp[dp.length-1];
     }
+//
+    public boolean wordBreak4(String s, List<String> dict) {
+
+        HashSet<String> set=new HashSet<>(dict);
+        boolean[] dp=new boolean[s.length()+1];
+        dp[0]=true;
+        for(int i=1;i<=s.length();i++){
+            for(int j=0;j<i;j++){
+                String temp=s.substring(j,i);
+                dp[i]=s.contains(temp)&&dp[j]?true:false;
+                if(dp[i]){
+                    break;
+                }
+            }
+        }
+        return dp[dp.length-1];
+    }
 }

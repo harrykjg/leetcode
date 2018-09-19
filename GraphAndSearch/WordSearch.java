@@ -59,4 +59,52 @@ public class WordSearch {
 
         return false;
     }
+
+    //9／10／2018,不用memo，就去到某点之后把它改成特殊字符再改回来
+    public boolean exist2(char[][] board, String word) {
+        if(word.length()==0){
+            return true;
+        }
+        for(int i=0;i<board.length;i++){
+            for(int j=0;j<board[0].length;j++){
+
+                if(dfs(i,j,0,word,board)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    boolean dfs(int r,int c,int cur,String word,char[][] board){
+        if(board[r][c]!=word.charAt(cur)){
+            return false;
+        }
+        if(cur==word.length()-1){
+            return true;
+        }
+        board[r][c]='-';;
+        if(r-1>=0&&board[r-1][c]==word.charAt(cur+1)){
+
+            if(dfs(r-1,c,cur+1,word,board)){
+                return true;
+            }
+        }
+        if(c+1<board[0].length&&board[r][c+1]==word.charAt(cur+1)){
+            if(dfs(r,c+1,cur+1,word,board)){
+                return true;
+            }
+        }
+        if(r+1<board.length&&board[r+1][c]==word.charAt(cur+1)){
+            if(dfs(r+1,c,cur+1,word,board)){
+                return true;
+            }
+        }
+        if(c-1>=0&&board[r][c-1]==word.charAt(cur+1)){
+            if(dfs(r,c-1,cur+1,word,board)){
+                return true;
+            }
+        }
+        board[r][c]=word.charAt(cur);
+        return false;
+    }
 }

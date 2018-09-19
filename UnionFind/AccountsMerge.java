@@ -65,4 +65,109 @@ public class AccountsMerge {
         map.put(map.get(s),rs);
         return rs;
     }
+    //9／8／2018，不到2个月就忘了，不会
+    public List<List<String>> accountsMerge2(List<List<String>> accounts) {
+        HashMap<String,String> ids=new HashMap<>();
+        HashMap<String,String> owners=new HashMap<>();
+        HashMap<String,Set<String>> map=new HashMap<>();
+        List<List<String>> rs=new ArrayList<>();
+        for(List<String> ls:accounts){
+            String ow=ls.get(0);
+            for(int i=1;i<ls.size();i++){
+                ids.put(ls.get(i),ls.get(i));
+                owners.put(ls.get(i),ow);
+            }
+        }
+        for(List<String> ls:accounts){
+            String first=ls.get(1);
+            String firstRoot=find2(ids,first);
+            for(int i=2;i<ls.size();i++){
+                String curRoof=find2(ids,ls.get(i));
+                ids.put(curRoof,firstRoot);
+            }
+        }
+        for(List<String> ls:accounts){//注意不是把owner作为map的key，而是把根结点作为key，value是所有指向这个根结点的email
+            for(int i=1;i<ls.size();i++){
+                String cur=ls.get(i);
+                String curRoot=find2(ids,cur);
+                if(!map.containsKey(curRoot)){
+                    TreeSet<String> set=new TreeSet<>();
+                    map.put(curRoot,set);
+                }
+                map.get(curRoot).add(cur);
+            }
+        }
+        for(String s:map.keySet()){
+            ArrayList<String> al=new ArrayList<>(map.get(s));
+            al.add(0,owners.get(al.get(0)));
+            rs.add(al);
+        }
+        return rs;
+    }
+    String find2(HashMap<String,String> ids,String s){
+        if(ids.get(s).equals(s)){
+            return s;
+        }
+        String root=find2(ids,ids.get(s));
+        ids.put(ids.get(s),root);
+        return root;
+    }
+
+    //9/16/2018,靠记的，记错了一个地方,对于HashMap<String,Set<String>> ac的理解错了，key不是owner而是email的root
+    public List<List<String>> accountsMerge3(List<List<String>> accounts) {
+        HashMap<String,String> owners=new HashMap<>();
+        HashMap<String,String> ids=new HashMap<>();
+        HashMap<String,Set<String>> ac=new HashMap<>();
+        List<List<String>> rs=new ArrayList<>();
+        for(int i=0;i<accounts.size();i++){
+            String owner=accounts.get(i).get(0);
+            for(int j=1;j<accounts.get(i).size();j++){
+                String email=accounts.get(i).get(j);
+                owners.put(email,owner);
+                ids.put(email,email);
+            }
+        }
+        for(List<String> a:accounts){
+            if(a.size()<2){
+                continue;
+            }
+            String rootemail=find3(ids,a.get(1));
+            for(int j=2;j<a.size();j++){
+                String rootemail2=find3(ids,a.get(j));
+                if(!rootemail.equals(rootemail2)){
+                    ids.put(rootemail2,rootemail);
+                }
+            }
+        }
+        for(List<String> a:accounts){//这一步记错了，应该是在遍历account，而不是遍历ids
+            if(a.size()<2){
+                continue;
+            }
+            String emailroot=find3(ids,a.get(1));
+
+            if(!ac.containsKey(emailroot)){
+                TreeSet<String> set=new TreeSet<>();
+                ac.put(emailroot,set);
+            }
+            for(int i=1;i<a.size();i++){
+                ac.get(emailroot).add(a.get(i));
+            }
+
+        }
+        for(String s:ac.keySet()){
+            ArrayList<String> al=new ArrayList<>(ac.get(s));
+            al.add(0,owners.get(s));
+            rs.add(al);
+
+        }
+        return rs;
+    }
+    String find3(HashMap<String,String> ids,String email){
+        if(ids.get(email).equals(email)){
+            return email;
+        }
+        String emailroot=find3(ids,ids.get(email));
+        ids.put(ids.get(email),emailroot);//这里路径压缩之前写了ids.put(email,emailroot)就错了
+        return emailroot;
+    }
 }

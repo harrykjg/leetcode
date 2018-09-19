@@ -16,9 +16,9 @@ public class WordSearchII {
     //http://bookshadow.com/weblog/2015/05/19/leetcode-word-search-ii/ 这个trie还有删除方法
     public static void main(String[] args){
         WordSearchII ws=new WordSearchII();
-        char[][] b=new char[][]{{'a','b'},{'c','d'}};
+        char[][] b=new char[][]{{'o','a','a','n'},{'e','t','a','e'},{'i','h','k','r'},{'i','f','l','v'}};
 //        char[][] b=new char[][]{{'a'}};
-        ws.findWords2(b,new String []{"abcd"});
+        ws.findWords3(b,new String []{"oath","pea","eat","rain"});
     }
     HashSet<String> rs = new HashSet<>();//结果集要用set的原因是，因为是用的是target建的树（为啥不用board建树？因为board建树的话就等于要dfs所有可能的字串了，那不如直接dfs了）
                                                 // ，而我们从board里dfs出各种可能性去match字典树，因此board的有可能有重复的字串，所以要用set
@@ -114,6 +114,50 @@ public class WordSearchII {
 
         memo[row][col]=false;
     }
+    //只记得暴力dfs，想不到用trie枝剪,而且写的dfs也没写对！
+    public List<String> findWords3(char[][] board, String[] words) {
 
+        ImplementTrie trie = new ImplementTrie();
+        for(String s:words){
+            trie.insert(s);
+        }
+        boolean[][] memo=new boolean[board.length][board[0].length];
+
+        for(int i=0;i<board.length;i++){
+            for(int j=0;j<board[0].length;j++){
+                dfs3(i,j,board,"",trie,memo);
+            }
+        }
+        return new ArrayList<>(rs);//还必须要用set去重
+    }
+    void dfs3(int row,int col,char[][] board,String cur,ImplementTrie trie,boolean[][] memo){
+        if(memo[row][col]){
+            return;
+        }
+        memo[row][col]=true;
+        cur+=board[row][col];
+        if(!trie.startsWith(cur)){
+            memo[row][col]=false;
+            return;
+        }
+        if(trie.search(cur)){
+            rs.add(cur);//不要返回，继续搜
+        }
+
+        if(row-1>=0){
+            dfs3(row-1,col,board,cur,trie,memo);
+        }
+        if(col+1<board[0].length){
+            dfs3(row,col+1,board,cur,trie,memo);
+        }
+        if(row+1<board.length){
+            dfs3(row+1,col,board,cur,trie,memo);
+        }
+        if(col-1>=0){
+            dfs3(row,col-1,board,cur,trie,memo);
+        }
+        memo[row][col]=false;
+
+    }
 
 }

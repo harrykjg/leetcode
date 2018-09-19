@@ -7,6 +7,7 @@ import java.util.List;
 /**
  * Created by 502575560 on 7/16/17.
  */
+//union find
 public class NumberofIslandsII {
     public static void main(String[] a){
         NumberofIslandsII ni=new NumberofIslandsII();
@@ -15,7 +16,8 @@ public class NumberofIslandsII {
         Point p3=new Point(2,2);
         Point p4=new Point(2,2);
         Point[] p=new Point[]{p1,p2,p3,p4};
-        ni.numIslands22(3,3,p);
+        int[][] oper={{0,0},{0,1},{1,2},{2,1}};
+        ni.numIslands23(3,3,oper);
 
     }
     //http://blog.csdn.net/dm_vincent/article/details/7655764 讲union find原理
@@ -136,6 +138,62 @@ public class NumberofIslandsII {
         int root1=find2(a);
         int root2=find2(b);
         ids[root1]=ids[root2];
+    }
+
+    //9／5／2018,如何记录联通的岛的数目记不清楚了，卡了比较久,还有union的方向，应该是四周的union到这一个点，而不是这个点union到四周的饿,最后还有typo不知道哪里错了就不继续debug了
+    //9／15／2018,改了一两次，还比较顺
+    public List<Integer> numIslands23(int row, int col, int[][] operators) {
+        int[] ids=new int[row*col];
+        Arrays.fill(ids,-1);
+        List<Integer> rs=new ArrayList<>();
+        int count=0;
+        for(int i=0;i<operators.length;i++){
+            int x=operators[i][0];
+            int y=operators[i][1];
+            ids[x*col+y]=x*col+y;
+            count++;
+            if(x-1>=0&&ids[(x-1)*col+y]!=-1){
+                int roota=find2(ids,x*col+y);
+                int rootb=find2(ids,(x-1)*col+y);
+                if(roota!=rootb){
+                    ids[rootb]=roota;
+                    count--;
+                }
+            }
+            if(y+1<col&&ids[(x)*col+y+1]!=-1){
+                int roota=find2(x*col+y);
+                int rootb=find2((x)*col+y+1);
+                if(roota!=rootb){
+                    ids[rootb]=roota;
+                    count--;
+                }
+            }
+            if(x+1<row&&ids[(x+1)*col+y]!=-1){
+                int roota=find2(x*col+y);
+                int rootb=find2((x+1)*col+y);
+                if(roota!=rootb){
+                    ids[rootb]=roota;
+                    count--;
+                }
+            }
+            if(y-1>=0&&ids[(x)*col+y-1]!=-1){
+                int roota=find2(x*col+y);
+                int rootb=find2((x)*col+y-1);
+                if(roota!=rootb){
+                    ids[rootb]=roota;
+                    count--;
+                }
+            }
+            rs.add(count);
+        }
+        return rs;
+    }
+    int find2(int[] ids,int x){
+        if(ids[x]==x){
+            return x;
+        }
+        ids[x]=find2(ids[x]);
+        return ids[x];
     }
 
 }

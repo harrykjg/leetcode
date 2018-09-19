@@ -8,8 +8,8 @@ public class EvaluateDivision {
         EvaluateDivision ed=new EvaluateDivision();
         String[][] e={{"a","b"},{"b","c"}};
         double[] v={2d,3d};
-        String[][] q={ {"a","c"},{"b","d"}};//{"a","c"},{"b","c"},{"a","e"},
-        ed.calcEquation2(e,v,q);
+        String[][] q={ {"a","c"},{"b","c"}};//{"a","c"},{"b","c"},{"a","e"},
+        ed.calcEquation3(e,v,q);
     }
     //没什么好的想法,看了别人说可以变成图算法,有向图,有权重(距离),然后dfs,bfs,floyd算法算距离都行貌似
     //用map存邻接表,dfs自己写的改了好几次
@@ -139,6 +139,134 @@ public class EvaluateDivision {
                 dfs2(ori, s, target, graph.get(cur).get(s) * carry, graph, map, rs, index, memo);
             }
             if(graph.get(ori).containsKey(target)){
+                break;
+            }
+        }
+        memo.remove(cur);
+    }
+//9/12/2018,写的还不如上一次，写的比较慢还不好，还有concurrent modification exception,还有好几个小问题，还不如看回第一次的
+    public double[] calcEquation3(String[][] equations, double[] values, String[][] queries) {
+        HashMap<String,HashMap<String,Double>> map=new HashMap<>();
+        for(int i=0;i<equations.length;i++){
+            String s1=equations[i][0];
+            String s2=equations[i][1];
+            if(!map.containsKey(s1)){
+                HashMap<String,Double> m=new HashMap<>();
+                m.put(s2,values[i]);
+                map.put(s1,m);
+            }else{
+                map.get(s1).put(s2,values[i]);
+            }
+            if(!map.containsKey(s2)){
+                HashMap<String,Double> m=new HashMap<>();
+                m.put(s1,1/values[i]);
+                map.put(s2,m);
+            }else{
+                map.get(s2).put(s1,1/values[i]);
+            }
+        }
+        double[] rs=new double[queries.length];
+        HashSet<String> memo=new HashSet<>();
+        for(int i=0;i<queries.length;i++){
+            String s1=queries[i][0];
+            String s2=queries[i][1];
+
+            if(!map.containsKey(s1)||!map.containsKey(s2)){
+                rs[i]=-1.0;
+                continue;
+            }
+            if(s1.equals(s2)){
+                rs[i]=1.0;
+                continue;
+            }
+            if(map.get(s1).containsKey(s2)){
+                rs[i]=map.get(s1).get(s2);
+                continue;
+            }
+            dfs3(s1,s2,s1,1.0,map,memo,rs,i);
+            if(!map.get(s1).containsKey(s2)){
+                rs[i]=-1.0;
+                continue;
+            }
+        }
+        return rs;
+    }
+    void dfs3(String s1,String s2,String cur,double carry,HashMap<String,HashMap<String,Double>> map,HashSet<String> memo,double[] rs,int index){
+
+        if(cur.equals(s2)){
+            map.get(s1).put(s2,carry);
+            rs[index]=carry;
+            return;
+        }
+        memo.add(cur);
+        for(String nei:map.get(cur).keySet()){
+            double carry2=map.get(cur).get(nei);
+            if(!memo.contains(nei)){
+                dfs3(s1,s2,nei,carry*carry2,map,memo,rs,index);
+            }
+            if(map.get(s1).containsKey(s2)){//不加这个就会concurrentmodificationexception，因为这个for循环是看cur的的邻居，而如果dfs下去成功找到s2之后，会改变map，所以不行，具体到底是因为是改变了map的key还是因为改了key所对应的value，没仔细看
+                break;
+            }
+        }
+        memo.remove(cur);
+    }
+
+    //9/16/2018,写的还算顺，改了2次accept，主要是漏了concurrent exception那里，还有dfs没找到的情况漏了
+    public double[] calcEquation4(String[][] equations, double[] values, String[][] queries) {
+        double[] rs=new double[queries.length];
+        HashMap<String,HashMap<String,Double>> map=new HashMap<>();
+        for(int i=0;i<equations.length;i++){
+            String a=equations[i][0];
+            String b=equations[i][1];
+            if(!map.containsKey(a)){
+                HashMap<String,Double> m=new HashMap<>();
+                map.put(a,m);
+            }
+            map.get(a).put(b,values[i]);
+
+            if(!map.containsKey(b)){
+                HashMap<String,Double> m=new HashMap<>();
+                map.put(b,m);
+            }
+            map.get(b).put(a,1/values[i]);
+        }
+        HashSet<String> memo=new HashSet<>();
+        for(int i=0;i<queries.length;i++){
+            if(!map.containsKey(queries[i][0])||!map.containsKey(queries[i][1])){
+                rs[i]=-1.0;
+                continue;
+            }
+            if(queries[i][0].equals(queries[i][1])){
+                rs[i]=1.0;
+                continue;
+            }
+            if(map.get(queries[i][0]).containsKey(queries[i][1])){
+                rs[i]=map.get(queries[i][0]).get(queries[i][1]);
+                continue;
+            }
+            dfs4(queries[i][0],queries[i][0],1.0,queries[i][1],map,rs,i,memo);
+            if(!map.get(queries[i][0]).containsKey(queries[i][1])){
+                rs[i]=-1.0;
+                continue;
+            }
+        }
+        return rs;
+    }
+    void dfs4(String ori,String cur,Double carry,String target,HashMap<String,HashMap<String,Double>> map,double[] rs,int index,HashSet<String> memo){
+        if(cur.equals(target)){
+            map.get(ori).put(target,carry);
+            rs[index]=carry;
+            return;
+        }
+        memo.add(cur);
+        for(String nei:map.get(cur).keySet()){
+            if(memo.contains(nei)){
+                continue;
+            }
+            double newcarry=map.get(cur).get(nei)*carry;
+            dfs4(ori,nei,newcarry,target,map,rs,index,memo);
+            memo.remove(nei);
+            if(map.get(ori).containsKey(target)){
                 break;
             }
         }

@@ -65,6 +65,47 @@ public class MaxPointsonaLine {
 	        }
 	        return max;
 	    }
+	//以前的代码
+	public int maxPoints2(Point[] points) {
+		if(points.length==0){
+			return 0;
+		}
+		int rs=1;
+		for(int i=0;i<points.length;i++){//就是穷举每个点和别的点之间构成的某个斜率上有几个点
+
+			HashMap<Double,Integer> map=new HashMap<Double,Integer>();//需要每个for循环里新建一个map的原因是，有可能有两条直线互为平行，那么k的值就是一样的，这两条线可能有不同个点，所以要分开记录
+			int same=0;
+			for(int j=0;j<points.length;j++){
+				if(i==j){
+					continue;
+				}
+				double a=points[i].x-points[j].x;
+				double b=points[i].y-points[j].y;
+				double k=0;
+				if(points[i].x-points[j].x==0&&points[i].y-points[j].y==0){
+					same++;
+					rs=Math.max(rs, 1+same);
+					continue;
+				}
+				if(b==0){
+					k=Integer.MAX_VALUE;
+				}else{
+					k=a/b;
+				}
+				if(!map.containsKey(k)){
+					map.put(k, 2);
+				}else{
+					map.put(k,map.get(k)+1);
+				}
+
+				rs=Math.max(rs, map.get(k)+same);
+
+
+			}
+		}
+		return rs;
+
+	}
 	    
 	}
 

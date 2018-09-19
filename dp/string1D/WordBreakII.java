@@ -78,4 +78,39 @@ public class WordBreakII {
             }
         }
     }
+
+    //9/9/2018,dfs那里写的有点痛苦
+    public List<String> wordBreak3(String s, List<String> wordDict) {
+        HashSet<String> set=new HashSet<>(wordDict);
+        boolean[] dp=new boolean[s.length()+1];
+        dp[0]=true;
+        for(int i=1;i<=s.length();i++){
+            for(int j=0;j<i;j++){
+                String temp=s.substring(j,i);
+                if(dp[j]&&set.contains(temp)){
+                    dp[i]=true;
+                    break;
+                }
+            }
+        }
+
+        List<String> rs=new ArrayList<>();
+        if(dp[dp.length-1]==false){
+            return rs;
+        }
+        dfs3("",0,s,dp,rs,set);
+        return rs;
+    }
+    void dfs3(String cur,int b,String s,boolean[] dp,List<String> rs,HashSet<String > set){
+        if(b==s.length()){
+            cur=cur.substring(0,cur.length()-1);
+            rs.add(cur);
+        }
+        for(int i=b;i<=s.length();i++){
+            String temp=s.substring(b,i);//下标和之前写的不一样了
+            if(dp[i]&&set.contains(temp)){
+                dfs3(cur+temp+" ",i,s,dp,rs,set);
+            }
+        }
+    }
 }

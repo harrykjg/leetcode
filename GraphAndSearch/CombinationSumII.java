@@ -1,8 +1,6 @@
 package GraphAndSearch;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by 502575560 on 7/14/17.
@@ -76,6 +74,36 @@ public class CombinationSumII {
             memo[i]=false;
 
         }
-
+    }
+    //9/13/2018,妈的忘了去重复
+    public List<List<Integer>> combinationSum23(int[] can, int tar) {
+        List<List<Integer>> rs=new ArrayList<>();
+        List<Integer> al=new ArrayList<>();
+        if(can.length==0){
+            return rs;
+        }
+        HashSet<Integer> set=new HashSet<>();
+        Arrays.sort(can);
+        dfs(0,0,can,tar,al,rs,set);
+        return rs;
+    }
+    void dfs(int b,int cur,int[] nums,int tar,List<Integer> al,List<List<Integer>> rs,HashSet<Integer> set){
+        if(cur==tar){
+            rs.add(new ArrayList<>(al));
+            return;
+        }
+        for(int i=b;i<nums.length;i++){
+            if(i>0&&nums[i-1]==nums[i]&&!set.contains(i-1)){
+                continue;
+            }
+            if(cur+nums[i]>tar){
+                return;
+            }
+            al.add(nums[i]);
+            set.add(i);
+            dfs(i+1,cur+nums[i],nums,tar,al,rs,set);
+            al.remove(al.size()-1);
+            set.remove(i);
+        }
     }
 }

@@ -133,4 +133,54 @@ public class SerializeandDeserializeBinaryTree {
 
     }
 
+    //9/16/2018,半背
+    public String serialize3(TreeNode root) {
+        String rs="";
+        if(root==null){
+            return rs;
+        }
+        Queue<TreeNode> q=new LinkedList<>();
+        q.offer(root);
+        while (!q.isEmpty()){
+            TreeNode cur=q.poll();
+            if(cur==null){
+                rs+="#"+",";
+                continue;
+            }
+            rs+=cur.val+",";
+            q.offer(cur.left);
+            q.offer(cur.right);
+        }
+        return rs.substring(0,rs.length()-1);
+    }
+    //没记清楚，是要用queue
+    public TreeNode deserialize3(String data) {
+        if(data.length()==0){
+            return null;
+        }
+
+        String[] s=data.split(",");
+        if(s[0].equals("#")){
+            return null;
+        }
+        TreeNode root=new TreeNode(Integer.parseInt(s[0]));
+
+        int index=1;
+        Queue<TreeNode> q=new LinkedList<>();
+        q.offer(root);
+        while (!q.isEmpty()){
+            TreeNode cur=q.poll();
+            if(index<s.length&&!s[index].equals("#")){
+                cur.left=new TreeNode(Integer.parseInt(s[index]));
+                q.offer(cur.left);
+            }
+            index++;
+            if(index<s.length&&!s[index].equals("#")){
+                cur.right=new TreeNode(Integer.parseInt(s[index]));
+                q.offer(cur.right);
+            }
+            index++;
+        }
+        return root;
+    }
 }

@@ -1,9 +1,7 @@
 package Advance7;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by 502575560 on 8/16/17.
@@ -61,7 +59,7 @@ public class FlattenNestedListIterator {
 
         // @return {boolean} true if the iteration has more element or false
 
-        public boolean hasNext() {
+        public boolean hasNext() {//还一定要在hasnext里面处理，在next那里搞的话处理不了[[]]这样的
             // Write your code here
 
             while (!st.isEmpty()){
@@ -77,6 +75,40 @@ public class FlattenNestedListIterator {
                 }
             }
             return false;
+        }
+    }
+    //9/6/2018,还是不会，也可以用queue啊,一直搞不好的是[[]]这个case，貌似别的都可以过，应该是[]这个在hasnext时候应该要检测到他是空然后返回false
+    // 他们用queue的是在constructor的时候就把整个list里的不是integer的全都转乘integer了
+    //https://leetcode.com/problems/flatten-nested-list-iterator/discuss/165032/My-Simple-Java-Solution-with-Queue-or-Beats-98  用q的
+    class FlattenNestedListIterator3{
+        Stack<NestedInteger> st=new Stack<>();
+        Deque<NestedInteger> q=new ArrayDeque<>();
+        public FlattenNestedListIterator3(List<NestedInteger> nestedList) {
+            for (NestedInteger i:nestedList){
+                q.offer(i);
+            }
+        }
+
+        public Integer next() {
+            return q.poll().getInteger();
+        }
+
+        public boolean hasNext() {
+            if(q.size()==0){
+                return false;
+            }
+            NestedInteger cur=q.peek();
+            if(cur.isInteger()){
+                return true;
+            }
+            List<NestedInteger> ls=cur.getList();
+            q.poll();
+
+            for(int i=ls.size()-1;i>=0;i--){
+                q.addFirst(ls.get(i));
+            }
+            return true;
+
         }
     }
 }

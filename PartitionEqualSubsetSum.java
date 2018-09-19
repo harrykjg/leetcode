@@ -5,7 +5,7 @@ import java.util.Arrays;
  */
 public class PartitionEqualSubsetSum {
     public static void main(String[] args){
-        System.out.print(canPartition(new int[]{1,2,3,4,5,6,7}));
+        System.out.print(canPartition3(new int[]{1,5,5,11}));
     }
     //砍了别人的思路,是np问题,就是找能不能放元素进背包里,能刚好使背包里sum/2重量,列个矩阵表试试就懂了
     //np问题好像大都是画个矩阵,横坐标是0,1,2,3,4,5...直到所要的重量,中坐标是nums数组,然后一行一行从右到左填,true代表当前值能被表示
@@ -71,5 +71,79 @@ public class PartitionEqualSubsetSum {
         }
         return false;
 
+    }
+
+    //9/14/2018,还是不会，看回之前的解释
+    public static boolean canPartition3(int[] nums) {
+        if(nums.length==0){
+            return false;
+        }
+        int sum=0;
+        for(int i=0;i<nums.length;i++){
+            sum+=nums[i];
+        }
+        if(sum%2!=0){
+            return false;
+        }
+        Arrays.sort(nums);
+        int target=sum/2;
+        boolean[][] dp=new boolean[nums.length+1][target+1];//还是画图，先是2维dp,dp的意义还不太好理解，要求的是能否用nums这个数组里的元素组成target，
+                                    // 但是不一定要用完所有nums里的元素，并且可能不会用完所有nums里的元素，因为如果用完的话那么j肯定超过sum/2了。不好想
+                                        // 貌似不能优化到一维，因为每个nums元素只能用一次,写的很烂，他们用一维的肯定是不同思路的
+        dp[0][0]=true;
+        for(int i=1;i<=nums.length;i++){
+            for(int j=1;j<target+1;j++){
+                if(nums[i-1]==j){//这个nums[i-1】直接就可以表示j
+                    dp[i][j]=true;
+                    continue;
+                }
+                if(dp[i-1][j]){//如果上一行可以表示那么这一行也就可以
+                    dp[i][j]=true;
+                    continue;
+                }
+                if(j-nums[i-1]>=0){//j减当前j大于等于0的话，如果上一行可以表示j-nums[i-1]那么这一行就能表示j
+                    dp[i][j]=dp[i-1][j-nums[i-1]];
+                }
+            }
+        }
+        return dp[dp.length-1][target];
+    }
+    //9/16/2018,这次写的dfs，一次超时，后来加上去重就accept了
+    public static boolean canPartition4(int[] nums) {
+        if(nums.length==0){
+            return false;
+        }
+        int sum=0;
+        for(int n:nums){
+            sum+=n;
+        }
+        if(sum%2!=0){
+            return false;
+        }
+        Arrays.sort(nums);
+        boolean[] memo=new boolean[nums.length];
+        return dfs(0,0,sum/2,nums,memo);
+    }
+    static  boolean dfs(int cur,int b,int target,int[] nums,boolean[] memo){//就dfs看能不能找到某几个数字等于sum／2的就完了，可能还要判断不能用光所有的元素
+        if(cur==target){
+            return true;
+        }
+        if(cur>target){
+            return false;
+        }
+        for(int i=b;i<nums.length;i++){
+            if(i>0&&nums[i-1]==nums[i]&&memo[i-1]==false){//后来加上这个去重就accept了
+                continue;
+            }
+            if(memo[i]){
+                continue;
+            }
+            memo[i]=true;
+            if(dfs(cur+nums[i],i+1,target,nums,memo)){
+                return true;
+            }
+            memo[i]=false;
+        }
+        return false;
     }
 }

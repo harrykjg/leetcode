@@ -1,5 +1,7 @@
 package DataStruct;
 
+import apple.laf.JRSUIUtils;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,5 +35,31 @@ public class FindDuplicateSubtrees {
             ls.add(root);
         }
         return s;
+    }
+
+    //9/15/2018,记得，一次过
+    public List<TreeNode> findDuplicateSubtrees2(TreeNode root) {
+        List<TreeNode> rs=new ArrayList<>();
+        if(root==null){
+            return rs;
+        }
+        HashMap<String,Integer> map=new HashMap<>();
+        helper(root,rs,map);
+        return rs;
+    }
+    String helper(TreeNode root,List<TreeNode> rs,HashMap<String,Integer> map){
+        if(root==null){
+            return "#";
+        }
+        String seri=root.val+","+helper(root.left,rs,map)+","+helper(root.right,rs,map);
+        if(!map.containsKey(seri)){
+            map.put(seri,1);
+        }else{
+            map.put(seri,map.get(seri)+1);
+        }
+        if(map.get(seri)==2){
+            rs.add(root);
+        }
+        return seri;
     }
 }

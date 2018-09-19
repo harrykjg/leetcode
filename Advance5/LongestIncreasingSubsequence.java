@@ -24,4 +24,24 @@ public class LongestIncreasingSubsequence {
         }
         return rs;
     }
+    //9/16/2018,dp的意义还是记错,不是返回dp[dp.length-1]就是答案，是dp里面最大的那个
+    public int lengthOfLIS2(int[] nums) {
+        if(nums.length==0){
+            return 0;
+        }
+        int[] dp=new int[nums.length];
+        dp[0]=1;
+        int rs=1;
+        for(int i=1;i<nums.length;i++){
+            for(int j=0;j<i;j++){
+                if(nums[i]>nums[j]){
+                    dp[i]=Math.max(dp[i],dp[j]+1);
+                }else{
+                    dp[i]=Math.max(1,dp[i]);
+                }
+                rs=Math.max(rs,dp[i]);
+            }
+        }
+        return rs;
+    }
 }

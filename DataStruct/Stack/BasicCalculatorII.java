@@ -11,7 +11,7 @@ import java.util.Stack;
 public class BasicCalculatorII {
     public static void main(String[] args){
         BasicCalculatorII bc=new BasicCalculatorII();
-        System.out.print(bc.calculate3("3+2*2"));
+        System.out.print(bc.calculate4("3+2*2"));
     }
     //https://segmentfault.com/a/1190000003796804  这个解法貌似比较好
     //https://leetcode.com/problems/basic-calculator-ii/discuss/63003/Share-my-java-solution  这个也不错
@@ -225,5 +225,83 @@ public class BasicCalculatorII {
             return rs;
 
         }
+//9/16/2018 记不清了,要记清楚别人用1个stack的,并且sign是char，然后写的不那么好看居然一次过了
+    public int calculate4(String s) {
+        int rs=0;
+        if(s.length()==0){
+            return 0;
+        }
+        s=s.replace(" ","");
+        char[] ch=s.toCharArray();
+        char sign='+';
+        int i=0;
+        Stack<Integer> st=new Stack<>();
+        boolean neg=false;
+        if(ch[0]=='-'){
+            neg=true;
+            i++;
+        }
+        int first=0;
+
+        while (i<ch.length&&Character.isDigit(ch[i])){
+            first=first*10+ch[i]-'0';
+            i++;
+        }
+        if(neg){
+            st.push(-1*first);
+        }else{
+            st.push(first);
+        }
+
+        while (i<ch.length){
+            if(ch[i]=='+'){
+                sign='+';
+                i++;
+                continue;
+            }
+            if(ch[i]=='-'){
+                sign='-';
+                i++;
+                continue;
+            }
+            if(ch[i]=='*'){
+                i++;
+                int a=0;
+                while (i<ch.length&&Character.isDigit(ch[i])){
+                    a=a*10+ch[i]-'0';
+                    i++;
+                }
+                st.push(st.pop()*a);
+                continue;
+            }
+            if(ch[i]=='/'){
+                i++;
+                int a=0;
+                while (i<ch.length&&Character.isDigit(ch[i])){
+                    a=a*10+ch[i]-'0';
+                    i++;
+                }
+                st.push(st.pop()/a);
+                continue;
+            }
+            int a=0;
+            while (i<ch.length&&Character.isDigit(ch[i])){
+                a=a*10+ch[i]-'0';
+                i++;
+            }
+            if(sign=='+'){
+                st.push(a);
+//                sign='+';//不需要reset
+            }else if(sign=='-'){
+                st.push(-1*a);
+//                sign='+';
+            }
+        }
+        while (!st.isEmpty()){
+            rs+=st.pop();
+        }
+
+        return rs;
+    }
 
 }

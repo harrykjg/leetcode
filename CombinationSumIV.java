@@ -56,4 +56,21 @@ public class CombinationSumIV {
         }
         return dp[dp.length-1];
     }
+//9/9/2018看着像背包问题，但是画图也找不到规律，写不出来
+    public  int combinationSum43(int[] nums, int target) {
+        if(nums.length==0){
+            return 0;
+        }
+        Arrays.sort(nums);
+        int[] dp=new int[target+1];
+        dp[0]=1;
+        for(int i=1;i<dp.length;i++){
+            for(int j=0;j<nums.length;j++){
+                if(i-nums[j]>=0){
+                    dp[i]+=dp[i-nums[j]];
+                }
+            }
+        }
+        return dp[dp.length-1];
+    }
 }
