@@ -51,4 +51,5 @@ public class BinaryTreeVerticalOrderTraversal {
         }
         return rs;
     }
+    //9/26/2018，还是不会，自己想了个先找左右最远的节点的index，然后就可以确定结果集的长度，然后就可以从root开始dfs遇到节点就放到结果集的对应index的那，但是貌似不能保证每个结果集的顺序是从上倒下，从左到右的
 }

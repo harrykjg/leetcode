@@ -122,7 +122,34 @@ public class MeetingRoomsII {
         }
         return rs;
 
+    }
+    //9/25/2018
+    public int minMeetingRooms4(Interval[] intervals) {
+        int rs=0;
+        Arrays.sort(intervals, new Comparator<Interval>() {
+            @Override
+            public int compare(Interval o1, Interval o2) {
+                if(o1.start==o2.start){
+                    return o1.end-o2.end;
+                }
+                return o1.start-o2.start;
+            }
+        });
+        PriorityQueue<Interval> pq=new PriorityQueue<>(new Comparator<Interval>() {
+            @Override
+            public int compare(Interval o1, Interval o2) {
+                return o1.end-o2.end;
+            }
+        });
 
+        for(int i=0;i<intervals.length;i++){
+            while (!pq.isEmpty()&&pq.peek().end<=intervals[i].start){
+                pq.poll();
+            }
+            pq.offer(intervals[i]);
+            rs=Math.max(rs,pq.size());
+        }
+        return rs;
     }
 
 }

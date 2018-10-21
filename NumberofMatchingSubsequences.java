@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by yufengzhu on 7/2/18.
@@ -12,7 +10,7 @@ public class NumberofMatchingSubsequences {
 //        String[] w={"btovxbku","to","zueoxxxjme","yjkclbkbtl"};
         String s="abcde";
         String[] w={"a","bb","acd","ace"};
-        nm.numMatchingSubseq(s,w);
+        System.out.println(nm.numMatchingSubseq2(s,w));
     }
     //不会，https://leetcode.com/problems/number-of-matching-subsequences/discuss/117634/Efficient-and-simple-go-through-words-in-parallel-with-explanation/ 真是吊
     //自己写debug了很久才高对，是关于concurrentModification的东西，
@@ -54,7 +52,41 @@ public class NumberofMatchingSubsequences {
                 }
             }
         }
-        wrap()
         return rs;
+    }
+
+    //10/17/2018,还是不知道好的方法
+    public int numMatchingSubseq2(String S, String[] words) {
+        HashMap<Character,List<String>> map=new HashMap<>();
+        char[] ch=S.toCharArray();
+        int rs=0;
+        for(String s:words){
+            if(!map.containsKey(s.charAt(0))){
+                map.put(s.charAt(0),new ArrayList<>());
+            }
+            map.get(s.charAt(0)).add(s.substring(1));
+        }
+        for(int i=0;i<ch.length;i++){
+            if(map.containsKey(ch[i])){
+                ArrayList<String> al=(ArrayList<String>) map.get(ch[i]);
+                map.remove(ch[i]);//这里我直接把al删掉了，代码就比之前简洁了，反正里面的字符串再加的话就加到别的key下的，避免了对al的concurrent modification
+                for(String s:al){
+                    if(s.length()==0){
+                        rs++;
+                    }else{
+                        Character first=s.charAt(0);
+                        String s2=s.substring(1);
+                        if(map.containsKey(first)){
+                            map.get(first).add(s2);
+                        }else{
+                            map.put(first,new ArrayList<>());
+                            map.get(first).add(s2);
+                        }
+                    }
+                }
+            }
+        }
+        return rs;
+
     }
 }

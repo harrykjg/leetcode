@@ -11,9 +11,10 @@ public class EncodeandDecodeStrings {
     public static void main(String[]a){
         EncodeandDecodeStrings ed=new EncodeandDecodeStrings();
         List<String> ls=new ArrayList<>();
-        ls.add("");
-        System.out.println(ed.encode(ls));
-        System.out.println(ed.decode("#%?%#"));
+        ls.add("nsm");
+        ls.add("dsy");
+        System.out.println(ed.encode2(ls));
+        System.out.println(ed.decode2("3/nsm3/dsy"));
     }
 
     public String encode(List<String> strs) {
@@ -35,7 +36,7 @@ public class EncodeandDecodeStrings {
         List<String> rs=new ArrayList<>();
         int index=0;
         while (index<s.length()){
-            int n=s.indexOf("#",index);
+            int n=s.indexOf("#",index);//注意有这个方法找index之后第一个出现的"#"
             int num=Integer.parseInt(s.substring(index,n));
             String ss=s.substring(n+1,n+1+num);//这里坐标要举例子看清楚
             index=n+1+num;
@@ -44,4 +45,32 @@ public class EncodeandDecodeStrings {
 
         return rs;
     }
+//9/23/2018大概记得，细节记不清，只用一个分隔符就行了，记成是要"／"再加"#"去分割
+    public String encode2(List<String> strs) {
+        String rs="";
+        for(String s:strs){
+            int len=s.length();
+            rs+=len+"/"+s;
+        }
+        return rs;
+    }
+
+    // Decodes a single string to a list of strings.//这个写法substring太多还不如以前的写法
+    public List<String> decode2(String s) {
+        List<String> rs=new ArrayList<>();
+        int index=0;
+        while (true){
+            index=s.indexOf("/");
+            if(index==-1){
+                break;
+            }
+            int len=Integer.parseInt(s.substring(0,index));
+            s=s.substring(index+1);
+            String temp=s.substring(0,len);
+            rs.add(temp);
+            s=s.substring(temp.length());
+        }
+        return rs;
+    }
+
 }

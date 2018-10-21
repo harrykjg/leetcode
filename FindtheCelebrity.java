@@ -64,4 +64,22 @@ public class FindtheCelebrity {
         }
         return true;
     }
+//9/22/2018,大概记得，举个例子试试,就是写起来不太好写，而且验证容易漏一个条件
+    public int findCelebrity3(int n) {
+        int candidate=0;
+        for(int i=1;i<n;i++){
+            if(knows(candidate,i)){
+                candidate=i;
+            }
+        }
+        for(int i=0;i<n;i++){
+            if(i==candidate){
+                continue;
+            }
+            if(!knows(i,candidate)||knows(candidate,i)){//容易漏knows(candidate,i)这个条件
+                return -1;
+            }
+        }
+        return candidate;
+    }
 }

@@ -206,24 +206,3 @@ class doublyLinkedList{
         val=a;
     }
 }
-class MethodPath{
-    String method;
-    String path;
-    public MethodPath(String method,String path){
-        this.method=method;
-        this.path=path;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = method.hashCode();
-        result = 31 * result + path.hashCode();
-        return result;
-    }
-}

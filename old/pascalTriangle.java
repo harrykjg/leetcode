@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class pascalTriangle {
 
@@ -96,6 +97,28 @@ public class pascalTriangle {
 		}else{
 			gen2(al,cur+1,n);
 		}
+	}
+
+	//10/3/2018,基本一次过
+	public List<List<Integer>> generate3(int numRows){
+		List<List<Integer>> rs=new ArrayList<>();
+		ArrayList<Integer> first=new ArrayList<>();
+		if(numRows==0){
+			return rs;
+		}
+		first.add(1);
+		rs.add(first);
+		for(int i=1;i<numRows;i++){
+			ArrayList<Integer> al=new ArrayList<>();
+			List<Integer> pre=rs.get(i-1);
+			for(int j=0;j<pre.size()-1;j++){
+				al.add(pre.get(j)+pre.get(j+1));
+			}
+			al.add(0,1);
+			al.add(1);
+			rs.add(al);
+		}
+		return rs;
 	}
 
 }

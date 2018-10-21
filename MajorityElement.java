@@ -8,7 +8,7 @@ public class MajorityElement {
 //http://blog.csdn.net/booirror/article/details/42738563
 //http://www.tuicool.com/articles/EFbAnqa  https://www.cs.utexas.edu/~moore/best-ideas/mjrty/index.html
 //http://www.cnblogs.com/ganganloveu/p/4177690.html
-//这个应该不是他们想要的方法吧
+//这个应该不是他们想要的方法吧,这个要o（n）的空间，时间复杂度倒是一样
     public int majorityElement(int[] nums) {
 
         int rs=0;

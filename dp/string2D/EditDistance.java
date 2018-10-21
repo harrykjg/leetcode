@@ -103,4 +103,27 @@ public class EditDistance {
         }
         return dp[dp.length-1][dp[0].length-1];
     }
+
+    //9/15/2018。一次过
+    public int minDistance5(String word1, String word2) {
+        int[][] dp=new int[word1.length()+1][word2.length()+1];
+        for(int i=0;i<dp.length;i++){
+            for(int j=0;j<dp[0].length;j++){
+                if(i==0){
+                    dp[i][j]=j;
+                    continue;
+                }
+                if(j==0){
+                    dp[i][j]=i;
+                    continue;
+                }
+                if(word1.charAt(i-1)==word2.charAt(j-1)){
+                    dp[i][j]=dp[i-1][j-1];//不用再比较[i-1][j]和[i][j-1]的值了
+                }else{
+                    dp[i][j]=Math.min(dp[i-1][j],Math.min(dp[i][j-1],dp[i-1][j-1]))+1;
+                }
+            }
+        }
+        return dp[dp.length-1][dp[0].length-1];
+    }
 }

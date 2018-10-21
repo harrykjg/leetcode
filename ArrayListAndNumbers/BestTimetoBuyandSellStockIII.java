@@ -6,8 +6,8 @@ package ArrayListAndNumbers;
 public class BestTimetoBuyandSellStockIII {
     public static void main(String[] a){
         BestTimetoBuyandSellStockIII bt=new BestTimetoBuyandSellStockIII();
-        int[] n={2,1,2,0,1};
-        bt.maxProfit(n);
+        int[] n={3,3,5,0,0,3,1,4};
+       System.out.print( bt.maxProfit3(n));
 
     }
 
@@ -61,6 +61,31 @@ public class BestTimetoBuyandSellStockIII {
         for(int i=0;i<prices.length;i++){//其实dp1[i]和dp2[i]再i这一点上是可以重叠的,就是dp1时在i点卖了,dp2在i点买,没问题
             rs=Math.max(rs,dp1[i]+dp2[i]);
         }
+        return rs;
+    }
+
+    //10/20/2018,自己想的双序列dp结果是行不通的。还是写不出正确的写法
+    public int maxProfit3(int[] prices) {
+        if(prices.length<=1){
+            return 0;
+        }
+        int rs=0;
+        int[] dp1=new int[prices.length];
+        int[] dp2=new int[prices.length];
+        int buy=prices[0];
+        int sell=prices[prices.length-1];
+        for(int i=1;i<prices.length;i++){
+            buy=Math.min(prices[i],buy);
+            dp1[i]=Math.max(dp1[i-1],prices[i]-buy);
+        }
+        for(int i=prices.length-2;i>=0;i--){
+            sell=Math.max(prices[i],sell);
+            dp2[i]=Math.max(dp2[i+1],sell-prices[i]);
+        }
+        for(int i=0;i<prices.length;i++){
+            rs=Math.max(dp1[i]+dp2[i],rs);
+        }
+
         return rs;
     }
 

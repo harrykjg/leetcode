@@ -160,6 +160,13 @@ public class AlienDictionary {
             return "";
         }
         return sb.toString();
+    }
+//10/1/2018,写的不好，每个单词的字符的先后顺序貌似是不考虑的，考虑的是不同的单词之间的字母的顺序，还是从谁往谁走没想清楚，
+    //要这样想，比较"wrt","wrf",发现t是排f前面的，那么就是t的入度为0，f入度为1，即t往f走，当把t踢掉之后f入度要减1，那么怎么存呢？想想，要么是map的key是t
+      //，value是包含f的一个set，要么是反过来，再想把t踢掉之后，t走向的所有节点的入度都要减1，这样map的key存的是t这样是对的，否则好想搞不了
+
+    //不知道哪里错了删了下次再写
+    public static String alienOrder3(String[] words) {
 
 
     }

@@ -51,4 +51,8 @@ public class ValidSudoku {
         }
         return true;
     }
+    //9/29/2019,写错了，还写的有点慢,不知道哪里错了懒得debug
+    public boolean isValidSudoku2(char[][] board) {
+
+    }
 }

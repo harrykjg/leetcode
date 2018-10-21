@@ -21,4 +21,21 @@ public class BestTimetoBuyandSellStockII {
         }
         return rs;
     }
+    //10/20/2018
+    public int maxProfit2(int[] prices) {
+        int rs=0;
+        if(prices.length==0){
+            return 0;
+        }
+        int buy=prices[0];
+        for(int i=1;i<prices.length;i++){
+            if(prices[i]<buy){
+                buy=prices[i];
+            }else{
+                rs+=prices[i]-buy;
+                buy=prices[i];
+            }
+        }
+        return rs;
+    }
 }

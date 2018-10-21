@@ -58,4 +58,33 @@ public class NumberofAirplanesintheSky {
             this.flag=flag;
         }
     }
+    //9/25/2018还是不熟，注意区分用priorityqueue和不用的写法
+    public int countOfAirplanes2(List<Interval> airplanes) {
+        ArrayList<point> al=new ArrayList<>();
+        for(Interval it:airplanes){
+            al.add(new point(it.start,1));
+            al.add(new point(it.end,0));
+        }
+        al.sort(new Comparator<point>() {
+            @Override
+            public int compare(point o1, point o2) {
+                if(o1.time==o2.time){
+                    return o1.flag-o2.flag;
+                }
+                return o1.time-o2.time;
+            }
+        });
+        int count=0;
+        int rs=Integer.MIN_VALUE;
+        for(int i=0;i<al.size();i++){
+            if(al.get(i).flag==0&&count>0){
+                count--;
+            }else{
+                count++;
+            }
+            rs=Math.max(rs,count);
+        }
+
+        return rs;
+    }
 }

@@ -1,3 +1,5 @@
+import java.util.List;
+
 /**
  * Created by 502575560 on 3/1/17.
  */
@@ -10,9 +12,9 @@ public class OddEvenLinkedList {
         n1.next.next=new ListNode(3);
         n1.next.next.next=new ListNode(4);
         n1.next.next.next.next=new ListNode(5);
-        n1.next.next.next.next.next=new ListNode(6);
+//        n1.next.next.next.next.next=new ListNode(6);
         OddEvenLinkedList oe=new OddEvenLinkedList();
-        oe.oddEvenList(n1);
+        oe.oddEvenList2(n1);
     }
 
     public ListNode oddEvenList(ListNode head) {
@@ -41,5 +43,28 @@ public class OddEvenLinkedList {
         n2.next=n2.next.next;
         temp.next=n1.next;
         n1.next=temp;
+    }
+
+    //10／17／2018，想了很久，写得不好，但是下面的代码要比以前的好，要再练,要画图照着例子看
+    public ListNode oddEvenList2(ListNode head) {
+        if(head==null){
+            return null;
+        }
+        if(head.next==null||head.next.next==null){
+            return head;
+        }
+        ListNode odd=head;
+        ListNode even=head.next;
+
+        while (even!=null&&even.next!=null){
+            ListNode temp=even.next;//就是把even切出来，放到odd后面，然后odd后移一位，关键是要找到下一个even前面的那个节点，画图发现其实就是even后移一位就行了
+            even.next=even.next.next;
+            temp.next=odd.next;
+            odd.next=temp;
+            odd=odd.next;
+
+            even=even.next;
+        }
+        return head;
     }
 }

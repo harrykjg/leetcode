@@ -1,4 +1,4 @@
-package dp;
+package GameTheory;
 
 /**
  * Created by 502575560 on 7/31/17.

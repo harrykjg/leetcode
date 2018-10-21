@@ -84,6 +84,36 @@ public class ConvertSortedListtoBinarySearchTree {
         n.right=right;
         return n;
     }
+    //9/28/2018,不到2个星期又写不出了
+    ListNode node3;
+    public TreeNode sortedListToBST3(ListNode head) {
+        int i=0;
+        node3=head;
+        ListNode cur=head;
+        while (cur!=null){
+            cur=cur.next;
+            i++;
+        }
+        return helper3(0,i-1);
+    }
+    TreeNode helper3(int b,int e){
+        if(b>e){
+            return null;
+        }
+        if(b==e){
+            TreeNode n= new TreeNode(node3.val);
+            node3=node3.next;
+            return n;
+        }
+        int m=b+(e-b)/2;
+        TreeNode left=helper3(b,m-1);
+        TreeNode root=new TreeNode(node3.val);
+        node3=node3.next;
+        TreeNode right=helper3(m+1,e);
+        root.left=left;
+        root.right=right;
+        return root;
+    }
 }
 
 class TreeNode {

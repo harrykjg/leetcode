@@ -152,4 +152,49 @@ public class BasicCalculator {
         }
         return rs;
     }
+
+    //9/29/2018,一次过，要记清楚，basiccalculator1不用先搞个first进入stack，并且stack是存符号的
+    public int calculate4(String s) {
+        if(s.length()==0){
+            return 0;
+        }
+        Stack<Integer> st=new Stack<>();
+        int sign=1;
+        st.push(1);
+        int i=0;
+        s=s.replace(" ","");
+        char[] ch=s.toCharArray();
+        int rs=0;
+        while (i<s.length()){
+            if(ch[i]=='-'){
+                sign=-1;
+                i++;
+                continue;
+            }
+            if(ch[i]=='+'){
+                sign=1;
+                i++;
+                continue;
+            }
+            if(ch[i]=='('){
+                st.push(st.peek()*sign);
+                sign=1;
+                i++;
+                continue;
+            }
+            if(ch[i]==')'){
+                st.pop();
+                sign=1;
+                i++;
+                continue;
+            }
+            int temp=0;
+            while (i<ch.length&&Character.isDigit(ch[i])){
+                temp=temp*10+ch[i]-'0';
+                i++;
+            }
+            rs+=temp*st.peek()*sign;
+        }
+        return rs;
+    }
 }

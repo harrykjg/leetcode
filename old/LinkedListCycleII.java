@@ -1,14 +1,20 @@
+
 //http://blog.csdn.net/sysucph/article/details/15378043 这个解释的好
 //这题自己想的话肯定想不出来，太他妈难了，如果可以用extra space的话就用hashtable存节点
 //http://blog.csdn.net/linhuanmars/article/details/21260943 code ganker的
 //http://blog.csdn.net/lidalong0408/article/details/14104553
+
+import java.util.List;
 
 public class LinkedListCycleII {
 	public static void main(String[] args) {
 		LinkedListCycleII ll=new LinkedListCycleII();
 		ListNode h=new ListNode(1);
 		h.next=new ListNode(2);
-		h.next.next=h;
+		h.next.next=new ListNode(3);
+		h.next.next.next=new ListNode(4);
+		h.next.next.next.next=new ListNode(5);
+		h.next.next.next.next.next=h;
 		ll.detectCycle(h);
 		
 		
@@ -66,6 +72,31 @@ public class LinkedListCycleII {
 		}
 		return wal;
 		
+	}
+
+	//10/3/2018,忘了不知道怎么找了
+	public ListNode detectCycle3(ListNode head) {
+		if(head==null||head.next==null){
+			return null;
+		}
+		ListNode wal=head;
+		ListNode run=head;
+		while (run!=null&&run.next!=null){
+			wal=wal.next;
+			run=run.next.next;
+			if(wal==run){
+				break;
+			}
+		}
+		if(run==null||run.next==null){
+			return null;
+		}
+		wal=head;
+		while (wal!=run){//真神奇
+			wal=wal.next;
+			run=run.next;
+		}
+		return wal;
 	}
 
 }

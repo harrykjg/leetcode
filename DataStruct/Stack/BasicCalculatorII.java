@@ -303,5 +303,56 @@ public class BasicCalculatorII {
 
         return rs;
     }
+    //9/29/2018，还行
+    public int calculate5(String s) {
+        int rs=0;
+        if(s.length()==0){
+            return 0;
+        }
+        s=s.replace(" ","");
+        char[] ch=s.toCharArray();
+        Stack<Integer> st=new Stack<>();
+        int i=0;
+        int first=0;
+        while (i<s.length()&&Character.isDigit(ch[i])){
+            first=first*10+ch[i]-'0';
+            i++;
+        }
+        st.push(first);
+        char sign=' ';
+        while (i<ch.length){
+            sign=ch[i];
+            i++;
+            int temp=0;
+            while (i<s.length()&&Character.isDigit(ch[i])){
+                temp=temp*10+ch[i]-'0';
+                i++;
+            }
+            if(sign=='+'){//下面的所有情况多谢了i++的话就错了
+                st.push(temp);
+
+                continue;
+            }
+            if(sign=='-'){
+                st.push(-temp);
+
+                continue;
+            }
+            if(sign=='*'){
+                st.push(st.pop()*temp);
+
+                continue;
+            }
+            if(sign=='/'){
+                st.push(st.pop()/temp);
+
+                continue;
+            }
+        }
+        while (!st.isEmpty()){
+            rs+=st.pop();
+        }
+        return rs;
+    }
 
 }

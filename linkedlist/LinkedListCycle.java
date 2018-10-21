@@ -20,4 +20,23 @@ public class LinkedListCycle {
         }
         return false;
     }
+
+    //10/3/2018
+    public boolean hasCycle2(ListNode head) {
+        if(head==null||head.next==null){
+            return false;
+        }
+        ListNode wal=head;
+        ListNode run=head;
+        while (run!=null&&run.next!=null){
+
+            wal=wal.next;
+            run=run.next.next;
+            if(wal==run){
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

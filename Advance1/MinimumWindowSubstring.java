@@ -8,7 +8,7 @@ import java.util.HashMap;
 //2 pointer
 public class MinimumWindowSubstring {
     public static void main(String[] args){
-        System.out.println(minWindow2("aaabbbbbcdd","abcd"));
+        System.out.println(minWindow3("abcxxddeacb","abcd"));
     }
     //自己写的,改了几次accept了
     public static String minWindow(String source, String target) {
@@ -117,5 +117,55 @@ public class MinimumWindowSubstring {
         }
         return rsbegin==-1?"":source.substring(rsbegin,rsbegin+rslength);
 
+    }
+
+    //9/28/2018,是记得的，就是不是太好写，改了一两次accept了
+    public static String minWindow3(String source, String target) {
+        String rs="";
+        HashMap<Character,Integer> map=new HashMap<>();
+        char[] ch=target.toCharArray();
+        int count=0;
+        for(int i=0;i<ch.length;i++){
+            if(!map.containsKey(ch[i])){
+                map.put(ch[i],1);
+            }else{
+                map.put(ch[i],map.get(ch[i])+1);
+            }
+            count++;
+        }
+
+        int run=0;
+        int wal=0;
+        int len=Integer.MAX_VALUE;
+        while (run<source.length()){
+            if(map.containsKey(source.charAt(run))&&map.get(source.charAt(run))>0){
+                count--;
+            }//注意只有需要他的时候才count--，并且，不管需不需要他的时候只要他在map里出现就要-1，容易漏
+            if(map.containsKey(source.charAt(run))){
+                map.put(source.charAt(run),map.get(source.charAt(run))-1);
+            }
+
+            if(count==0){
+                while (wal<run){
+                    if(!map.containsKey(source.charAt(wal))){
+                        wal++;
+                        continue;
+                    }else if(map.containsKey(source.charAt(wal))&&map.get(source.charAt(wal))>=0){
+                        break;
+                    }else{
+                        map.put(source.charAt(wal),map.get(source.charAt(wal))+1);
+                        wal++;
+                    }
+                }
+            }
+            int curlen=run-wal+1;
+            if(count==0&&len>curlen){
+                len=curlen;
+                rs=source.substring(wal,wal+curlen);
+            }
+            run++;
+
+        }
+        return rs;
     }
 }
