@@ -8,6 +8,7 @@ public class LongestSubstringwithAtLeastKRepeatingCharacters {
         System.out.println(LongestSubstringwithAtLeastKRepeatingCharacters.longestSubstring("aaabb",3));
     }
     //自己也想不出来好的方法,看别人思路,递归那还是有点不好想
+    //https://leetcode.com/problems/longest-substring-with-at-least-k-repeating-characters/discuss/87738/Java-20-lines-very-easy-solution-7ms-with-explanation
     //http://www.cnblogs.com/reboot329/p/5875863.html
     //http://www.cnblogs.com/grandyang/p/5852352.html 太高级看不懂
     public static int longestSubstring(String s, int k) {

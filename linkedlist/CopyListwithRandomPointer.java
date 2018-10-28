@@ -79,7 +79,59 @@ public class CopyListwithRandomPointer {
         }
         return cpHead;
     }
+
+    //10/23/2018,还凑活，思路和之前有点不同，就是先搞出一个copy，包括他的random，作为一个pre，再去看原list的第二，3，4，5个node，复制之，连上pre
+    public RandomListNode copyRandomList3(RandomListNode head) {
+        if(head==null){
+            return null;
+        }
+        HashMap<RandomListNode,RandomListNode> map=new HashMap<>();
+        RandomListNode cur=head;
+        RandomListNode pre=new RandomListNode(head.label);
+        map.put(head,pre);
+        RandomListNode preRan=null;
+        if(head.random!=null&&map.containsKey(head.random)){
+            preRan=map.get(head.random);
+        }else if(head.random!=null){
+            preRan=new RandomListNode(head.random.label);
+            map.put(head.random,preRan);
+        }
+        pre.random=preRan;
+        cur=cur.next;
+        while (cur!=null){
+            RandomListNode cop=null;
+            RandomListNode ran=null;
+            if(map.containsKey(cur)){
+                cop=map.get(cur);
+            }else{
+                cop=new RandomListNode(cur.label);
+                map.put(cur,cop);
+            }
+            if(cur.random!=null&&map.containsKey(cur.random)){
+                ran=map.get(cur.random);
+            }else if(cur.random!=null){
+                ran=new RandomListNode(cur.random.label);
+                map.put(cur.random,ran);
+            }
+            cop.random=ran;
+
+            cur=cur.next;
+            pre.next=cop;
+            pre=pre.next;
+
+        }
+        return map.get(head);
+
+    }
+
+
+
+
 }
+
+
+
+
 class RandomListNode {
          int label;
          RandomListNode next, random;
