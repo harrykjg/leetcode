@@ -72,8 +72,8 @@ public class LongestPalindrome {
                 continue;
             }
             if(!odd.equals(' ')&&c.equals(odd)){
-                rs+=count;//其实这里是最大的奇数字符和不是最大的奇数字符也就是差了1,所以可以不管他是不是最大的奇数,都rs+=count-1,
-                continue;//再判断s有没有奇数的字符就行了,见上面的链接
+                rs+=count;//只要是奇数的话都rs+=count-1,最大的奇数就不-1
+                continue;//
             }
             rs+=count-1;
         }

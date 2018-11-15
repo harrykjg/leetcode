@@ -46,4 +46,42 @@ public class LargestRectangleinHistogram {
         }
         return rs;
     }
+
+    //11／4／2018,还是写不对
+    public int largestRectangleArea2(int[] heights) {
+        Stack<Integer> st=new Stack<>();
+        int i=0;
+        int max=0;
+        while (i<heights.length){
+            if(st.isEmpty()||heights[st.peek()]<=heights[i]){
+                st.push(i++);
+                continue;
+            }
+            while (!st.isEmpty()&&heights[st.peek()]>=heights[i]){//当前的height【i】是不会用到的，都是看i之前的bar
+                int pre=st.pop();
+                if(st.isEmpty()){
+                    int cur=i*heights[pre];
+                    max=Math.max(max,cur);
+                }else{
+                    int cur=(i-1-st.peek())*heights[pre];//还是相当不好理解，画图看，注意是乘以heights[pre]而不是heights[st.peek]
+                    max=Math.max(max,cur);
+
+                }
+            }
+            st.push(i++);
+        }
+        while (!st.isEmpty()){
+            int pre=st.pop();
+            if(st.isEmpty()){
+                int cur=heights.length*heights[pre];
+                max=Math.max(max,cur);
+            }else{
+                int cur=(heights.length-1-st.peek())*heights[pre];
+                max=Math.max(max,cur);
+
+            }
+
+        }
+        return max;
+    }
 }

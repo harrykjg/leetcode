@@ -69,7 +69,42 @@ public class NumberofIslands {
             }
         }
     }
+    //11/8/2018
+    public static int numIslands2(char[][] grid) {
+        if(grid.length==0){
+            return count;
+        }
+        for(int i=0;i<grid.length;i++){
+            for(int j=0;j<grid[0].length;j++){
+                if(grid[i][j]=='1'){
+                    dfs2(grid,i,j);
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+    static void dfs2(char[][] grid,int row,int col){
+        grid[row][col]='0';
+        if(row>0&&grid[row-1][col]=='1'){
+            dfs2(grid,row-1,col);
+        }
+        if(col+1<grid[0].length&&grid[row][col+1]=='1'){
+            dfs2(grid,row,col+1);
+        }
+        if(row+1<grid.length&&grid[row+1][col]=='1'){
+            dfs2(grid,row+1,col);
+        }
+        if(col-1>=0&&grid[row][col-1]=='1'){
+            dfs2(grid,row,col-1);
+        }
+
+    }
 }
+
+
+
+
 class ilandPair{
     int i;
     int j;

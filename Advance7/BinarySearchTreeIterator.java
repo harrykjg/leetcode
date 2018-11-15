@@ -8,6 +8,8 @@ import java.util.Stack;
  * Created by 502575560 on 8/16/17.
  */
 public class BinarySearchTreeIterator {
+
+    //https://leetcode.com/problems/binary-search-tree-iterator/discuss/52526/Ideal-Solution-using-Stack-(Java)  confluent面的时候说不能改变树结构，没写对，这个代码是不改树结构的
     //自己写的,改了几次,一是忘了把left加进去之后要把left设成null,而是忘了pop出来之后要看这个node是否有right,有则加进st里
     Stack<TreeNode> st=new Stack<>();
     public BinarySearchTreeIterator(TreeNode root) {

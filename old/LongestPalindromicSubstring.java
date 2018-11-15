@@ -1,3 +1,4 @@
+package old;
 //http://jixiangsanbao.wordpress.com/2014/04/21/longest-palindromic-substring/
 //http://blog.csdn.net/linhuanmars/article/details/20888595
 public class LongestPalindromicSubstring {
@@ -295,4 +296,46 @@ public class LongestPalindromicSubstring {
 				}
 			}
 		}
+
+	//11/13/2018 居然一次过了，就是要注意好下标
+	public String longestPalindrome7(String s) {
+		String rs="";
+		if(s.length()==0){
+			return rs;
+		}
+		boolean[][] dp=new boolean[s.length()][s.length()];
+		int max=Integer.MIN_VALUE;
+		int left=0;
+		int right=0;
+		for(int i=0;i<dp.length;i++){
+			dp[i][i]=true;
+			if(1>max){
+				max=1;
+				left=i;
+				right=i;
+			}
+			if(i+1<s.length()&&s.charAt(i)==s.charAt(i+1)){
+				dp[i][i+1]=true;
+				if(2>max){
+					max=2;
+					left=i;
+					right=i+1;
+				}
+			}
+		}
+		for(int k=2;k<s.length();k++){
+			for(int i=0;i+k<s.length();i++){
+				int end=i+k;
+				if(s.charAt(i)==s.charAt(end)&&dp[i+1][end-1]){
+					dp[i][end]=true;
+					if(k+1>max){
+						max=k+1;
+						left=i;
+						right=end;
+					}
+				}
+			}
+		}
+		return s.substring(left,right+1);
+	}
 }

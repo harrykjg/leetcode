@@ -3,11 +3,11 @@ package DataStruct;
 /**
  * Created by yufengzhu on 9/4/18.
  */
-public class QuickSelect {//用于快速选择第k大的东西
+public class QuickSelect {//用于快速选择第k小的东西
     public static void main(String[] args){
         QuickSelect qs=new QuickSelect();
         int[] nums={5,4,8,9,2,4};
-        System.out.print(qs.slect(nums,5));
+        System.out.print(qs.slect(nums,4));
     }
     //自己写的联系quickselect
     public int slect(int[] nums,int k){

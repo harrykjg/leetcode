@@ -1,3 +1,4 @@
+package old;
 import java.util.LinkedList;
 
 //http://blog.csdn.net/wzy_1988/article/details/17412025
@@ -144,6 +145,38 @@ public class PopulatingNextRightPointersinEachNodeII {
 			cur=cur.next;
 		}
 		
+	}
+	//11/11/2018,写的不顺，而且递归时还非得先连右边的才行，见第一个代码的注解
+	public void connect4(TreeLinkNode root) {
+		if(root==null){
+			return;
+		}
+		if(root.left!=null){
+			if(root.right!=null){
+				root.left.next=root.right;
+			}else{
+				root.left.next=find2(root.next);
+			}
+		}
+		if(root.right!=null){
+			root.right.next=find2(root.next);
+		}
+		connect4(root.right);
+		connect4(root.left);
+
+	}
+	TreeLinkNode find2(TreeLinkNode root){
+		TreeLinkNode cur=root;
+		while (cur!=null){
+			if(cur.left!=null){
+				return cur.left;
+			}
+			if(cur.right!=null){
+				return cur.right;
+			}
+			cur=cur.next;
+		}
+		return null;
 	}
 	
 }

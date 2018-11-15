@@ -36,4 +36,31 @@ public class LongestPalindromicSubsequence {
         return dp[0][dp.length-1];
 
     }
+
+    //11/13/2018还是不会，容易和别的各种longest increasing subsequence之类的的搞混
+    public int longestPalindromeSubseq2(String s) {
+        if(s.length()<=1){
+            return s.length();
+        }
+        int rs=Integer.MIN_VALUE;
+        int[][] dp=new int[s.length()][s.length()];
+        for(int i=0;i<s.length();i++){
+            dp[i][i]=1;
+            if(i+1<s.length()&&s.charAt(i)==s.charAt(i+1)){
+                dp[i][i+1]=2;
+                rs=Math.max(rs,2);
+            }
+        }
+        for(int k=2;k<s.length();k++){
+            for(int i=0;i+k<s.length();i++){
+                int end=i+k;
+                if(s.charAt(i)==s.charAt(end)){
+                    dp[i][end]=dp[i+1][end-1]+2;
+                }else{
+                    dp[i][end]=Math.max(dp[i+1][end],dp[i][end-1]);
+                }
+            }
+        }
+        return dp[0][dp.length-1];
+    }
 }

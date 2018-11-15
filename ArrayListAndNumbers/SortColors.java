@@ -56,4 +56,33 @@ public class SortColors {
             }
         }
     }
+//11/4/2018,基本思路是对的，但是还是翻了上面注解的错误，并且while的条件也不对
+    public void sortColors3(int[] nums) {
+        int red=0;
+        int blue=nums.length-1;
+        int cur=0;
+        while (cur<=blue){
+            if(nums[cur]==1){
+                cur++;
+                continue;
+            }
+            if(nums[cur]==2){
+                int temp=nums[blue];
+                nums[blue]=2;
+                blue--;
+                nums[cur]=temp;
+                continue;
+            }
+            if(nums[cur]==0){
+                int temp=nums[red];
+                nums[red]=0;
+                red++;
+                nums[cur]=temp;
+                cur++;//这里开始没写，见上面以前的注解，很容易漏
+                continue;
+            }
+        }
+        return;
+
+    }
 }

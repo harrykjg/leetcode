@@ -86,4 +86,39 @@ public class SearchinRotatedSortedArray {
         return -1;
 
     }
+//11/6/2018,没写对，写得不好因为梅花图，还是要画图才行,要小心
+    public static int search3(int[] nums, int target) {
+        if(nums.length==0){
+            return -1;
+        }
+        int b=0;
+        int e=nums.length-1;
+        int m=0;
+        while (b+1<e){
+            m=b+(e-b)/2;
+            if(nums[m]==target){
+                return m;
+            }
+            if(nums[m]<target){
+                if(nums[m]<nums[e]&&nums[e]<target){
+                    e=m;
+                }else{
+                    b=m;
+                }
+            }else{
+                if(nums[m]>nums[e]&&target<=nums[e]){//注意这里target<=nums[e]而上面不能有=，因为意义不同，要画图看
+                    b=m;
+                }else{
+                    e=m;
+                }
+            }
+        }
+        if(nums[b]==target){
+            return b;
+        }
+        if(nums[e]==target){
+            return e;
+        }
+        return -1;
+    }
 }
