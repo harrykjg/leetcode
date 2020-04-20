@@ -20,4 +20,19 @@ public class CoinChange2 {
         }
         return dp[dp.length-1][dp[0].length-1];
     }
+//04/18/2020,还是画图，就是初始化第一列为1这个没想到,这里写优化成一维的
+    public int change2(int amount, int[] coins) {
+
+        int[] dp=new int[amount+1];
+        dp[0]=1;
+        for(int i=0;i<coins.length;i++){
+            for (int j=1;j<amount+1;j++){
+                if(j>=coins[i]){
+                    dp[j]=dp[j-coins[i]]+dp[j];
+                }
+            }
+        }
+        return dp[dp.length-1];
+
+    }
 }

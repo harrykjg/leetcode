@@ -100,6 +100,38 @@ public class NumberofIslands {
         }
 
     }
+    //04/13/2020,dfs还是很简单
+    public int numIslands3(char[][] grid) {
+        int rs=0;
+        if(grid.length==0){
+            return 0;
+        }
+        for(int i=0;i<grid.length;i++){
+            for (int j=0;j<grid[0].length;j++){
+                if(grid[i][j]=='1'){
+                    dfs3(grid,i,j);
+                }
+
+            }
+        }
+        return rs;
+    }
+    void dfs3(char[][] grid,int x,int y){
+        grid[x][y]='0';
+        if(x>0&&grid[x-1][y]=='1'){
+            dfs3(grid,x-1,y);
+        }
+        if(y+1<grid[0].length&&grid[x][y+1]=='1'){
+            dfs3(grid,x,y+1);
+        }
+        if(x+1<grid.length&&grid[x+1][y]=='1'){
+            dfs3(grid,x+1,y);
+        }
+        if(y>0&&grid[x][y-1]=='1'){
+            dfs3(grid,x,y-1);
+        }
+
+    }
 }
 
 

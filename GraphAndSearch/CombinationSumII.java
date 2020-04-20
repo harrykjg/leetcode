@@ -106,4 +106,31 @@ public class CombinationSumII {
             set.remove(i);
         }
     }
+//04/13/2020,基本一次过
+    public List<List<Integer>> combinationSum24(int[] can, int tar) {
+        List<List<Integer>> rs=new ArrayList<>();
+        List<Integer> al=new ArrayList<>();
+        Arrays.sort(can);
+        boolean[] memo=new boolean[can.length];
+        helper4(0,0,tar,can,al,rs,memo);
+        return rs;
+
+    }
+    void helper4(int b,int cur,int tar,int[] can,List<Integer> al,List<List<Integer>> rs,boolean[] memo){
+        if(cur==tar){
+            rs.add(new ArrayList<>(al));
+        }
+        for(int i=b;i<can.length;i++){
+            if(i>0&&can[i-1]==can[i]&&memo[i-1]==false){
+                continue;
+            }
+            if(cur+can[i]<=tar&&memo[i]==false){
+                al.add(can[i]);
+                memo[i]=true;
+                helper4(i,cur+can[i],tar,can,al,rs,memo);//b设成i+1应该更好一点点
+                al.remove(al.size()-1);
+                memo[i]=false;
+            }
+        }
+    }
 }

@@ -22,4 +22,21 @@ public class ValidateBinarySearchTree {
         }
         return helper(n.left,low,n.val)&&helper(n.right,n.val,high);
     }
+    //04/20/2020,思路记得但是写错了，不是说如果下限或上限是null就不用去判断左边或者右边子树，还是要两边都判断
+    public boolean isValidBST2(TreeNode root) {
+        if(root==null){
+            return true;
+        }
+        return helper2(null,root,root.left)&&helper2(root,null,root.right);
+    }
+    boolean helper2(TreeNode left,TreeNode right,TreeNode cur){
+        if(cur==null){
+            return true;
+        }
+
+        if((right!=null&&cur.val>=right.val)||(left!=null&&cur.val<=left.val)){
+            return false;
+        }
+        return helper2(cur,right,cur.right)&&helper2(left,cur,cur.left);
+    }
 }

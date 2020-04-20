@@ -104,4 +104,45 @@ public class threeSum {
         }
         return rs;
     }
+//04/19/2020
+    public List<List<Integer>> threeSum3(int[] nums) {
+        List<List<Integer>> rs=new ArrayList<>();
+        if(nums.length==0){
+            return rs;
+        }
+        Arrays.sort(nums);
+        for(int i=0;i<nums.length;i++){
+            if(i>0&&nums[i-1]==nums[i]){
+                continue;
+            }
+            int b=i+1;
+            int e=nums.length-1;
+            while (b<e){
+                ArrayList<Integer> al=new ArrayList<>();
+                al.add(nums[i]);
+                int m=b+(e-b)/2;
+                int sum=nums[i]+nums[b]+nums[e];
+                if(sum==0){
+                    al.add(nums[b]);
+                    al.add(nums[e]);
+                    rs.add(new ArrayList<>(al));
+                    while (b+1<e&&nums[b]==nums[b+1]){
+                        b++;
+                    }
+                    while (e-1>=0&&nums[e]==nums[e-1]){
+                        e--;
+                    }
+                    b++;
+                    e--;
+                    continue;
+                }
+                if(sum<0){
+                    b++;
+                }else{
+                    e--;
+                }
+            }
+        }
+        return rs;
+    }
 }

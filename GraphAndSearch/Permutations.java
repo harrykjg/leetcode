@@ -103,5 +103,35 @@ public class Permutations {
             set.remove(nums[i]);
         }
     }
+//04/16/2020,dfs的一次过,iterative的不会，看这个https://leetcode.com/problems/permutations/discuss/18237/My-AC-simple-iterative-javapython-solution
+    public List<List<Integer>> permute4(int[] nums) {
+        List<List<Integer>> rs=new ArrayList<>();
+        if(nums.length==0){
+            rs.add(new ArrayList<>());
+            return rs;
+        }
+//        ArrayList<Integer> al=new ArrayList<>();
+//        boolean[] memo=new boolean[nums.length];
+//        dfs4(al,nums,rs,memo);
+        for(int i=0;i<nums.length;i++){
+
+        }
+
+        return rs;
+    }
+    void dfs4(ArrayList<Integer> al,int[] nums,List<List<Integer>> rs,boolean[] memo){
+        if(al.size()==nums.length){
+            rs.add(new ArrayList<>(al));
+        }
+        for(int i=0;i<nums.length;i++){
+            if(!memo[i]){
+                al.add(nums[i]);
+                memo[i]=true;
+                dfs4(al,nums,rs,memo);
+                al.remove(al.size()-1);
+                memo[i]=false;
+            }
+        }
+    }
 
 }

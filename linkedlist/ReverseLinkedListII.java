@@ -36,4 +36,35 @@ public class ReverseLinkedListII {
         return dum.next;
 
     }
+
+    //04/19/2020,思路和上次一样，写的不好，找m的前一个写错了，while那里也改了
+    public ListNode reverseBetween2(ListNode head, int m , int n) {
+        if(head==null){
+            return null;
+        }
+        ListNode dum=new ListNode(0);
+        dum.next=head;//不设dum的话，如果m是1则没法找到前一个节点
+        ListNode cur=dum;
+        ListNode left=null;
+        ListNode right=null;
+        int index=1;
+        while (index<=n){
+            if(index==m){
+                left=cur;
+            }
+            if(index==n){
+                right=cur.next;
+            }
+            cur=cur.next;
+            index++;
+        }
+        while (left.next!=right){//把left。next仍到m后面
+            ListNode temp=left.next;
+            left.next=left.next.next;
+            temp.next=right.next;
+            right.next=temp;
+        }
+        return dum.next;
+
+    }
 }

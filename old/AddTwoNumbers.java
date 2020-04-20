@@ -1,5 +1,6 @@
-//Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)Output: 7 -> 0 -> 8£¬¼´342+465=807
-//ÔÙ±ÈÈç£¨2-3-4-7£©+£¨4-1-3£©£¬¼´7432+314£¬×ö¼Ó·¨ÔËËã¸ÕºÃÊÇÁ´±íµÄµÚÒ»¸öÊýÏà¼Ó£¬È»ºóµÚ¶þ¸ö¡£¡£
+
+//Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)Output: 7 -> 0 -> 8ï¿½ï¿½ï¿½ï¿½342+465=807
+//ï¿½Ù±ï¿½ï¿½ç£¨2-3-4-7ï¿½ï¿½+ï¿½ï¿½4-1-3ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½7432+314ï¿½ï¿½ï¿½ï¿½ï¿½Ó·ï¿½ï¿½ï¿½ï¿½ï¿½Õºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó£ï¿½È»ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 public class AddTwoNumbers {
 	public static void main(String[] args) {
 		
@@ -32,7 +33,7 @@ public class AddTwoNumbers {
 		}
 		ListNode cur1=l1;
 		ListNode cur2=l2;
-		//ÏÈ°Ñ¶ÌµÄ²¹È«
+		//ï¿½È°Ñ¶ÌµÄ²ï¿½È«
 		while(cur1.next!=null||cur2.next!=null){
 			if(cur1.next==null){
 				cur1.next=new ListNode(0);
@@ -51,7 +52,7 @@ public class AddTwoNumbers {
 	}
 	
 	public void add(ListNode n1,ListNode n2,int i,ListNode parent){
-		if(n1==null&&n2==null&&i==1){//×îºó½øÁËÒ»Î»µÄÇé¿ö
+		if(n1==null&&n2==null&&i==1){//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»Î»ï¿½ï¿½ï¿½ï¿½ï¿½
 			parent.next=new ListNode(1);
 			return;
 		}
@@ -77,6 +78,6 @@ public class AddTwoNumbers {
 		}
 		add(n1.next,n2.next,i,n);
 	}
-//µÚ¶þ´ÎÃ»Ð´£¬¾ÍµÚÒ»´ÎµÄ´úÂë¾ÍÐ´µÄÍ¦ºÃµÄ
+//ï¿½Ú¶ï¿½ï¿½ï¿½Ã»Ð´ï¿½ï¿½ï¿½Íµï¿½Ò»ï¿½ÎµÄ´ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½Í¦ï¿½Ãµï¿½
 	
 }

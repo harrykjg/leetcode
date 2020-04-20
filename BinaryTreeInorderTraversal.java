@@ -1,7 +1,4 @@
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Created by 502575560 on 7/10/16.
@@ -48,5 +45,29 @@ public class BinaryTreeInorderTraversal {
         }
         return rs;
 
+    }
+    //04/20/2020,不怎么记得，重新想的也过了
+    public List<Integer> inorderTraversal3(TreeNode root) {
+        List<Integer> rs=new ArrayList<>();
+        if (root==null){
+            return rs;
+        }
+
+        Stack<TreeNode> st=new Stack<>();
+        st.push(root);
+        while (!st.isEmpty()){
+            TreeNode cur=st.peek();
+            if(cur.left==null){
+                TreeNode temp=st.pop();
+                rs.add(temp.val);
+                if(temp.right!=null){
+                    st.push(temp.right);
+                }
+            }else{
+                st.push(cur.left);
+                cur.left=null;
+            }
+        }
+        return rs;
     }
 }

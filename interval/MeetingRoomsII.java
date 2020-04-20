@@ -12,10 +12,17 @@ public class MeetingRoomsII {
         Interval[] in={new Interval(1,8),new Interval(2,4),new Interval(5,6),new Interval(10,12)};
         mr.minMeetingRooms3(in);
     }
-    //Given an array of meeting time intervals consisting of start and end times [[s1,e1],[s2,e2],...] find the minimum number of conference rooms required.
+    //Given an array of meeting time intervals consisting of start and end times [[s1,e1],[s2,e2],...] (si < ei), find the minimum number of conference rooms required.
+    //Example 1:
+    //Input: [[0, 30],[5, 10],[15, 20]]
+    //Output: 2
+    //Example 2:
+    //Input: [[7,10],[2,4]]
+    //Output: 1
     //我以为用stack能做结果是不行的，stack只能把按start先后顺序排了放进去，但是要从stack中peak出元素和当前interval start的时候，peak出来的元素要先
     //peak出end为先的inverval，stack无法满足此要求，因此要用priorityqueue
     //https://blog.csdn.net/bsbcarter/article/details/50005563
+    //https://www.cnblogs.com/grandyang/p/5244720.html 题目在这
     //https://leetcode.com/problems/meeting-rooms-ii/discuss/67883/Super-Easy-Java-Solution-Beats-98.8
     public int minMeetingRooms(Interval[] intervals) {
         Arrays.sort(intervals, new Comparator<Interval>() {
@@ -150,6 +157,34 @@ public class MeetingRoomsII {
             rs=Math.max(rs,pq.size());
         }
         return rs;
+    }
+//04/13/2020,写的还行
+    public int minMeetingRooms5(Interval[] intervals) {
+        Arrays.sort(intervals, new Comparator<Interval>() {
+            @Override
+            public int compare(Interval o1, Interval o2) {
+                return o1.start-o2.start;//如果start相同，end相不相同应该无所谓把
+            }
+        });
+
+        PriorityQueue<Interval> pq=new PriorityQueue<>(new Comparator<Interval>() {
+            @Override
+            public int compare(Interval o1, Interval o2) {
+
+                return o1.end-o2.end;
+            }
+        });
+        int size=0;
+        pq.offer(intervals[0]);
+        for(int i=1;i<intervals.length;i++){
+            while (!pq.isEmpty()&&pq.peek().end<=intervals[i].start){
+                pq.poll();
+            }
+            pq.offer(intervals[i]);
+            size=Math.max(pq.size(),size);
+        }
+        return size;
+
     }
 
 }

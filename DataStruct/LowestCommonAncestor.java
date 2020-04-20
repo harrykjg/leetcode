@@ -53,4 +53,26 @@ class TreeNode {
         return l==null?r:l;
 
     }
+//04/15/2020
+    public TreeNode lowestCommonAncestor3(TreeNode root, TreeNode A, TreeNode B){
+        if(root==null){
+            return null;
+        }
+        if(root==A){
+            return A;
+        }
+        if(root==B){
+            return B;
+        }
+        TreeNode left=lowestCommonAncestor3(root.left,A,B);
+        TreeNode right=lowestCommonAncestor3(root.right,A,B);
+        if (left!=null||right!=null){
+            return root;
+        }
+        if(left!=null){
+            return left;
+        }
+        return right;
+
+    }
 }

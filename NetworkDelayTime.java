@@ -1,3 +1,5 @@
+import org.omg.CORBA.INTERNAL;
+
 import java.util.*;
 
 /**
@@ -83,6 +85,10 @@ public class NetworkDelayTime {
         }
 
         return rs;
+    }
+//04/12/2020,我的理解就是建图然后bfs,其实bfs是不行的，bfs是用在不带权的，Djikstra是可以算带权的所以得用他
+    public int networkDelayTime2(int[][] times, int N, int K) {
+
     }
 
 }

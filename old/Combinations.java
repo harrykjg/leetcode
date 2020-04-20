@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
-//dfsµÄË¼Ïë
+//dfs?????
 
 public class Combinations {
 	
@@ -36,7 +36,7 @@ public class Combinations {
 	}
 	
 	public void dfs(int[] a,int n,int o,int begin,ArrayList<Integer> na){
-		//nÊÇÒªÈ¡¼¸¸ö£¬oÊÇÈ¥ÁË¼¸¸ö
+		//n??????????o????????
 		
 		ArrayList<Integer> a2=new ArrayList<Integer>();
 		if(na.size()!=0){
@@ -53,8 +53,8 @@ public class Combinations {
 			al.add(a2);
 		}
 	}
-	//µÚ¶ş´ÎĞ´£¬´íÁË£¬¸ã³ÉÅÅÁĞµÄÁË£¬Ö»ÒªÃ¿´ÎforÑ­»·¶¼ÔÚÓĞÒ»¸öbegin¿ªÊ¼¾Í¿ÉÒÔ±ÜÃâÖØ¸´£¬
-	//¶øÇÒmemoÊı×é²»ÓÃ
+	//??????????????????????????ÿ??for????????????begin????????????????
+	//????memo??????
 	public ArrayList<ArrayList<Integer>> combine2(int n,int k){
 		ArrayList<ArrayList<Integer>> al=new ArrayList<ArrayList<Integer>>();
 		if(k==0&&k>n){
@@ -85,7 +85,7 @@ public class Combinations {
 			
 		}
 	}
-	//9/9/2018,ÂèµÄĞ´µÄ»¹²»ºÃ
+	//9/9/2018,???????????
 	public List<List<Integer>> combine3(int n, int k){
 		List<List<Integer>> rs=new ArrayList<>();
 		if(k==0&&k>n){
@@ -107,7 +107,7 @@ public class Combinations {
 			al.remove(al.size()-1);
 		}
 	}
-//9/13/2018,»¹ºÃÒ»´Î¹ı
+//9/13/2018,????????
 	public List<List<Integer>> combine4(int n, int k){
 		List<List<Integer>> rs=new ArrayList<>();
 		if(k==0&&k>n){
@@ -126,6 +126,25 @@ public class Combinations {
 		for(int i=b;i<=n;i++){
 			al.add(i);
 			dfs4(i+1,cur+1,n,k,al,rs);
+			al.remove(al.size()-1);
+		}
+	}
+//04/13/2020,???
+	public List<List<Integer>> combine5(int n, int k){
+		List<List<Integer>> rs=new ArrayList<>();
+		List<Integer> al=new ArrayList<>();
+		dfs5(1,k,n,al,rs);
+		return rs;
+	}
+
+	void dfs5(int b,int k,int n,List<Integer> al,List<List<Integer>> rs){
+		if(al.size()==k){
+			rs.add(new ArrayList<>(al));
+			return;
+		}
+		for(int i=b;i<=n;i++){
+			al.add(i);
+			dfs5(i+1,k,n,al,rs);
 			al.remove(al.size()-1);
 		}
 	}

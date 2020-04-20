@@ -44,4 +44,36 @@ public class RandomPickwithWeight {
         return -1;
     }
 //8／16／2018才做不到一星期又忘了，试试二分法,二分法的话，就不好写了，等于要二分查找一个区间
+
+
+    int sums2[];
+    //04/14/2020,还是不记得，看回以前的
+    public Solution(int[] w) {
+            sums2=new int[w.length];
+            sums2=w;//举个例在看看还真是要这样才能算前缀和
+            for(int i=1;i<w.length;i++){
+                sums2[i]=w[i]+sums2[i-1];
+            }
+    }
+
+    public int pickIndex() {//看别人答案的代码，自己用模版的二分法貌似用模版就是不行
+        int rn=ran.nextInt(sums2[sums2.length-1])+1;//他这里+1再结合二分法，还是不好想。
+        int b=0;
+        int e=sums2.length-1;
+        int m=0;
+
+        while (b<e){
+            m=b+(e-b)/2;
+            if(sums2[m]==rn){
+                return m;
+            }
+            if(sums2[m]>rn){
+                e=m;
+            }
+            if(sums2[m]<rn){
+                b=m+1;
+            }
+        }
+        return b;
+    }
 }

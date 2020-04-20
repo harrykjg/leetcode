@@ -1,5 +1,9 @@
 package ArrayListAndNumbers;
 
+import dp.backpack.CoinChange;
+
+import java.util.Arrays;
+
 /**
  * Created by 502575560 on 10/8/17.
  */
@@ -7,7 +11,9 @@ public class BestTimetoBuyandSellStockIII {
     public static void main(String[] a){
         BestTimetoBuyandSellStockIII bt=new BestTimetoBuyandSellStockIII();
         int[] n={3,3,5,0,0,3,1,4};
-       System.out.print( bt.maxProfit3(n));
+       System.out.print( bt.maxProfit4(n));
+        int[] coin={2,7,8};
+        System.out.println(bt.coinChange2(coin,9));
 
     }
 
@@ -87,6 +93,59 @@ public class BestTimetoBuyandSellStockIII {
         }
 
         return rs;
+    }
+
+    //04/17/2020,思路大概记得，写得不好，就是dp2[i]的意义是从i开始到末尾能做到交易的最大profit，因此dp2[dp2.length-1]不应该有值，倒数第二位开始才有值
+    public int maxProfit4(int[] prices) {
+        if(prices.length<=1){
+            return 0;
+        }
+        int[] dp1=new int[prices.length];
+        int[] dp2=new int[prices.length];
+        int buy=prices[0];
+        int local=0;
+        for(int i=1;i<prices.length;i++){
+            if(prices[i]-buy>0){
+                local=Math.max(local,prices[i]-buy);
+            }
+            buy=Math.min(prices[i],buy);
+            dp1[i]=Math.max(dp1[i],local);
+        }
+        int sell=prices[prices.length-1];
+        local=0;
+        for(int i=prices.length-2;i>=0;i--){
+            if(prices[i]<sell){
+                local=Math.max(local,sell-prices[i]);
+            }
+            sell=Math.max(prices[i],sell);
+            dp2[i]=Math.max(dp2[i],local);
+        }
+        int rs=0;
+        for(int i=0;i<dp1.length;i++){
+            rs=Math.max(dp1[i]+dp2[i],rs);
+        }
+        return rs;
+
+    }
+
+
+
+    public int coinChange2(int[] coins, int amount) {
+        if (coins.length == 0) {
+            return 0;
+        }
+        Arrays.sort(coins);
+        int[] dp=new int[amount+1];
+        Arrays.fill(dp,Integer.MAX_VALUE);
+        dp[0]=0;
+        for(int i=0;i<coins.length;i++){
+            for(int j=1;j<amount+1;j++){
+                if(j>=coins[i]&&dp[j-coins[i]]!=Integer.MAX_VALUE){
+                    dp[j]=Math.min(dp[j],dp[j-coins[i]]+1);
+                }
+            }
+        }
+        return dp[dp.length-1]==Integer.MAX_VALUE?-1:dp[dp.length-1];
     }
 
 }

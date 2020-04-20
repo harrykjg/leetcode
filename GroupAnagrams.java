@@ -42,4 +42,9 @@ public class GroupAnagrams {
         }
         return rs;
     }
+
+    //04/17/2020,能想到的就是sort每个string。懒得写了
+    public  List<List<String>> groupAnagrams2(String[] strs) {
+
+    }
 }

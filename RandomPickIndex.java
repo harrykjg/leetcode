@@ -56,5 +56,23 @@ public class RandomPickIndex {
         int r=ran.nextInt(count);
         return al.get(r);
     }
+    //04/14/2020,还是只想到和18年一样的方法，看回别人的方法
+    public void RandomPickIndex3(int[] nums) {
+        a=nums;
+    }
 
+    public int pick3(int target){
+        int count=0;
+        int rs=-1;
+        for(int i=0;i<a.length;i++){
+            if(a[i]==target){
+                count++;
+                int rn=ran.nextInt(count);
+                if(rn==0){
+                  rs=i;
+                }
+            }
+        }
+        return rs;
+    }
 }

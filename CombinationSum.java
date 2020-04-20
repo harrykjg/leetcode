@@ -41,5 +41,25 @@ public class CombinationSum {
         }
     }
 
+    //04/13/2020,还是改了一次，忘记设begin去重了。
+    public  List<List<Integer>> combinationSum2(int[] can, int tar) {
+        List<List<Integer>> rs=new ArrayList<>();
+        List<Integer> al=new ArrayList<>();
+        helper2(0,0,tar,can,al,rs);
+        return rs;
+    }
+    void helper2(int b,int cur,int tar,int[] can, List<Integer> al,List<List<Integer>> rs){
+        if(cur==tar){
+            rs.add(new ArrayList<>(al));
+            return;
+        }
+        for(int i=b;i<can.length;i++){
+            if(cur+can[i]<=tar){
+                al.add(can[i]);
+                helper2(i,cur+can[i],tar,can,al,rs);
+                al.remove(al.size()-1);
+            }
+        }
+    }
 
 }

@@ -121,4 +121,48 @@ public class SearchinRotatedSortedArray {
         }
         return -1;
     }
+
+    //04/15/2020 居然一次过，就是写的久了一点，画图理解
+    public int search4(int[] nums, int target) {
+        if(nums.length==0){
+            return -1;
+        }
+        int b=0;
+        int e=nums.length-1;
+
+        while (b+1<e){
+            int m=b+(e-b)/2;
+            if(target==nums[m]){
+                return m;
+            }
+            if(nums[m]<nums[b]){//左边rotate了
+                if(nums[m]<target&&nums[e]>=target){
+                    b=m;
+                }else{
+                    e=m;
+                }
+            }
+            else if(nums[m]>nums[e]){//右边rotate了
+                if(nums[m]>target&&target>=nums[b]){
+                    e=m;
+                }else{
+                    b=m;
+                }
+            }else{//没rotate
+                if(nums[m]>target){
+                    e=m;
+                }else{
+                    b=m;
+                }
+            }
+        }
+        if(nums[b]==target){
+            return b;
+        }
+        if(nums[e]==target){
+            return e;
+        }
+        return -1;
+
+    }
 }

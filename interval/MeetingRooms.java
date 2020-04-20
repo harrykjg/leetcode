@@ -25,4 +25,23 @@ public class MeetingRooms {
         }
         return true;
     }
+    //04/12/2020,
+    public boolean canAttendMeetings2(interval.Interval[] intervals) {
+        Arrays.sort(intervals, new Comparator<Interval>() {
+            @Override
+            public int compare(Interval o1, Interval o2) {
+                if(o1.start==o2.start){
+                    return o1.end-o2.end;
+                }
+                return o1.start-o2.start;
+            }
+        });
+        for(int i=1;i<intervals.length;i++){
+            if(intervals[i].start<intervals[i-1].end){
+                return false;
+            }
+        }
+        return true;
+
+    }
 }

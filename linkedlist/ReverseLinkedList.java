@@ -27,4 +27,22 @@ public class ReverseLinkedList {
 
         return swap(sec,temp);
     }
+
+    //04/19/2020,一次过
+    public ListNode reverseList2(ListNode head) {
+        if(head==null){
+            return null;
+        }
+        ListNode dummy=new ListNode(0);
+        dummy.next=head;
+        ListNode first=head;
+        while (first.next!=null){
+            ListNode temp=first.next;
+            first.next=first.next.next;
+            temp.next=dummy.next;
+            dummy.next=temp;
+
+        }
+        return dummy.next;
+    }
 }

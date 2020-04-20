@@ -102,12 +102,48 @@ class RandomizedSet {
         int index=ran.nextInt(al2.size());
         return al2.get(index);
     }
+
+//04/11/2020
+    public RandomizedSet3() {
+        al=new ArrayList<>();
+        map=new HashMap<>();
+    }
+
+    /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
+    public boolean insert3(int val) {
+
+        if(!map.containsKey(val)){
+            map.put(val,al.size()-1);
+            al.add(val);
+            return true;
+        }
+        return false;
+    }
+
+    /** Removes a value from the set. Returns true if the set contained the specified element. */
+    public boolean remove3(int val) {
+        if(!map2.containsKey(val)){
+            return false;
+        }
+        int index=map2.get(val);
+        if(index==al2.size()-1){
+            al2.remove(al2.size()-1);
+        }else{
+            int last=al2.get(al2.size()-1);
+            al2.set(index,last);
+            map2.put(last,index);
+            al2.remove(al2.size()-1);
+        }
+        map2.remove(val);
+        return true;
+
+    }
+
+    /** Get a random element from the set. */
+    public int getRandom3() {
+        Random ran=new Random();
+        ran.nextInt(al.size());
+        return al.get(ran.nextInt(al.size()));
+    }
 }
 
-/**
- * Your RandomizedSet object will be instantiated and called as such:
- * RandomizedSet obj = new RandomizedSet();
- * boolean param_1 = obj.insert(val);
- * boolean param_2 = obj.remove(val);
- * int param_3 = obj.getRandom();
- */

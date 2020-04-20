@@ -1,6 +1,7 @@
 package GraphAndSearch;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ import java.util.List;
 public class PalindromePartitioning {
     public static void main(String[] args){
         PalindromePartitioning pp=new PalindromePartitioning();
-        pp.partition2("aab");
+        pp.partition3("aab");
     }
 
     // 先用二维dp记录每一小段是palindorme的位置,再根据这个dfs就行了,但这个dfs还没那么好理解,改了好几次
@@ -101,5 +102,46 @@ public class PalindromePartitioning {
             e--;
         }
         return true;
+    }
+    //04/14/2020,写的不好，dp部分没写对
+    public List<List<String>> partition3(String s) {
+        List<List<String>> rs=new ArrayList<>();
+        boolean[][] memo=new boolean[s.length()][s.length()];
+        for(int i=0;i<memo.length;i++){
+            memo[i][i]=true;
+        }
+        char[] ch=s.toCharArray();
+        for(int i=0;i+1<ch.length;i++){
+            if(ch[i]==ch[i+1]){
+                memo[i][i+1]=true;
+            }
+        }
+        for(int i=2;i<s.length();i++){
+            for(int j=0;j+i<ch.length;j++){
+                if(memo[j+1][j+i-1]&&ch[j]==ch[j+i]){
+                    memo[j][j+i]=true;
+                }
+            }
+        }
+        ArrayList<String> al=new ArrayList<>();
+        dfs3(0,ch,al,rs,memo);
+        return rs;
+
+    }
+    void dfs3(int b,char[] ch,List<String> al,List<List<String>> rs,boolean[][] memo){
+        if(b>=ch.length){
+            rs.add(new ArrayList<>(al));
+            return;
+        }
+        String s=new String(ch);
+        for(int i=0;i+b<ch.length;i++) {//开始还是写了二重循环还以为想的挺清楚的，其实这里就是要一层循环长度0，1，2，3。。起点就是b，看b到b+i是否回文
+            if (memo[b][b + i]) {
+                al.add(s.substring(b, i + b + 1));
+                dfs3(b + i + 1, ch, al, rs, memo);
+                al.remove(al.size() - 1);
+            }
+
+        }
+
     }
 }

@@ -108,5 +108,37 @@ public class PermutationsII {
             al.remove(al.size()-1);
         }
     }
+//04/16/2020
+    public List<List<Integer>> permuteUnique4(int[] nums) {
+        List<List<Integer>> rs=new ArrayList<>();
+        List<Integer> al=new ArrayList<>();
+        if(nums.length==0){
+            return rs;
+        }
+        Arrays.sort(nums);
+        boolean[] memo=new boolean[nums.length];
+        dfs4(al,rs,nums,memo);
+        return rs;
+    }
+    void dfs4(List<Integer> al,List<List<Integer>> rs,int[] nums,boolean[] memo){
+        if(al.size()==nums.length){
+            rs.add(new ArrayList<>(al));
+            return;
+        }
+        for(int i=0;i<nums.length;i++){
+            if(i>0&&nums[i-1]==nums[i]&&memo[i-1]==false){
+                continue;
+            }
+            if(memo[i]){//这个容易漏了
+                continue;
+            }
+            al.add(nums[i]);
+            memo[i]=true;
+            dfs4(al,rs,nums,memo);
+            al.remove(al.size()-1);
+            memo[i]=false;
+        }
+
+    }
 
 }

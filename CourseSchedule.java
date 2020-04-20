@@ -108,4 +108,40 @@ public class CourseSchedule {
         return count==numCourses;
 
     }
+//04/10/2020,改了一次过了，就是时间复杂度太大了
+    public boolean canFinish3(int numCourses, int[][] prerequisites) {
+        HashMap<Integer,HashSet<Integer>> degree=new HashMap<>();
+        for(int i=0;i<numCourses;i++){
+            degree.put(i,new HashSet<>());
+        }
+        for(int i=0;i<prerequisites.length;i++){
+           for(int j=1;j<prerequisites[0].length;j++){
+               degree.get(prerequisites[i][0]).add(prerequisites[i][j]);//和上面的那个写法貌似是相反了，
+           }
+        }
+
+        Queue<Integer> q=new LinkedList<>();
+
+        boolean[] memo=new boolean[numCourses];
+        for(int i=0;i<numCourses;i++){
+            if(degree.get(i).size()==0){
+                q.add(i);
+                memo[i]=true;
+            }
+        }
+        int count=0;
+        while (!q.isEmpty()){
+            int cur=q.poll();
+            count++;
+            for(int i=0;i<numCourses;i++){
+                degree.get(i).remove(cur);//因为我不管这个cur是否是i的prerequiste都把他拿出来remove，因此导致慢？
+                if(degree.get(i).size()==0&&!memo[i]){
+                    q.add(i);
+                    memo[i]=true;
+                }
+            }
+        }
+        return count==numCourses;
+
+    }
 }

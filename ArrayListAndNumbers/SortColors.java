@@ -85,4 +85,32 @@ public class SortColors {
         return;
 
     }
+
+    //04/16/2020,还是挺难，写的不好
+    public void sortColors4(int[] nums) {
+        if(nums.length==0){
+            return;
+        }
+        int b=0;
+        int e=nums.length-1;
+        int cur=0;
+        while (cur<=e){
+            if(nums[cur]==1){
+                cur++;
+                continue;
+            }
+            if (nums[cur]==2){
+                int temp=nums[e];
+                nums[e]=2;
+                nums[cur]=temp;
+                e--;
+                continue;
+            }
+            int temp=nums[b];
+            nums[b]=0;
+            nums[cur]=temp;
+            b++;
+            cur++;
+        }
+    }
 }

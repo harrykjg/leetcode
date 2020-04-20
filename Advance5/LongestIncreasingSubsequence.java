@@ -1,5 +1,7 @@
 package Advance5;
 
+import java.util.Arrays;
+
 /**
  * Created by yufengzhu on 4/28/18.
  */
@@ -38,6 +40,24 @@ public class LongestIncreasingSubsequence {
                     dp[i]=Math.max(dp[i],dp[j]+1);
                 }else{
                     dp[i]=Math.max(1,dp[i]);
+                }
+                rs=Math.max(rs,dp[i]);
+            }
+        }
+        return rs;
+    }
+//04/15/2020,一次过
+    public int lengthOfLIS3(int[] nums) {
+        if(nums.length==0){
+            return 0;
+        }
+        int[] dp=new int[nums.length];
+        Arrays.fill(dp,1);
+        int rs=1;
+        for(int i=1;i<nums.length;i++){
+            for(int j=0;j<i;j++){
+                if(nums[i]>nums[j]){
+                    dp[i]=Math.max(dp[i],dp[j]+1);
                 }
                 rs=Math.max(rs,dp[i]);
             }

@@ -1,7 +1,9 @@
 package DataStruct;
 
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.PriorityQueue;
 
 /**
@@ -10,7 +12,7 @@ import java.util.PriorityQueue;
 //就是lintcode的Data Stream Median，但是leetcode是要写的datastructre
 public class FindMedianFromDataStream {
     public static void main(String[] a){
-        FindMedianFromDataStream ff=new FindMedianFromDataStream();
+        FindMedianFromDataStream3 ff=new FindMedianFromDataStream3();
         ff.addNum(-1);
         ff.addNum(-2);
         System.out.println(ff.findMedian());
@@ -96,6 +98,59 @@ public class FindMedianFromDataStream {
             }else{
                 return (pq1.peek()+pq2.peek())/2.0;
             }
+        }
+    }
+
+    //04/17/2020思路是对的，改了一下，之前写的总是pq1.size>=pq2.size,这次就不一定了，有可能是pq2.size大一点
+    //https://leetcode.com/problems/find-median-from-data-stream/discuss/343662/JAVA-HEAP-SOLUTION-%2B-2-FOLLOW-UPS  follow up的解释
+    static class FindMedianFromDataStream3 {
+        PriorityQueue<Integer> pq1;
+        PriorityQueue<Integer> pq2;
+        int size=0;
+        public FindMedianFromDataStream3() {
+            pq1=new PriorityQueue<Integer>();
+            pq2=new PriorityQueue<Integer>(new Comparator<Integer>() {
+                @Override
+                public int compare(Integer o1, Integer o2) {
+                    return o2-o1;
+                }
+            });
+        }
+
+        public void addNum(int num) {
+            if (size==0){
+                pq1.offer(num);
+                size++;
+                return;
+            }
+
+            if(pq1.peek()<num){
+                pq1.offer(num);
+                while (pq1.size()>pq2.size()+1){
+                    pq2.offer(pq1.poll());
+                }
+            }else{
+                pq2.offer(num);
+                while (pq2.size()>pq1.size()+1){
+                    pq1.offer(pq2.poll());
+                }
+            }
+
+        }
+
+
+        public double findMedian() {
+            if (size==0){
+                return 0;
+            }
+            if (pq1.size()==pq2.size()){
+                double rs=(pq1.peek()+pq2.peek())/2d;
+                return rs;
+            }
+            if(pq1.size()>pq2.size()){
+                return pq1.peek();
+            }
+            return pq2.peek();
         }
     }
 }

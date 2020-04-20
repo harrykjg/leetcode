@@ -58,4 +58,5 @@ public class PartitiontoKEqualSumSubsets {
 
         return false;
     }
+    //04/18/2020,只能想到dfs方法
 }
