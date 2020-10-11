@@ -18,7 +18,7 @@ public class BinaryTreeMaximumPathSum {
 		System.out.println(bt.maxPathSum(root));
 	}
 	
-	//˼·�е��ҿ��ܣ����޸ĸĲ��е�
+	//思路有点乱可能，修修改改才行的
 	int max=Integer.MIN_VALUE;
 	public int maxPathSum(TreeNode root) {
 		if(root==null){
@@ -31,29 +31,29 @@ public class BinaryTreeMaximumPathSum {
 		if(root==null){
 			return 0;
 		}
-		int left=Math.max(0, find(root.left));//֮ǰ����û�а�find��root.left����0�ȣ�С��0�ľ�
-		int right=Math.max(0, find(root.right));//ֱ������
-		if(left==0&&right==0){//������Ҷ��ǿջ��߶�С��0����ô���ֵ���ܾ���root�Լ���
-			max= Math.max(root.val,max);//���case��һ��-3��û���ⲿ�Ļ��ʹ���
+		int left=Math.max(0, find(root.left));//之前这里没有把find（root.left）和0比，小于0的就
+		int right=Math.max(0, find(root.right));//直接免了
+		if(left==0&&right==0){//如果左右都是空或者都小于0，那么最大值可能就是root自己了
+			max= Math.max(root.val,max);//如果case是一个-3，没有这部的话就错了
 			
-		}else{//����Ƚ����ң������ң����У��У�max��6��ֵ�е����ģ�ע�⣬���Ҳ���
-			//��ʵ���ﲻ��д��ô��ģ�������ʵ����һ���if(left==0&&right==0)����͵����жϵ��ˣ�
-			//���У��ڵ�ǰ����if(left==0&&right==0)Ҳ���жϵ��ˣ���ʵ���ж�һ���������Ƿ����
-			//max�����ˣ���Ϊ����������С��0�Ļ��������0��
+		}else{//否则比较左，右，左中右，左中，中，max这6个值中的最大的，注意，左右不行
+			//其实这里不用写这么多的，左，右其实在上一层的if(left==0&&right==0)这里就单独判断的了，
+			//而中，在当前这层的if(left==0&&right==0)也是判断的了，其实就判断一个左中右是否大于
+			//max就行了，因为如果左或者右小于0的话，都变成0了
 		max=Math.max(left, Math.max(right, Math.max(left+right+root.val, Math.max(root.val, 
 				Math.max(left+root.val, Math.max(max, right+root.val))))));
 		}
-		//�Ƚ�max�ǱȽ�max�����Ƿ��صĻ�ֻ�������л������л����У�����Ҫ��ͼ��һ�²����ף���
-		return Math.max( right+root.val, Math.max(left+root.val, root.val));//һ�£������е��ƣ�
-		// ��         1
+		//比较max是比较max，但是返回的话只能是左中或者右中或者中，这里要画图看一下才明白，想
+		return Math.max( right+root.val, Math.max(left+root.val, root.val));//一下，这里有点绕，
+		// 如    1
 		//    2    3
 		//  1   2     -4
-		//�����ܵõ������sum��2,2,1,3=8��������1,2,2,1,3����Ϊ���߲��ܳ�Ϊһ��path(����1-2-2֮��
-		//�͵������������ǲ��1�ˣ�����˵�ڶ����2�ܷ��ص����ֵ�������л������л����У������ֵ��
-		//�����ǿ��԰������Ҽ�һ��ģ���Ϊ������path
+		//我们能得到的最大sum是2,2,1,3=8，而不是1,2,2,1,3，因为后者不能成为一条path(走了1-2-2之后
+		//就到不了最上面那层的1了，所以说第二层的2能返回的最大值就是左中或者右中或者中，而最大值的
+		//更新是可以把左中右加一起的，因为能连成path
 	}
-//�ڶ��λ��ǲ��ᣬ�Ϳ���һ�εİ�
-	public int maxPathSum2(TreeNode root) {  //code ganker��
+//第二次还是不会，就看第一次的吧
+	public int maxPathSum2(TreeNode root) {  //code ganker的
 	    if(root==null)  
 	        return 0;  
 	    ArrayList<Integer> res = new ArrayList<Integer>();  
@@ -73,7 +73,7 @@ public class BinaryTreeMaximumPathSum {
 	    return root.val+Math.max(left, Math.max(right,0));  
 	}  
 
-	//��3��,˼·�Ǽǵõģ�����д���������ֱ���дһ��helper����������û������2��ֵ.����һ�ι�
+	//第3轮,思路是记得的，就是写到后来发现必须写一个helper方法，否则没法返回2个值.基本一次过
 	int rs=Integer.MIN_VALUE;
 	public int maxPathSum3(TreeNode root) {
 		find2(root);
