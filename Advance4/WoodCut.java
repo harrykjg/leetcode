@@ -43,4 +43,42 @@ public class WoodCut {
         }
         return false;
     }
+
+    //05/21/2020,还行吧，就是max应该是L的和除以k，不过我这样也能过
+    public int woodCut2(int[] L, int k) {
+
+        long min=1;
+        long max=Integer.MIN_VALUE;
+        for(int i=0;i<L.length;i++){
+            max=Math.max(max,L[i]);
+        }
+        while (min<max-1){
+            long m=min+(max-min)/2;
+            boolean found=check(m,L,k);
+            if(found){
+                min=m;
+            }else{
+                max=m;
+            }
+        }
+        if(check(max,L,k)){
+            return (int)max;
+        }
+        if(check(min,L,k)){
+            return (int)min;
+        }
+        return 0;
+    }
+    boolean check(long m,int[] L,int k){
+        int count=0;
+        for(int i=0;i<L.length;i++){
+            if(L[i]>=m){
+                count+=L[i]/m;
+            }
+            if(count>=k){
+                return true;
+            }
+        }
+        return false;
+    }
 }

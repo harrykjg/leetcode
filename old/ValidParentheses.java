@@ -1,6 +1,7 @@
+package old;
 //http://blog.csdn.net/linhuanmars/article/details/19800789
 import java.util.LinkedList;
-//»áÓĞ£¨¡¾¡¿£©ÕâÑùµÄ£¬·ñÔò¶¼²»ÓÃstackÁË
+//ï¿½ï¿½ï¿½Ğ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ò¶¼²ï¿½ï¿½ï¿½stackï¿½ï¿½
 public class ValidParentheses {
 	
 	public boolean isValid(String s) {
@@ -38,7 +39,7 @@ public class ValidParentheses {
 		return true;
 
 	}
-	//µÚÈıÂÖ£¿
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ö£ï¿½
 	 public boolean isValid2(String s) {
 		 if(s.length()==0){
 			 return true;

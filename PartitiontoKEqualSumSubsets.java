@@ -1,5 +1,7 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by yufengzhu on 9/13/18.
@@ -7,8 +9,8 @@ import java.util.HashSet;
 public class PartitiontoKEqualSumSubsets {
     public static void main(String[] args){
         PartitiontoKEqualSumSubsets pk=new PartitiontoKEqualSumSubsets();
-        int[] a={4,3,2,3,5,2,1};
-        System.out.print(pk.canPartitionKSubsets(a,4));
+        int[] a={2,2,2,2,3,4,5};
+        System.out.print(pk.canPartitionKSubsets2(a,4));
     }
     //不会
     //https://www.cnblogs.com/grandyang/p/7733098.html
@@ -58,5 +60,48 @@ public class PartitiontoKEqualSumSubsets {
 
         return false;
     }
-    //04/18/2020,只能想到dfs方法
+    //04/18/2020,只能想到dfs方法,写的不太好
+    public boolean canPartitionKSubsets2(int[] nums, int k) {
+        if(nums.length==0||k>nums.length){
+            return false;
+        }
+        int sum=0;
+
+        for(int i=0;i<nums.length;i++){
+            sum+=nums[i];
+        }
+        if(sum%k!=0){
+            return false;
+        }
+        Arrays.sort(nums);
+        int subsum=sum/k;
+        ArrayList<Integer> al=new ArrayList<>();
+        List<List<Integer>> rs=new ArrayList<>();
+        boolean[] memo=new boolean[nums.length];
+        return dfs2(0,0,0,subsum,k,nums,memo);
+
+    }
+    boolean dfs2(int b, int cur,int count,int sum,int k,int[] nums,boolean[] memo){
+        if(cur==sum){
+            return dfs2(0,0,count+1,sum,k,nums,memo);
+        }
+        if(count==k){
+            return true;
+        }
+        for(int i=b;i<nums.length;i++){
+            if(nums[i]+cur>sum){
+                return false;
+            }
+            if(cur+nums[i]<=sum&&memo[i]==false){
+
+                memo[i]=true;
+                if(dfs2(i+1,cur+nums[i],count,sum,k,nums,memo)){
+                    return true;
+                }
+                memo[i]=false;
+            }
+        }
+        return false;
+    }
+
 }

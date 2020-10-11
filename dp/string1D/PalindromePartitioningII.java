@@ -1,11 +1,14 @@
 package dp.string1D;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by 502575560 on 7/6/17.
  */
 public class PalindromePartitioningII {
     public static void main(String[] args){
-        System.out.println(minCut2("aab"));
+        System.out.println(minCut3("aab"));
     }//abcccb
 //lintcode写的,下标还是很恶心,那个判断字串是否回文那里的下标已经很恶心了,而且lintcode的dp的意义和以前写的不一样,lintcode这个要dp最后一个值-1
     public static int minCut(String s) {
@@ -78,6 +81,42 @@ public class PalindromePartitioningII {
             }
         }
         return dp[dp.length-1];
-
+    }
+    //05/25/2020,后面的dp不熟，要练
+    public static int minCut3(String s) {
+        boolean[][] memo=new boolean[s.length()][s.length()];
+        for(int i=0;i<s.length();i++){
+            memo[i][i]=true;
+        }
+        for(int i=1;i<s.length();i++){
+            if(s.charAt(i-1)==s.charAt(i)){
+                memo[i-1][i]=true;
+            }
+        }
+        for(int len=2;len<s.length();len++){
+            for(int i=0;i+len<s.length();i++){
+                int e=i+len;
+                if(s.charAt(i)==s.charAt(e)&&memo[i+1][e-1]){
+                    memo[i][e]=true;
+                }
+            }
+        }
+        int rs=Integer.MAX_VALUE;
+        int[] dp=new int[s.length()];
+        for(int i=0;i<dp.length;i++){
+            dp[i]=i;
+        }
+        for(int i=1;i<dp.length;i++){
+           for(int j=0;j<=i;j++){//少写等号不行
+               if(memo[j][i]){
+                   if(j==0){
+                       dp[i]=0;
+                   }else{
+                       dp[i]=Math.min(dp[j-1]+1,dp[i]);
+                   }
+               }
+           }
+        }
+        return dp[dp.length-1];
     }
 }

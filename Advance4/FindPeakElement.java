@@ -29,4 +29,27 @@ public class FindPeakElement {
         return e;
 
     }
+    //05/20/2020,b<e这个条件不好写，用模版的好
+    public int findPeakElement2(int[] nums) {
+        if(nums.length==1){
+            return 0;
+        }
+        int b=0;
+        int e=nums.length-1;
+        while (b<e+1){
+            int m=b+(e-b)/2;
+            if(nums[m]>nums[m+1]&&nums[m]>nums[m-1]){
+                return m;
+            }
+            if(nums[m]<nums[m-1]){
+                e=m;
+            }else{
+                b=m;
+            }
+        }
+        if(nums[e]>nums[e-1]){
+            return e;
+        }
+        return b;
+    }
 }

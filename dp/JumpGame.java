@@ -18,4 +18,21 @@ public class JumpGame {
         }
         return false;
     }
+    //05/21/2020,居然一次过,写的是while循环，以前没这样写过
+    public boolean canJump2(int[] nums) {
+        if(nums.length<=1){
+            return true;
+        }
+        int can=nums[0];
+        int i=0;
+        while (i<=can){
+            if(i>=nums.length-1){
+                return true;
+            }
+            can=Math.max(can,i+nums[i]);
+            i++;
+        }
+        return false;
+
+    }
 }

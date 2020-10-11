@@ -22,7 +22,6 @@ public class FlattenNestedListIterator {
        return st.pop().getInteger();
     }
 
-
     public boolean hasNext() {
         while(!st.isEmpty()){//开始写成了if,要一直找直到找到一个是integer的数,才会return true
             NestedInteger n=st.peek();
@@ -34,7 +33,6 @@ public class FlattenNestedListIterator {
                 for(int i=ls.size()-1;i>=0;i--){
                     st.push(ls.get(i));
                 }
-
             }
         }
         return false;
@@ -51,17 +49,14 @@ public class FlattenNestedListIterator {
         }
 
         // @return {int} the next element in the iteration
-
         public Integer next() {//开始写的是递归调用next，是可以，但是遇到[[],[]]这样的就不行了，应为递归之后就不知道st是不是空了，按理说空的话就不能调用next了
             // Write your code here
             return st.pop().getInteger();
         }
 
         // @return {boolean} true if the iteration has more element or false
-
         public boolean hasNext() {//还一定要在hasnext里面处理，在next那里搞的话处理不了[[]]这样的
             // Write your code here
-
             while (!st.isEmpty()){
                 NestedInteger temp=st.peek();
                 if (temp.isInteger()){
@@ -109,6 +104,32 @@ public class FlattenNestedListIterator {
             }
             return true;
 
+        }
+    }
+    //05/23/2020,还是不会，hasnext那里其实还是没想明白
+    class FlattenNestedListIterator4{
+        Stack<NestedInteger> st;
+        public FlattenNestedListIterator4(List<NestedInteger> nestedList) {
+            st=new Stack<>();
+            for(int i=nestedList.size()-1;i>=0;i--){
+                st.push(nestedList.get(i));
+            }
+        }
+        public Integer next() {
+            return st.pop().getInteger();
+        }
+        public boolean hasNext() {
+            while (!st.isEmpty()){//注意这个是while，而不是if，while的话其实就是一直找到第一个是integer的数为止
+                if(st.peek().isInteger()){
+                    return true;
+                }else{
+                    List<NestedInteger> ls=st.pop().getList();
+                    for(int i=ls.size()-1;i>=0;i--){
+                        st.push(ls.get(i));
+                    }
+                }
+            }
+            return false;
         }
     }
 }

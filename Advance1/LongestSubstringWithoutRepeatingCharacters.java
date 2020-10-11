@@ -9,7 +9,7 @@ import java.util.*;
 public class LongestSubstringWithoutRepeatingCharacters {
     public static void main(String[] args){
         LongestSubstringWithoutRepeatingCharacters ls=new LongestSubstringWithoutRepeatingCharacters();
-        ls.lengthOfLongestSubstring2("abcabcbb");
+        ls.lengthOfLongestSubstring3("tmmzuxt");
 
     }
     public int lengthOfLongestSubstring(String s) {
@@ -69,6 +69,33 @@ public class LongestSubstringWithoutRepeatingCharacters {
                 i++;
             }
             j++;
+        }
+        return rs;
+    }
+
+    //04/23/2020，改了一次accept了，感觉这样写外层for循环比以前的外层while更容易些
+    public int lengthOfLongestSubstring3(String s) {
+        if(s.length()==0){
+            return 0;
+        }
+        int rs=0;
+        int b=0;
+        Set<Character> set=new HashSet<>();
+        for(int i=0;i<s.length();i++){
+            if(!set.contains(s.charAt(i))){
+                set.add(s.charAt(i));
+                rs=Math.max(rs,i-b+1);
+                continue;
+            }else{
+                while (b<i){
+                    if(s.charAt(b)==s.charAt(i)){
+                        b++;
+                        break;
+                    }
+                    set.remove(s.charAt(b));//开始忘了remove了
+                    b++;
+                }
+            }
         }
         return rs;
     }

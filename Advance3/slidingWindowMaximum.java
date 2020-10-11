@@ -35,7 +35,7 @@ public class slidingWindowMaximum {
     //9／10／2018,有更好的解法
     // https://www.youtube.com/watch?v=2SXqBsTR6a8
     //https://segmentfault.com/a/1190000003903509
-    //妈的这个下标巨难写,原来是q装的不是元素，而是下标！
+    //妈的这个下标巨难写,原来是q装的不是元素，而是下标！这个写法是这样而已，九章的解法貌似就是存元素的
     //11/11/2018还是不会这个比较好的方法
     public int[] maxSlidingWindow2(int[] nums, int k) {
         if (nums.length == 0 || k == 0) {
@@ -59,8 +59,6 @@ public class slidingWindowMaximum {
                     q.addLast(i);
                 }
             }
-
-
             if(i-k+1<0){
                 continue;
             }
@@ -72,7 +70,6 @@ public class slidingWindowMaximum {
 
         }
         return rs;
-
     }
 
 }

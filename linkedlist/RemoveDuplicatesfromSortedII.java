@@ -26,6 +26,32 @@ public class RemoveDuplicatesfromSortedII {
         }
         return dum.next;
     }
+    //05/24/2020,改了一次对了，比以前的多设了个pre节点，之前的cur初始化=dum，我这里初始化cur为head
+    public static ListNode deleteDuplicates2(ListNode head) {
+        if(head==null){
+            return head;
+        }
+        ListNode dum=new ListNode(1);
+        dum.next=head;
+        ListNode cur=head;
+        ListNode pre=dum;
+        while (cur!=null){
+            ListNode next=cur.next;
+            boolean found=false;
+            while (next!=null&&next.val==cur.val){
+                next=next.next;
+                found=true;
+            }
+            if(found){
+                pre.next=next;
+                cur=next;
+                continue;
+            }
+            cur=cur.next;
+            pre=pre.next;
+        }
+        return dum.next;
+    }
 }
 class ListNode {
     int val;

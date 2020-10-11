@@ -59,4 +59,21 @@ public class MaximumSubarray {
         }
         return rs;
     }
+//05/22/2020,写的不太好，改了几次，看以前的前缀和解法
+    public int maxSubArray4(int[] nums) {
+        if(nums.length==0){
+            return 0;
+        }
+        int pre=nums[0];
+        int rs=pre;
+        for(int i=1;i<nums.length;i++){
+            if(pre>0){
+                rs=Math.max(rs,pre+nums[i]);
+            }else{
+                rs=Math.max(rs,nums[i]);
+            }
+            pre=Math.max(0,pre)+nums[i];
+        }
+        return rs;
+    }
 }

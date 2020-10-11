@@ -24,4 +24,24 @@ public class CoinsinaLine {
         }
         return dp[dp.length-1];
     }
+//05/21/2020,不会//ttftt
+    public boolean firstWillWin2(int n) {
+        if(n<=0){
+            return false;
+        }
+        if(n<=2){
+            return true;
+        }
+        boolean[] dp=new boolean[n];
+        dp[0]=true;
+        dp[1]=true;
+        for(int i=2;i<n;i++){
+            if(dp[i-1]==dp[i-2]&&dp[i-1]){
+                dp[i]=false;
+            }else{
+                dp[i]=true;
+            }
+        }
+        return dp[dp.length-1];
+    }
 }

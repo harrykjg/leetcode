@@ -123,10 +123,40 @@ public class CopyListwithRandomPointer {
         return map.get(head);
 
     }
+    //04/20/2020,基本一次过吧
+    public RandomListNode copyRandomList4(RandomListNode head) {
+        if (head==null){
+            return null;
+        }
+        HashMap<RandomListNode, RandomListNode> map=new HashMap<>();
+        RandomListNode cur=head;
+        while (cur!=null){
+            RandomListNode copy=null;
+            if(!map.containsKey(cur)){
+                copy=new RandomListNode(cur.label);
+                map.put(cur,copy);
+            }else{
+                copy=map.get(cur);
+            }
+            if(cur.next!=null){
+                if(!map.containsKey(cur.next)){
+                    RandomListNode nextcopy=new RandomListNode(cur.next.label);
+                    map.put(cur.next,nextcopy);
+                }
+                copy.next=map.get(cur.next);
+            }
+            if(cur.random!=null){
+                if(!map.containsKey(cur.random)){
+                    RandomListNode rancopy=new RandomListNode(cur.random.label);
+                    map.put(cur.random,rancopy);
+                }
+                copy.random=map.get(cur.random);
+            }
+            cur=cur.next;
+        }
+        return map.get(head);
 
-
-
-
+    }
 }
 
 

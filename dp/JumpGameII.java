@@ -1,5 +1,7 @@
 package dp;
 
+import java.util.Arrays;
+
 /**
  * Created by 502575560 on 9/10/17.
  */
@@ -25,8 +27,47 @@ public class JumpGameII {
             if(furtherScope>=A.length-1){
                 return step+1;
             }
-
         }
         return -1;
+    }
+    //05/25/2020,写的dp貌似还可以，就是最后一个case超时
+    public int jump2(int[] nums) {
+        if(nums.length==0){
+            return 0;
+        }
+        int[] dp=new int[nums.length];
+        int local=nums[0];
+        for(int i=1;i<dp.length;i++){
+            dp[i]=i;
+            for(int j=0;j<i;j++){
+                local=j+nums[j];
+                if(local>=i){
+                    dp[i]=Math.min(dp[j]+1,dp[i]);
+                }
+            }
+        }
+        return dp[dp.length-1];
+    }
+//非dp的,写不出来
+    public int jump3(int[] nums) {
+        if(nums.length<=1){
+            return 0;
+        }
+        int step=0;
+        int scope=0;
+        int maxscope=0;
+        int i=0;
+        while (i<nums.length){
+            if(i>scope){
+                step++;
+                scope=maxscope;
+            }
+            maxscope=Math.max(maxscope,i+nums[i]);
+            if(maxscope>=nums.length-1){
+                return step+1;
+            }
+            i++;
+        }
+        return step;
     }
 }

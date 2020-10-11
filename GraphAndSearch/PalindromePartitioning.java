@@ -140,8 +140,44 @@ public class PalindromePartitioning {
                 dfs3(b + i + 1, ch, al, rs, memo);
                 al.remove(al.size() - 1);
             }
-
         }
-
+    }
+//05/25/2020,一次过
+    public List<List<String>> partition4(String s) {
+        List<List<String>> rs=new ArrayList<>();
+        List<String> al=new ArrayList<>();
+        char[] ch=s.toCharArray();
+        boolean[][] dp=new boolean[s.length()][s.length()];
+        for(int i=0;i<s.length();i++){
+            dp[i][i]=true;
+        }
+        for(int i=1;i<s.length();i++){
+            if(s.charAt(i-1)==s.charAt(i)){
+                dp[i-1][i]=true;
+            }
+        }
+        for(int len=2;len<s.length();len++){
+            for(int i=0;i+len<s.length();i++){
+                int e=i+len;
+                if(s.charAt(i)==s.charAt(e)&&dp[i+1][e-1]){
+                    dp[i][e]=true;
+                }
+            }
+        }
+        dfs4(0,s,al,rs,dp);
+        return rs;
+    }
+    void dfs4(int b,String s,List<String> al,List<List<String>> rs,boolean[][] dp){
+        if(b>=s.length()){
+            rs.add(new ArrayList<>(al));
+            return;
+        }
+        for(int i=0;b+i<s.length();i++){
+            if(dp[b][b+i]){
+                al.add(s.substring(b,b+i+1));
+                dfs4(i+b+1,s,al,rs,dp);
+                al.remove(al.size()-1);
+            }
+        }
     }
 }

@@ -43,7 +43,7 @@ public class SortColors {
                 continue;
             }
             if(nums[cur]==0){//这里开始想着nums[cur]=0的话则和b换,b上的东西换过来我不知道是1还是2,所以cur不变要继续检查,其实不是这样的,b上面只有2中可能:0
-                int temp=nums[b]; //或者1,会是2,因为如果b是2的话,一开始进来while循环就把他换到后面了.既然b上面是0或者1,两种情况都是要cur++,这里是关键点,
+                int temp=nums[b]; //或者1,不会是2,因为如果b是2的话,一开始进来while循环就把他换到后面了.既然b上面是0或者1,两种情况都是要cur++,这里是关键点,
                 nums[b]=0;    //否则无法处理原数组第一个数就是0的情况
                 nums[cur]=temp;
                 b++;
@@ -111,6 +111,31 @@ public class SortColors {
             nums[cur]=temp;
             b++;
             cur++;
+        }
+    }
+//05/25/2020，还是写不出
+    public void sortColors5(int[] nums) {
+        if(nums.length==0){
+            return;
+        }
+        int red=0;
+        int blue=nums.length-1;
+        int cur=0;
+        while(cur<blue){//少了等号就不行
+            if(nums[cur]==2){
+                int temp=nums[blue];
+                nums[blue]=2;
+                nums[cur]=temp;
+                blue--;
+            }else if(nums[cur]==0){
+               int temp=nums[red];
+               nums[red]=0;
+               nums[cur]=temp;
+               cur++;
+               red++;
+            }else{
+                cur++;
+            }
         }
     }
 }

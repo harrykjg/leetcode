@@ -25,7 +25,7 @@ public class LowestCommonAncestorofaBinaryTree {
         if (root==null){
             return null;
         }
-        if(root==A||root==B){
+        if(root==A||root==B){//这是错的，看别人的答案
             return root;
         }
         TreeNode left=lowestCommonAncestor(root.left,A,B);

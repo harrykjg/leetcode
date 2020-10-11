@@ -65,6 +65,32 @@ public class ReverseLinkedListII {
             right.next=temp;
         }
         return dum.next;
-
+    }
+//05/24/2020，写的凑活，找m，n那有点麻烦
+    public ListNode reverseBetween3(ListNode head, int m , int n) {
+        if(head==null){
+            return head;
+        }
+        ListNode dum=new ListNode(0);
+        dum.next=head;
+        ListNode cur=dum;
+        ListNode b=dum;
+        ListNode e=dum;
+        int index=0;
+        while (index<n){//这里index和n改了一次
+            if(index==m-1){
+                b=cur;
+            }
+            cur=cur.next;
+            index++;
+        }
+        e=cur;
+        while (b.next!=e){
+            ListNode temp=b.next.next;
+            b.next.next=e.next;
+            e.next=b.next;
+            b.next=temp;
+        }
+        return dum.next;
     }
 }

@@ -84,4 +84,7 @@ public class DistinctSubsequences {
         }
         return dp[dp.length-1][dp[0].length-1];
     }
+//05/26/2020,画图，居然是在s.charat(i)==t.charat(j)的情况下，dp[i][j]左上和右边的和.代码就不写了，和第一次的基本一样，是T为行，S为列
+    public static int numDistinct4(String s, String t) {
+    }
 }

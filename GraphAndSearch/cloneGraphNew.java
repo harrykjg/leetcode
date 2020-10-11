@@ -58,6 +58,34 @@ public class cloneGraphNew {
         }
         return map.get(node.val);
     }
+//05/29/2020
+    public Node cloneGraph3(Node node) {
+        if(node==null){
+            return node;
+        }
+        HashMap<Node,Node> map=new HashMap<>();
+        Queue<Node> q=new LinkedList<>();
+        q.offer(node);
+        while (!q.isEmpty()){
+            Node cur=q.poll();
+            if(!map.containsKey(cur)){
+                Node copy=new Node(cur.val);
+                map.put(cur,copy);
+            }
+            List<Node> neiList=cur.neighbors;
+            for(Node nei:neiList){
+                if(map.containsKey(nei)){
+                    map.get(cur).neighbors.add(map.get(nei));
+                }else{
+                    Node copyNei=new Node(nei.val);
+                    map.put(nei,copyNei);
+                    map.get(cur).neighbors.add(map.get(nei));
+                    q.offer(nei);//这里开始还想要另一个set去重，结果放到这就行了
+                }
+            }
+        }
+        return map.get(node);
+    }
 }
 
 class Node {

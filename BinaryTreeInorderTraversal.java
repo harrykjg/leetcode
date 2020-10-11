@@ -70,4 +70,28 @@ public class BinaryTreeInorderTraversal {
         }
         return rs;
     }
+    //05/24/2020
+    public List<Integer> inorderTraversal4(TreeNode root) {
+        List<Integer> rs=new ArrayList<>();
+        if(root==null){
+            return rs;
+        }
+        Stack<TreeNode> st=new Stack<>();
+        st.push(root);
+        while (!st.isEmpty()){
+           TreeNode node=st.peek();
+           if(node.left!=null){
+               st.push(node.left);
+               node.left=null;
+               continue;
+           }else{
+               st.pop();
+               rs.add(node.val);
+           }
+           if(node.right!=null){
+               st.push(node.right);
+           }
+        }
+        return rs;
+    }
 }

@@ -59,4 +59,24 @@ public class SubarraySum {
         return rs;
 
     }
+//05/22/2020，不会了，看回以前的，举例子
+    public static ArrayList<Integer> subarraySum3(int[] nums) {
+        ArrayList<Integer> rs=new ArrayList<>();
+        HashMap<Integer,Integer> map=new HashMap<>();
+        map.put(0,-1);
+        //不需要前缀和数组
+        int sum=0;
+        for(int i=0;i<nums.length;i++){
+            sum+=nums[i];
+            if(map.containsKey(sum)){
+                rs.add(map.get(sum)+1);
+                rs.add(i);
+                return rs;
+            }else{
+                map.put(sum,i);
+            }
+        }
+        return rs;
+
+    }
 }

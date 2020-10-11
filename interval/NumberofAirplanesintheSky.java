@@ -1,9 +1,6 @@
 package interval;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by yufengzhu on 4/18/18.
@@ -69,7 +66,7 @@ public class NumberofAirplanesintheSky {
             @Override
             public int compare(point o1, point o2) {
                 if(o1.time==o2.time){
-                    return o1.flag-o2.flag;
+                    return o1.flag-o2.flag;//这里是要吧end的放在前头，所以说o1.flag是start的话，要后在后面，所以o1.flag-o2.flag>0的话o1才大
                 }
                 return o1.time-o2.time;
             }
@@ -87,4 +84,36 @@ public class NumberofAirplanesintheSky {
 
         return rs;
     }
+
+    //05/21/2020,用pq做错了一些，pq只care谁先end，如果按谁start排序就错了，而array是要看谁先start才行
+    public int countOfAirplanes3(List<Interval> airplanes) {
+        if(airplanes.size()==0){
+            return 0;
+        }
+        PriorityQueue<Interval> pq=new PriorityQueue<>(new Comparator<Interval>() {
+            @Override
+            public int compare(Interval o1, Interval o2) {//
+                return o1.end-o2.end;
+            }
+        });
+        Collections.sort(airplanes, new Comparator<Interval>() {
+            @Override
+            public int compare(Interval o1, Interval o2) {
+                if(o1.start==o2.start){
+                    return o1.end-o2.end;
+                }
+                return o1.end-o2.end;
+            }
+        });
+        int rs=0;
+        for(int i=0;i<airplanes.size();i++){
+            while (!pq.isEmpty()&&pq.peek().end<=airplanes.get(i).start){
+                pq.poll();
+            }
+            pq.offer(airplanes.get(i));
+            rs=Math.max(rs,pq.size());
+        }
+        return rs;
+    }
+
 }

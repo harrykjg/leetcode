@@ -73,4 +73,32 @@ public class MinimumSizeSubarraySum {
         }
         return rs;
     }
+    //5/18/2020,就是缩放不难，改了几次过了
+    public static int minSubArrayLen3(int s, int[] nums) {
+        if(nums.length==0){
+            return 0;
+        }
+
+        int l=0;
+        int cursum=0;
+        int rs=nums.length;
+        for(int i=0;i<nums.length;i++){
+            cursum+=nums[i];
+            while (cursum>s&&l<i){
+                if(cursum-nums[l]>=s){
+                    cursum-=nums[l];
+                    l++;
+                }else {
+                    break;
+                }
+            }
+            if(cursum>=s){
+                rs=Math.min(rs,i-l+1);
+            }
+        }
+        if(cursum<s){
+            return 0;
+        }
+        return rs;
+    }
 }

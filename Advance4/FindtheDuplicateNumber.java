@@ -35,4 +35,8 @@ public class FindtheDuplicateNumber {
         return e;
 
     }
+//05/21/2020,还是不会，看回以前的解释
+    public int findDuplicate2(int[] nums) {
+
+    }
 }

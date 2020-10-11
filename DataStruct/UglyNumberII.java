@@ -15,7 +15,7 @@ public class UglyNumberII {
 //            (3) 1×3, 2×3, 3×3, 4×3, 5×3, 6×3, 8×3
 //            (5) 1×5, 2×5, 3×5, 4×5, 5×5, 6×5, 8×5
     public static void main(String[] args){
-        System.out.print(nthUglyNumber(11));
+        System.out.print(nthUglyNumber2(10));
     }
     public static int nthUglyNumber(int n) {
         if(n==1){
@@ -44,6 +44,32 @@ public class UglyNumberII {
             rs=min;
         }
         return rs;
-
+    }
+    //http://www.cnblogs.com/aprilcheny/p/4950442.html
+    //05/27/2020,还是写不出来，要理解，while循环每次其实只是从*2，*3，*5之中选出最小的那个，剩下的2个留在各自的queue里等下次候选
+    public static int nthUglyNumber2(int n) {
+        int count=1;
+        int base=1;
+        Queue<Integer> n1=new LinkedList<>();
+        Queue<Integer> n2=new LinkedList<>();
+        Queue<Integer> n3=new LinkedList<>();
+        while (count<n){
+            n1.offer(base*2);
+            n2.offer(base*3);
+            n3.offer(base*5);
+            int min=Math.min(n1.peek(),Math.min(n2.peek(),n3.peek()));
+            if(n1.peek()==min){
+                n1.poll();
+            }
+            if(n2.peek()==min){
+                n2.poll();
+            }
+            if(n3.peek()==min){
+                n3.poll();
+            }
+            base=min;
+           count++;
+        }
+        return base;
     }
 }

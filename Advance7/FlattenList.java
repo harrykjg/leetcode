@@ -60,7 +60,22 @@ public class FlattenList {
         }
         return rs;
     }
+//05/22/2020,不会，写的dfs
+    public List<Integer> flatten4(List<NestedInteger> nestedList) {
+       List<Integer> rs=new ArrayList<>();
+       helper2(rs,nestedList);
+       return rs;
+    }
+    void helper2(List<Integer> rs,List<NestedInteger> ls){
+        for(NestedInteger ni:ls){
+            if(ni.isInteger()){
 
+                rs.add(ni.getInteger());
+            }else{
+                helper2(rs,ni.getList());
+            }
+        }
+    }
 }
 interface NestedInteger {
      // @return true if this NestedInteger holds a single integer, rather than a nested list.

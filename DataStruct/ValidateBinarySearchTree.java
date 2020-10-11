@@ -39,4 +39,22 @@ public class ValidateBinarySearchTree {
         }
         return helper2(cur,right,cur.right)&&helper2(left,cur,cur.left);
     }
+
+    //05/24/2020,改了一次对了
+    public boolean isValidBST3(TreeNode root) {
+        if(root==null){
+            return true;
+        }
+        return helper3(null,root.val,root.left)&&helper3(root.val,null,root.right);
+    }
+    boolean helper3(Integer low,Integer high,TreeNode root){
+        if(root==null){
+            return true;
+        }
+
+        if((high!=null&&root.val>=high)||(low!=null&&root.val<=low)){
+            return false;
+        }
+        return helper3(low,root.val,root.left)&&helper3(root.val,high,root.right);
+    }
 }

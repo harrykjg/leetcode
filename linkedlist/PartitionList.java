@@ -60,4 +60,32 @@ public class PartitionList {
         }
         return dum.next;
     }
+    //05/24/2020,我觉得是先找到比x小的点作为anchor，遇到比x小的就丢到anchor那，然后anchor前进一步，遇到比x大的就不动，继续走。不太好写，看回old的第二个思路
+    //改了几次对了
+    public ListNode partition3(ListNode head, int x) {
+        if(head==null){
+            return head;
+        }
+        ListNode dum=new ListNode(0);
+        dum.next=head;
+        ListNode cur=dum;
+        ListNode anchor=dum;
+        boolean flag=false;
+        while (cur!=null&&cur.next!=null){
+            if(cur.next.val<x&&flag){
+                ListNode temp=cur.next.next;
+                cur.next.next=anchor.next;
+                anchor.next=cur.next;
+                cur.next=temp;
+                anchor=anchor.next;
+            }else{
+                if(cur.next.val>=x&&!flag){
+                    flag=true;
+                    anchor=cur;
+                }
+                cur=cur.next;
+            }
+        }
+        return dum.next;
+    }
 }

@@ -130,5 +130,51 @@ public class NQueens {
         }
         return true;
     }
+    //05/29/2020,写的还星，就是check的方法的对角线不知道怎么写
+    public List<List<String>> solveNQueens3(int n) {
+        List<List<String>> rs=new ArrayList<>();
+        char[][] ch=new char[n][n];
+        for(int i=0;i<ch.length;i++){
+            Arrays.fill(ch[i],'.');
+        }
+        List<String> al=new ArrayList<>();
+        dfs2(0,al,rs,ch);
+        return rs;
+    }
+    void dfs2(int row,List<String> al,List<List<String>> rs,char[][] ch){
+        if(al.size()==ch.length){
+            rs.add(new ArrayList<>(al));
+            return;
+        }
+        for(int j=0;j<ch[0].length;j++){
+            ch[row][j]='Q';
+            if(check(row,j,ch)){
+                StringBuilder sb=new StringBuilder();
+                for(char c:ch[row]){
+                    sb.append(c);
+                }
+                al.add(sb.toString());
+                dfs2(row+1,al,rs,ch);
+                al.remove(al.size()-1);
+            }
+            ch[row][j]='.';
+        }
+    }
+    boolean check(int row,int col,char[][] ch){//他这个检查其实检查row之前的行就行了，row当行也不用检查（假设前面的代码写的对那么这一行肯定是只有一个queen的）
+        for(int i=0;i<row;i++){
+            if(ch[i][col]=='Q'){
+                return false;
+            }
+        }
+        for(int i=0;i<row;i++){//左上和右上的对角线就行了，左下和右下不用
+            if(col-(row-i)>=0&&ch[i][col-(row-i)]=='Q'){
+                return false;
+            }
+            if(col+(row-i)<ch[0].length&&ch[i][col+row-i]=='Q'){
+                return false;
+            }
+        }
+        return true;
+    }
 
 }

@@ -12,9 +12,10 @@ public class SerializeandDeserializeBinaryTree {
         TreeNode root=new TreeNode(1);
         root.left=new TreeNode(2);
         root.right=new TreeNode(3);
-        root.right.left=new TreeNode(4);
+        root.left.right=new TreeNode(4);
         root.right.right=new TreeNode(5);
-        System.out.println(sd.serialize(root));
+        root.right.right.right=new TreeNode(6);
+        System.out.println(sd.serialize2(root));
     }
 //自己想的就是层次遍历，比较不好的解法
     //https://blog.csdn.net/yeruby/article/details/49885267  他比较了先序和层次遍历的serilize的结果，代码不要看他的
@@ -182,5 +183,63 @@ public class SerializeandDeserializeBinaryTree {
             index++;
         }
         return root;
+    }
+    //02/21/2020,写不出来,原来上面的deseiralize2不是完全把树作为满二叉树的，leetcode的sieralize也不是
+    public String serialize4(TreeNode root) {
+        if(root==null){
+            return "";
+        }
+        Queue<TreeNode> q=new LinkedList<>();
+        q.offer(root);
+        String rs="";
+        while (!q.isEmpty()){
+            TreeNode cur=q.poll();
+            if(cur!=null){
+                rs+=cur.val+",";
+                q.offer(cur.left);
+                q.offer(cur.right);
+            }else{
+                rs+="#"+",";
+            }
+        }
+        return rs.substring(0,rs.length()-1);
+    }
+    public TreeNode deserialize4(String data) {
+        if(data.length()==0){
+            return null;
+        }
+        String[] ss=data.split(",");
+        if(ss[0].equals("#")){
+            return null;
+        }
+        TreeNode root=new TreeNode(Integer.parseInt(ss[0]));
+        Queue<TreeNode> q=new LinkedList<>();
+        q.offer(root);
+        int index=1;
+        while (!q.isEmpty()){
+            TreeNode cur=q.poll();
+            if(cur!=null){
+                if(!ss[index].equals("#")){
+                    cur.left=new TreeNode(Integer.parseInt(ss[index]));
+                    q.offer(cur.left);
+                }
+                index++;
+                if(!ss[index].equals("#")){
+                    cur.right=new TreeNode(Integer.parseInt(ss[index]));
+                    q.offer(cur.right);
+                }
+                index++;
+            }
+        }
+        return root;
+    }
+}
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+
+    TreeNode(int x) {
+        val = x;
     }
 }

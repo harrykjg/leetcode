@@ -99,7 +99,50 @@ public class KthLargestElement {
         }
         nums[i]=p;
         return i;
+    }
+    //05/22/2020，不会了，看回以前的
+    public int kthLargestElement3(int k, int[] nums) {
+        if(nums.length<k){
+            return 0;
+        }
+        return helper3(0,nums.length-1,nums,nums.length-k);
 
+    }
+    int helper3(int b,int e,int[] nums,int k){
+        if(b>e){
+            return nums[b];
+        }
+        int index=partition3(b,e,nums,nums[b]);
+        if(index==k){
+            return nums[index];
+        }
+        if(index>k){
+           return helper3(b,index-1,nums,k);
+        }else{
+            return helper3(index+1,e,nums,k);
+        }
+    }
+    int partition3(int b,int e,int[] nums,int pv){
+        int i=b;
+        int j=e;
+        while (i<j){
+            while (i<j&&nums[j]>pv){
+                j--;
+            }
+            if(i<j){
+                nums[i]=nums[j];
+                i++;
+            }
+            while (i<j&&nums[i]<pv){
+                i++;
+            }
+            if(i<j){
+                nums[j]=nums[i];
+                j--;
+            }
+        }
+        nums[i]=pv;
+        return i;
     }
 
 }

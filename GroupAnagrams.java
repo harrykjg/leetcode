@@ -24,7 +24,7 @@ public class GroupAnagrams {
             for(int i=0;i<ch.length;i++){
                 count[ch[i]-'a']++;
             }
-            StringBuilder sb=new StringBuilder();
+            StringBuilder sb=new StringBuilder();//其实用Arrays.toString(ch)就可以打出一个1002030。。。的表达，ch.toString的话打印的事地址
             for(int i=0;i<26;i++){
                 sb.append(count[i]);
                 sb.append("#");

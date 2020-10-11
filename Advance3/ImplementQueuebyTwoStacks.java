@@ -172,4 +172,44 @@ class ImplementQueuebyTwoStacks3 {
     public boolean empty() {
         return st1.isEmpty()&&st2.isEmpty();
     }
+
+}
+//04/23/2020,自己举例子貌似是对的做法，和上面comment out的做法一样
+class ImplementQueuebyTwoStacks4{
+    Stack<Integer> st1=new Stack<>();
+    Stack<Integer> st2=new Stack<>();
+    public ImplementQueuebyTwoStacks4() {
+        st1=new Stack<>();
+        st2=new Stack<>();
+    }
+
+    /** Push element x to the back of queue. */
+    public void push(int x) {
+        st1.push(x);
+    }
+
+    /** Removes the element from in front of queue and returns that element. */
+    public int pop() {
+        if (st2.isEmpty()){
+          while (!st1.isEmpty()){
+              st2.push(st1.pop());
+          }
+        }
+        return st2.pop();
+    }
+
+    /** Get the front element. */
+    public int peek() {
+        if(st2.isEmpty()){
+            while (!st1.isEmpty()){
+                st2.push(st1.pop());
+            }
+        }
+        return st2.peek();
+    }
+
+    /** Returns whether the queue is empty. */
+    public boolean empty() {
+        return st1.isEmpty()&&st2.isEmpty();
+    }
 }

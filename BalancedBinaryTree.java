@@ -1,8 +1,19 @@
 /**
  * Created by 502575560 on 7/22/17.
  */
-public class
-BalancedBinaryTree {
+public class BalancedBinaryTree {
+    public static void main(String[] args){
+        TreeNode root=new TreeNode(1);
+        root.left=new TreeNode(2);
+        root.right=new TreeNode(2);
+        root.left.left=new TreeNode(3);
+        root.right.right=new TreeNode(3);
+        root.right.right.left=new TreeNode(4);
+        root.right.right.left.right=new TreeNode(4);
+        BalancedBinaryTree bb=new BalancedBinaryTree();
+        System.out.println(bb.isBalanced2(root));
+
+    }
     public boolean isBalanced(TreeNode root) {
         if(root==null){
             return true;
@@ -21,4 +32,30 @@ BalancedBinaryTree {
         }
         return Math.max(depth(cur+1,n.left),depth(cur+1,n.right));
     }
+//05/24/2020,还是搞错了，不是说看根结点左右的深度就行了，是每个子树也要是balanced的，例如[1,2,2,3,null,null,3,4,null,null,4]
+    public boolean isBalanced2(TreeNode root) {
+        if(root==null){
+            return true;
+        }
+        int dleft=getDept(root.left);
+        int dright=getDept(root.right);
+        if(Math.abs(dleft-dright)>1){
+            return false;
+        }
+        return isBalanced2(root.left)&&isBalanced2(root.right);
+    }
+    int getDept(TreeNode root){
+        if(root==null){
+            return 0;
+        }
+        int dleft=getDept(root.left);
+        int dright=getDept(root.right);
+        return Math.max(dleft,dright)+1;
+    }
+}
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode(int x) { val = x; }
 }

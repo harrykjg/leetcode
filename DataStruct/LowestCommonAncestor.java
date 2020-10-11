@@ -66,13 +66,30 @@ class TreeNode {
         }
         TreeNode left=lowestCommonAncestor3(root.left,A,B);
         TreeNode right=lowestCommonAncestor3(root.right,A,B);
-        if (left!=null||right!=null){
+        if (left!=null&&right!=null){
             return root;
         }
         if(left!=null){
             return left;
         }
         return right;
-
+    }
+    //05/24/2020
+    public TreeNode lowestCommonAncestor4(TreeNode root, TreeNode p, TreeNode q) {
+        if(root==null){
+            return null;
+        }
+        if(root==p||root==q){
+            return root;
+        }
+        TreeNode left=lowestCommonAncestor4(root.left,p,q);
+        TreeNode right=lowestCommonAncestor4(root.right,p,q);
+        if(left!=null&&right!=null){
+            return root;
+        }
+        if(right!=null){
+            return right;
+        }
+        return left;
     }
 }

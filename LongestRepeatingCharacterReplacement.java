@@ -8,7 +8,7 @@ import java.util.List;
 public class LongestRepeatingCharacterReplacement {
     public static void main(String[] args){
         LongestRepeatingCharacterReplacement lr=new LongestRepeatingCharacterReplacement();
-        System.out.print(lr.characterReplacement("AABABBA",1));
+        System.out.print(lr.find("AABABBA",1));
     }
 
     //自己想的不行，做不出,要再练，他这个就是2 pointer缩放，也叫sliding window？理解有点不同
@@ -41,6 +41,37 @@ public class LongestRepeatingCharacterReplacement {
         }
         return rs;
 
+    }
+
+    int rs=1;
+    public int find(String s,int k){
+        if(s==null||s.length()==0){
+            return 0;
+        }
+        helper(1, 1, s, k);
+        return rs;
+    }
+
+    void helper(int curLen,int index, String s, int k){//ABABBAA
+        if(index==s.length()){
+            return;
+        }
+        for(int i=index;i<s.length();i++){
+            if(s.charAt(i)!=s.charAt(i-1)&&k>0){//
+                char[] ch=s.toCharArray();
+                ch[i]=ch[i-1];
+                String temp=new String(ch);
+                rs=Math.max(rs,curLen+1);
+                helper(curLen+1, index+1, temp, k-1);
+            }
+            //
+            if(s.charAt(i)==s.charAt(i-1)){
+                rs=Math.max(rs,curLen+1);
+                helper(curLen+1, index+1, s, k);
+            }
+            //if current char different then privous, do no operation
+//            helper(1,index+1,s,k);//ABAB
+        }
     }
 
 }

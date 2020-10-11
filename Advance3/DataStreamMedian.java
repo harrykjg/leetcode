@@ -1,5 +1,7 @@
 package Advance3;
 
+import com.sun.tools.javac.processing.PrintingProcessor;
+
 import java.util.Collections;
 import java.util.PriorityQueue;
 
@@ -70,6 +72,10 @@ public class DataStreamMedian {
             }
         }
         return rs;
+    }
+
+    //05/27/2020,lintcode的要求貌似不同，1，-10的median是-10！而不是（1-10）/2，所以要最大堆（装小的那一半）的size大于等于最小堆，懒得改了
+    public static int[] medianII3(int[] nums) {
     }
 
 }
