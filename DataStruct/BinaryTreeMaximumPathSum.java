@@ -29,4 +29,25 @@ public class BinaryTreeMaximumPathSum {
         //不可能跳过root而去取它的儿子
         return Math.max(root.val,Math.max(root.val+left,root.val+right));
     }
+
+    //12/17/2020,
+    //总体记得，但是还是写的不对,看回上面的注解
+    int max2=0;
+    public int maxPathSum2(TreeNode root) {
+        if(root==null){
+            return 0;
+        }
+        helper2(root);
+        return max2;
+    }
+
+    int helper2(TreeNode root){
+        if(root==null){
+            return 0;
+        }
+        int left=Math.max(0,helper(root.left));//开始写成root.left==null?0:helper2(root.left)这样是不对的，因为root。left可能是负数
+        int right=Math.max(0,helper(root.right));
+        max2=Math.max(max2,root.val+left+right);
+        return Math.max(root.val+left,Math.max(root.val+right,root.val));
+    }
 }

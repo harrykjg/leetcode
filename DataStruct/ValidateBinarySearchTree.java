@@ -57,4 +57,25 @@ public class ValidateBinarySearchTree {
         }
         return helper3(low,root.val,root.left)&&helper3(root.val,high,root.right);
     }
+
+    //12/19/2020写的一般般
+    public boolean isValidBST4(TreeNode root) {
+        if(root==null){
+            return true;
+        }
+        return helper4(null,root,root.left)&&helper4(root,null,root.right);
+    }
+    boolean helper4(TreeNode low, TreeNode high, TreeNode cur){
+        if(cur==null){
+            return true;
+        }
+        if(low!=null&&cur.val<=low.val){
+            return false;
+        }
+        if(high!=null&&cur.val>=high.val){
+            return false;
+        }
+
+        return helper4(low,cur,cur.left)&&helper4(cur,high,cur.right);
+    }
 }

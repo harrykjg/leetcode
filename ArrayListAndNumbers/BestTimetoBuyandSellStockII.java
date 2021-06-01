@@ -47,7 +47,7 @@ public class BestTimetoBuyandSellStockII {
                 rs+=prices[i]-buy;
                 buy=prices[i];
             }else{
-                buy=Math.min(buy,prices[i]);
+                buy=Math.min(buy,prices[i]);//这个比较其实是不必要的，因为当前的prices【i】如果是大于buy的话那么也不会来到这个else里
             }
         }
         return rs;

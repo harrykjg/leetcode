@@ -1,5 +1,7 @@
 package ArrayListAndNumbers;
 
+import java.util.Map;
+
 /**
  * Created by 502575560 on 7/10/17.
  */
@@ -53,6 +55,20 @@ public class BestTimetoBuyandSellStock {
             }else{
                 min=Math.min(prices[i],min);
             }
+        }
+        return rs;
+    }
+
+    //1/3/2021,
+    public int maxProfit4(int[] prices) {
+        if(prices.length==0){
+            return 0;
+        }
+        int rs=0;
+        int minBuy=prices[0];
+        for(int i=0;i<prices.length;i++){
+            rs=Math.max(rs,prices[i]-minBuy);
+            minBuy=Math.min(minBuy,prices[i]);
         }
         return rs;
     }

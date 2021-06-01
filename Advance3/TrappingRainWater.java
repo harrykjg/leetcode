@@ -13,7 +13,7 @@ public class TrappingRainWater {
     //还是不会,容易和largestrectangleinhistogram搞混
     //http://blog.csdn.net/linhuanmars/article/details/20888505
     //http://blog.csdn.net/okiwilldoit/article/details/23266495
-    public int trapRainWater(int[] heights) {
+    public int trapRainWater(int[] heights) {//udemy的夹逼法还比这个更好一点
         // write your code here
         int rs=0;
         if(heights.length<3){
@@ -40,6 +40,8 @@ public class TrappingRainWater {
 
     }
 //九章第二轮，4／5／2018,想了半天突然想到好想是左右扫一遍的,写的是两个数组，还加了个heap，基本一次过，但是上面的就用了一个数组而已更好，而且其实不用heap也行
+    //21年update，当想找到i位置左边和右边最大的数的时候，还是想着的是暴力的从i向左/右扫找到最大。这个想法应该要改掉，既然是要找所有的i的左边最大数，则应该
+    //从0位置开始边走边记录遇到的最大的数就可以了！
     public int trapRainWater2(int[] heights) {
         if(heights.length==0||heights.length<3){
             return 0;

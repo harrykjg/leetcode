@@ -114,6 +114,30 @@ public class ConvertSortedListtoBinarySearchTree {
         root.right=right;
         return root;
     }
+    //1/3/2021,自己还是想的快慢指针分段的想法，参考别的写法也是可以写出来的，和以前的写法不一样
+    //https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/discuss/35476/Share-my-JAVA-solution-1ms-very-short-and-concise.下面评论的写法
+    public TreeNode sortedListToBST4(ListNode head) {
+        if(head==null){
+            return null;
+        }
+        if(head.next==null){//这个容易漏
+            return new TreeNode(head.val);
+        }
+        ListNode slow=head;
+        ListNode fast=head;
+        ListNode pre=null;
+        while (fast!=null&&fast.next!=null){
+            pre=slow;
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+        pre.next=null;//比如1，2，3，4，5，现在把3作为中点了，需要一个pre去来把砍断，注意，从3开始砍断是不够的，因为这样的话1，2，3还存在，而我们只要1，2
+        TreeNode newnode=new TreeNode(slow.val);
+        newnode.left=sortedListToBST4(head);
+        newnode.right=sortedListToBST4(slow.next);
+        return newnode;
+    }
+
 }
 
 class TreeNode {

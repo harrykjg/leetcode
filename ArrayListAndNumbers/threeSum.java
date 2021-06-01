@@ -145,4 +145,43 @@ public class threeSum {
         }
         return rs;
     }
+
+    //1/5/2021
+    public List<List<Integer>> threeSum4(int[] nums) {
+        if(nums.length<=2){
+            return new ArrayList<>();
+        }
+        Arrays.sort(nums);
+        ArrayList<List<Integer>> rs=new ArrayList<>();
+        for(int i=0;i<nums.length-2;i++){
+            if(i>0&&nums[i]==nums[i-1]){
+                continue;
+            }
+
+            int b=i+1;
+            int e=nums.length-1;
+            while (b<e){
+                if(nums[i]+nums[b]+nums[e]==0){
+                    ArrayList<Integer> al=new ArrayList<>();
+                    al.add(nums[i]);
+                    al.add(nums[b]);
+                    al.add(nums[e]);
+                    rs.add(al);
+                    while (b+1<nums.length-1&&nums[b]==nums[b+1]){
+                        b++;
+                    }
+                    while (e-1>1&&nums[e]==nums[e-1]){
+                        e--;
+                    }
+                    b++;//这个又漏了
+                    e--;
+                }else if(nums[i]+nums[b]+nums[e]>0){
+                    e--;
+                }else{
+                    b++;
+                }
+            }
+        }
+        return rs;
+    }
 }

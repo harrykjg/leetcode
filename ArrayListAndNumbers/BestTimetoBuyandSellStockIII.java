@@ -1,6 +1,5 @@
 package ArrayListAndNumbers;
 
-import dp.backpack.CoinChange;
 
 import java.util.Arrays;
 
@@ -10,7 +9,7 @@ import java.util.Arrays;
 public class BestTimetoBuyandSellStockIII {
     public static void main(String[] a){
         BestTimetoBuyandSellStockIII bt=new BestTimetoBuyandSellStockIII();
-        int[] n={3,3,5,0,0,3,1,4};
+        int[] n={2,1,2,0,1};
        System.out.print( bt.maxProfit4(n));
         int[] coin={2,7,8};
         System.out.println(bt.coinChange2(coin,9));
@@ -128,6 +127,31 @@ public class BestTimetoBuyandSellStockIII {
 
     }
 
+    //1/5/2021,基本上是懂的，就是dp1多写了个if（prices[i]>buy)这个条件，dp1意义是0到i之间可以取得的最大profit，即比如当前prices【i】是没有profit，但是只要0到i-1是有profit的，那么dp1【i】也是有profit
+    public int maxProfit5(int[] prices) {
+        if(prices.length==0||prices.length==1){
+            return 0;
+        }
+        int rs=0;
+        int[] dp1=new int[prices.length];
+        int[] dp2=new int[prices.length];
+        int buy=prices[0];
+        for(int i=1;i<prices.length;i++){
+            dp1[i]=Math.max(dp1[i-1],prices[i]-buy);
+
+            buy=Math.min(buy,prices[i]);
+        }
+        int sell=prices[prices.length-1];
+        for(int i=prices.length-2;i>=0;i--){
+            dp2[i]=Math.max(sell-prices[i],dp2[i+1]);
+
+            sell=Math.max(sell,prices[i]);
+        }
+        for(int i=1;i<prices.length;i++){
+            rs=Math.max(dp1[i]+dp2[i],rs);
+        }
+        return rs;
+    }
 
 
     public int coinChange2(int[] coins, int amount) {
