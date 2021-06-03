@@ -52,6 +52,11 @@ public class SubarraySumClosest {
     }
     return rs;
   }
+  //6/2/2021,不会做,看回以前的
+  public int[] subarraySumClosest2(int[] nums) {
+
+  }
+
   class pair{
     int sum;
     int index;

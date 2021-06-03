@@ -6,16 +6,16 @@ import java.util.Stack;
  */
 public class MinimumDistanceBetweenBSTNodes {
     //inorder找每个值之间差值最小的,叼，居然一次过，inorder也写对了虽然有点慌
-    public int minDiffInBST(TreeNode root) {
+    public int minDiffInBST(DataStruct.tree.TreeNode root) {
         if(root==null){
             return 0;
         }
         ArrayList<Integer> rs=new ArrayList<>();
         int diff=Integer.MAX_VALUE;
-        Stack<TreeNode> st=new Stack<>();
+        Stack<DataStruct.tree.TreeNode> st=new Stack<>();
         st.push(root);
         while (!st.isEmpty()){
-            TreeNode temp=st.peek();
+            DataStruct.tree.TreeNode temp=st.peek();
             if(temp.left==null){
                 rs.add(temp.val);
                 st.pop();

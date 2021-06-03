@@ -8,15 +8,15 @@ import java.util.Stack;
 public class BinaryTreePostorderTraversa {
 
     //july2017 居然也一次过,和以前写的不一样,以前是先push 左边再右边的,但是先左之后就continue了,而我这里是没有continue的
-    public List<Integer> postorderTraversal(TreeNode root) {
+    public List<Integer> postorderTraversal(DataStruct.tree.TreeNode root) {
         List<Integer> rs=new LinkedList<>();
         if(root==null){
             return rs;
         }
-        Stack<TreeNode> st=new Stack();
+        Stack<DataStruct.tree.TreeNode> st=new Stack();
         st.push(root);
         while(!st.isEmpty()){
-            TreeNode temp=st.peek();
+            DataStruct.tree.TreeNode temp=st.peek();
             if(temp.left==null&&temp.right==null){
                 rs.add(temp.val);
                 st.pop();

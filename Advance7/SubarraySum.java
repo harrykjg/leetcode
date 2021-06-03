@@ -79,4 +79,22 @@ public class SubarraySum {
         return rs;
 
     }
+    //6/2/2021,记得是用map，但写不出，原来要初始化map，不好想
+    public static ArrayList<Integer> subarraySum4(int[] nums) {
+       ArrayList<Integer> rs=new ArrayList<>();
+        Map<Integer,Integer> map=new HashMap<>();
+        map.put(0,-1);
+        int curSum=0;
+        for(int i=0;i<nums.length;i++){
+            curSum+=nums[i];
+            if(map.containsKey(curSum)){
+                rs.add(map.get(curSum)+1);
+                rs.add(i);
+            }else{
+                map.put(curSum,i);
+            }
+        }
+        return rs;
+
+    }
 }

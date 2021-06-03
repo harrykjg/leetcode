@@ -1,9 +1,6 @@
 package linkedlist;
 
-/**
- * Created by 502575560 on 7/10/17.
- */
-public class PartitionList {
+public class abv {
     public static void main(String[] args){
         PartitionList pl =new PartitionList();
         ListNode head=new ListNode(1);
@@ -11,9 +8,9 @@ public class PartitionList {
         head.next.next=new ListNode(3);
         head.next.next.next=new ListNode(0);
         head.next.next.next.next=new ListNode(2);
-		head.next.next.next.next.next=new ListNode(5);
+        head.next.next.next.next.next=new ListNode(5);
         head.next.next.next.next.next.next=new ListNode(2);
-        ListNode rs=pl.partition4(head, 3);
+        ListNode rs=pl.partition(head, 3);
         while(rs!=null){
             System.out.println(rs.val);
             rs=rs.next;
@@ -105,7 +102,7 @@ public class PartitionList {
     }
 
     //6/1/2021,不是很好想。我觉得我想的是对的，不用先找到第一个大的或者小的点，只要dum作为anchor，遇到小的就换到anchor前面，然后anchor前进一位，遇到大的不动，
-    //anchor也不动，继续看下一个，其实还是不太好写，改了几次对了。但是还是记住以前old的第二个方法吧https://github.com/harrykjg/leetcode/blob/master/old/PartitionList.java
+    //anchor也不动，继续看下一个，如
     public ListNode partition4(ListNode head, int x) {
         if(head==null){
             return null;
@@ -116,29 +113,16 @@ public class PartitionList {
         ListNode cur=pre;
 
         while (cur!=null&&cur.next!=null){
-            if(cur.next.val<x&&pre.next!=cur.next){//这个情况是当前节点是小的，并且需要换到前面。但是cur却不需要前进
+            if(cur.next.val<x){
                 ListNode temp=cur.next;
                 cur.next=cur.next.next;
                 temp.next=pre.next;
                 pre.next=temp;
                 pre=pre.next;
-                continue;
-            }else if(cur.next.val<x){//这个情况是当前节点是小的，但是他就在pre后面，所以不用换，但是pre和cur都要前进一位
-                pre=pre.next;
             }
-            //当前是大的话，则不用动，前进一位
             cur=cur.next;
 
         }
         return dum.next;
-    }
-
-}
-class ListNode {
-    int val;
-    ListNode next;
-
-    ListNode(int x) {
-        val = x;
     }
 }

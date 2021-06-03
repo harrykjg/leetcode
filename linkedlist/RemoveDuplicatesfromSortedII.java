@@ -52,6 +52,33 @@ public class RemoveDuplicatesfromSortedII {
         }
         return dum.next;
     }
+
+    //6/1/2020,一次过
+    public static ListNode deleteDuplicates3(ListNode head) {
+        if(head==null){
+            return head;
+        }
+        ListNode dum=new ListNode(1);
+        dum.next=head;
+        ListNode pre=dum;
+        ListNode cur=pre.next;
+        while (cur!=null){
+            boolean found=false;
+            while (cur.next!=null&&cur.next.val==cur.val){
+                cur=cur.next;
+                found=true;
+            }
+            if(found){
+                pre.next=cur.next;
+                cur=pre.next;
+            }else {
+                pre=pre.next;
+                cur=pre.next;
+            }
+        }
+        return dum.next;
+    }
+
 }
 class ListNode {
     int val;

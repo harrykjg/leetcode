@@ -1,4 +1,4 @@
-package DataStruct;
+package DataStruct.tree;
 
 /**
  * Created by 502575560 on 8/20/17.
@@ -49,5 +49,25 @@ public class BinaryTreeMaximumPathSum {
         int right=Math.max(0,helper(root.right));
         max2=Math.max(max2,root.val+left+right);
         return Math.max(root.val+left,Math.max(root.val+right,root.val));
+    }
+//6/1/2021,一次过
+    int max3=Integer.MIN_VALUE;
+    public int maxPathSum3(TreeNode root) {
+        if(root==null){
+            return max3;
+        }
+        helper3(root);
+        return max3;
+    }
+    int helper3(TreeNode root){
+        if(root==null){
+            return 0;
+        }
+        int left=Math.max(0,helper3(root.left));
+        int right=Math.max(0,helper3(root.right));
+
+        max3=Math.max(max3,root.val+left+right);
+        return root.val+Math.max(left,right);
+
     }
 }

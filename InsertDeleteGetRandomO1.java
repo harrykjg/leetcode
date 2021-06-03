@@ -63,10 +63,10 @@ class RandomizedSet {
     ArrayList<Integer> al2;
     HashMap<Integer,Integer> map2;
     /** Initialize your data structure here. */
-    public RandomizedSet() {
-        al2=new ArrayList<>();
-        map2=new HashMap<>();
-    }
+//    public RandomizedSet() {
+//        al2=new ArrayList<>();
+//        map2=new HashMap<>();
+//    }
 
     /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
     public boolean insert2(int val) {
@@ -104,10 +104,10 @@ class RandomizedSet {
     }
 
 //04/11/2020
-    public RandomizedSet3() {
-        al=new ArrayList<>();
-        map=new HashMap<>();
-    }
+//    public RandomizedSet3() {
+//        al=new ArrayList<>();
+//        map=new HashMap<>();
+//    }
 
     /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
     public boolean insert3(int val) {

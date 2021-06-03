@@ -52,4 +52,18 @@ public class BestTimetoBuyandSellStockII {
         }
         return rs;
     }
+//6/2/2021,其实和trapingRainWater有点像，就是要看i位置上左边最小的数字，on the fly从左到右就行
+    public int maxProfit4(int[] prices) {
+        int rs=0;
+        int buy=prices[0];
+        for(int i=1;i<prices.length;i++){
+            if(prices[i]>buy){
+                rs+=prices[i]-buy;
+                buy=prices[i];
+            }else{
+                buy=Math.min(buy,prices[i]);
+            }
+        }
+        return rs;
+    }
 }

@@ -37,7 +37,7 @@ public class TwoSum {
 
     }
 
-//8/29/2018 原来是不能排序的
+//8/29/2018
     public int[] twoSum2(int[] nums, int target) {
         if(nums.length<2){
             return null;

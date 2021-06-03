@@ -1,4 +1,4 @@
-package DataStruct;
+package DataStruct.tree;
 
 /**
  * Created by 502575560 on 8/21/17.
@@ -29,7 +29,7 @@ public class ValidateBinarySearchTree {
         }
         return helper2(null,root,root.left)&&helper2(root,null,root.right);
     }
-    boolean helper2(TreeNode left,TreeNode right,TreeNode cur){
+    boolean helper2(TreeNode left, TreeNode right, TreeNode cur){
         if(cur==null){
             return true;
         }
@@ -47,7 +47,7 @@ public class ValidateBinarySearchTree {
         }
         return helper3(null,root.val,root.left)&&helper3(root.val,null,root.right);
     }
-    boolean helper3(Integer low,Integer high,TreeNode root){
+    boolean helper3(Integer low, Integer high, TreeNode root){
         if(root==null){
             return true;
         }
@@ -77,5 +77,24 @@ public class ValidateBinarySearchTree {
         }
 
         return helper4(low,cur,cur.left)&&helper4(cur,high,cur.right);
+    }
+//6/1/2021
+    public boolean isValidBST5(TreeNode root) {
+        if(root==null){
+            return true;
+        }
+        return helper5(null,root.val,root.left)&&helper5(root.val,null,root.right);
+    }
+    boolean helper5(Integer low,Integer high, TreeNode node){
+        if(node==null){
+            return true;
+        }
+        if(low!=null&&node.val<=low){
+            return false;
+        }
+        if(high!=null&&node.val>=high){
+            return false;
+        }
+        return helper5(low, node.val, node.left)&&helper5(node.val,high,node.right);
     }
 }

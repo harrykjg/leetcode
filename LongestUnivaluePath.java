@@ -4,19 +4,19 @@
 public class LongestUnivaluePath {
     public static void main(String[] a){
         LongestUnivaluePath lu=new LongestUnivaluePath();
-        TreeNode r=new TreeNode(1);
-        r.left=new TreeNode(2);
-        r.right=new TreeNode(2);
-        r.left.left=new TreeNode(2);
-        r.left.right=new TreeNode(2);
-        r.right.left=new TreeNode(2);
-        r.right.right=new TreeNode(2);
-        r.left.left.left=new TreeNode(2);
+        DataStruct.tree.TreeNode r=new DataStruct.tree.TreeNode(1);
+        r.left=new DataStruct.tree.TreeNode(2);
+        r.right=new DataStruct.tree.TreeNode(2);
+        r.left.left=new DataStruct.tree.TreeNode(2);
+        r.left.right=new DataStruct.tree.TreeNode(2);
+        r.right.left=new DataStruct.tree.TreeNode(2);
+        r.right.right=new DataStruct.tree.TreeNode(2);
+        r.left.left.left=new DataStruct.tree.TreeNode(2);
         lu.longestUnivaluePath(r);
     }
     //和Binary Tree Maximum Path Sum很像，path可以是左中右这样连起来的,大概是知道怎么写，但是还是很难写对！对比答案，他的arrowLeft那部分有差别！
     int rs=0;
-    public int longestUnivaluePath(TreeNode root) {
+    public int longestUnivaluePath(DataStruct.tree.TreeNode root) {
         if(root==null){
             return 0;
         }
@@ -24,7 +24,7 @@ public class LongestUnivaluePath {
         return rs;
 
     }
-    int helper(TreeNode r){
+    int helper(DataStruct.tree.TreeNode r){
         if(r==null){
             return 0;
         }

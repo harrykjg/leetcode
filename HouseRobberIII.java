@@ -1,7 +1,6 @@
 
 
 import java.util.HashMap;
-import java.util.function.BooleanSupplier;
 
 /**
  * Created by 502575560 on 6/25/16.
@@ -15,24 +14,24 @@ public class HouseRobberIII {
     //这个代码改了2次之后超时,后来我加了一个2层的map搞了挺久才accept,应该是写复杂了,别人不用这样的,其实内层用个长度为2的数组就行了,或者说就一层map的key是integer就行了?
     static int rs=0;
     public static void main(String[] args){
-        TreeNode n=new TreeNode(1);
-        n.right=new TreeNode(4);
-        n.right.left=new TreeNode(3);
-        n.right.left.right=new TreeNode(2);
+        DataStruct.tree.TreeNode n=new DataStruct.tree.TreeNode(1);
+        n.right=new DataStruct.tree.TreeNode(4);
+        n.right.left=new DataStruct.tree.TreeNode(3);
+        n.right.left.right=new DataStruct.tree.TreeNode(2);
         System.out.println(rob(n));
     }
-    public static int rob(TreeNode root) {
+    public static int rob(DataStruct.tree.TreeNode root) {
         if(root==null){
             return 0;
         }
-        HashMap<TreeNode,HashMap<Boolean,Integer>> map=new HashMap<>();
+        HashMap<DataStruct.tree.TreeNode,HashMap<Boolean,Integer>> map=new HashMap<>();
         int temp1=dfs(root,true,map);
         int temp2=dfs(root,false,map);
         rs=Math.max(temp1,temp2);//我的想法就是这个用一个true和false区分取不取当前节点
         return rs;
 
     }
-    public static int dfs(TreeNode root,boolean take,HashMap<TreeNode,HashMap<Boolean,Integer>> map){
+    public static int dfs(DataStruct.tree.TreeNode root, boolean take, HashMap<DataStruct.tree.TreeNode,HashMap<Boolean,Integer>> map){
         int rs2=0;
         if(root==null){
             return 0;
@@ -75,14 +74,14 @@ public class HouseRobberIII {
     }
     //9／9／2018，还是不会，见大神解释
 
-    public  int rob2(TreeNode root) {
+    public  int rob2(DataStruct.tree.TreeNode root) {
         if(root==null){
             return 0;
         }
-        HashMap<TreeNode,Integer> map=new HashMap<>();
+        HashMap<DataStruct.tree.TreeNode,Integer> map=new HashMap<>();
         return helper(root,map);
     }
-    int helper(TreeNode root, HashMap<TreeNode, Integer> map){
+    int helper(DataStruct.tree.TreeNode root, HashMap<DataStruct.tree.TreeNode, Integer> map){
         if(root==null){
             return 0;
         }

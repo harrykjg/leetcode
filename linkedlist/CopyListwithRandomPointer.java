@@ -1,6 +1,9 @@
 package linkedlist;
 
+import com.sun.codemodel.internal.JWhileLoop;
+
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by 502575560 on 7/9/17.
@@ -156,6 +159,38 @@ public class CopyListwithRandomPointer {
         }
         return map.get(head);
 
+    }
+//6/2/2021
+    public RandomListNode copyRandomList5(RandomListNode head) {
+        if (head==null){
+            return head;
+        }
+        Map<RandomListNode, RandomListNode> map=new HashMap<>();
+        RandomListNode cur=head;
+        while (cur!=null){
+            if(!map.containsKey(cur)) {
+                RandomListNode copy = new RandomListNode(cur.label);
+                map.put(cur, copy);
+            }
+            RandomListNode node=map.get(cur);
+            if(cur.next!=null){
+                if(!map.containsKey(cur.next)){
+                    RandomListNode next=new RandomListNode(cur.next.label);
+                    map.put(cur.next, next);
+                }
+                node.next=map.get(cur.next);
+
+            }
+            if(cur.random!=null){
+                if(!map.containsKey(cur.random)){
+                    RandomListNode next=new RandomListNode(cur.random.label);
+                    map.put(cur.random, next);
+                }
+                node.random=map.get(cur.random);
+            }
+
+        }
+        return map.get(head);
     }
 }
 

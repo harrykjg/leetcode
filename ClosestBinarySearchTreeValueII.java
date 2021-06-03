@@ -7,7 +7,7 @@ public class ClosestBinarySearchTreeValueII {
     //像MinimumDistanceBetweenBSTNodes
     //https://www.cnblogs.com/grandyang/p/5247398.html
     //https://leetcode.com/problems/closest-binary-search-tree-value-ii/discuss/70499/Java-5ms-iterative-following-hint-O(klogn)-time-and-space
-    public List<Integer> closestKValues(TreeNode root, double target, int k) {//自己想的用最大堆，存的是最小的k个元素，一次过了，复杂度是O(n），follow up要klgn的不会
+    public List<Integer> closestKValues(DataStruct.tree.TreeNode root, double target, int k) {//自己想的用最大堆，存的是最小的k个元素，一次过了，复杂度是O(n），follow up要klgn的不会
         PriorityQueue<pair> heap=new PriorityQueue<>(new Comparator<pair>() {
             @Override
             public int compare(pair o1, pair o2) {
@@ -15,16 +15,16 @@ public class ClosestBinarySearchTreeValueII {
             }
         });
         List<Integer> rs=new ArrayList<>();
-        Stack<TreeNode> st=new Stack<>();
+        Stack<DataStruct.tree.TreeNode> st=new Stack<>();
         st.push(root);
         while (!st.isEmpty()){
-            TreeNode temp=st.peek();
+            DataStruct.tree.TreeNode temp=st.peek();
             if(temp.left!=null){
                 st.push(temp.left);
                 temp.left=null;
                 continue;
             }
-            TreeNode cur=st.pop();
+            DataStruct.tree.TreeNode cur=st.pop();
 
             double diff=Math.abs(target-cur.val);
             if (heap.size()<k){

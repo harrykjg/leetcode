@@ -12,22 +12,22 @@ public class Codec {
     //http://blog.csdn.net/pointbreak1/article/details/49504133   deserilize和他一样
     //https://leetcode.com/discuss/66117/easy-to-understand-java-solution  preorder的遍历
     public static void main(String[] args){
-        TreeNode r=new TreeNode(1);
-        r.left=new TreeNode(2);
-        r.right=new TreeNode(3);
-        r.right.left=new TreeNode(4);
-        r.right.right=new TreeNode(5);
+        DataStruct.tree.TreeNode r=new DataStruct.tree.TreeNode(1);
+        r.left=new DataStruct.tree.TreeNode(2);
+        r.right=new DataStruct.tree.TreeNode(3);
+        r.right.left=new DataStruct.tree.TreeNode(4);
+        r.right.right=new DataStruct.tree.TreeNode(5);
         System.out.print(serialize(r));
         deserialize(serialize(r));
     }
 
     // Encodes a tree to a single string.
-    public static String serialize(TreeNode root) {
-        Queue<TreeNode> q=new LinkedList<TreeNode>();
+    public static String serialize(DataStruct.tree.TreeNode root) {
+        Queue<DataStruct.tree.TreeNode> q=new LinkedList<DataStruct.tree.TreeNode>();
         q.offer(root);
         StringBuilder sb=new StringBuilder();
         while(!q.isEmpty()){
-            TreeNode temp=q.poll();
+            DataStruct.tree.TreeNode temp=q.poll();
             if(temp==null){
                 sb.append("null"+",");
                 continue;
@@ -43,27 +43,27 @@ public class Codec {
     }
 
     // Decodes your encoded data to tree.
-    public static TreeNode deserialize(String data) {
+    public static DataStruct.tree.TreeNode deserialize(String data) {
         String[] s=data.split(",");
         if(s.length==0){
             return null;
         }
         int i=1;
-        Queue<TreeNode> q=new LinkedList<>();
+        Queue<DataStruct.tree.TreeNode> q=new LinkedList<>();
         if(s[0].equals("null")){
             return null;
         }
-        TreeNode root=new TreeNode(Integer.valueOf(s[0]));
+        DataStruct.tree.TreeNode root=new DataStruct.tree.TreeNode(Integer.valueOf(s[0]));
         q.offer(root);
         while(i<s.length&&!q.isEmpty()){
-            TreeNode cur=q.poll();
+            DataStruct.tree.TreeNode cur=q.poll();
             if(!s[i].equals("null")){
-                cur.left=new TreeNode((Integer.valueOf(s[i])));
+                cur.left=new DataStruct.tree.TreeNode((Integer.valueOf(s[i])));
                 q.add(cur.left);
             }
             i++;
             if(!s[i].equals("null")){
-                cur.right=new TreeNode((Integer.valueOf(s[i])));
+                cur.right=new DataStruct.tree.TreeNode((Integer.valueOf(s[i])));
                 q.add(cur.right);
             }
             i++;
@@ -77,7 +77,7 @@ public class Codec {
 
   class TreeNode {
       int val;
-      TreeNode left;
-      TreeNode right;
+      DataStruct.tree.TreeNode left;
+      DataStruct.tree.TreeNode right;
       TreeNode(int x) { val = x; }
   }

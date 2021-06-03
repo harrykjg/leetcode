@@ -1,8 +1,7 @@
-
 //https://www.geeksforgeeks.org/check-if-a-given-binary-tree-is-sumtree/
 public class CheckifagivenBinaryTreeisSumTree {
 
-    boolean checkSumTree(TreeNode node){
+    boolean checkSumTree(DataStruct.tree.TreeNode node){
         if(node==null){
             return true;
         }
@@ -16,7 +15,7 @@ public class CheckifagivenBinaryTreeisSumTree {
         }
         return false;
     }
-    int check(TreeNode node){
+    int check(DataStruct.tree.TreeNode node){
         if(node==null){
             return 0;
         }

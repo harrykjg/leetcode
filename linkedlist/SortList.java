@@ -8,11 +8,11 @@ import java.util.List;
 public class SortList {
     public static void main(String[]args){
         SortList sl=new SortList();
-        ListNode l=new ListNode(0);
-        l.next=new ListNode(3);
+        ListNode l=new ListNode(4);
+        l.next=new ListNode(2);
         l.next.next=new ListNode(1);
-        l.next.next.next=new ListNode(1);
-        sl.sortList(l);
+        l.next.next.next=new ListNode(3);
+        sl.sortList2(l);
     }
     //用mergesort,quicksort没写
     public ListNode sortList(ListNode head) {
@@ -60,5 +60,56 @@ public class SortList {
             cur.next=l2;
         }
         return dum.next;
+    }
+//6/1/2021,改了一次对了
+    public ListNode sortList2(ListNode head) {
+        if(head==null||head.next==null){
+            return head;
+        }
+
+        ListNode dum=new ListNode(1);
+        dum.next=head;
+        ListNode walk=dum;
+        ListNode run=dum;
+        while (run!=null&&run.next!=null){
+            walk=walk.next;
+            run=run.next.next;
+        }
+        run=walk.next;
+        walk.next=null;
+        ListNode one=sortList2(dum.next);
+        ListNode two=sortList2(run);
+        return merge2(one,two);
+
+    }
+    ListNode merge2(ListNode n1,ListNode n2){
+        ListNode dum=new ListNode(1);
+        ListNode cur=dum;
+        while (n1!=null&&n2!=null){
+            if(n1.val<n2.val){
+                cur.next=n1;
+                n1=n1.next;
+                cur=cur.next;
+            }else{
+                cur.next=n2;
+                n2=n2.next;
+                cur=cur.next;
+            }
+        }
+        if (n1!=null){
+            cur.next=n1;
+        }
+        if (n2!=null){
+            cur.next=n2;
+        }
+        return dum.next;
+    }
+}
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int x) {
+        val = x;
     }
 }

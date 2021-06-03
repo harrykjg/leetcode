@@ -138,6 +138,31 @@ public class ConvertSortedListtoBinarySearchTree {
         return newnode;
     }
 
+    //6/2/2021,不是很好想到找walker前面一个节点.第一个手机app写法还是不错
+    public TreeNode sortedListToBST5(ListNode head) {
+        if(head==null){
+            return null;
+        }
+        if(head.next==null){
+            return new TreeNode(head.val);
+        }
+
+        ListNode wal=head;
+        ListNode run=head;
+        ListNode pre=null;
+        while (run!=null&&run.next!=null){
+            pre=wal;
+            wal=wal.next;
+            run=run.next.next;
+        }
+        pre.next=null;
+
+        TreeNode node=new TreeNode(wal.val);
+        node.left=sortedListToBST5(head);
+        node.right=sortedListToBST5(wal.next);
+        return node;
+    }
+
 }
 
 class TreeNode {

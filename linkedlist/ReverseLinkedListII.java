@@ -93,4 +93,29 @@ public class ReverseLinkedListII {
         }
         return dum.next;
     }
+//6/1/2021,一次过
+    public ListNode reverseBetween4(ListNode head, int m , int n) {
+        if(head==null){
+            return null;
+        }
+        ListNode dum=new ListNode(1);
+        dum.next=head;
+        ListNode pre=dum;
+        ListNode after=head;
+        for(int i=0;i<n-1;i++){
+            if(i<m-1){
+                pre=pre.next;
+            }
+            after=after.next;
+        }
+        int count=n-m;
+        while (count>0){
+            ListNode temp=pre.next;
+            pre.next=pre.next.next;
+            temp.next=after.next;
+            after.next=temp;
+            count--;
+        }
+        return dum.next;
+    }
 }
