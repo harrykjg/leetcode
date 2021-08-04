@@ -1,4 +1,4 @@
-package DataStruct.tree;
+package tree;
 
 /**
  * Created by 502575560 on 8/20/17.
