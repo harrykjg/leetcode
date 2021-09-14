@@ -138,8 +138,61 @@ public class GraphValidTree {
         }
         return true;
     }
-
+//6/15/2021.还是不会。union find还可以找环。懂了就容易
     public boolean validTree4(int n, int[][] edges) {
+        int count=n;
+        int[] ids=new int[n];
+        for (int i=0;i<n;i++){
+            ids[i]=i;
+        }
+        for (int i=0;i<edges.length;i++){
+            int root1=find4(edges[i][0],ids);
+            int root2=find4(edges[i][1],ids);
+            if(root1==root2){
+                return false;
+            }
+            ids[root1]=root2;
+            count--;
 
+        }
+        return count==1;
+    }
+    int find4(int x,int[] ids){
+        if (ids[x]==x){
+            return x;
+        }
+        return ids[x]=find4(ids[x],ids);
+    }
+//8/13/2021 不会了，lc答案说可以dfs，难点在于要去重，比如a到b，那么b不因该再到回a，那么如果还有a到b到 c到 a，c怎么才回到a从而检查到环呢，lc答案说可以
+    //遍历a到b之后，把a从b的邻居里删掉，那么b就不会去a了，也不用memo数组，后来c自然会去到a就发现有环了
+    //再写unionfind吧看着代码短
+    public boolean validTree5(int n, int[][] edges) {
+        int[] ids=new int[n];
+        int count=n;
+        for (int i=0;i<ids.length;i++){
+            ids[i]=i;
+        }
+        if (edges.length<n-1){
+            return false;
+        }
+        for (int i=0;i<edges.length;i++){
+            int a=edges[i][0];
+            int b=edges[i][1];
+            int ida=find5(a,ids);
+            int idb=find5(b,ids);
+            if (ida==idb){
+                return false;
+            }
+            ids[idb]=ida;
+            count--;
+        }
+        return count==1;
+    }
+    int find5(int a,int[] ids){
+        if (ids[a]==a){
+            return a;
+        }
+        ids[a]=find4(ids[a],ids);
+        return ids[a];
     }
 }

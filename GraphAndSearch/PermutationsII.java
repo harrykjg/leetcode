@@ -141,4 +141,36 @@ public class PermutationsII {
 
     }
 
+    //6/11/2021,一次过
+    public List<List<Integer>> permuteUnique5(int[] nums) {
+        List<List<Integer>> rs=new ArrayList<>();
+        List<Integer> al=new ArrayList<>();
+        if (nums.length==0){
+            return rs;
+        }
+        Arrays.sort(nums);
+        Set<Integer> set=new HashSet<>();
+        dfs5(nums,al,rs,set);
+        return rs;
+    }
+    void dfs5(int[] a,List<Integer> al,List<List<Integer>> rs,Set<Integer> set){
+        if(al.size()==a.length){
+            rs.add(new ArrayList<>(al));
+            return;
+        }
+        for (int i=0;i<a.length;i++){
+            if(i>0&&a[i-1]==a[i]&&!set.contains(i-1)){
+                continue;
+            }
+            if (!set.contains(i)){
+                al.add(a[i]);
+                set.add(i);
+                dfs5(a,al,rs,set);
+                al.remove(al.size()-1);
+                set.remove(i);
+            }
+        }
+
+    }
+
 }

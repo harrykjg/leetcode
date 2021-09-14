@@ -71,4 +71,28 @@ public class FindPeakElement {
         return b;
     }
 
+    //6/10/2021,以为想对了其实想错了，要用nums[m]和nums[m+1]或者nums[m-1]去判断答案在哪边，而不是用nums[m]和nums[e]或nums[b]
+    public int findPeakElement4(int[] nums) {
+        if(nums.length==1){
+            return 0;
+        }
+        int b=0;
+        int e=nums.length-1;
+        while (b+1<e){
+            int m=b+(e-b)/2;
+            if(nums[m]>nums[m+1]&&nums[m]>nums[m-1]){
+                return m;
+            }
+            if(nums[m]<nums[m+1]){
+                b=m;
+            }else {
+                e=m;
+            }
+        }
+        if(nums[e]>nums[b]){
+            return e;
+        }
+        return b;
+    }
+
 }

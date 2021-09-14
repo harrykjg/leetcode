@@ -44,7 +44,7 @@ public class BasicCalculator {
                 continue;
             }
             if(c==')'){
-                st.pop();//这里开始写了sign=1,应该不要重设sign的
+                st.pop();
                 i++;
                 continue;
             }
@@ -153,7 +153,7 @@ public class BasicCalculator {
         return rs;
     }
 
-    //9/29/2018,一次过，要记清楚，basiccalculator1不用先搞个first进入stack，并且stack是存符号的
+    //9/29/2018,一次过，要记清楚，basiccalculator1，并且stack是存符号的
     public int calculate4(String s) {
         if(s.length()==0){
             return 0;
@@ -194,6 +194,47 @@ public class BasicCalculator {
                 i++;
             }
             rs+=temp*st.peek()*sign;
+        }
+        return rs;
+    }
+
+    //7/5/2021,想用decode string的两个stack做，不好做。还是用1个stack.而且st是存+-1的！而且要先加1进来
+    public int calculate5(String s) {
+        if (s==null||s.length()==0){
+            return 0;
+        }
+        int signal=1;
+        s=s.replace(" ","");
+        Stack<Integer> st=new Stack<>();
+        st.push(1);
+        char[] ch=s.toCharArray();
+        int i=0;
+        int rs=0;
+        while (i<ch.length){
+            if (ch[i]=='('){
+                i++;
+                st.push(signal*st.peek());
+                signal=1;
+                continue;
+            }else if (ch[i]==')'){
+                st.pop();
+                signal=1;
+                i++;
+            }
+            else if (ch[i]=='+'){
+                i++;
+                signal=1;
+            }else if (ch[i]=='-'){
+                i++;
+                signal=-1;
+            }else {
+                int temp=0;
+                while (i<ch.length&&Character.isDigit(ch[i])){
+                    temp=10*temp+ch[i]-'0';
+                    i++;
+                }
+                rs+=st.peek()*signal*temp;
+            }
         }
         return rs;
     }

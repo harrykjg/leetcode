@@ -74,4 +74,66 @@ public class FactorCombinations {
             }
         }
     }
+//7/17/2021,想的用除法,还改了几次，要设起点b，要检查能否整除
+    public List<List<Integer>> getFactors3(int n) {
+        List<List<Integer>> rs=new ArrayList<>();
+        if (n<1){
+            return rs;
+        }
+        List<Integer> factor=new ArrayList<>();
+        for (int i=2;i<=n/2;i++){
+            if (n%i==0){
+                factor.add(i);
+            }
+        }
+        dfs3(n,0,factor,new ArrayList<>(),rs);
+        return rs;
+    }
+    void dfs3(int cur,int b,List<Integer> ls,List<Integer> al,List<List<Integer>> rs){
+        if (cur==1){
+            rs.add(new ArrayList<>(al));
+            return;
+        }
+        for (int i=b;i<ls.size();i++){
+            if (cur%ls.get(i)!=0){//忘了检查能否整除就错了
+                continue;
+            }
+            al.add(ls.get(i));
+            dfs3(cur/ls.get(i),i,ls,al,rs);
+            al.remove(al.size()-1);
+        }
+    }
+
+    //8/12/2021 一次超时。以前ac的现在都超时了，要用除法就不超时,因为除法那里可以检查某个candidate是否能被整除
+    public List<List<Integer>> getFactors4(int n) {
+        if(n==1){
+            return new ArrayList<>();
+        }
+        List<Integer> can=new ArrayList<>();
+        int a=2;
+        while (a<=n/2){
+            if (n%a==0){
+                can.add(a);
+            }
+            a++;
+        }
+        List<List<Integer>> rs=new ArrayList<>();
+
+        dfs4(0,new ArrayList<>(),can,n,rs);
+        return rs;
+    }
+    void dfs4(int b,List<Integer> al,List<Integer> can,int target,List<List<Integer>> rs){
+        if (target==1){
+            rs.add(new ArrayList<>(al));
+            return;
+        }
+        for (int i=b;i<can.size();i++){
+            if(target%can.get(i)!=0){
+                continue;
+            }
+            al.add(can.get(i));
+            dfs4(i,al,can,target/can.get(i),rs);
+            al.remove(al.size()-1);
+        }
+    }
 }

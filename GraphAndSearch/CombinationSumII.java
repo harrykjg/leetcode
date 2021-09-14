@@ -106,7 +106,7 @@ public class CombinationSumII {
             set.remove(i);
         }
     }
-//04/13/2020,基本一次过
+//04/13/2020,基本一次过,可以不用set的。看第一个写法，就是没那么容易想
     public List<List<Integer>> combinationSum24(int[] can, int tar) {
         List<List<Integer>> rs=new ArrayList<>();
         List<Integer> al=new ArrayList<>();

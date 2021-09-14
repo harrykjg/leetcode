@@ -13,8 +13,9 @@ public class TrappingRainWaterII {
     //http://blog.csdn.net/qq508618087/article/details/52698175  没看出来怎么是第一题的思维一样的
     public static void main(String[] a){
         TrappingRainWaterII tr=new TrappingRainWaterII();
-        int[][] m={{1,4,3,1,3,2},{3,2,1,3,2,4},{2,3,3,2,3,1}};
-        tr.trapRainWater2(m);
+        int[][] m={{12,13,0,12},{13,4,13,12},{13,8,10,12},{12,13,12,12},{13,13,13,13}};
+
+        System.out.println(tr.trapRainWater3(m));
     }
     public int trapRainWater(int[][] m) {
         if(m.length<3){
@@ -144,4 +145,14 @@ public class TrappingRainWaterII {
         }
         return rs;
     }
+    //6/16/2021 这次想法不一样，我全部柱子都扔进pq里然poll出最小的，只要这个柱子不是在边上，那么我找这个柱子的上下左右方向上遇到的最大高度，再取这四个方向上最大
+    //高度的最小高度就知道这个点上能装多少水了，难道不行吗?这样写lc能过18个case第19个错了.我知道错了，如果说这种情况，x点上下左右方向最大柱子都是12，但是这个
+    // 上方向的12的柱子不是紧贴着x点的，而紧贴x上面的点高度是10，然后这个10的左边或者右边最高柱子是9，那么这个x点上的水会先向10方向流然后再流到9，所以说这个方法是不行的
+    //可以参考lintcode的图想象。
+    public int trapRainWater3(int[][] m) {
+
+
+
+    }
+
 }

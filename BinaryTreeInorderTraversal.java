@@ -7,7 +7,7 @@ public class BinaryTreeInorderTraversal {
 
     //2016年7月,基本一次把递归和非递归的写出来了,非递归的就开始写错了用queue,其实要用stack
     List<Integer> rs=new LinkedList<>();
-    public List<Integer> inorderTraversal(DataStruct.tree.TreeNode root) {
+    public List<Integer> inorderTraversal(tree.TreeNode root) {
 
 
         helper(root);
@@ -15,7 +15,7 @@ public class BinaryTreeInorderTraversal {
 
     }
 
-    public void helper(DataStruct.tree.TreeNode n){
+    public void helper(tree.TreeNode n){
         if(n==null){
             return;
         }
@@ -24,14 +24,14 @@ public class BinaryTreeInorderTraversal {
         helper(n.right);
     }
 
-    public List<Integer> inorderTraversal2(DataStruct.tree.TreeNode root) {
+    public List<Integer> inorderTraversal2(tree.TreeNode root) {
         if(root==null){
             return rs;
         }
-        Stack<DataStruct.tree.TreeNode> st=new Stack<>();
+        Stack<tree.TreeNode> st=new Stack<>();
         st.push(root);
         while(!st.isEmpty()){
-            DataStruct.tree.TreeNode temp=st.peek();
+            tree.TreeNode temp=st.peek();
             if(temp.left==null){
                 rs.add(temp.val);
                 st.pop();
@@ -47,18 +47,18 @@ public class BinaryTreeInorderTraversal {
 
     }
     //04/20/2020,不怎么记得，重新想的也过了
-    public List<Integer> inorderTraversal3(DataStruct.tree.TreeNode root) {
+    public List<Integer> inorderTraversal3(tree.TreeNode root) {
         List<Integer> rs=new ArrayList<>();
         if (root==null){
             return rs;
         }
 
-        Stack<DataStruct.tree.TreeNode> st=new Stack<>();
+        Stack<tree.TreeNode> st=new Stack<>();
         st.push(root);
         while (!st.isEmpty()){
-            DataStruct.tree.TreeNode cur=st.peek();
+            tree.TreeNode cur=st.peek();
             if(cur.left==null){
-                DataStruct.tree.TreeNode temp=st.pop();
+                tree.TreeNode temp=st.pop();
                 rs.add(temp.val);
                 if(temp.right!=null){
                     st.push(temp.right);
@@ -71,15 +71,15 @@ public class BinaryTreeInorderTraversal {
         return rs;
     }
     //05/24/2020
-    public List<Integer> inorderTraversal4(DataStruct.tree.TreeNode root) {
+    public List<Integer> inorderTraversal4(tree.TreeNode root) {
         List<Integer> rs=new ArrayList<>();
         if(root==null){
             return rs;
         }
-        Stack<DataStruct.tree.TreeNode> st=new Stack<>();
+        Stack<tree.TreeNode> st=new Stack<>();
         st.push(root);
         while (!st.isEmpty()){
-           DataStruct.tree.TreeNode node=st.peek();
+           tree.TreeNode node=st.peek();
            if(node.left!=null){
                st.push(node.left);
                node.left=null;

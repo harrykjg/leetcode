@@ -2,6 +2,7 @@ package DataStruct;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by yufengzhu on 12/10/17.
@@ -37,6 +38,33 @@ public class LongestConsecutiveSequence {
             }
             count+=lcount+rcount;
             rs=Math.max(rs,count);
+        }
+        return rs;
+    }
+//6/7/2021,想的是用map,后来想的set就行了
+    public int longestConsecutive2(int[] nums) {
+        Set<Integer> set=new HashSet<>();
+        for (int i=0;i<nums.length;i++){
+            set.add(nums[i]);
+        }
+        int rs=0;
+        for (int i:nums){
+
+            if(set.contains(i)){
+                int temp=i;
+                int count=1;
+                set.remove(temp);
+                while (set.contains(temp-1)){
+                    count++;
+                    temp--;
+                }
+                temp=i;
+                while (set.contains(temp+1)){
+                    count++;
+                    temp++;
+                }
+                rs=Math.max(count,rs);
+            }
         }
         return rs;
     }

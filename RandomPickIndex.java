@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -74,5 +75,20 @@ public class RandomPickIndex {
             }
         }
         return rs;
+    }
+    //7/12/2021.只能想到用map。Reservoir sampling真的不好想，记也不好记，pick的复杂度是n
+    HashMap<Integer, ArrayList<Integer>> map4;
+    Random ran4=new Random();
+    public void Solution(int[] nums) {
+        map4=new HashMap<>();
+        for (int i=0;i<nums.length;i++){
+            ArrayList<Integer> ls=map4.getOrDefault(nums[i],new ArrayList<>());
+            ls.add(i);
+            map4.put(nums[i],ls);
+        }
+    }
+    public int pick4(int target) {
+        int index=ran4.nextInt(map4.get(target).size());
+        return map4.get(target).get(index);
     }
 }

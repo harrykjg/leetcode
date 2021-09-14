@@ -98,6 +98,63 @@ public class TopKFrequentElements {
         }
 
     }
+//8/21/2021写的 quickselect部分还凑活，整体比较难写，因为是要找前k大的，因此要排序length-k个，再从排序后的数组取后k个
+    public int[] topKFrequent3(int[] nums, int k) {
+        List<Integer> rs=new ArrayList<>();
+        Map<Integer,struct2> map=new HashMap<>();
+        for (int i:nums){
+            if (!map.containsKey(i)){
+                map.put(i,new struct2(i,1));
+            }else {
+                map.get(i).frequency++;
+            }
+        }
+        List<struct2> ls=new ArrayList<>();
+        ls.addAll(map.values());
+        quickselect3(0,ls.size()-1,ls,ls.size()-k);//他说了答案可以是anyorder所以只要sort length-k个元素，剩下的就是k个大的元素
+
+        for (int i=ls.size()-1;i>=ls.size()-k;i--){
+            rs.add(ls.get(i).k);
+        }
+        int[] rss=new int[k];
+        for(int i=0;i<rss.length;i++){
+            rss[i]=rs.get(i);
+        }
+        return rss;
+    }
+    void quickselect3(int b,int e,List<struct2> ls,int k){
+        if(k==0){
+            return;
+        }
+        int begin=b;
+        int end=e;
+        struct2 x=ls.get(b);
+        while (begin<end){
+            while (begin<end&&ls.get(end).frequency>x.frequency){
+                end--;
+            }
+            if(begin<end){
+                ls.set(begin,ls.get(end));
+                begin++;
+            }
+            while (begin<end&&ls.get(begin).frequency<x.frequency){
+                begin++;
+            }
+            if (begin<end){
+                ls.set(end,ls.get(begin));
+                end--;
+            }
+        }
+        ls.set(begin,x);
+        if (begin==k-1){
+            return;
+        }else if (begin<k){
+            quickselect3(begin+1,e,ls,k);
+        }else {
+            quickselect3(b,begin-1,ls,k);
+        }
+    }
+
 
 }
 class struct2 {

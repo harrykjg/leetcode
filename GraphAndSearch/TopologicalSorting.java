@@ -120,6 +120,40 @@ public class TopologicalSorting {
         }
         return false;
     }
+    //6/11/2021,这次想清楚后写的bfs还比较顺
+    public ArrayList<DirectedGraphNode> topSort4(ArrayList<DirectedGraphNode> graph) {
+        Queue<DirectedGraphNode> queue=new LinkedList<>();
+        HashMap<DirectedGraphNode,Integer> degree=new HashMap<>();
+        for (DirectedGraphNode n:graph){
+            for (DirectedGraphNode nei:n.neighbors){
+                if(!degree.containsKey(nei)){
+                    degree.put(nei,1);
+                }else {
+                    degree.put(nei,degree.get(nei)+1);
+                }
+            }
+        }
+        for (DirectedGraphNode n:graph){
+            if (!degree.containsKey(n)){
+                queue.offer(n);
+            }
+        }
+        ArrayList<DirectedGraphNode> rs=new ArrayList<>();
+        while (!queue.isEmpty()){
+            DirectedGraphNode n=queue.poll();
+            rs.add(n);
+            for(DirectedGraphNode nei:n.neighbors){
+                if(degree.containsKey(nei)){
+                    degree.put(nei,degree.get(nei)-1);
+                    if (degree.get(nei)==0){
+                        degree.remove(nei);
+                        queue.offer(nei);
+                    }
+                }
+            }
+        }
+        return rs;
+    }
 }
 class DirectedGraphNode {
 

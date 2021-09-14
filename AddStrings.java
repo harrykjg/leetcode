@@ -45,8 +45,54 @@ public class AddStrings {
         if(count==1){
             sb.append(1+"");
         }
-
         return sb.reverse().toString();
+    }
 
+    //8/24/2021 直接写的改了1次过了。没有把短的那个补齐，这样后面要多两个while循环，重复代码多一些，别忘了把最后的carry加上
+    public static String addStrings2(String num1, String num2) {
+        char[] ch1=num1.toCharArray();
+        char[] ch2=num2.toCharArray();
+        int i1=ch1.length-1;
+        int i2=ch2.length-1;
+        int carry=0;
+        StringBuilder sb=new StringBuilder();
+        while (i1>=0&&i2>=0){
+            int temp=ch1[i1]-'0'+ch2[i2]-'0'+carry;
+            if (temp>=10){
+                carry=1;
+                sb.append(temp-10);
+            }else {
+                sb.append(temp);
+                carry=0;
+            }
+            i1--;
+            i2--;
+        }
+        while (i1>=0){
+            int temp=ch1[i1]-'0'+carry;
+            if (temp>=10){
+                carry=1;
+                sb.append(temp-10);
+            }else {
+                sb.append(temp);
+                carry=0;
+            }
+            i1--;
+        }
+        while (i2>=0){
+            int temp=ch2[i2]-'0'+carry;
+            if (temp>=10){
+                carry=1;
+                sb.append(temp-10);
+            }else {
+                sb.append(temp);
+                carry=0;
+            }
+            i2--;
+        }
+        if (carry!=0){//这个开始忘了
+          sb.append(1);
+        }
+        return sb.reverse().toString();
     }
 }

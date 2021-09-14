@@ -1,9 +1,9 @@
 package sweepLine;
 
-import sun.jvm.hotspot.utilities.Interval;
-
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.PriorityQueue;
 
 /**
  * Created by 502575560 on 7/29/17.
@@ -29,6 +29,46 @@ public class NumberofAirplanesintheSky {
             }
         }
         return rs;
+    }
+
+    //6/18/2021,就是开始Line的起飞或降落的flag设成是boolean了，那样写comparator的话容易出问题，改成int的flag就对了
+    public int countOfAirplanes2(List<Interval> airplanes) {
+        PriorityQueue<Line> pq=new PriorityQueue<>(new Comparator<Line>() {
+            @Override
+            public int compare(Line o1, Line o2) {
+                if (o1.val==o2.val){
+                    return o1.isStart-o2.isStart;//降落飞机先出，开始写成o1。isStart的话return -1，就错了
+                }
+                return o1.val-o2.val;
+            }
+        });
+        for (Interval in:airplanes){
+            Line l1=new Line(in.start,1);
+            Line l2=new Line(in.end,0);
+            pq.offer(l1);
+            pq.offer(l2);
+        }
+        int cur=0;
+        int rs=0;
+        while (!pq.isEmpty()){
+            Line l=pq.poll();
+            if (l.isStart==1){
+                cur++;
+                rs=Math.max(rs,cur);
+            }else {
+                cur--;
+            }
+        }
+        return rs;
+
+    }
+    class Line{
+        int val;
+        int isStart;
+        public Line(int val,int isStart){
+            this.val=val;
+            this.isStart = isStart;
+        }
     }
     class Interval {
         int start, end;

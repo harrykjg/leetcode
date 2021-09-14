@@ -1,5 +1,7 @@
 package DataStruct;
 
+import java.util.Map;
+
 /**
  * Created by yufengzhu on 7/26/18.
  */
@@ -31,6 +33,25 @@ public class DiameterofBinaryTree {
         rs=Math.max(left+right,rs);
         return Math.max(left+1,right+1);//这里开始少了left+1就不行了
 
+    }
+//8/8/2021  想的就是左边depth加右边depth，结果是不对的。其实区别很小，关键是最长的path不一定是经过root，而是可能是在非跟节点的两条子树形成的路径,
+    //所以说要在depth里面得到左右深度的时候就检测一下。
+    int rs2=0;
+    public int diameterOfBinaryTree2(DataStruct.TreeNode root) {
+        if (root==null){
+            return 0;
+        }
+        depth(root);
+        return rs;
+    }
+    int depth(DataStruct.TreeNode root ){
+        if (root==null){
+            return 0;
+        }
+        int left=depth(root.left);
+        int right=depth(root.right);
+        rs2= Math.max(rs2,left+right);
+        return Math.max(left,right)+1;
     }
 
 }

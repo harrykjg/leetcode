@@ -9,7 +9,7 @@ import java.util.List;
 public class MaximumLengthofRepeatedSubarray {
     public static void main(String[] args){
         MaximumLengthofRepeatedSubarray ml=new MaximumLengthofRepeatedSubarray();
-        ml.findLength2(new int[]{1,2,3,2,1,5},new int[]{5,3,2,1,4,7});
+        ml.findLength3(new int[]{1,2,3,2,1,5},new int[]{5,3,2,1,4,7});
     }
     //不是subsequence是subarray要连续的,和longest common substring一样
     public int findLength(int[] A, int[] B) {
@@ -66,5 +66,22 @@ public class MaximumLengthofRepeatedSubarray {
 
         return s;
 
+    }
+
+    //7/25/2021 不会了。dp的意义也理解错了，dp【i】【j】的意义是i和j必须取的情况
+    public int findLength3(int[] A, int[] B) {
+        int[][] dp=new int[A.length+1][B.length+1];
+        int rs=0;
+        for (int i=1;i<dp.length;i++){
+            for (int j=1;j<dp[0].length;j++){
+                if (A[i-1]==B[j-1]){
+                    dp[i][j]=dp[i-1][j-1]+1;
+                }else {
+                    dp[i][j]=0;//这里不太好理解了
+                }
+                rs=Math.max(rs,dp[i][j]);
+            }
+        }
+        return rs;
     }
 }

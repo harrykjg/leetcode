@@ -6,9 +6,9 @@ import java.util.*;
 public class AlienDictionary {
 
     public static void main(String[] args){
-//        String[] words={"wrt","wrf","er","ett","rftt"};
-        String[] words={"za","zb","ca","cb"};
-        System.out.print(alienOrder2(words));
+//        String[] words={"wrt","wrf","er","ett","rftt","rk"};
+        String[] words={"abc","ab"};
+        System.out.print(alienOrder3(words));
 
     }
 //别人的代码
@@ -85,7 +85,7 @@ public class AlienDictionary {
         return false;
     }
 
-    //知道是拓扑排序之后自己想的，改了一两次
+    //知道是拓扑排序之后自己想的，改了一两次,后来test case加了["abc","ab"]，是过不了的
     public static String alienOrder2(String[] words) {
         if(words.length==1){
             return words[0];
@@ -165,9 +165,90 @@ public class AlienDictionary {
     //要这样想，比较"wrt","wrf",发现t是排f前面的，那么就是t的入度为0，f入度为1，即t往f走，当把t踢掉之后f入度要减1，那么怎么存呢？想想，要么是map的key是t
       //，value是包含f的一个set，要么是反过来，再想把t踢掉之后，t走向的所有节点的入度都要减1，这样map的key存的是t这样是对的，否则好想搞不了
 
-    //不知道哪里错了删了下次再写
+    //8/22/2021  写的不顺，感觉test case多了很多噁心的case。开始多用了个set存所有字符，应该用map就行了
     public static String alienOrder3(String[] words) {
-
-
+        if (words.length==1){//用来对付只有一个单词aba，要输出ab
+            Set<Character> set=new HashSet<>();
+            for (char c:words[0].toCharArray()){
+                set.add(c);
+            }
+            StringBuilder sb=new StringBuilder();
+            for (char c:set){
+                sb.append(c);
+            }
+            return sb.toString();
+        }
+        HashMap<Character,Set<Character>> map=new HashMap<>();
+        HashMap<Character,Integer> degree=new HashMap<>();
+        for (int i=1;i<words.length;i++){
+            String s1=words[i-1];
+            String s2=words[i];
+            int i1=0;
+            int i2=0;
+            boolean found=false;
+            while (i1<s1.length()&&i2<s2.length()){
+                if (s1.charAt(i1)==s2.charAt(i2)){
+                    if (!map.containsKey(s1.charAt(i1))){
+                        map.put(s1.charAt(i1),new HashSet<>());
+                    }
+                    i1++;
+                    i2++;
+                }else {
+                    if (!map.containsKey(s1.charAt(i1))){
+                        map.put(s1.charAt(i1),new HashSet<>());
+                    }
+                    if (!map.containsKey(s2.charAt(i2))){
+                        map.put(s2.charAt(i2),new HashSet<>());
+                    }
+                    if (!map.get(s1.charAt(i1)).contains(s2.charAt(i2))){//这个很容易漏，可能会有a先于b，后面由来a先于b，不判断的话入度就会错误的重复计算了
+                        map.get(s1.charAt(i1)).add(s2.charAt(i2));
+                        degree.put(s2.charAt(i2),degree.getOrDefault(s2.charAt(i2),0)+1);
+                    }
+                    i1++;
+                    i2++;
+                    found=true;
+                    break;//忘了break就错了
+                }
+            }
+            if(!found&&i2==s2.length()&&i1<s1.length()){
+                return "";
+            }
+            while (i1<s1.length()){
+                if (!map.containsKey(s1.charAt(i1))){
+                    map.put(s1.charAt(i1),new HashSet<>());
+                }
+                i1++;
+            }
+            while (i2<s2.length()){
+                if (!map.containsKey(s2.charAt(i2))){
+                    map.put(s2.charAt(i2),new HashSet<>());
+                }
+                i2++;
+            }
+        }
+        Queue<Character> q=new LinkedList<>();
+        for (Character c:map.keySet()){
+            if (!degree.containsKey(c)){
+                q.offer(c);
+            }
+        }
+        StringBuilder sb=new StringBuilder();
+        while (!q.isEmpty()){
+            char c=q.poll();
+            sb.append(c);
+            Set<Character> nei=map.get(c);
+            if(nei!=null){
+                for (char n:nei){
+                    degree.put(n,degree.get(n)-1);
+                    if (degree.get(n)<=0){
+                        q.offer(n);
+                    }
+                }
+            }
+        }
+        if (sb.length()!=map.size()){
+            return "";
+        }
+        return sb.toString();
     }
 }

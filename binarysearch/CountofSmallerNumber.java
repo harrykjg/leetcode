@@ -2,6 +2,7 @@ package binarysearch;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -10,9 +11,9 @@ import java.util.List;
 public class CountofSmallerNumber {
     public static void main(String[] a){
         CountofSmallerNumber cs=new CountofSmallerNumber();
-        int[] ar={1,2,3,4};
-        int[] q={0,12,3};
-        cs.countOfSmallerNumber2(ar,q);
+        int[] ar={1,8,7,5,3,5,0,10};
+        int[] q={6,12,7};
+        System.out.println(cs.countOfSmallerNumber3(ar,q));
     }
     //注意和leetcode的Count of Smaller Numbers After Self不一样的
 
@@ -110,11 +111,65 @@ public class CountofSmallerNumber {
         int val;
         segmentTree left;
         segmentTree right;
-        int count;
+        int count;//用来记录val相同的点
         int leftcount;
         public segmentTree(int val){
             this.val=val;
             count=1;
         }
+    }
+//6/10/2021 这题应该是线段树的变种应用吧，他没用到线段树区间的特点，所以不需要建左右区间,我觉得就是构造了个bst外加一些property
+    public List<Integer> countOfSmallerNumber3(int[] A, int[] queries) {
+        List<Integer> rs=new ArrayList<>();
+        if(A.length==0){
+            for (int i=0;i<queries.length;i++){
+                rs.add(0);
+            }
+            return rs;
+        }
+        segmentTree root=new segmentTree(A[0]);
+
+        for(int i=1;i<A.length;i++){
+            insert(A[i],root);
+        }
+        for(int q:queries){
+            rs.add(query2(root,q));
+        }
+        return rs;
+    }
+    //建树不是很好想，开始想着一个插入的node，如果路过了比自己小的node，应该会把路过的node记在leftcount吧，比如先插入1，再插入8，那么8应该知道有一个数比他小，
+    //结果这里不需要这样。而8后面插入的小于8得数才会被计入leftcount。这样也行的原因是在query时，总是从头开始搜索，所以说比如query8，那么肯定会经过1，经过的时候
+    //把1带上就行了。都要画图理解
+    segmentTree insert(int a, segmentTree root){//自顶而下插入
+        if(root==null){
+            root=new segmentTree(a);
+        }else if(root.val==a){
+            root.count++;
+            return root;
+        }
+        else if (root.val>a){
+            segmentTree left=insert(a,root.left);
+            root.left=left;
+            root.leftcount++;
+        }
+        else if(root.val<a){
+            segmentTree right=insert(a,root.right);
+            root.right=right;
+        }
+        return root;
+    }
+    int query2(segmentTree node,int target){
+        if(node==null){
+            return 0;
+        }
+        if(node.val==target){
+            return node.leftcount;
+        }
+        if(node.val>target){
+            return query2(node.left,target);
+        }else {
+            return node.leftcount+node.count+query2(node.right,target);
+        }
+
     }
 }

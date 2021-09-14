@@ -46,6 +46,14 @@ public class FindKPairswithSmallestSums {
         }
         return rs;
 
+    }
+//8/12/2021 不会了
+    //https://www.cnblogs.com/reboot329/p/5875873.html  klogk的方法不好理解。举个例子nums1=[1,33,44,55]nums2=[2,4,6,6]，k=3，现在他
+    //先把nums2的第一个和前k个nums1的数放进pq里，pq的元素记录了nums2的元素下标。然后开始从pq里拿k个元素，拿出来第一个肯定是最小的放进结果集，
+    //然后再把这poll出来pair的nums1的那个数去和nums2对应的数的后一个数组成pair加进q里，这样下一次q poll出来也能保证是最小的。真不好想。
+    public static List<int[]> kSmallestPairs2(int[] nums1, int[] nums2, int k) {
+        List<int[]> rs=new ArrayList<>();
 
+        return rs;
     }
 }

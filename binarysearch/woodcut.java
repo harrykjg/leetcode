@@ -132,4 +132,44 @@ public class woodcut {
         }
         return false;
     }
+
+    //6/10/2021,写的挺顺结果e的值还是搞错，为啥是sum/k，想象如果一个木头特别长别的很短，k也比较大，那么e就很大，显然sum/k的范围比较小
+    public int woodCut4(int[] L, int k) {
+        if(L.length==0){
+            return 0;
+        }
+        long b=1;
+        long sum=0;
+        long e=1;
+        for(int l:L){
+            sum+=l;
+        }
+        e=sum/k;
+        while (b+1<e){
+            long m=b+(e-b)/2;
+            long count=helper(L,m,k);
+            if(count>=k){
+                b=m;
+            }else {
+                e=m;
+            }
+        }
+        if(helper(L,e,k)<k){
+            return (int)b;
+        }
+        return (int)e;
+    }
+    int helper(int[] a,long len,int k){
+        int count=0;
+        for(int l:a){
+            while (l>=len){
+                count++;
+                l-=len;
+                if(count>=k){//不提早判断会超时
+                    return k;
+                }
+            }
+        }
+        return count;
+    }
 }

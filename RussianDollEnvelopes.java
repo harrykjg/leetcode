@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
 /**
  * Created by 502575560 on 11/13/16.
@@ -46,6 +45,33 @@ public class RussianDollEnvelopes {
         return max;
 
     }
+//7/11/2021.,想到是dp，就是dp的意义错了，i位置不应该是0~i-1最大的.而是i位置必须选，能得到最大的。以前写的啥看不懂
+    public int maxEnvelopes2(int[][] env) {
+        List<int[]> list=new ArrayList<>();
+        for (int[] e:env){ ;
+            list.add(e);
+        }
+        Collections.sort(list, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0]+o2[1]-o2[0]-o2[1];//这个按长先排宽后排也行
+            }
+        });
+        int[] dp=new int[env.length];
+        Arrays.fill(dp,1);
+        int rs=1;
+        for (int i=1;i<dp.length;i++){
+            for (int j=i-1;j>=0;j--){
+                if (list.get(i)[0]>list.get(j)[0]&&list.get(i)[1]>list.get(j)[1]){
+                    dp[i]=Math.max(dp[j]+1,dp[i]);
+                    rs=Math.max(rs,dp[i]);
+                }//注意没有else，else的话就是啥也不做
+            }
+
+        }
+        return rs;
+
+    }
 
 }
 class envelop implements Comparable{
@@ -57,6 +83,7 @@ class envelop implements Comparable{
     }
     @Override
     public int compareTo(Object o) {
+
         return (this.a+this.b)-(((envelop)o).a+((envelop)o).b);
     }
 }

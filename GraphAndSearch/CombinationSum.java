@@ -60,4 +60,27 @@ public class CombinationSum {
             a.remove(a.size()-1);
         }
     }
+
+    //6/12/2021 一次过
+    public List<List<Integer>> combinationSum3(int[] candidates, int target) {
+        List<List<Integer>> rs=new ArrayList<>();
+        List<Integer> al=new ArrayList<>();
+        Arrays.sort(candidates);
+        helper3(candidates,0,0,target,al,rs);
+        return rs;
+    }
+    void helper3(int[] nums,int b,int cur,int target,List<Integer> al,List<List<Integer>> rs){
+        if (cur==target){
+            rs.add(new ArrayList<>(al));
+            return;
+        }
+        for (int i=b;i<nums.length;i++){
+            if (cur + nums[b]>target) {
+                return;
+            }
+            al.add(nums[i]);
+            helper3(nums,i,cur+nums[i],target,al,rs);
+            al.remove(al.size()-1);
+        }
+    }
 }

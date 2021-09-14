@@ -3,7 +3,7 @@ import java.util.Map;
 //http://www.2cto.com/kf/201403/286818.html
 //
 
-public class MaxPointsonaLine {
+public class MaxPointsonaLineOld {
 	public static void main(String[] args) {
 		MaxPointsonaLine mp=new MaxPointsonaLine();
 		Point p1=new Point(84,250);
@@ -33,7 +33,7 @@ public class MaxPointsonaLine {
 	        int max=1;
 	        for(int i=0;i<points.length;i++){
 	        	if(i>0&&points[i].x==points[i-1].x&&points[i-1].x==points[i-1].y){
-	        		continue;//ÕâÀï²»¼ÓÕâ¸öÊ¡È¥ÏàÍ¬µãµÄËÙ¶È»¹ÊÇ²î²»¶à
+	        		continue;//ï¿½ï¿½ï¿½ï²»ï¿½ï¿½ï¿½ï¿½ï¿½Ê¡È¥ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½Ù¶È»ï¿½ï¿½Ç²î²»ï¿½ï¿½
 	        	}
 	        	HashMap<Double,Integer> hm=new HashMap<Double,Integer>();
 	        	int locol=1;
@@ -48,13 +48,13 @@ public class MaxPointsonaLine {
 	        		}
 	        		double k=0;
 	        		if(points[i].x-points[j].x!=0){
-	        			//×¢ÒâÕâÀï£¬²»Ç¿×ª³ÉdoubleµÄ»°Õâ¸ökËã³öÀ´µÄÖµÊÇint
+	        			//×¢ï¿½ï¿½ï¿½ï¿½ï¿½ï£¬ï¿½ï¿½Ç¿×ªï¿½ï¿½doubleï¿½Ä»ï¿½ï¿½ï¿½ï¿½kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½int
 	        			 k=(double)(points[j].y-points[i].y)/(points[j].x-points[i].x);
 	        		}else{
 	        			 k=Integer.MAX_VALUE;
 	        		}
 	        		if(!hm.containsKey(k)){
-	        			hm.put(k, 2);//×îÉÙÊÇ2¸öµã
+	        			hm.put(k, 2);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2ï¿½ï¿½ï¿½ï¿½
 	        		}else{
 	        			hm.put(k, hm.get(k)+1);
 	        		}
@@ -65,15 +65,15 @@ public class MaxPointsonaLine {
 	        }
 	        return max;
 	    }
-	//ÒÔÇ°µÄ´úÂë
+	//ï¿½ï¿½Ç°ï¿½Ä´ï¿½ï¿½ï¿½
 	public int maxPoints2(Point[] points) {
 		if(points.length==0){
 			return 0;
 		}
 		int rs=1;
-		for(int i=0;i<points.length;i++){//¾ÍÊÇÇî¾ÙÃ¿¸öµãºÍ±ðµÄµãÖ®¼ä¹¹³ÉµÄÄ³¸öÐ±ÂÊÉÏÓÐ¼¸¸öµã
+		for(int i=0;i<points.length;i++){//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½Í±ï¿½Äµï¿½Ö®ï¿½ä¹¹ï¿½Éµï¿½Ä³ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½ï¿½ï¿½ï¿½ï¿½
 
-			HashMap<Double,Integer> map=new HashMap<Double,Integer>();//ÐèÒªÃ¿¸öforÑ­»·ÀïÐÂ½¨Ò»¸ömapµÄÔ­ÒòÊÇ£¬ÓÐ¿ÉÄÜÓÐÁ½ÌõÖ±Ïß»¥ÎªÆ½ÐÐ£¬ÄÇÃ´kµÄÖµ¾ÍÊÇÒ»ÑùµÄ£¬ÕâÁ½ÌõÏß¿ÉÄÜÓÐ²»Í¬¸öµã£¬ËùÒÔÒª·Ö¿ª¼ÇÂ¼
+			HashMap<Double,Integer> map=new HashMap<Double,Integer>();//ï¿½ï¿½ÒªÃ¿ï¿½ï¿½forÑ­ï¿½ï¿½ï¿½ï¿½ï¿½Â½ï¿½Ò»ï¿½ï¿½mapï¿½ï¿½Ô­ï¿½ï¿½ï¿½Ç£ï¿½ï¿½Ð¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ß»ï¿½ÎªÆ½ï¿½Ð£ï¿½ï¿½ï¿½Ã´kï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¿ï¿½ï¿½ï¿½ï¿½Ð²ï¿½Í¬ï¿½ï¿½ï¿½ã£¬ï¿½ï¿½ï¿½ï¿½Òªï¿½Ö¿ï¿½ï¿½ï¿½Â¼
 			int same=0;
 			for(int j=0;j<points.length;j++){
 				if(i==j){

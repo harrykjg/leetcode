@@ -49,4 +49,23 @@ public class LongestIncreasingSubsequence {
         }
         return rs;
     }
+//6/4/2021,一次过，感觉比以前写的还好一点。居然还有nlogn的解法，https://segmentfault.com/a/1190000003819886 看不懂
+    public int lengthOfLIS3(int[] nums) {
+        if(nums.length==0){
+            return 0;
+        }
+        int[] dp=new int[nums.length];
+        dp[0]=1;
+        int max=1;
+        for(int i=1;i<nums.length;i++){
+            dp[i]=1;
+            for(int j=0;j<i;j++){
+                if(nums[i]>nums[j]){//dp的意义是以nums【i】结尾（一定要选i）的最长长度，而不是以nums[i]结尾但不一定要选nums【i】的最长长度
+                    dp[i]=Math.max(dp[i],dp[j]+1);
+                }
+            }
+            max=Math.max(max,dp[i]);
+        }
+        return max;
+    }
 }

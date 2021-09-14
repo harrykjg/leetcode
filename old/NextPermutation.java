@@ -2,10 +2,10 @@
 //http://jixiangsanbao.wordpress.com/2014/06/23/next-permutation/
 //http://blog.csdn.net/linhuanmars/article/details/20434115
 //https://leetcode.com/problems/next-permutation/solution/
-//https://blog.csdn.net/c18219227162/article/details/50301513  Õâ¸ö»¹ÓÐ¼¸¸öºÜÄÑµÄÍØÕ¹
+//https://blog.csdn.net/c18219227162/article/details/50301513  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñµï¿½ï¿½ï¿½Õ¹
 
-public class NextPermutation {
-	//ÖªµÀË¼Â·Ö®ºóÒ»²àaccept
+public class NextPermutationOld {
+	//Öªï¿½ï¿½Ë¼Â·Ö®ï¿½ï¿½Ò»ï¿½ï¿½accept
 	public void nextPermutation(int[] num) {
 		if(num.length==0){
 			return ;
@@ -29,7 +29,7 @@ public class NextPermutation {
 			}
 		}else{
 			for(int i=num.length-1;i>=0;i--){
-				if(num[i]>num[index1-1]){//ÕÒµÚÒ»¸ö´ó¹ýnum[index1-1]ÄÇ¸öÊý¾ÍÐÐÁË
+				if(num[i]>num[index1-1]){//ï¿½Òµï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½num[index1-1]ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					int temp=num[index1-1];
 					num[index1-1]=num[i];
 					num[i]=temp;

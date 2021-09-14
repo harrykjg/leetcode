@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Random;
 
 /**
@@ -144,6 +145,50 @@ class RandomizedSet {
         Random ran=new Random();
         ran.nextInt(al.size());
         return al.get(ran.nextInt(al.size()));
+    }
+
+    //8/23/2021 基本一次过，注意他这个不会重复insert的
+    ArrayList<Integer> al4=new ArrayList<>();
+    HashMap<Integer,Integer> map4=new LinkedHashMap<>();
+    public void RandomizedSet4() {
+
+    }
+
+    /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
+    public boolean insert4(int val) {
+        if (!map4.containsKey(val)){
+            map4.put(val,al4.size());
+            al4.add(val);
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    /** Removes a value from the set. Returns true if the set contained the specified element. */
+    public boolean remove4(int val) {
+        if (!map4.containsKey(val)){
+            return false;
+        }
+        int index=map4.get(val);
+        if (index==al4.size()-1){
+            al4.remove(al4.size()-1);
+            map4.remove(val);
+            return true;
+        }else {
+            int last=al4.get(al4.size()-1);
+            al4.set(index,last);
+            al4.remove(al4.size()-1);
+            map4.put(last,index);
+            map4.remove(val);
+            return true;
+        }
+    }
+
+    /** Get a random element from the set. */
+    public int getRandom4() {
+        Random ran=new Random();
+        return al4.get(ran.nextInt(al4.size()));
     }
 }
 

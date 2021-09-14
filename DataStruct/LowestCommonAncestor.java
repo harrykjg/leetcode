@@ -92,4 +92,71 @@ class TreeNode {
         }
         return left;
     }
+
+    //7/16/2021 还是想着左右存在的想法。不要看这个，看回以前的
+    public TreeNode lowestCommonAncestor5(TreeNode root, TreeNode p, TreeNode q) {
+        if (root==null){
+            return root;
+        }
+        if (root.val==p.val||root.val==q.val){
+            return root;
+        }
+        boolean left=exist(root.left,p,q);
+        boolean right=exist(root.left,p,q);
+        if (left&&right){
+            return root;
+        }
+        if (left){
+            return lowestCommonAncestor5(root.left,p,q);
+        }
+        return lowestCommonAncestor5(root.right,p,q);
+    }
+    boolean exist(TreeNode root,TreeNode p,TreeNode q){
+        if (root==null){
+            return false;
+        }
+        if (root.val==p.val||root.val==q.val){
+            return true;
+        }
+        boolean left=exist(root.left,p,q);
+        boolean right=exist(root.right,p,q);
+        return left||right;
+    }
+
+    //7/25/2021 还是写不好.不需要helper，回调自己就行了
+    public TreeNode lowestCommonAncestor6(TreeNode root, TreeNode p, TreeNode q) {
+        if (root==null){
+            return null;
+        }
+        if (root.val==p.val||root.val==q.val){
+            return root;
+        }
+        TreeNode left=helper(root.left,p,q);
+        TreeNode right=helper(root.left,p,q);
+        if (left!=null&&right!=null){
+            return root;
+        }
+        if (left!=null){
+            return left;
+        }
+        return right;
+
+    }
+    TreeNode helper(TreeNode root,TreeNode p,TreeNode q){
+        if (root==null){
+            return root;
+        }
+        if (root.val==p.val||root.val==q.val){
+            return root;
+        }
+        TreeNode left=helper(root.left,p,q);
+        TreeNode right=helper(root.right,p,q);
+        if (left!=null&&right!=null){
+            return root;
+        }
+        if (left!=null){
+            return left;
+        }
+        return right;
+    }
 }

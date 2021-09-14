@@ -88,4 +88,6 @@ public class NextClosestTime {
         }
         return a>=0&&a<=59;
     }
+    //8/26/2021 不会。直接看别人的
+    //https://leetcode.com/problems/next-closest-time/discuss/107773/Java-AC-5ms-simple-solution-with-detailed-explaination
 }

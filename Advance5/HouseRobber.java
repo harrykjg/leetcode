@@ -70,4 +70,24 @@ public class HouseRobber {
         }
         return dp[dp.length-1];
     }
+
+    //6/19/2021,想上来就优化空间，需要3个变量而不是2个
+    public int rob6(int[] nums) {
+        if (nums.length==1){
+            return nums[0];
+        }
+        if (nums.length==2){
+            return Math.max(nums[0],nums[1]);
+        }
+        int pre2=nums[0];
+        int pre1=Math.max(nums[0],nums[1]);
+        int cur=pre1;
+        for (int i=2;i<nums.length;i++){
+            cur=Math.max(pre2+nums[i],pre1);
+            pre2=pre1;
+            pre1=cur;
+        }
+        return cur;
+
+    }
 }

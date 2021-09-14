@@ -70,4 +70,48 @@ public class JumpGameII {
         }
         return step;
     }
+
+    //6/4/2021,贪心法不容易写对，面试时还是写dp吧
+    public int jump4(int[] nums) {
+        if(nums.length==1){
+            return 0;
+        }
+        int step=0;
+        int max=nums[0];
+        int scope=0;
+        for(int i=1;i<nums.length&&i<=max;i++){
+            if(i>scope){
+                step++;
+                scope=max;
+                if(scope>=nums.length-1){
+                    return step;
+                }
+            }
+            if(i+nums[i]>max){
+                max=i+nums[i];
+                if(max>=nums.length-1){
+                    return step+1;
+                }
+            }
+
+        }
+        return -1;
+    }
+    //dp写法,居然一次过
+    public int jump5(int[] nums) {
+        if(nums.length==1){
+            return 0;
+        }
+        int[] dp=new int[nums.length];
+        for(int i=1;i<nums.length;i++){
+            dp[i]=i;
+            for(int j=0;j<i;j++){
+                if(j+nums[j]>=i){//能从j到达i的点才拿来比较
+                    dp[i]=Math.min(dp[j]+1,dp[i]);
+                }
+            }
+        }
+        return dp[dp.length-1];
+
+    }
 }

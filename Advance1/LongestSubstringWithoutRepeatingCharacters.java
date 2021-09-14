@@ -99,5 +99,29 @@ public class LongestSubstringWithoutRepeatingCharacters {
         }
         return rs;
     }
+
+    //6/13/2021，改了一次accept
+    public int lengthOfLongestSubstring4(String s) {
+        if (s.length()==0){
+            return 0;
+        }
+        int rs=Integer.MIN_VALUE;
+        int b=0;
+        Set<Character> set=new HashSet<>();
+        for (int i=0;i<s.length();i++){
+            char cur=s.charAt(i);
+            if (!set.contains(cur)){
+                rs=Math.max(rs,i-b+1);
+                set.add(cur);
+            }else {
+                while (b<i&&s.charAt(b)!=cur){
+                    set.remove(s.charAt(b));//也是忘了remove了
+                    b++;
+                }
+                b++;
+            }
+        }
+        return rs;
+    }
 }
 

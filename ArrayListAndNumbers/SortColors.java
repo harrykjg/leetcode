@@ -138,4 +138,58 @@ public class SortColors {
             }
         }
     }
+//6/3/2021,写的一般，主要是靠例子错了再改的，思路还可以
+    public void sortColors6(int[] nums) {
+        if(nums.length==0){
+            return;
+        }
+        int b=0;
+        int e=nums.length-1;
+        int cur=0;
+        while (cur<=e){
+
+            if(nums[cur]==0){
+                int temp=nums[b];
+                nums[b]=0;
+                nums[cur]=temp;
+                cur++;//由于是从前往后走的，所以前面换过来的东西肯定是0，或者1，两种情况都是cur++
+                b++;
+                continue;
+            }
+
+            if(nums[cur]==2){
+                int temp=nums[e];
+                nums[e]=2;
+                nums[cur]=temp;
+                e--;
+            }else{
+                cur++;
+            }
+        }
+
+    }
+    //8/8/2021 还是写的不好。记着找到0时i也得++
+    public void sortColors7(int[] nums) {
+        int b=0;
+        int e=nums.length-1;
+        int i=0;
+        while (i<=e){
+            if (nums[i]==0){
+                int temp=nums[b];
+                nums[b]=0;
+                nums[i]=temp;
+                b++;
+                i++;
+                continue;
+            }
+            if (nums[i]==2){
+                int temp=nums[e];
+                nums[e]=2;
+                nums[i]=temp;
+                e--;
+                continue;
+            }
+            i++;
+        }
+    }
 }

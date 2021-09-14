@@ -101,4 +101,25 @@ public class MinimumSizeSubarraySum {
         }
         return rs;
     }
+
+    //6/13/2021，自己想的用prefix sum再2pointer从2边夹逼，貌似行不通，因为夹逼的时候不知道是左边挪还是右边挪。而以前的是从头开始向右扩张然后缩放
+    public static int minSubArrayLen4(int target, int[] nums) {
+        int cursum=0;
+        int b=0;
+        int rs=Integer.MAX_VALUE;
+
+        for (int i=0;i<nums.length;i++){
+            cursum+=nums[i];
+            while (b<i&&cursum-nums[b]>=target){//开始少写=
+                cursum-=nums[b];
+                b++;
+            }
+            if (cursum>=target){
+                rs=Math.min(rs,i-b+1);//开始少写+1
+            }
+        }
+        return rs==Integer.MAX_VALUE?0:rs;
+
+    }
+
 }

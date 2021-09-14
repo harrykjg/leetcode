@@ -35,4 +35,20 @@ public class JumpGame {
         return false;
 
     }
+//6/4/2021,改了一下对了
+    public boolean canJump3(int[] nums) {
+        if(nums.length==1){
+            return true;
+        }
+
+        int max=nums[0];
+        for(int i=0;i<nums.length&&i<=max;i++){
+            max=Math.max(nums[i]+i,max);
+            if(max>=nums.length-1){//开始没写-1就错了
+                return true;
+            }
+        }
+        return false;
+
+    }
 }

@@ -9,8 +9,8 @@ import java.util.Stack;
 public class BasicCalculatorIII {
     public static void main(String[] args){
         BasicCalculatorIII bc=new BasicCalculatorIII();
-        System.out.print(bc.calculate2("2*(5+5*2)/3+(6/2+8)"));
-
+//        System.out.print(bc.calculate3("(2+6*3+5-(3*14/7+2)*5)+3"));
+        System.out.println(bc.calculate3("(1-(3-4))"));
     }
 
 
@@ -201,6 +201,130 @@ public class BasicCalculatorIII {
             }
             if(left==0){
                 return i;
+            }
+            i++;
+        }
+        return -1;
+    }
+
+    //9/8/2021 思路是有的，写出来不太好，关键是判断"（"之后我这写的是直接加入栈，那么2*（xxx）这种就处理不了，要处理的话就要遇到*和/的时候看后面是数字还是括号
+    //那样又不知道咋的写不对，还是看回以前要先弄出first的写法。，看到括号先把括号里的计算出来，否则就是得出第一个数字，再在同一个while里看下一个字符，加减的话
+    // 就直接push第一个数字入栈，乘除
+    public int calculate3(String s) {
+        s=s.replace(" ","");
+        Stack<Integer> st=new Stack<>();
+        int i=0;
+        int sign=1;
+        while (i<s.length()){
+            if (s.charAt(i)=='('){
+                int end=findPranthesis3(s,i);
+                int num=calculate3(s.substring(i+1,end));
+                st.push(sign*num);
+                sign=1;//因为没括号了，sign只会作用一次，比如-3*4，比如2-1
+                i=end+1;
+                continue;
+            }
+            if (s.charAt(i)=='+'){
+                sign=1;
+                i++;
+                int temp=0;
+                while (i<s.length()&&Character.isDigit(s.charAt(i))){
+                    temp=temp*10+s.charAt(i)-'0';
+                    i++;
+                }
+                if (temp!=0){
+                    st.push(temp);
+                }else {
+                    int end=findPranthesis3(s,i);
+                    int num=calculate3(s.substring(i+1,end));
+                    st.push(num);
+                    i=end+1;
+                }
+                continue;
+            }
+            if (s.charAt(i)=='-'){
+                sign=-1;
+                i++;
+                int temp=0;
+                while (i<s.length()&&Character.isDigit(s.charAt(i))){
+                    temp=temp*10+s.charAt(i)-'0';
+                    i++;
+                }
+                if (temp!=0){
+                    st.push(-temp);
+                    sign=1;
+                }else {
+                    int end=findPranthesis3(s,i);
+                    int num=calculate3(s.substring(i+1,end));
+                    st.push(sign*num);
+                    sign=1;
+                    i=end+1;
+                }
+                continue;
+            }
+            if (s.charAt(i)=='*'){
+                int temp=0;
+                i++;
+                while (i<s.length()&&Character.isDigit(s.charAt(i))){
+                    temp=temp*10+s.charAt(i)-'0';
+                    i++;
+                }
+                if (temp!=0){
+                    st.push(st.pop()*temp);
+                }else {
+                    int end=findPranthesis3(s,i);
+                    int num=calculate3(s.substring(i+1,end));
+                    st.push(st.pop()*num);
+                    i=end+1;
+                }
+                continue;
+            }
+            if (s.charAt(i)=='/'){
+                int temp=0;
+                i++;
+                while (i<s.length()&&Character.isDigit(s.charAt(i))){
+                    temp=temp*10+s.charAt(i)-'0';
+                    i++;
+                }
+                if (temp!=0){
+                    st.push(st.pop()/temp);
+                }else {
+                    int end=findPranthesis3(s,i);
+                    int num=calculate3(s.substring(i+1,end));
+                    st.push(st.pop()/num);
+                    i=end+1;
+                }
+                continue;
+            }
+            int temp=0;
+            while (i<s.length()&&Character.isDigit(s.charAt(i))){
+                temp=temp*10+s.charAt(i)-'0';
+                i++;
+            }
+            st.push(temp);
+        }
+        int rs=0;
+        while (!st.isEmpty()){
+            rs+=st.pop();
+        }
+        return rs;
+    }
+    int findPranthesis3(String s,int i){
+        int left=1;
+        i++;
+        while (i<s.length()){
+            if (s.charAt(i)=='('){
+                left++;
+                i++;
+                continue;
+            }
+            if (s.charAt(i)==')'){
+                left--;
+                if (left==0){
+                    return i;
+                }
+                i++;
+                continue;
             }
             i++;
         }

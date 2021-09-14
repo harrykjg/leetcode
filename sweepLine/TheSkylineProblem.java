@@ -7,9 +7,9 @@ import java.util.*;
  */
 public class TheSkylineProblem {
     public static void main(String[] args){
-        int[][] b={{0,2,3},{2,5,3}};
+        int[][] b={{1,2,1},{1,2,2},{1,2,3}};
         TheSkylineProblem sk=new TheSkylineProblem();
-        sk.getSkyline(b);
+        sk.getSkyline3(b);
     }
     //不会,九章的题目返回的是三个数，leetcode返回的是点就行了，不一样
     //http://blog.csdn.net/qq508618087/article/details/51311778  看他第二个解法的思路
@@ -109,7 +109,88 @@ public class TheSkylineProblem {
         return rs;
     }
 
+    //6/19/2021,还是得话很长时间想，comarator那里不好想. 就按以前的记吧，很难现场搞好
+    public List<List<Integer>> getSkyline3(int[][] b) {
+        PriorityQueue<Integer> pq=new PriorityQueue<>(Collections.reverseOrder());
+        List<edge2> al=new ArrayList<>();
+        for (int i=0;i<b.length;i++){
+            edge2 e1=new edge2(b[i][0],b[i][2],0);
+            edge2 e2=new edge2(b[i][1],b[i][2],1);
+            al.add(e1);
+            al.add(e2);
+        }
+        Collections.sort(al, new Comparator<edge2>() {
+            @Override
+            public int compare(edge2 o1, edge2 o2) {
+                if (o1.x!=o2.x){
+                    return o1.x-o2.x;
+                }
+                //考虑2个因素，高度和isRight,需要列一个decision tree看
+                if(o1.x!=o2.x){
+                    return o1.x-o2.x;
+                }
+                if(o1.isRight==0&&o2.isRight==0){
+                    return o2.h-o1.h;
+                }
+                if(o1.isRight==1&&o2.isRight==1){
+                    return o1.h-o2.h;
+                }
+                return o1.isRight==1?1:-1;
+            }
+        });
 
+        List<List<Integer>> rs=new ArrayList<>();
+        for (int i=0;i<al.size();i++){
+            edge2 cur=al.get(i);
+            if (pq.isEmpty()){
+                pq.offer(cur.h);
+                List<Integer> a=new ArrayList<>();
+                a.add(cur.x);
+                a.add(cur.h);
+                rs.add(a);
+                continue;
+            }
+            if (cur.isRight==0){//左边的先遇到的是高最大的，肯定要画个点
+                if (cur.h>pq.peek()){
+                    List<Integer> a=new ArrayList<>();
+                    a.add(cur.x);
+                    a.add(cur.h);
+                    rs.add(a);
+                }
+                pq.offer(cur.h);
+            }else {//来了个右边的，
+                if (pq.peek()>cur.h){//如果这个右边的本来就矮，不会形成点，直接remove
+                    pq.remove(cur.h);
+                }else {//如果来了个高的，则会形成一个点，这个点就是这个高的和第二高的交点
+                    pq.poll();
+                    List<Integer> a=new ArrayList<>();
+                    if (pq.isEmpty()){
+                        a.add(cur.x);
+                        a.add(0);
+                        rs.add(a);
+                    }else if (pq.peek()<cur.h){//少了这个条件也不对
+                        a.add(cur.x);
+                        a.add(pq.peek());
+                        rs.add(a);
+                    }
+                }
+            }
+
+        }
+        return rs;
+
+    }
+
+    class edge2{
+        int x;
+        int h;
+        int isRight;
+        public  edge2(int x, int h, int isRight){
+            this.x=x;
+            this.h=h;
+            this.isRight=isRight;
+        }
+    }
 
     class edge{
         int x;

@@ -165,4 +165,76 @@ public class SearchinRotatedSortedArray {
         return -1;
 
     }
+
+    //6/9/2021 一次过
+    public int search5(int[] nums, int target) {
+        int b=0;
+        int e=nums.length-1;
+        int m=0;
+        while (b<e-1){
+            m=b+(e-b)/2;
+            if(nums[m]==target){
+                return m;
+            }
+            if(nums[b]<nums[e]){
+                if(nums[m]<target){
+                    b=m;
+                }else {
+                    e=m;
+                }
+            }else {
+                if(nums[m]<nums[e]){
+                    if(nums[e]>=target&&nums[m]<=target){
+                        b=m;
+                    }else {
+                        e=m;
+                    }
+                }else {
+                    if(nums[m]>=target&&nums[b]<=target){
+                        e=m;
+                    }else {
+                        b=m;
+                    }
+                }
+            }
+        }
+        if(nums[b]==target){
+            return b;
+        }
+        if(nums[e]==target){
+            return e;
+        }
+        return -1;
+    }
+    //这个版本用中间和右边的比较好，还可以扩展到第二题，也用中间和右边比较，容易写
+    //https://www.cnblogs.com/grandyang/p/4325840.html
+    public int search6(int[] nums, int target) {
+        int b=0;
+        int e=nums.length-1;
+        while(b<e){
+            int m=(b+e)/2;
+            int mid=nums[m];
+            if(mid==target){
+                return m;
+            }
+            if(mid<nums[e]){//右边排序
+                if(target>mid&&target<=nums[e]){
+                    b=m+1;
+                }else{
+                    e=m;
+                }
+            }else{//右边不排序
+                if(target>=nums[b]&&target<mid){
+                    e=m;
+                }else{
+                    b=m+1;
+                }
+            }
+
+        }
+        if(nums[b]!=target){
+            return -1;
+        }
+        return b;
+    }
 }

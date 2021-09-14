@@ -2,6 +2,7 @@ package interval;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.PriorityQueue;
 
 /**
  * Created by yufengzhu on 6/29/18.
@@ -43,5 +44,23 @@ public class MeetingRooms {
         }
         return true;
 
+    }
+//6/24/2021 基本一次过
+    public boolean canAttendMeetings2(int[][] intervals) {
+        Arrays.sort(intervals, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[0]==o2[0]){
+                    return o1[1]-o2[1];
+                }
+                return o1[0]-o2[0];
+            }
+        });
+        for (int i=1;i<intervals.length;i++){
+            if (intervals[i][0]<intervals[i-1][1]){
+                return false;
+            }
+        }
+        return true;
     }
 }

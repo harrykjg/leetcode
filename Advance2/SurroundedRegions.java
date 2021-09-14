@@ -1,5 +1,7 @@
 package Advance2;
 
+import java.util.Arrays;
+
 /**
  * Created by 502575560 on 7/18/17.
  */
@@ -171,7 +173,7 @@ public class SurroundedRegions {
         }
     }
 
-//9/9/2018，先全部O变成'-'，再找边界点dfs把'-'变回O,再把剩下的O再变成X,貌似可以少一个for循环
+//9/9/2018，先全部O变成'-'，再找边界点dfs把'-'变回O,再把剩下的'-'再变成X,貌似可以少一个for循环
     //https://leetcode.com/problems/surrounded-regions/discuss/41633/Java-DFS-+-boundary-cell-turning-solution-simple-and-clean-code-commented. 他就是少了第一个O变'-'
     public void surroundedRegions3(char[][] board) {
         if(board.length==0){
@@ -223,5 +225,52 @@ public class SurroundedRegions {
         if(col-1>=0&&board[row][col-1]=='-'){
             dfs(row,col-1,board);
         }
+    }
+
+    //6/15/2021,思路应该是对的，懒得写完了
+    public void surroundedRegions4(char[][] board) {
+        int[] ids=new int[board.length*board[0].length];
+        Arrays.fill(ids,-1);//所有点初始化为-1
+        for (int i=0;i<board.length;i++){
+            if (board[i][0]=='O'){
+                ids[i*board.length+0]=-2;//
+            }
+            if (board[i][board[0].length-1]=='O'){
+                ids[i*board.length+board[0].length-1]=-2;//
+            }
+        }
+        for (int i=0;i<board[0].length;i++){
+            if (board[0][i]=='O'){
+                ids[i]=-2;//边上的陆地设成-2，所有和他相连的陆地的id在后面也会被设成-2。这样再遍历board看谁是陆地但是id不是-2的那么就把他们设成X了
+            }
+            if (board[board.length-1][i]=='O'){
+                ids[i*(board.length-1)+i]=-2;//
+            }
+        }
+        int[] dirx={-1,0,1,0};
+        int[] diry={0,1,-1,0};
+        for (int i=1;i<board.length;i++){
+            for (int j=1;j<board[0].length;j++){
+                if (board[i][j]=='O'){
+                    for (int k=0;k<dirx.length;k++){
+                        if (i+dirx[k]>=0&&j+diry[k]>=0&&i+dirx[k]<board.length&&j+diry[k]<board[0].length){
+                            if (board[i+dirx[k]][j+diry[k]]=='O'){
+                                ids[i+dirx[k]]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    int find4(int x,int[] ids){
+        if (ids[x]==x){
+            return x;
+        }
+        if (ids[x]==-2){
+            return -2;
+        }
+        ids[x]=find4(ids[x],ids);
+        return ids[x];
     }
 }

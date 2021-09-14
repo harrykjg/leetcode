@@ -176,5 +176,57 @@ public class NQueens {
         }
         return true;
     }
+//6/11/2021,写的还行，改了一次accept了
+    public List<List<String>> solveNQueens4(int n) {
+        List<List<String>> rs=new ArrayList<>();
+        List<String> al=new ArrayList<>();
+        char[][] m=new char[n][n];
+        for (char[] mm:m){
+            Arrays.fill(mm,'.');
+        }
+        dfs4(m,0,n,rs);
+        return rs;
+    }
+    void dfs4(char[][] m,int row,int n,List<List<String>> rs){
+        if (row>=n){
+            StringBuilder sb=null;
+            List<String> al=new ArrayList<>();
+            for (char[] mm:m){
+                sb=new StringBuilder();
+                sb.append(mm);
+                al.add(sb.toString());
+            }
+            rs.add(al);
+            return;
+        }
+        for (int j=0;j<n;j++){//开始写了多一层行的循环就错了。
+            m[row][j]='Q';
+            boolean ok=check4(m,row,j);
+            if (ok){
+                dfs4(m,row+1,n,rs);
+            }
+            m[row][j]='.';
+        }
+
+    }
+    boolean check4(char[][] m,int row,int col){
+        for (int i=0;i<row;i++){
+            if (m[i][col]=='Q'){
+                return false;
+            }
+        }
+        for (int i=row-1,j=col+1;i>=0&&j<m.length;i--,j++){//右上，这样写比以前容易理解。
+            if (m[i][j]=='Q'){
+                return false;
+            }
+        }
+        for (int i=row-1,j=col-1;i>=0&&j>=0;i--,j--){//左上
+            if (m[i][j]=='Q'){
+                return false;
+            }
+        }
+        return true;
+
+    }
 
 }

@@ -1,5 +1,7 @@
 package Advance7;
 
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,6 +70,32 @@ public class ContinuousSubarraySum {
                 rs.set(1,i);
             }
         }
+        return rs;
+    }
+
+    //6/22/2021 不太会了
+    public List<Integer> continuousSubarraySum3(int[] A) {
+        int carry=0;
+        int max=Integer.MIN_VALUE;
+        int b=0;
+        List<Integer> rs=new ArrayList<>();
+
+        for (int i=0;i<A.length;i++){
+            int cur=carry+A[i];
+            if (cur>max){//如果大于最大值，则记录其实和当前点
+                max=cur;
+                rs.clear();
+                rs.add(b);
+                rs.add(i);
+            }
+            if (cur<0){//如果小于0才需要重置初始点，lintcode的test case是，如果两个subarray都似乎最大值，那么取比较长的那个所以如果当前值是0也应该算在结果里
+                carry=0;
+                b=i+1;
+            }else {
+                carry=cur;
+            }
+        }
+
         return rs;
     }
 

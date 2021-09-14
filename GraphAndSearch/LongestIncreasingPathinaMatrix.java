@@ -159,4 +159,42 @@ public class LongestIncreasingPathinaMatrix {
        rs3=Math.max(memo[row][col],rs3);
     }
 
+    //6/20/2021,懂了解法一次过
+    int rs4=0;
+    public int longestIncreasingPath4(int[][] m) {
+        int[][] dp=new int[m.length][m[0].length];
+        for (int[] a:dp){
+            Arrays.fill(a,1);
+        }
+
+        for (int i=0;i<m.length;i++){
+            for (int j=0;j<m[0].length;j++){
+                dfs4(i,j,dp,m);
+            }
+        }
+        return rs4;
+    }
+    void dfs4(int row,int col,int[][] dp,int[][] m){
+       if (dp[row][col]!=1){
+           return ;
+       }
+       int cur=m[row][col];
+       if (row>0&&m[row-1][col]>cur){
+           dfs4(row-1,col,dp,m);
+           dp[row][col]=Math.max(dp[row][col],1+dp[row-1][col]);
+       }
+        if (col+1<m[0].length&&m[row][col+1]>cur){
+            dfs4(row,col+1,dp,m);
+            dp[row][col]=Math.max(dp[row][col],1+dp[row][col+1]);
+        }
+        if (row+1<m.length&&m[row+1][col]>cur){
+            dfs4(row+1,col,dp,m);
+            dp[row][col]=Math.max(dp[row][col],1+dp[row+1][col]);
+        }
+        if (col>0&&m[row][col-1]>cur){
+            dfs4(row,col-1,dp,m);
+            dp[row][col]=Math.max(dp[row][col],1+dp[row][col-1]);
+        }
+       rs4=Math.max(rs4,dp[row][col]);
+    }
 }

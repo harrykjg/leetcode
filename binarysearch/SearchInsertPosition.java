@@ -70,5 +70,28 @@ public class SearchInsertPosition {
             return A.length;
         }
     }
-    //1/21/2018,九章第二轮懒得写了
+    //8/8/2021 随便写的感觉比以前的要好
+    public int searchInsert3(int[] nums, int target) {
+        int b=0;
+        int e=nums.length-1;
+        if(nums[nums.length-1]<target){
+            return nums.length;
+        }
+        if(nums[0]>target){
+            return 0;
+        }
+        while(b<e){
+            int m=b+(e-b)/2;
+            if(nums[m]==target){
+                return m;
+            }
+            if(nums[m]>target){
+                e=m;
+            }else{
+                b=m+1;
+            }
+        }
+        return b;
+    }
+
 }

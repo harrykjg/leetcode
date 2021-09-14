@@ -74,4 +74,32 @@ public class EmployeeFreeTime {
         return rs;
 
     }
+
+    //7/7/2021,没想到只需要pq的方法，只想到先sort schedule，把interval一个个放进pq，然后放之前把之前pq里符合条件的排除去。以前的方法还是有点巧妙的
+    public List<Interval> employeeFreeTime3(List<List<Interval>> schedule) {
+        PriorityQueue<Interval> pq=new PriorityQueue<>(new Comparator<Interval>() {
+            @Override
+            public int compare(Interval o1, Interval o2) {
+                return o1.start-o2.start;//画图，只关心start就行了
+            }
+        });
+
+        for (List<Interval> ls:schedule){
+            for (Interval in:ls){
+                pq.offer(in);
+            }
+        }
+        List<Interval> rs=new ArrayList<>();
+        Interval pre=pq.poll();
+        while (!pq.isEmpty()){
+            Interval cur=pq.poll();
+            if (cur.start>pre.end){
+                rs.add(new Interval(pre.end,cur.start));
+            }
+            if (pre.end<cur.end){
+                pre=cur;
+            }
+        }
+        return rs;
+    }
 }

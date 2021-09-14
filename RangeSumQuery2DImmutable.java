@@ -5,7 +5,8 @@ public class RangeSumQuery2DImmutable {
     public static void main(String[] args){
         int[][] m={{3,0,1,4,2},{5,6,3,2,1},{1,2,0,1,5},{4,1,0,1,7},{1,0,3,0,5}};
         RangeSumQuery2DImmutable rs=new RangeSumQuery2DImmutable(m);
-        System.out.println(rs.sumRegion(2,1,4,3));
+        rs.RangeSumQuery2DImmutable2(m);
+        System.out.println(rs.sumRegion2(2,1,4,3));
     }
 
 
@@ -53,6 +54,33 @@ public class RangeSumQuery2DImmutable {
         }
         return dp[row2][col2];
 
+    }
+    //6/21/2021 不会
+    //https://blog.csdn.net/qq_32142535/article/details/78777669
+
+    //8/22/2021 知道公式怎么算二维前缀和，关键是怎么初始化那个prefix sum矩阵。是要把所有大小的正方形在初始化的时候都算出来吗？不是的，应该就是建一个prefix sum
+    //矩阵，做法是先初始化第一行的前缀和，然后第二行的前缀和就可以由第一行得出吧；其实不需要单独初始化第一行前缀和，一起搞就行吧。
+    //然后得到二维前缀和之后怎么算正方形又是另一个方程
+    //https://oi-wiki.org/basic/prefix-sum/
+    int[][] sums;
+    public void RangeSumQuery2DImmutable2(int[][] m) {
+        sums=new int[m.length+1][m[0].length+1];
+        for (int i=1;i<sums.length;i++){
+            for (int j=1;j<sums[0].length;j++){
+                if(i==1&&j==1){
+                    sums[i][j]=m[i-1][j-1];
+                }else if (i==1){
+                    sums[i][j]=sums[i][j-1]+m[i-1][j-1];
+                }else if (j==1){
+                    sums[i][j]=sums[i-1][j]+m[i-1][j-1];
+                }else {
+                    sums[i][j]=sums[i][j-1]+sums[i-1][j]-sums[i-1][j-1]+m[i-1][j-1];
+                }
+            }
+        }
+    }
+    public int sumRegion2(int row1, int col1, int row2, int col2) {
+        return sums[row2+1][col2+1]-sums[row1][col2+1]-sums[row2+1][col1]+sums[row1][col1];
     }
 }
 

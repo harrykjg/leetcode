@@ -355,4 +355,134 @@ public class BasicCalculatorII {
         return rs;
     }
 
+    //7/5/2021,还是挺难，搞对规则就好了。 看以前的想法写法把。不会存在-2+1，或者1*-2。但是会有3*2*2这种
+    //先搞出第一个数字，由于开头不会是-2这样的，所以没毛病。如3-5/2/2+1*2-1=3。搞出第一个数字之后，每遇到一个符号，就把它后面的数字也搞出来，
+    //如果遇到+/-，由于优先级低，所以只能先把读出来的数字乘以1或者-1（based on+或-）放进st里，如果遇到*/，则把stack里的东西（已经带了正负）pop出来，
+    //与现在的*/和sign做运算
+    public int calculate6(String s) {
+        if (s==null||s.length()==0){
+            return 0;
+        }
+        s=s.replace(" ","");
+        int first=0;
+        int i=0;
+        while (i<s.length()&&Character.isDigit(s.charAt(i))){
+            first=10*first+(s.charAt(i)-'0');
+            i++;
+        }
+        Stack<Integer> st=new Stack<>();
+        st.push(first);
+        int sign=1;
+        int rs=0;
+        while (i<s.length()){
+            if (s.charAt(i)=='+'){
+                i++;
+                int temp=0;
+                sign=1;
+                while (i<s.length()&&Character.isDigit(s.charAt(i))){
+                    temp=temp*10+s.charAt(i)-'0';
+                    i++;
+                }
+                st.push(sign*temp);
+            }else if (s.charAt(i)=='-'){
+                i++;
+                int temp=0;
+                sign=-1;//只有减号是-1，别的都是1，因为不会有*-2这种
+                while (i<s.length()&&Character.isDigit(s.charAt(i))){
+                    temp=temp*10+s.charAt(i)-'0';
+                    i++;
+                }
+                st.push(sign*temp);
+            }else if (s.charAt(i)=='*'){
+                i++;
+                int temp=0;
+                sign=1;
+                while (i<s.length()&&Character.isDigit(s.charAt(i))){
+                    temp=temp*10+s.charAt(i)-'0';
+                    i++;
+                }
+                st.push(st.pop()*(sign*temp));
+            }else if (s.charAt(i)=='/'){
+                i++;
+                int temp=0;
+                sign=1;
+                while (i<s.length()&&Character.isDigit(s.charAt(i))){
+                    temp=temp*10+s.charAt(i)-'0';
+                    i++;
+                }
+                st.push(st.pop()/(sign*temp));
+            }
+        }
+        while (!st.isEmpty()){
+            rs+=st.pop();
+        }
+        return rs;
+
+    }
+
+    //8/23/2021 居然写的很顺几乎一次过。比以前的都好，记这个
+    // 不用先搞出第一个数字。也不用带sign，只需要见到减号的时候push进去负数就行了，因为pop出来已经带正负号了，怎么运算都行
+    public int calculate7(String s) {
+        s=s.replace(" ","");
+        char[] ch=s.toCharArray();
+        Stack<Integer> st=new Stack<>();
+        int i=0;
+        while(i<ch.length){
+            if(ch[i]=='+'){
+                i++;
+                int temp=0;
+                while(i<ch.length&&Character.isDigit(ch[i])){
+                    temp=temp*10+ch[i]-'0';
+                    i++;
+                }
+                st.push(temp);
+                continue;
+            }
+            if(ch[i]=='-'){
+                i++;
+                int temp=0;
+                while(i<ch.length&&Character.isDigit(ch[i])){
+                    temp=temp*10+ch[i]-'0';
+                    i++;
+                }
+                st.push(-temp);
+                continue;
+            }
+            if(ch[i]=='*'){
+                i++;
+                int pre=st.pop();
+                int temp=0;
+                while(i<ch.length&&Character.isDigit(ch[i])){
+                    temp=temp*10+ch[i]-'0';
+                    i++;
+                }
+                st.push(pre*temp);
+                continue;
+            }
+            if(ch[i]=='/'){
+                i++;
+                int pre=st.pop();
+                int temp=0;
+                while(i<ch.length&&Character.isDigit(ch[i])){
+                    temp=temp*10+ch[i]-'0';
+                    i++;
+                }
+                st.push(pre/temp);
+                continue;
+            }
+            int temp=0;
+            while(i<ch.length&&Character.isDigit(ch[i])){
+                temp=temp*10+ch[i]-'0';
+                i++;
+            }
+            st.push(temp);
+        }
+        int rs=0;
+        while(!st.isEmpty()){
+            rs+=st.pop();
+        }
+        return rs;
+    }
+
+
 }

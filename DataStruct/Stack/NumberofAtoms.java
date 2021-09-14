@@ -3,10 +3,7 @@ package DataStruct.Stack;
 
 import com.sun.tools.javac.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Stack;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Created by yufengzhu on 7/8/18.
@@ -14,7 +11,7 @@ import java.util.TreeMap;
 public class NumberofAtoms {
     public static void main(String[] a){
         NumberofAtoms na=new NumberofAtoms();
-        System.out.println(na.countOfAtoms("H2O"));//"K4(ON(SO3)2)2
+        System.out.println(na.countOfAtoms2("Mg(H2O)N"));//"K4(ON(SO3)2)2
     }
     //和decodestring很像,输出的排序就是按字母的自然顺序拍出来的，和化学表达式的顺序没关系
     //自己想的，居然还比较顺，改了几次就过了，用K4(ON(SO3)2)2 和"H2O"举例子就行了
@@ -95,5 +92,110 @@ public class NumberofAtoms {
             this.val=val;
             this.count=count;
         }
+    }
+
+    //7/25/2021 还是写不出.参考别人之后自己想的，改了好几次
+    // 思路就是st里放的是一个map，存的是这个左括号后面的字符和数量，（A2（N2)2X(A2))2,比如现在遇到第一个左括号，把有A2的map放进stack里了，然后遇到第二个左括号
+    //把n2放进stack里，然后遇到第一个右括号，则把n2这个map pop出来，乘以2之后，再于栈顶的存的A2的map融合，这样才对。后遇到x，也得把x加入栈顶的map，栈顶没有map的话
+    //才说明是不再括号里的。
+    //https://leetcode.com/problems/number-of-atoms/discuss/109345/Java-Solution-using-Stack-and-Map 和他写的不一样 看不太懂
+    public String countOfAtoms2(String formula) {
+        Stack<Map<String,Integer>> st=new Stack<>();
+        Map<String,Integer> map=new TreeMap<>();
+        char[] ch=formula.toCharArray();
+        int i=0;
+        while (i<ch.length){
+            if (ch[i]=='('){
+                i++;
+                Map<String,Integer> m=new HashMap<>();
+                while (i<ch.length){
+                    if (ch[i]=='('||ch[i]==')'){
+                        break;
+                    }
+                    String key=String.valueOf(ch[i]);
+                    i++;
+                    while (i<ch.length&&Character.isLowerCase(ch[i])){
+                        key+=ch[i];
+                        i++;
+                    }
+                    int val=0;
+                    while (i<ch.length&&Character.isDigit(ch[i])){
+                        val=val*10+ch[i]-'0';
+                        i++;
+                    }
+                    if (val==0){
+                        val=1;
+                    }
+                    m.put(key,m.getOrDefault(key,0)+val);
+                }
+                st.push(m);
+            }else if (ch[i]==')'){
+                i++;
+                int num=0;
+                while (i<ch.length&&Character.isDigit(ch[i])){
+                    num=num*10+ch[i]-'0';
+                    i++;
+                }
+                if (num==0){
+                    num=1;
+                }
+                Map<String,Integer> last=st.pop();
+                for (String key:last.keySet()){
+                    last.put(key,last.get(key)*num);
+                }
+                if (!st.isEmpty()){
+                    Map<String,Integer> pre=st.peek();
+                    for(String key:last.keySet()){
+                        if (!pre.containsKey(key)){
+                            pre.put(key,last.get(key));
+                        }else{
+                            pre.put(key,last.get(key)+pre.get(key));
+                        }
+                    }
+                }else {
+                    for(String key:last.keySet()){
+                        if (!map.containsKey(key)){
+                            map.put(key,last.get(key));
+                        }else{
+                            map.put(key,last.get(key)+map.get(key));
+                        }
+                    }
+                }
+            }else {
+                String key=String.valueOf(ch[i]);
+                i++;
+                while (i<ch.length&&Character.isLowerCase(ch[i])){
+                    key+=ch[i];
+                    i++;
+                }
+                int val=0;
+                while (i<ch.length&&Character.isDigit(ch[i])){
+                    val=val*10+ch[i]-'0';
+                    i++;
+                }
+                if (val==0){
+                    val=1;
+                }
+                if (!st.isEmpty()){//还是要检测st里有没map，有的话说明现在遇到的元素是在括号里的
+                    Map<String,Integer> pre=st.peek();
+                    if (!pre.containsKey(key)) {
+                        pre.put(key,val);
+                    }else {
+                        pre.put(key,pre.get(key)+val);
+                    }
+                }else {
+                    map.put(key,map.getOrDefault(key,0)+val);
+                }
+
+            }
+        }
+        StringBuilder  sb=new StringBuilder();
+        for (Map.Entry<String,Integer> entry:map.entrySet()){
+            sb.append(entry.getKey());
+            if (entry.getValue()>1){
+                sb.append(entry.getValue());
+            }
+        }
+        return sb.toString();
     }
 }

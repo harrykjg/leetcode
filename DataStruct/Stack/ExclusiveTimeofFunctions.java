@@ -15,7 +15,7 @@ public class ExclusiveTimeofFunctions {
         ls.add("1:start:6");
         ls.add("1:end:6");
         ls.add("0:end:7");
-        int[] rs=et.exclusiveTime2(2,ls);
+        int[] rs=et.exclusiveTime4(2,ls);
         System.out.print(rs[0]);
     }
     //举个例子,题目的例子不行，要上面这个例子
@@ -157,6 +157,109 @@ public class ExclusiveTimeofFunctions {
             }
 
         }
+        return rs;
+    }
+//7/7/2021,就是用stack模拟，写的不好，看回上一个的写法，用一个pretime会免去从stack里pop东西找这段时间属于谁的容易。真巧妙
+    public int[] exclusiveTime4(int n, List<String> logs) {
+        int[] rs=new int[n];
+        Stack<String> st=new Stack<>();
+        int pretime=0;
+        for (int i=0;i<logs.size();i++){
+            String cur=logs.get(i);
+            String[] split=cur.split(":");
+            int task=Integer.valueOf(split[0]);
+            String action=split[1];
+            int time=Integer.valueOf(split[2]);
+            if (st.isEmpty()){
+                pretime=time;
+                st.push(cur);
+                continue;
+            }
+            String[] prelog=st.peek().split(":");
+            int pretask=Integer.valueOf(prelog[0]);
+            if (action.equals("start")){//由于不会把end push进来，所以上一个task肯定是start，所以这段时间肯定是属于pretask的
+                rs[pretask]+=time-pretime;//确定了pretask之后，还需要用pretime来确认时间。
+                pretime=time;
+                st.push(cur);
+            }else{//如果当前是end，则上一个肯定是同个task的start，记录下时间，然后pretime设成当前time+1，因为end的time是这一秒的结束，
+                rs[task]+=time+1-pretime;//所以下一个来的task只能是从+1开始,并且st。pop，因为pretime记录了他的结束时间，所以他已经没有用了。
+                pretime=time+1;
+                st.pop();
+            }
+        }
+        return rs;
+    }
+
+    //8/12/2021 这个写的改了几次对了，写的不太好，看回上一个。这里多了pre的判断，这里想的是遇到end的话就从stack里找之前的时间点，而如果遇到的是start，
+    //且start不为空的话，则用pre来确定时间，且只有遇到end的时候才会设置pre。而之前的不管现在是start还是end都设置成pre，所欲遇到end的时候都不需要
+    //用stack里的pretask来确定时间，都直接用pre来确定。
+    public int[] exclusiveTime5(int n, List<String> logs) {
+        Stack<String> st=new Stack<>();
+        int[] rs=new int[n];
+        int pre=-1;
+        for(int i=0;i<logs.size();i++){
+            String now=logs.get(i);
+            String[] ss=now.split(":");
+            if(ss[1].equals("start")){
+                if(st.isEmpty()){
+                    st.push(now);
+                }else{
+                    String preT=st.peek();
+                    String[] pres=preT.split(":");
+                    if(pre!=-1){
+                        int time=Integer.parseInt(ss[2])-pre;
+                        rs[Integer.parseInt(pres[0])]+=time;
+                        pre=-1;
+                    }else{
+                        int time=Integer.parseInt(ss[2])-Integer.parseInt(pres[2]);
+                        rs[Integer.parseInt(pres[0])]+=time;
+                    }
+                    st.push(now);
+                }
+            }else{
+                String[] pres=st.pop().split(":");
+                if(pre!=-1){
+                    int time=Integer.parseInt(ss[2])-pre+1;
+                    rs[Integer.parseInt(ss[0])]+=time;
+                    pre=Integer.parseInt(ss[2])+1;
+                }else{
+                    int time=Integer.parseInt(ss[2])-Integer.parseInt(pres[2])+1;
+                    rs[Integer.parseInt(ss[0])]+=time;
+                    pre=Integer.parseInt(ss[2])+1;
+                }
+            }
+        }
+        return rs;
+    }
+//8/24/2021 这个写法就好了，改了一下就ac，就是只用pre来计算时间，不需要看stack里的时间。其实stack里只需要装integer代表他是哪一个task就行
+    //https://leetcode.com/problems/exclusive-time-of-functions/discuss/105062/Java-Stack-Solution-O(n)-Time-O(n)-Space
+    public int[] exclusiveTime6(int n, List<String> logs) {
+        int pre=0;
+        Stack<String> st=new Stack<>();
+        int[] rs=new int[n];
+        for(int i=0;i<logs.size();i++){
+            String[] log=logs.get(i).split(":");
+            int task=Integer.parseInt(log[0]);
+            String status=log[1];
+            int time=Integer.parseInt(log[2]);
+            if(status.equals("start")){
+                if(!st.isEmpty()){
+                    String[] prelog =st.peek().split(":");
+                    int pretask=Integer.parseInt(prelog[0]);
+                    rs[pretask]+=time-pre;
+                    pre=time;
+                    st.push(logs.get(i));
+                }else{
+                    st.push(logs.get(i));
+                    pre=time;
+                }
+            }else{
+                String[] prelog=st.pop().split(":");
+                rs[task]+=time+1-pre;
+                pre=time+1;
+            }
+        }
+
         return rs;
     }
 }

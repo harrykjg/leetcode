@@ -180,4 +180,44 @@ public class PalindromePartitioning {
             }
         }
     }
+
+    //6/4/2021,没想起来要用dp记录可成为回文的substring.dfs也写错了for的条件.还有就是下标写错了
+    public List<List<String>> partition5(String s) {
+        List<List<String>> rs=new ArrayList<>();
+        if(s.length()==0){
+            return rs;
+        }
+        boolean[][] dp=new boolean[s.length()][s.length()];
+        for(int i=0;i<dp.length;i++){
+            dp[i][i]=true;
+        }
+        for(int i=1;i<dp.length;i++){
+            if(s.charAt(i)==s.charAt(i-1)){
+                dp[i-1][i]=true;
+            }
+        }
+        for(int i=2;i<s.length();i++){
+            for(int j=0;j+i<s.length();j++){
+                if(s.charAt(j)==s.charAt(i+j)&&dp[j+1][i+j-1]){
+                    dp[j][i]=true;
+                }
+            }
+        }
+
+        dfs5(s,0,new ArrayList<>(),rs,dp);
+        return rs;
+    }
+    void dfs5(String s,int b,ArrayList<String> al,List<List<String>> rs,boolean[][] dp){
+        if(b>=s.length()){
+            rs.add(new ArrayList<>(al));
+            return;
+        }
+        for (int i=0;i+b<s.length();i++){
+            if(dp[b][i+b]){
+                al.add(s.substring(b,i+b+1));
+                dfs5(s,i+b+1,al,rs,dp);
+                al.remove(al.size()-1);
+            }
+        }
+    }
 }

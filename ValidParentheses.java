@@ -2,7 +2,7 @@ import java.util.Stack;
 
 public class ValidParentheses {
 //04/20/2020，一次过
-    public boolean isValid(String s) {
+    public boolean isValid(String s) {//因为这是3中括号的所以只用用stack，如果是单个括号的应该不用stack就行
         if(s.length()==0){
             return true;
         }

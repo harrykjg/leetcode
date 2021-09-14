@@ -32,4 +32,28 @@ public class IslandPerimeter {
         }
         return count*4-count2;
     }
+
+    //8/20/2021 一次过，比上次写的好
+    public int islandPerimeter2(int[][] grid) {
+        int rs=0;
+        int[] dx={-1,0,1,0};
+        int[] dy={0,1,0,-1};
+        for (int i=0;i<grid.length;i++){
+            for (int j=0;j<grid[0].length;j++){
+                if (grid[i][j]==1){
+                    int count=4;
+                    for (int k=0;k<4;k++){
+                        int r=i+dx[k];
+                        int c=j+dy[k];
+                        if (r<0||r>=grid.length||c<0||c>=grid[0].length||grid[r][c]==0){
+                            continue;
+                        }
+                        count--;
+                    }
+                    rs+=count;
+                }
+            }
+        }
+        return rs;
+    }
 }

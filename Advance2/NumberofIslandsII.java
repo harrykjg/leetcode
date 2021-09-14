@@ -196,6 +196,65 @@ public class NumberofIslandsII {
         return ids[x];
     }
 
+    //6/14/2021,思路是有的，其实不需要一个matrix来记录陆地，直接ids初始化为-1就代表都是海。
+    public List<Integer> numIslands24(int row, int col, int[][] operators) {
+        int[] ids=new int[row*col];
+        Arrays.fill(ids,-1);
+        int count=0;
+        List<Integer> rs=new ArrayList<>();
+        for (int i=0;i<operators.length;i++){
+            int r=operators[i][0];
+            int c=operators[i][1];
+            int index=r*col+c;
+            if (ids[r*col+c]==-1){
+                count++;
+                ids[index]=index;
+            }
+            if (r>0&&ids[(r-1)*col+c]!=-1){
+                int root1=find4(index,ids);
+                int root2=find4((r-1)*col+c,ids);
+                if (root1!=root2){
+                    ids[root2]=root1;
+                    count--;
+                }
+            }
+            if (c+1<col&&ids[r*col+c+1]!=-1){
+                int root1=find4(index,ids);
+                int root2=find4(r*col+c+1,ids);
+                if (root1!=root2){
+                    ids[root2]=root1;
+                    count--;
+                }
+            }
+            if (r+1<row&&ids[(r+1)*col+c]!=-1){
+                int root1=find4(index,ids);
+                int root2=find4((r+1)*col+c,ids);
+                if (root1!=root2){
+                    ids[root2]=root1;
+                    count--;
+                }
+            }
+            if (c>0&&ids[r*col+c-1]!=-1){
+                int root1=find4(index,ids);
+                int root2=find4(r*col+c-1,ids);
+                if (root1!=root2){
+                    ids[root2]=root1;
+                    count--;
+                }
+            }
+            rs.add(count);
+        }
+        return rs;
+    }
+    int find4(int index,int[] ids){
+        if (ids[index]==index){
+            return index;
+        }
+        ids[index]=find4(ids[index],ids);
+        return ids[index];
+    }
+
+
 }
 class Point {
     int x;

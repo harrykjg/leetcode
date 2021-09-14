@@ -42,7 +42,20 @@ public class ReadNCharactersGivenRead4 {
 
         }
         return cur;
+    }
 
-
+    //8/22/2021 还是看了以前的才知道他是什么意思
+    public int read2(char[] buf, int n) {
+        int index=0;
+        int nn=n;
+        while (nn>0){
+            char[] temp=new char[4];
+            int actual=read4(temp);
+            for (int i=0;i<actual&&index<n;i++){
+                buf[index++]=temp[i];
+            }
+            nn-=4;
+        }
+        return index;
     }
 }

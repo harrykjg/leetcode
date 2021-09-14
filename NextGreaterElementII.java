@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Stack;
 
 /**
@@ -35,6 +36,20 @@ public class NextGreaterElementII {
         }
         while (!st.isEmpty()){
             rs[st.pop()]=-1;
+        }
+        return rs;
+    }
+
+    //7/30/2021 不会了.看到用stack自己举例子模拟一下就好了
+    public int[] nextGreaterElements2(int[] nums) {
+        Stack<Integer> st=new Stack<>();
+        int[] rs=new int[nums.length];
+        Arrays.fill(rs,-1);
+        for (int i=0;i<nums.length*2;i++){
+            while (!st.isEmpty()||nums[st.peek()]<nums[i%nums.length]){
+                rs[st.peek()]=nums[i%nums.length];
+            }
+            st.push(i%nums.length);
         }
         return rs;
     }

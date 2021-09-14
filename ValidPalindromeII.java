@@ -29,4 +29,43 @@ public class ValidPalindromeII {
         }
         return true;
     }
+//8/8/2021,自己想的，还是不如之前的方法好
+    public boolean validPalindrome2(String s) {
+        if(s.length()<=1){
+            return true;
+        }
+        int i=0;
+        int j=s.length()-1;
+
+        while(i<j){
+            if(s.charAt(i)!=s.charAt(j)){
+                String s11=s.substring(0,i);
+                String s12=s.substring(i+1);
+
+                String s21=s.substring(0,j);
+                String s22=s.substring(j+1);
+                return valid2(s11+s12)||valid2(s21+s22);//就是遇到不等的时候，去掉左边或者右边的字符再比较一次。
+            }
+            i++;
+            j--;
+        }
+        return true;
+    }
+    boolean valid2(String s){
+        if(s.length()<=1){
+            return true;
+        }
+        int i=0;
+        int j=s.length()-1;
+
+        while(i<j){
+            if(s.charAt(i)!=s.charAt(j)){
+                return false;
+            }
+            i++;
+            j--;
+        }
+
+        return true;
+    }
 }

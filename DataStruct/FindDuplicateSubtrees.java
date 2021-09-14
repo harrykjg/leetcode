@@ -2,15 +2,15 @@ package DataStruct;
 
 import apple.laf.JRSUIUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by yufengzhu on 8/27/18.
  */
 public class FindDuplicateSubtrees {
-    //不会，看答案的  https://leetcode.com/problems/find-duplicate-subtrees/solution/  看他的复杂度分析，容易错
+    //不会，看答案的
+    // https://leetcode.com/problems/find-duplicate-subtrees/discuss/106011/Java-Concise-Postorder-Traversal-Solution看他的复杂度分析，容易错
+    // https://leetcode.com/problems/find-duplicate-subtrees/discuss/106055/C%2B%2B-Java-Clean-Code-with-Explanation
     public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
         List<TreeNode> rs=new ArrayList<>();
         if(root==null){
@@ -61,5 +61,11 @@ public class FindDuplicateSubtrees {
             rs.add(root);
         }
         return seri;
+    }
+
+    //7/6/2021,自己想的是把所有子树找出来放到list里，然后2重循环对比每个子树睡否相同，这样会出现很多重复的结果，加一个Set<Integer>可鞥可以解决，但是还是看以前的方法把
+    //貌似前中后跟顺序都行，中跟的分隔符写的地方会不一样，用前跟和后跟把
+    public List<TreeNode> findDuplicateSubtrees3(TreeNode root) {
+
     }
 }

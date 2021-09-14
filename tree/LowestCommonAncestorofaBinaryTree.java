@@ -92,4 +92,25 @@ public class LowestCommonAncestorofaBinaryTree {
         return right;
     }
 
+    //7/16/2021。这样写才是利用了bst的性质，题目说了肯定有答案。改了一次过了。以前上面写的应该是适用于普通二叉树的解法
+    public TreeNode lowestCommonAncestor5(TreeNode root, TreeNode A, TreeNode B) {
+        if (root==null){
+            return null;
+        }
+        if (root.val==A.val||root.val==B.val){
+            return root;
+        }
+        if (root.val>A.val&&root.val<B.val){
+            return root;
+        }
+        if (root.val>B.val&&root.val<A.val){//开始漏了考虑A B谁大谁小的情况
+            return root;
+        }
+        if (root.val>A.val&&root.val>B.val){
+            return lowestCommonAncestor5(root.left,A,B);
+        }else{
+            return lowestCommonAncestor5(root.right,A,B);
+        }
+    }
+
 }

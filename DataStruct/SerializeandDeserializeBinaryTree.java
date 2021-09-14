@@ -19,7 +19,7 @@ public class SerializeandDeserializeBinaryTree {
     }
 //自己想的就是层次遍历，比较不好的解法
     //https://blog.csdn.net/yeruby/article/details/49885267  他比较了先序和层次遍历的serilize的结果，代码不要看他的
-    //https://www.jianshu.com/p/e099d10bc0db 先序的deserilize不是太好想
+    // b bb               先序的deserilize不是太好想
     public String serialize(TreeNode root) {
         if(root==null){
             return "";
@@ -232,6 +232,14 @@ public class SerializeandDeserializeBinaryTree {
             }
         }
         return root;
+    }
+
+    public String serialize5(DataStruct.TreeNode root) {
+
+    }
+
+    public TreeNode deserialize5(String data) {
+
     }
 }
 class TreeNode {

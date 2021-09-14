@@ -9,10 +9,10 @@ public static void main(String[] args){
     wiggleSort(a);
 }
     //不会啊,只能参考别人的,O(n)的方法还没仔细想,第一种方法都写的很烂
-    //http://www.cnblogs.com/grandyang/p/5139057.html   为啥不能取前半段的第一个,然后后半段的第一个,再前半段的第二个,再后半段的第二个?
+    //http://www.cnblogs.com/grandyang/p/5139057.html   为啥不能取前半段的第一个,然后后半段的第一个,再前半段的第二个,再后半段的第二个?不行，如[4,5,5,6]
     //http://www.cnblogs.com/grandyang/p/5177285.html 他第一问[1,1,1,4,5,6] 这样的例子也不行,但是leetcode没这样的test case
+    //https://leetcode.com/problems/wiggle-sort-ii/discuss/77684/Summary-of-the-various-solutions-to-Wiggle-Sort-for-your-reference
     //https://leetcode.com/problems/wiggle-sort-ii/discuss/77677/O(n)+O(1)-after-median-Virtual-Indexing
-    //https://segmentfault.com/a/1190000003783283  他第一问不对的,第二问[1,1,1,4,5,6] 这样的例子也不行,但是leetcode没这样的test case
 
     public static void wiggleSort(int[] nums) {
         Arrays.sort(nums);
@@ -39,6 +39,30 @@ public static void main(String[] args){
             }
         }
         return;
+
+    }
+
+    //6/23/2021,对半分然后把后半的第一个插到前半的第一个后面，这样应该可以吧，结果是不行的。如[4,5,5,6]，好想还非得前半段取最后一个，再后半段取最后一个。
+    public static void wiggleSort2(int[] nums) {
+        Arrays.sort(nums);
+        if(nums.length<=2){
+            return;
+        }
+        int[] a=new int[nums.length];
+        for(int i=0;i<nums.length;i++){//a是排序后的数组,实际上就是用这个排序后的数组给nums重新赋值
+            a[i]=nums[i];
+        }
+        int m=(nums.length-1)/2;//直接这样就行了，不用像以前那样
+        int e=nums.length-1;
+        for (int i=0;i<nums.length;i++){
+            if (i%2==0){
+                nums[i]=a[m];
+                m--;
+            }else {
+                nums[i]=a[e];
+                e--;
+            }
+        }
 
     }
 }

@@ -12,16 +12,16 @@ import java.util.PriorityQueue;
 //就是lintcode的Data Stream Median，但是leetcode是要写的datastructre
 public class FindMedianFromDataStream {
     public static void main(String[] a){
-        FindMedianFromDataStream3 ff=new FindMedianFromDataStream3();
-        ff.addNum(-1);
-        ff.addNum(-2);
+        FindMedianFromDataStream4 ff=new FindMedianFromDataStream4();
+        ff.addNum(1);
+        ff.addNum(2);
         System.out.println(ff.findMedian());
-        ff.addNum(-3);
+        ff.addNum(3);
         System.out.println(ff.findMedian());
-        ff.addNum(-4);
-        System.out.println(ff.findMedian());
-        ff.addNum(-5);
-        System.out.println(ff.findMedian());
+//        ff.addNum(-4);
+//        System.out.println(ff.findMedian());
+//        ff.addNum(-5);
+//        System.out.println(ff.findMedian());
     }
 
     PriorityQueue<Integer> pq1;//最小堆，装大的
@@ -151,6 +151,43 @@ public class FindMedianFromDataStream {
                 return pq1.peek();
             }
             return pq2.peek();
+        }
+    }
+
+    //6/8/2021想的是不管啥数进来都放在min里，再倒导max里，是对的而且比较好想。但是超时，还是判断一下新进来的数可以减少操作
+    static class FindMedianFromDataStream4 {
+        PriorityQueue<Integer> min=new PriorityQueue<>();
+        PriorityQueue<Integer> max=new PriorityQueue<>(Collections.reverseOrder());
+        public FindMedianFromDataStream4() {
+
+        }
+
+        public void addNum(int num) {
+            if(min.size()==0){
+                min.offer(num);
+                return;
+            }
+            if(num<min.peek()){
+                max.offer(num);
+            }else {
+                min.offer(num);
+            }
+            while (min.size()>max.size()+1){
+                max.offer(min.poll());
+            }
+            while (max.size()>min.size()){//
+                min.offer(max.poll());
+            }
+        }
+
+        public double findMedian() {
+            if(min.size()==0){
+                return 0;
+            }
+            if(min.size()==max.size()){
+                return (min.peek()+max.peek())/2d;
+            }
+            return min.peek();
         }
     }
 }

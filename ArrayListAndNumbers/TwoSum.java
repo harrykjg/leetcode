@@ -62,4 +62,27 @@ public class TwoSum {
         return null;
 
     }
+
+    //8/28/2021
+    public int[] twoSum3(int[] nums, int target) {
+        HashMap<Integer,Integer> map=new HashMap<>();
+        int[] rs=new int[2];
+        for(int i=0;i<nums.length;i++){
+            int cur=nums[i]-target;
+            if(map.containsKey(-nums[i])){
+                int index=map.get(-nums[i]);
+                if(index>i){
+                    rs[0]=i;
+                    rs[1]=index;
+                }else{
+                    rs[0]=index;
+                    rs[1]=i;
+                }
+                return rs;
+            }else{
+                map.put(cur,i);
+            }
+        }
+        return rs;
+    }
 }

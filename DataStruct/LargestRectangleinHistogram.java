@@ -50,18 +50,41 @@ public class LargestRectangleinHistogram {
         if (height.length==0){
             return 0;
         }
+
+        return 0;
+    }
+    //6/6/2021,做不出来了,感觉比以前感觉的更难了。就是中间有0的bar也能符合，吊
+    public static int largestRectangleArea3(int[] height) {
+        if(height.length==0){
+            return 0;
+        }
+        int rs=0;
         Stack<Integer> st=new Stack<>();
         for(int i=0;i<height.length;i++){
-            if (st.isEmpty()||st.peek()<=height[i]){
+            if (st.isEmpty()||height[st.peek()]<=height[i]) {
                 st.push(i);
-            }else{
-                while (){
-
+                continue;
+            }
+            while (!st.isEmpty()&&height[st.peek()]>=height[i]){
+                int index=st.pop();
+                int h=height[index];
+                if(st.isEmpty()){
+                    rs=Math.max(h*i,rs);//
+                }else{
+                    rs=Math.max(rs,h*(i-st.peek()-1));
                 }
             }
-
+            st.push(i);
         }
-
-
+        while (!st.isEmpty()){
+            int index=st.pop();
+            int h=height[index];
+            if(st.isEmpty()){
+                rs=Math.max(h*height.length,rs);
+            }else{
+                rs=Math.max(rs,h*(height.length-st.peek()-1));
+            }
+        }
+        return rs;
     }
 }

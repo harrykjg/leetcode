@@ -8,7 +8,7 @@ public class StoneGame {
         StoneGame sg=new StoneGame();
         System.out.print(sg.stoneGame(new int[]{5,4,3,5}));
     }
-    //顺着predict the winner做的,暴力法超时了,几乎和那题一样
+    //顺着predict the winner做的,暴力法超时了,几乎和那题一样. 这个其实是lintcode的coinsinaline III，那边的dp好理解一些
     //https://leetcode.com/problems/stone-game/solution/
     //https://blog.csdn.net/blurryface_/article/details/81538421这几个dp写法有些不同
     //https://blog.csdn.net/perdon123123/article/details/81349507
@@ -26,5 +26,8 @@ public class StoneGame {
         }
         return dp[0][dp.length-1]>0;
     }
+    //6/20/2021 还是不会
+    //https://leetcode.com/problems/stone-game/discuss/154610/DP-or-Just-return-true 看他的apporach2
+    //https://zhuanlan.zhihu.com/p/55977493 这个dp好理解一些
 
 }

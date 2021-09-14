@@ -1,4 +1,7 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * Created by yufengzhu on 8/28/18.
@@ -39,6 +42,60 @@ public class ShortestWordDistanceII {
             return map.get(temp2);
 
         }
+    }
 
+    //7/15/2021,没想到最好的方法。
+    //https://leetcode.com/problems/shortest-word-distance-ii/discuss/67028/Java-Solution-using-HashMap
+    HashMap<String, List<Integer>> map2=new HashMap<>();
+    public void ShortestWordDistanceII2(String[] words) {
+        for (int i=0;i<words.length;i++){
+            List<Integer> al=map2.getOrDefault(words[i],new ArrayList<Integer>());
+            al.add(i);
+            map2.put(words[i],al);
+        }
+    }
+
+    public int shortest2(String word1, String word2) {
+        List<Integer> al=map2.get(word1);
+        List<Integer> al2=map2.get(word2);
+        int i=0;
+        int j=0;
+        int rs=Integer.MAX_VALUE;
+        while (i<al.size()&&j<al2.size()){//这里不那么好想，不是二重循环，移动比较小的那个，因为移动小的才可能使i和j靠近
+            rs=Math.min(Math.abs(al2.get(j)-al.get(i)),rs);
+            if (al.get(i)<al2.get(j)){
+                i++;
+            }else{
+                j++;
+            }
+        }
+
+        return rs;
+    }
+
+    public void ShortestWordDistanceII3(String[] words) {
+        for (int i=0;i<words.length;i++){
+            if (!map2.containsKey(words[i])){
+                map2.put(words[i],new ArrayList<Integer>());
+            }
+            map2.get(words[i]).add(i);
+        }
+    }
+
+    public int shortest3(String word1, String word2) {
+        List<Integer> l1=map2.get(word1);
+        List<Integer> l2=map2.get(word2);
+        int rs=Integer.MAX_VALUE;
+        int i=0;
+        int j=0;
+        while (i<l1.size()&&j<l2.size()){
+            rs=Math.min(rs,Math.abs(l1.get(i)-l2.get(j)));
+            if (i<j){
+                i++;
+            }else {
+                j++;
+            }
+        }
+        return rs;
     }
 }

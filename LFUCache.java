@@ -61,7 +61,7 @@ public class LFUCache {//关键是怎么记录谁是最不recently被访问的,�
         }
         map.put(key,value);
         frequency.put(key,1);
-        minFreq=1;
+        minFreq=1;//他是新来的那么他肯定frequency是1，肯定是最小的
         if(!minFrequency.containsKey(minFreq)){
             LinkedHashSet<Integer> lset=new LinkedHashSet<>();
             lset.add(key);

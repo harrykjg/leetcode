@@ -53,13 +53,29 @@ public class Backpack {
             for(int j=0;j<dp[0].length;j++){
                 if(A[i-1]>j){
                     dp[i][j]=dp[i-1][j];
-                }
-                if(j-A[i-1]>=0&&dp[i-1][j-A[i-1]]){
+                }else if(j-A[i-1]>=0&&dp[i-1][j-A[i-1]]){
                     dp[i][j]=true;
                     rs=Math.max(rs,j);
                 }
             }
         }
         return rs;
+    }
+//6/5/2021,思路居然和以前的不一样，写的是数字的，以前写的反而不太好理解,画图理解
+    public static int backPack3(int m, int[] A) {
+        Arrays.sort(A);//不用sort也对
+        int[][] dp=new int[A.length+1][m+1];
+        for(int i=1;i<dp.length;i++){
+            for(int j=1;j<dp[0].length;j++){
+                if(j>=A[i-1]){
+                    dp[i][j]=Math.max(dp[i-1][j-A[i-1]]+A[i-1],dp[i-1][j]);
+                }else {
+                    dp[i][j]=dp[i-1][j];
+                }
+            }
+        }
+        return dp[dp.length-1][dp[0].length-1];
+
+
     }
 }

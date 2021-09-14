@@ -1,6 +1,7 @@
 package Advance1;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by 502575560 on 7/16/17.
@@ -164,6 +165,106 @@ public class MinimumWindowSubstring {
                 rs=source.substring(wal,wal+curlen);
             }
             run++;
+
+        }
+        return rs;
+    }
+
+    //6/13/2021,开始没想到用count去记录需要的有效字符,改了2辞accept了
+    public static String minWindow4(String source, String target) {
+        Map<Character,Integer> map=new HashMap<>();
+        int count=0;
+        for (int i=0;i<target.length();i++){
+            if(!map.containsKey(target.charAt(i))){
+                map.put(target.charAt(i),1);
+            }else {
+                map.put(target.charAt(i),map.get(target.charAt(i))+1);
+            }
+            count++;
+        }
+        int len=Integer.MAX_VALUE;
+        String rs="";
+        int b=0;
+        for (int i=0;i<source.length();i++){
+            char cur=source.charAt(i);
+            if (map.containsKey(cur)){
+                if (map.get(cur)>0){
+                    count--;
+                }
+                map.put(cur,map.get(cur)-1);
+            }
+            if (count==0){
+                while (b<i){
+                    char begin=source.charAt(b);
+                    if (map.containsKey(begin)){
+                        if (map.get(begin)>=0){//开始少写了=号
+                            //can't remove
+                            break;
+                        }else {
+                            map.put(begin,map.get(begin)+1);
+                            b++;
+                        }
+                    }else {
+                        b++;
+                    }
+                }
+                if (i-b+1<len){
+                    len=i-b+1;
+                    rs=source.substring(b,b+len);
+                }
+            }
+
+        }
+        if (count>0){
+            return "";
+        }
+        return rs;//开始写的是直接source.subString(b,b+len)就错了，因为b可能会在找到最短的字符串之后挪动到别的地方
+    }
+
+    //8/13/2021 又写的很烂，看回以前的方法.他的想法不是和Longest Substring with At Most K Distinct Characters那样，那里是扩展到k个之后，就开始
+    //缩，缩的时候会删掉一个东西，然后在扩展。而这里是扩展到count=0的时候开始缩，缩的话不会把现在必须的char删掉，只会把不必要的char删掉，而再扩展的时候
+    //可以包含必须的但多余的char，
+    public static String minWindow5(String source, String target) {
+        Map<Character,Integer> map=new HashMap<>();
+        int count=0;
+        for (int i=0;i<target.length();i++){
+            if(!map.containsKey(target.charAt(i))){
+                map.put(target.charAt(i),1);
+            }else {
+                map.put(target.charAt(i),map.get(target.charAt(i))+1);
+            }
+            count++;
+        }
+        int len=Integer.MAX_VALUE;
+        String rs="";
+        int b=0;
+        int e=0;
+        char[] ch=source.toCharArray();
+        while (e<source.length()){
+            if(map.containsKey(ch[e])){
+                if (map.get(ch[e])>0){
+                    count--;
+                }
+                map.put(ch[e],map.get(ch[e])-1);
+            }
+            if (count==0){
+                while (b<e){
+                    if (map.containsKey(ch[b])){
+                        if (map.get(ch[b])>=0){
+
+                            break;
+                        }else{
+                            map.put(ch[b],map.get(ch[b])+1);
+                        }
+                    }
+                    b++;
+                }
+                if (e-b+1<len){
+                    len=e-b+1;
+                    rs=source.substring(b,b+len);
+                }
+            }
+            e++;
 
         }
         return rs;

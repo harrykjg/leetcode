@@ -86,5 +86,28 @@ public class DistinctSubsequences {
     }
 //05/26/2020,画图，居然是在s.charat(i)==t.charat(j)的情况下，dp[i][j]左上和右边的和.代码就不写了，和第一次的基本一样，是T为行，S为列
     public static int numDistinct4(String s, String t) {
+        return 0;
+    }
+
+//6/5/2021,画图是可以找规律，但是最好还是理解dp的意义。把t写成行，s写成列画图，当s【i】==t【j】时有2个选择，1是算s【i】有用把t【j】抵消了，
+    //那么此时就要看s从0到i-1这个字符串能构成几个t从0到j-1的字符串（因为如果t中间一段是s不能match的，就算
+//  s【i】=t【j】match了也没用），2是不算s【i】，看s从0到i-1这字符串能构成几个t从0到j。画图才能体会
+    public static int numDistinct5(String s, String t) {
+        int[][] dp=new int[s.length()+1][t.length()+1];
+
+        //忘了第一列还要初始化,还以为只要初始化第一个点就行，其实不是的
+        for (int i=0;i<dp.length;i++){
+            dp[i][0]=1;
+        }
+        for (int i=1;i<dp.length;i++){
+            for (int j=1;j<dp[0].length;j++){
+                if(s.charAt(i-1)==t.charAt(j-1)){
+                    dp[i][j]=dp[i-1][j-1]+dp[i-1][j];
+                }else {
+                    dp[i][j]=dp[i-1][j];
+                }
+            }
+        }
+        return dp[dp.length-1][dp[0].length-1];
     }
 }

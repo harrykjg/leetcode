@@ -44,5 +44,15 @@ public class WiggleSort {
         }
     }
 
+    //自己想的是quickselect把数组分成2半，左边的小右边的大，在把后面的插到前面，但是后面插前面不好写，array应该要shift所以也应该不会快，还不如就sort，像以前的方法
+    public void wiggleSort3(int[] nums) {
+        Arrays.sort(nums);
+        for(int i=2;i<nums.length;i+=2){
+            int temp=nums[i];
+            nums[i]=nums[i-1];
+            nums[i-1]=temp;
+        }
+    }
+
 }
 

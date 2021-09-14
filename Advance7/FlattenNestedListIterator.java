@@ -132,4 +132,85 @@ public class FlattenNestedListIterator {
             return false;
         }
     }
+
+    //6/23/2021这里噁心的是他会有[[],[3]]这种case和各种【【【】】，【】】case，开始想的istrue就是看看stack是不是空，这样的话不行.还是要hasNext把
+    //list都拿出来放进st里。这里写的比较容易懂，但是hasnext是递归的，以前的写法好一些但是没那么容易写
+    class FlattenNestedListIterator5{
+        Stack<NestedInteger> st=new Stack<>();
+        public FlattenNestedListIterator5(List<NestedInteger> nestedList) {
+            for (int i=nestedList.size()-1;i>=0;i--){
+                st.push(nestedList.get(i));
+            }
+        }
+
+        public Integer next() {
+            NestedInteger cur=st.pop();
+//            if (cur.isInteger()){
+//                return cur.getInteger();
+//            }
+//            List<NestedInteger> list=cur.getList();//由于有了hasNext的处理，就不需要这里flatten了
+//            for (int i=list.size()-1;i>=0;i--){
+//                st.push(list.get(i));
+//            }
+            return cur.getInteger();
+        }
+
+        public boolean hasNext() {
+            if (st.isEmpty()){
+                return false;
+            }
+            if (st.peek().isInteger()){
+              return true;
+            }else {
+                List<NestedInteger> n=st.peek().getList();
+                if (n.isEmpty()){
+                    st.pop();
+                    return hasNext();
+                }else {
+                    st.pop();
+                    for (int i=n.size()-1;i>=0;i--){
+                        st.push(n.get(i));
+                    }
+                    return hasNext();
+                }
+
+            }
+        }
+    }
+    //8/12/2021这个是直接初始化的时候就flatten所有的值到al里，估计面试官会问怎么把初始化的复杂度降低，那么就可以回答以前的做法那样的了
+    class NestedIterator implements Iterator<Integer> {
+        List<Integer> al=new ArrayList<>();
+        int index=0;
+        //这个是直接暴力把所有数字都在初始化的时候弄出来放到al里
+        public NestedIterator(List<NestedInteger> nestedList) {
+            for(int i=0;i<nestedList.size();i++){
+                NestedInteger ni=nestedList.get(i);
+                helper(ni);
+
+            }
+        }
+        void helper(NestedInteger ni){
+            if(ni.isInteger()){
+                al.add(ni.getInteger());
+            }else{
+                List<NestedInteger> ls=ni.getList();
+                for(NestedInteger n:ls){
+                    helper(n);
+                }
+            }
+        }
+
+        @Override
+        public Integer next() {
+            return al.get(index++);
+        }
+
+        @Override
+        public boolean hasNext() {
+            if(al.size()==0||index>=al.size()){
+                return false;
+            }
+            return true;
+        }
+    }
 }

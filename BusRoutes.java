@@ -10,7 +10,7 @@ public class BusRoutes {
         br.numBusesToDestination(r,1,6);
     }
     //自己写的，先创造图的节点，然后bfs，结果超时。而第二个方法就不超时了，我觉得因为第一个方法这里构造图的时候有3重循环导致慢了，第二个方法巧妙就在
-    //没有完全构造一般理解上的图，某个点的邻居用bus的编号来替代了，在queue。poll的时候才拿出来遍历，不知道为啥就快了，难道不是一样吗
+    //没有完全构造一般理解上的图，某个点的邻居用bus的编号来替代了，在queue。poll的时候才拿出来遍历，不知道为啥就快了，难道不是一样吗。答，worst case可能一样
     public int numBusesToDestination(int[][] routes, int S, int T) {
         if(S==T){
             return 0;
@@ -128,6 +128,82 @@ public class BusRoutes {
         }
         return -1;
     }
+
+    //7/10/2021,改了一下超时了，还是建图时候用了3重循环，见以前的解释，到便利的时候才去拿邻居。会省去不必要的邻居添加
+    public int numBusesToDestination3(int[][] routes, int S, int T) {
+        if (S==T){
+            return 0;
+        }
+        int rs=0;
+        HashMap<Integer,Set<Integer>> map=new HashMap<>();
+        for (int i=0;i<routes.length;i++){
+            for (int j=0;j<routes[i].length;j++){
+                if (!map.containsKey(routes[i][j])){
+                    map.put(routes[i][j],new HashSet<>());
+                }
+                map.get(routes[i][j]).add(i);
+            }
+        }
+        if(!map.containsKey(S)||!map.containsKey(T)){//不加这个也超时
+            return -1;
+        }
+        Queue<Integer> q=new LinkedList<>();
+        q.offer(S);
+        int count=1;
+        int count2=0;
+        Set<Integer> memo=new HashSet<>();
+        while (!q.isEmpty()){
+            int cur=q.poll();
+            memo.add(cur);
+            count--;
+            Set<Integer> neiKey=map.get(cur);
+            for (int neikey:neiKey){
+                int[] nei=routes[neikey];
+                for (int n:nei){
+                    if (n==T){
+                        return rs;
+                    }
+                    if (!memo.contains(n)){
+                        q.offer(n);
+                        count2++;
+                        memo.add(n);
+                    }
+
+                }
+            }
+
+            if (count==0){
+                count=count2;
+                count2=0;
+                rs++;
+            }
+        }
+        return -1;
+    }
+
+    /*
+    看别人怎么避免用count count1这样的
+    while (!q.isEmpty()) {
+           int len = q.size();//就是用q。size去循环poll
+           ret++;
+           for (int i = 0; i < len; i++) {
+               int cur = q.poll();
+               ArrayList<Integer> buses = map.get(cur);
+               for (int bus: buses) {
+                    if (visited.contains(bus)) continue;
+                    visited.add(bus);
+                    for (int j = 0; j < routes[bus].length; j++) {
+                        if (routes[bus][j] == T) return ret;
+                        q.offer(routes[bus][j]);
+                   }
+               }
+           }
+        }
+        return -1;
+    }
+     */
+
+
 }
 class point{
     int n;

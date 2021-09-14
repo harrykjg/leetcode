@@ -82,4 +82,50 @@ public class PrintBinaryTree {
             al.set(mid,String.valueOf(node.val));
         }
     }
+
+    //7/6/2021 反正就是写递归比之前的容易些，改了几次accept。先搞出第一个root的位置，然后用他决定他左右子树的位置，递归。
+    //https://leetcode.com/problems/print-binary-tree/discuss/106239/Java-Recursive-Solution
+    public List<List<String>> printTree2(TreeNode root) {
+        List<List<String>> rs=new ArrayList<>();
+        if (root==null){
+            return rs;
+        }
+        int height=getHeight2(root);
+        int cols=(int)Math.pow(2,height)-1;
+        for (int i=0;i<height;i++){
+            List<String> row=new ArrayList<>();
+            for (int j=0;j<cols;j++){
+                row.add("");
+            }
+            rs.add(row);
+        }
+
+        int curCol=cols/2;
+        rs.get(0).set(curCol,root.val+"");
+        helper2(0,curCol,0,root,rs,height);
+
+        return rs;
+    }
+    void helper2(int row,int col,int level,TreeNode node,List<List<String>> rs,int height){
+        if (node.left!=null){
+            String curValue=node.left.val+"";
+            int curCol=col-(int)Math.pow(2,height-1-row-1);
+            List<String> al=rs.get(level+1);
+            al.set(curCol,curValue);
+            helper2(row+1,curCol,level+1,node.left,rs,height);
+        }
+        if (node.right!=null){
+            String curValue=node.right.val+"";
+            int curCol=col+(int)Math.pow(2,height-1-row-1);
+            List<String> al=rs.get(level+1);
+            al.set(curCol,curValue);
+            helper2(row+1,curCol,level+1,node.right,rs,height);
+        }
+    }
+    int getHeight2(TreeNode node){
+        if (node==null){
+            return 0;
+        }
+        return 1+Math.max(getHeight2(node.left),getHeight2(node.right));
+    }
 }

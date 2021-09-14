@@ -145,4 +145,39 @@ public class KthLargestElement {
         return i;
     }
 
+    //6/22/2021。证明了quick select和quick sort的写法基本一样，也不需要像上面写的那样一定要分成3个方法，这里2个就行了
+    public int kthLargestElement4(int k, int[] nums) {
+        int b=0;
+        int e=nums.length-1;
+        return helper4(b,e,nums,nums.length-k+1);//写的是从小到大的helper所以这里反转k一下
+    }
+    int helper4(int b, int e, int[] nums, int k){
+        int start=b;
+        int end=e;
+        int pivot=nums[b];
+        while (b<e){
+            while (e>b&&nums[e]>=pivot){
+                e--;
+            }
+            if (b<e){
+                nums[b]=nums[e];
+                b++;//开始写了e--，为啥不能写呢，因为这个e位置要等后面b仍过来的数字放
+            }
+            while (b<e&&nums[b]<pivot){
+                b++;
+            }
+            if (b<e){
+                nums[e]=nums[b];
+                e--;
+            }
+        }
+        nums[b]=pivot;
+        if(b==k-1){
+            return nums[b];
+        }else if (b>k-1){
+            return helper4(start,b-1,nums,k);
+        }
+        return helper4(b+1,end,nums,k);
+    }
+
 }

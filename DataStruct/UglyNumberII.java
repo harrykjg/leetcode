@@ -72,4 +72,32 @@ public class UglyNumberII {
         }
         return base;
     }
+//6/8/2021.自己想容易想错，以为只要3个变量就可以。注意14不是ugly number，ugly number必须是当前result去乘以2，3，5得到得
+    //以前的解法还要3个list，别人的用一个数组即可，不是那么好想像.比如先比较1*2。1*3。1*5，得出rs【1】=2。然后再比较2*2，1*3，1*5，继续可知应该设3个index
+    //并且没被选中的index还是指向久的result
+    //https://leetcode.com/problems/ugly-number-ii/discuss/69362/O(n)-Java-solution
+    public static int nthUglyNumber3(int n) {
+        if(n==1){
+            return 1;
+        }
+        int i1=0;
+        int i2=0;
+        int i3=0;
+        int[] rs=new int[n];
+        rs[0]=1;
+        for(int i=1;i<n;i++){
+            int min=Math.min(rs[i1]*2,Math.min(rs[i2]*3,rs[i3]*5));
+            rs[i]=min;
+            if(rs[i1]*2==min){
+                i1++;
+            }
+            if(rs[i2]*3==min){
+                i2++;
+            }
+            if(rs[i3]*5==min){
+                i3++;
+            }
+        }
+        return rs[n-1];
+    }
 }

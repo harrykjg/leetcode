@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * Created by 502575560 on 11/6/16.
@@ -54,5 +52,55 @@ public class IntersectionofTwoArraysII {
             rs[i]=al.get(i);
         }
         return rs;
+    }
+//8/15/2021暴力法就是用map记录第一个数组数字出现的次数，便利nums2，遇到map有的就加入结果，并且把map的对应数字的value--
+    public int[] intersect2(int[] nums1, int[] nums2) {
+        List<Integer> rs=new ArrayList<>();
+        HashMap<Integer,Integer> map=new HashMap<>();
+        for (int i=0;i<nums1.length;i++){
+            if(!map.containsKey(nums1[i])){
+                map.put(nums1[i],1);
+            }else{
+                map.put(nums1[i],map.get(nums1[i])+1);
+            }
+        }
+        for (int i:nums2){
+            if (map.containsKey(i)&&map.get(i)>0){
+                rs.add(i);
+                map.put(i,map.get(i)-1);
+                if (map.get(i)==0){
+                    map.remove(i);
+                }
+            }
+        }
+        int[] rss=new int[rs.size()];
+        for(int i=0;i<rs.size();i++){
+            rss[i]=rs.get(i);
+        }
+        return rss;
+    }
+//再写个sort的方法的
+    public int[] intersect3(int[] nums1, int[] nums2) {
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+        List<Integer> rs=new ArrayList<>();
+        int i=0;
+        int j=0;
+        while (i<nums1.length&&j<nums2.length){
+            if (nums1[i]==nums2[j]){
+                rs.add(nums1[i]);
+                i++;
+                j++;
+            }else if(nums1[i]>nums1[j]){
+                j++;
+            }else {
+                i++;
+            }
+        }
+        int[] rss=new int[rs.size()];
+        for(i=0;i<rs.size();i++){
+            rss[i]=rs.get(i);
+        }
+        return rss;
     }
 }

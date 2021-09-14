@@ -79,4 +79,19 @@ public class ToeplitzMatrix {
 //        }
         return rs;
     }
+
+    //8/22/2021 看到以前说是两个两个比的，才好写把
+    public boolean isToeplitzMatrix4(int[][] matrix)  {
+        for (int i=0;i<matrix.length-1;i++){
+            for (int j=0;j<matrix[0].length;j++){
+                int a=matrix[i][j];
+                if (j+1<matrix[0].length){
+                    if (a!=matrix[i+1][j+1]){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 }

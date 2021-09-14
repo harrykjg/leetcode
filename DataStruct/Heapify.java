@@ -60,4 +60,41 @@ public class Heapify {
             pushDown2(a,left);
         }
     }
+
+    //6/7/2021,写不出，题目应该就是直接让你写堆排序
+    //https://blog.csdn.net/ZHOUJIAN_TANK/article/details/108425282
+    //https://blog.csdn.net/u013984436/article/details/80530820
+    public void heapify3(int[] A) {
+        int start=A.length/2-1;
+        for (int i=start;i>=0;i--){
+            pushDown3(A,i);
+        }
+    }
+    void pushDown3(int[] a,int i){
+        int left=2*i+1;
+        int right=2*i+2;
+        if(right<a.length&&a[left]<a[right]){//左右子树之间对比，比较小的那个，同时还小于a【i】，则把最小这个往上换
+            if(a[i]>a[left]){
+                int temp=a[i];
+                a[i]=a[left];
+                a[left]=temp;
+                pushDown3(a,left);
+            }
+        }else if(right<a.length&&a[right]<a[left]){//左右子树之间对比，比较小的那个，同时还小于a【i】，则把最小这个往上换
+            if(a[i]>a[right]){
+                int temp=a[i];
+                a[i]=a[right];
+                a[right]=temp;
+                pushDown3(a,right);
+            }
+        }else{
+            if(left<a.length&&a[i]>a[left]){
+                int temp=a[i];
+                a[i]=a[left];
+                a[left]=temp;
+                pushDown3(a,left);
+            }
+        }
+
+    }
 }

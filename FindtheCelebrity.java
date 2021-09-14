@@ -82,4 +82,23 @@ public class FindtheCelebrity {
         }
         return candidate;
     }
+//7/16/2021,O(n)解法不好想，要记
+    public int findCelebrity4(int n) {
+        int can=0;
+        for (int i=1;i<n;i++){
+            if (knows(can,i)){
+                can=i;
+            }
+        }
+        for (int i=0;i<n;i++){
+            if (i==can){
+                continue;
+            }
+            if (!knows(i,can)||knows(can,i)){
+                return -1;
+            }
+        }
+        return can;
+
+    }
 }

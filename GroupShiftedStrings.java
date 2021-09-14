@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by yufengzhu on 8/6/18.
@@ -64,6 +61,54 @@ public class GroupShiftedStrings {
         }
         return rs;
 
+    }
+//8/17/2021 开始不太理解怎么样的string算同一类，比如abc和bcd是同一类因为每个字符是相邻的，比如az和ba也是同一类因为a和z相隔了25个字符，b和a也是。
+    //但是acef就有点奇怪了，a和c隔了一个，c和e隔了一个，e和f确是相邻的。要和他同类的话比如bdfg就算dfhi也算
+    //上面那两个链接其实也是一样的，就是对每一个字符串，算出他的base，base相同自然是同一类了，那么怎么算base呢？就是拿自己的第0，1，2，3。。n位
+    //去减自己的第一位，得到的int加上'a'，如果是负数，则加上26，如ba和az
+    public List<List<String>> groupStrings2(String[] strings) {
+        List<List<String>> rs=new ArrayList<>();
+        HashMap<String,List<String>> map=new HashMap<>();
+        for (int i=0;i<strings.length;i++){
+            String base=getBase(strings[i]);
+            if (!map.containsKey(base)){
+                map.put(base,new ArrayList<String>());
+            }
+            map.get(base).add(strings[i]);
+        }
+        for (List<String> al:map.values()){
+            rs.add(al);
+        }
+        return rs;
+    }
+    String getBase(String s){
+        StringBuilder sb=new StringBuilder();
+        char[] ch=s.toCharArray();
+        for (int i=0;i<s.length();i++){
+            int c=ch[i]-ch[0]+'a';//
+            if (c<'a'){//居然可以直接加int
+                c+=26;
+            }
+            sb.append(c);
+        }
+        return sb.toString();
+    }
+    //8/23/2021 写的getBase是这样的，是相邻的两个char相减，居然也行
+    String getBase2(String s){
+        char[] ch=s.toCharArray();
+        if(s.length()==1){
+            return "a";
+        }
+        StringBuilder sb=new StringBuilder();
+        sb.append('a');
+        for(int i=1;i<ch.length;i++){
+            int gap=ch[i]-ch[i-1];
+            if(gap<0){
+                gap+=26;
+            }
+            sb.append(gap+'a');
+        }
+        return sb.toString();
     }
 
 }

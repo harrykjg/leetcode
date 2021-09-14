@@ -81,4 +81,29 @@ public class FindMinimuminRotatedSortedArray {
         }
         return nums[e];
     }
+
+    //6/9/2021 画图理解一次过
+    public int findMin4(int[] nums) {
+        if(nums.length==1){
+            return nums[0];
+        }
+        int b=0;
+        int e=nums.length-1;
+        int m=0;
+        while (b<e-1){
+            m=b+(e-b)/2;
+            if(nums[b]<nums[e]){
+                e=m;
+                continue;
+            }
+            if(nums[b]>nums[e]){
+                if(nums[m]>nums[b]){
+                    b=m;
+                }else {
+                    e=m;
+                }
+            }
+        }
+        return Math.min(nums[b],nums[e]);
+    }
 }

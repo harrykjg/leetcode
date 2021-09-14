@@ -40,8 +40,7 @@ public class TrappingRainWater {
 
     }
 //九章第二轮，4／5／2018,想了半天突然想到好想是左右扫一遍的,写的是两个数组，还加了个heap，基本一次过，但是上面的就用了一个数组而已更好，而且其实不用heap也行
-    //21年update，当想找到i位置左边和右边最大的数的时候，还是想着的是暴力的从i向左/右扫找到最大。这个想法应该要改掉，既然是要找所有的i的左边最大数，则应该
-    //从0位置开始边走边记录遇到的最大的数就可以了！
+
     public int trapRainWater2(int[] heights) {
         if(heights.length==0||heights.length<3){
             return 0;
@@ -76,5 +75,28 @@ public class TrappingRainWater {
             }
         }
         return rs;
+    }
+
+    //21年update，当想找到i位置左边和右边最大的数的时候，还是想着的是暴力的从i向左/右扫找到最大。这个想法应该要改掉，既然是要找所有的i的左边最大数，则应该
+    //从0位置开始边走边记录遇到的最大的数就可以了！
+    public int trapRainWater3(int[] heights) {
+        int[] help=new int[heights.length];
+        int rs=0;
+        if (heights.length<=2){
+            return 0;
+        }
+        for (int i=1;i<heights.length;i++){
+            help[i]=Math.max(help[i-1],heights[i-1]);//开始写成是height【i】就错了
+        }
+        int right=0;
+        for (int i=heights.length-2;i>=0;i--){
+            right=Math.max(right,heights[i+1]);
+            int min=Math.min(help[i],right);
+            if (min-heights[i]>0){
+                rs+=min-heights[i];
+            }
+        }
+        return rs;
+
     }
 }

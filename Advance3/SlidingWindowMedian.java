@@ -105,4 +105,52 @@ public class SlidingWindowMedian {
         }
         return rs;
     }
+
+    //6/16/2021 基本一次过，就是相加除以2会越界，搞个long的还不行，非得分别先除以2再加起来
+    public static double[] medianSlidingWindow3(int[] nums, int k) {
+        PriorityQueue<Integer> min=new PriorityQueue<>();
+        PriorityQueue<Integer> max=new PriorityQueue<>(Collections.reverseOrder());
+        double[] rs=new double[nums.length-k+1];
+        int index=0;
+
+        for (int i=0;i<nums.length;i++){
+            if (min.isEmpty()){
+                min.offer(nums[i]);
+            }else {
+                if (min.peek()<nums[i]){
+                    min.offer(nums[i]);
+                }else {
+                    max.offer(nums[i]);
+                }
+                while (max.size()>min.size()){
+                    min.offer(max.poll());
+                }
+                while (min.size()>max.size()+1){
+                    max.offer(min.poll());
+                }
+            }
+
+            if (min.size()+max.size()==k){
+                if (k==1){
+                    rs[index]=min.poll();
+                    index++;
+                    continue;
+                }
+                if (k%2==0){
+                    rs[index]=(double) (min.peek()/2d)+(double)(max.peek()/2d);
+                }else {
+                    rs[index]=min.peek();
+                }
+                index++;
+                int remove=nums[i-k+1];
+                if (min.contains(remove)){
+                    min.remove(remove);
+                }else {
+                    max.remove(remove);
+                }
+            }
+
+        }
+        return rs;
+    }
 }

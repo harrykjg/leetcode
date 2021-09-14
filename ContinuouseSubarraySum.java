@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -40,7 +41,7 @@ public class ContinuouseSubarraySum {
     public boolean checkSubarraySum2(int[] nums, int k) {
         HashMap<Integer,Integer> map=new HashMap<>();
         int sum=0;
-        map.put(0,-1);//这里应该放一个0，-1，比较难想，导致下面i-map.get(mod)>1可以满足，奇怪的是我不put0，-1的话，下面改成i-map.get(mod)>=1也能accept,应该是lc的test case不完整，{9, 2, 6},6)这个就不行的
+        map.put(0,-1);//这里应该放一个0，-1，比较难想，导致下面i-map.get(mod)>1可以满足
         for(int i=0;i<nums.length;i++){
             sum+=nums[i];
             if(i>=1){
@@ -57,6 +58,26 @@ public class ContinuouseSubarraySum {
                         return true;
                     }
                 }
+            }
+        }
+        return false;
+    }
+
+    //8/25/2021感觉肯定是前缀和，加上map，但是还是不会做。关键是要知道这个式子 （sum2-sum1）%k=0代表sum2%k==sum1%k，因此用map的key来记录余数，value记index
+    //来判断subarray的长度。前缀和只要一个sum而不是数组，只要当前sum%k的值存在map，就说明（sum2-sum1）%k=0，真不好想
+    public boolean checkSubarraySum3(int[] nums, int k) {
+        HashMap<Integer,Integer> map=new HashMap<>();
+        map.put(0,-1);
+        int sum=0;
+        for (int i=0;i<nums.length;i++){
+            sum+=nums[i];
+            int mod=sum%k;
+            if (map.containsKey(mod)){
+                if (i-map.get(mod)>1){
+                    return true;
+                }
+            }else {//开始这里没放在else里，而是直接更新map就错了，比如5，0，0，0 k=3的例子，其中2个0的和就是true，由于持续更新0的位置导致subarray长度一直不能大于1
+                map.put(mod,i);
             }
         }
         return false;

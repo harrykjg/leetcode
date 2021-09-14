@@ -110,4 +110,66 @@ public class AllNodesDistanceKinBinaryTree {
         dfs(map,root.right);
 
     }
+
+    //8/23/2021只能想到建图再bfs。就这样写吧。
+    //https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree/discuss/143752/JAVA-Graph-%2B-BFS
+    HashMap<TreeNode,Set<TreeNode>> map=new HashMap<>();
+    public List<Integer> distanceK2(TreeNode root, TreeNode target, int K) {
+        List<Integer> rs=new ArrayList<>();
+        if (root==null||target==null){
+            return rs;
+        }
+        build(root);
+        Queue<TreeNode> q=new LinkedList<>();
+        Set<TreeNode> set=new HashSet<>();
+        set.add(target);
+        q.add(target);
+        int dist=0;
+        while (!q.isEmpty()){
+            int size=q.size();
+            for (int i=0;i<size;i++){
+                TreeNode cur=q.poll();
+                if (dist==K){
+                    rs.add(cur.val);
+                }
+                for (TreeNode nei:map.get(cur)){
+                    if (!set.contains(nei)){
+                        q.offer(nei);
+                        set.add(nei);
+                    }
+                }
+            }
+
+            dist++;
+            if (dist>K){
+                break;
+            }
+
+        }
+        return rs;
+    }
+    void build(TreeNode root){
+        if (root==null){
+            return;
+        }
+        if (!map.containsKey(root)){
+            map.put(root,new HashSet<>());
+        }
+        if (root.left!=null){
+            map.get(root).add(root.left);
+            if (!map.containsKey(root.left)){
+                map.put(root.left,new HashSet<>());
+                map.get(root.left).add(root);
+            }
+            build(root.left);
+        }
+        if (root.right!=null){
+            map.get(root).add(root.right);
+            if (!map.containsKey(root.right)){
+                map.put(root.right,new HashSet<>());
+                map.get(root.right).add(root);
+            }
+            build(root.right);
+        }
+    }
 }

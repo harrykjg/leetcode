@@ -170,4 +170,56 @@ public class AccountsMerge {
         ids.put(ids.get(email),emailroot);//这里路径压缩之前写了ids.put(email,emailroot)就错了
         return emailroot;
     }
+//8/13/2021不会了，看回以前
+    public List<List<String>> accountsMerge4(List<List<String>> accounts) {
+        HashMap<String,String> ids=new HashMap<>();
+        HashMap<String,String> owner=new HashMap<>();
+        HashMap<String,Set<String>> map=new HashMap<>();
+        List<List<String>> rs=new ArrayList<>();
+        for(List<String> ac:accounts){
+            String own=ac.get(0);
+            for(int i=1;i<ac.size();i++){
+                if(!map.containsKey(ac.get(i))){
+                    owner.put(ac.get(i),own);
+                }
+                ids.put(ac.get(i),ac.get(i));
+            }
+        }
+        for (List<String> ac:accounts){
+            String email1=ac.get(1);
+            for(int i=2;i<ac.size();i++){
+                String email=ac.get(i);
+                union4(email1,email,ids);
+            }
+        }
+        for(List<String> ac:accounts){
+            String rootEmail=find4(ac.get(1),ids);
+            if (!map.containsKey(rootEmail)){
+                map.put(rootEmail,new TreeSet<>());
+            }
+            for (int i=1;i<ac.size();i++){
+                map.get(rootEmail).add(ac.get(i));
+            }
+        }
+        for (String s:map.keySet()){
+            List<String> al=new ArrayList<>();
+            al.add(owner.get(s));
+            al.addAll(map.get(s));
+            rs.add(al);
+        }
+
+        return rs;
+    }
+    String find4(String email,HashMap<String,String> ids){
+        if(email.equals(ids.get(email))){
+            return email;
+        }
+        ids.put(email,find4(ids.get(email),ids));
+        return ids.get(email);
+    }
+    void union4(String e1,String e2,HashMap<String,String> ids){
+            String root1=find4(e1,ids);
+            String root2=find4(e2,ids);
+            ids.put(root2,root1);
+    }
 }

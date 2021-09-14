@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /**
  * Created by yufengzhu on 7/30/18.
  */
@@ -5,8 +7,8 @@
 public class NumberofLongestIncreasingSubsequence {
     public static void main(String[] args){
         NumberofLongestIncreasingSubsequence nl=new NumberofLongestIncreasingSubsequence();
-        int[] a={1,2,4,3,5,4,7,2};//
-        System.out.print(nl.findNumberOfLIS(a));
+        int[] a={1,3,5,4,7};//
+        System.out.print(nl.findNumberOfLIS2(a));
     }
     //开始以为能写对longedtincreasingsubsequence的，其实他的dp意义还是理解错了
     //然后我觉得肯定可以边dp寻找最长子序的时候，记录碰到多少个最长的子序了，其实不是的，比如1,2,4,3,5,4,7,2，debug以下才知道，不好解释这里
@@ -47,5 +49,34 @@ public class NumberofLongestIncreasingSubsequence {
         return rs;
     }
 
+    //6/20/2021不会，还是挺难的
+    public int findNumberOfLIS2(int[] nums) {
+        int[] dp=new int[nums.length];
+        int[] count=new int[nums.length];
+
+        Arrays.fill(dp,1);
+        Arrays.fill(count,1);
+        int rs=0;
+        int max=1;
+        for (int i=1;i<nums.length;i++){
+            for (int j=0;j<i;j++){
+                if (nums[j]<nums[i]){
+                    if (dp[j]+1>dp[i]){
+                        count[i]=count[j];
+                        dp[i]=dp[j]+1;
+                    }else if (dp[j]+1==dp[i]){
+                        count[i]+=count[j];
+                    }
+                }
+            }
+            max=Math.max(max,dp[i]);
+        }
+        for (int i=0;i<count.length;i++){
+            if (dp[i]==max){
+                rs+=count[i];
+            }
+        }
+        return rs;
+    }
 
 }

@@ -49,4 +49,28 @@ public class PaintHouseII {
         return rs;
 
     }
+
+    //7/19/2021和第一题一个思路的，改了一下过了。是nkk的复杂度，别人还有nk的复杂度的难想
+    public int minCostII2(int[][] costs) {
+        int[][]dp=new int[costs.length][costs[0].length];
+        for (int i=0;i<costs[0].length;i++){
+            dp[0][i]=costs[0][i];
+        }
+        for (int i=1;i<costs.length;i++){
+            for (int j=0;j<costs[0].length;j++){
+                dp[i][j]=Integer.MAX_VALUE;
+                for (int k=0;k<costs[0].length;k++){
+                    if (k==j){
+                        continue;
+                    }
+                    dp[i][j]=Math.min(dp[i][j],dp[i-1][k]+costs[i][j]);//开始把costs【i】【j】写在Math。min外面就错了
+                }
+            }
+        }
+        int rs=Integer.MAX_VALUE;
+        for (int i=0;i<costs[0].length;i++){
+            rs=Math.min(rs,dp[dp.length-1][i]);
+        }
+        return rs;
+    }
 }

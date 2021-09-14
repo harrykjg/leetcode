@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by yufengzhu on 7/8/18.
@@ -69,19 +67,78 @@ public class CountofSmallerNumbersAfterSelf {
     }
 
     class numIndex {//开始想的是不用这个class，直接用个hashmap来记录index，后来想想不行，因为merge的时候两个数组分别试新的index，
-        int index; //即不是原来的数组的index了，所以没法记录。因此需要一个数据结构来记录他的值和index
         int num;
-
+        int index; //即不是原来的数组的index了，所以没法记录。因此需要一个数据结构来记录他的值和index
         public numIndex(int n, int i) {
             num = n;
             index = i;
 
         }
+    }
 
-        public numIndex(numIndex ni) {
-            num = ni.num;
-            index = ni.index;
+    //7/28/2021大概思路有，就是怎么把某个元素的count存起来再放到对应的结果集的位置上比较难。某个数在mergesort的时候移动了位置，则不是说要更新他的位置，而是
+    //通过这个数的原来的index去更新结果集对应index位置上的值.相当难写。这code有runtime error先不搞了
+    //https://leetcode.com/problems/count-of-smaller-numbers-after-self/discuss/445769/merge-sort-CLEAR-simple-EXPLANATION-with-EXAMPLES-O(n-lg-n)
+    public List<Integer> countSmaller2(int[] nums) {
+        List<Integer> rs=new ArrayList<>();
+        if (nums.length==0){
+            return rs;
+        }
+        numIndex[] indexes=new numIndex[nums.length];
+        for(int i=0;i<nums.length;i++){
+            indexes[i]=new numIndex(nums[i],i);
+        }
+        int[] result=new int[nums.length];
+        mergesort2(0,nums.length-1,indexes,result);
+        for (int r:result){
+            rs.add(r);
+        }
+        return rs;
+    }
+    void mergesort2(int b,int e,numIndex[] indexes,int[] result){
+        if (b>=e){
+            return;
+        }
+        int m=(b+e)/2;
+        mergesort2(b,m,indexes,result);
+        mergesort2(m+1,e,indexes,result);
+        merge(b,m,m+1,e,indexes,result);
+    }
 
+    void merge(int b1,int e1,int b2,int e2,numIndex[] indexes,int[] result){
+        numIndex[] assit=new numIndex[indexes.length];
+        int i=b1;
+        int j=b2;
+        int a=b1;
+        int flies=0;
+        while (i<e1&&j<e2){
+            if (indexes[i].num<=indexes[j].num){
+                result[indexes[b1].index]+=flies;
+                assit[a++]=indexes[i];
+                i++;
+                continue;
+            }
+            else {
+                flies++;
+                assit[a++]=indexes[j];
+                j++;
+
+            }
+        }
+        while (i<e1){
+            result[indexes[b1].index]+=flies;
+            assit[a++]=indexes[i];
+            i++;
+        }
+        while (j<e2){
+            assit[a++]=indexes[j];
+            j++;
+        }
+        i=b1;
+        while (i<e2){
+            indexes[i]=assit[i];
+            i++;
         }
     }
+
 }

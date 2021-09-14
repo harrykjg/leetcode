@@ -119,4 +119,39 @@ public class PalindromePartitioningII {
         }
         return dp[dp.length-1];
     }
+    //6/4/2021,没大问题，就是下标还是得想清楚，尤其是大于等于啥的不要想当然
+    public static int minCut4(String s) {
+        boolean[][] memo=new boolean[s.length()][s.length()];
+        for(int i=0;i<s.length();i++){
+            memo[i][i]=true;
+        }
+        for(int i=1;i<s.length();i++){
+            if(s.charAt(i-1)==s.charAt(i)){
+                memo[i-1][i]=true;
+            }
+        }
+        for(int len=2;len<s.length();len++){
+            for(int i=0;i+len<s.length();i++){
+                int e=i+len;
+                if(s.charAt(i)==s.charAt(e)&&memo[i+1][e-1]){
+                    memo[i][e]=true;
+                }
+            }
+        }
+        int[] dp=new int[s.length()];
+        for(int i=1;i<s.length();i++){
+            dp[i]=i;
+            for(int j=0;j<=i;j++){
+                if(j==0&&memo[j][i]){
+                    dp[i]=0;
+                    break;
+                }
+                if(j>0&&memo[j][i]){
+                    dp[i]=Math.min(dp[i],dp[j-1]+1);
+                }
+
+            }
+        }
+        return dp[dp.length-1];
+    }
 }

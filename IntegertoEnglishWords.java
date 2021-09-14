@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 /**
  * Created by yufengzhu on 7/20/18.
  */
@@ -96,5 +98,43 @@ public class IntegertoEnglishWords {
             return (helper3(num/1000000)+ " Million "+helper3(num%1000000)).trim();
         }
         return (helper3(num/1000000000)+ " Billion "+helper3(num%1000000000)).trim();
+    }
+
+    //7/15/2021,还是看以前的吧。这次是从大的if开始写，感觉比以前直观。除了前两位数和百位数，后面的每三位数是一个单位.还真得写个helper方法容易处理zero
+    String[] oneTo20={"","One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine","Ten", "Eleven", "Twelve",
+            "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};//注意开头还放个空字符代表0。
+    String[] twentyTo100={"","","Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};//前两个是空是因为想对齐20/10=2即twenty
+    public String numberToWords4(int num) {
+        if (num == 0) {
+            return "Zero";
+        }
+        String rs=helper4(num);
+        return rs.trim();
+    }
+    String helper4(int num){
+        String rs="";
+        if (num>=1000000000){            //billion
+            int billion=num/1000000000;
+            rs= helper4(billion)+" Billion "+helper4(num%1000000000);
+        }
+        else if (num>=1000000){            //million
+            int million=num/1000000;
+            rs= helper4(million)+" Million "+helper4(num%1000000);
+        }
+        else if (num>=1000){
+            int thousand=num/1000;
+            rs= helper4(thousand)+" Thousand "+helper4(num%1000);
+        }
+        else if (num>=100){            //million
+            int hundred=num/100;
+            rs= helper4(hundred)+" Hundred "+helper4(num%100);
+        }else {
+            if (num<20){
+                rs= oneTo20[num];
+            }else {
+                rs= twentyTo100[num/10]+" "+oneTo20[num%10];
+            }
+        }
+        return rs.trim();
     }
 }

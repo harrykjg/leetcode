@@ -10,11 +10,12 @@ import java.util.*;
  */
 //区间类
 public class MeetingRoomsII {
-    public static void main(String[] args){
-        MeetingRoomsII mr=new MeetingRoomsII();
-        Interval[] in={new Interval(1,8),new Interval(2,4),new Interval(5,6),new Interval(10,12)};
+    public static void main(String[] args) {
+        MeetingRoomsII mr = new MeetingRoomsII();
+        Interval[] in = {new Interval(1, 8), new Interval(2, 4), new Interval(5, 6), new Interval(10, 12)};
         mr.minMeetingRooms3(in);
     }
+
     //Given an array of meeting time intervals consisting of start and end times [[s1,e1],[s2,e2],...] (si < ei), find the minimum number of conference rooms required.
     //Example 1:
     //Input: [[0, 30],[5, 10],[15, 20]]
@@ -31,35 +32,36 @@ public class MeetingRoomsII {
         Arrays.sort(intervals, new Comparator<Interval>() {
             @Override
             public int compare(Interval o1, Interval o2) {
-                if(o1.start==o2.start){
-                    return o1.end-o2.end;
+                if (o1.start == o2.start) {
+                    return o1.end - o2.end;
                 }
-                return o1.start-o2.start;
+                return o1.start - o2.start;
             }
         });
-        PriorityQueue<Interval> pq=new PriorityQueue<>(new Comparator<Interval>() {
+        PriorityQueue<Interval> pq = new PriorityQueue<>(new Comparator<Interval>() {
             @Override
             public int compare(Interval o1, Interval o2) {
-                return o1.end-o2.end;
+                return o1.end - o2.end;
             }
         });
 
-        int rs=0;
-        for(int i=0;i<intervals.length;i++){
-            if(pq.isEmpty()){
+        int rs = 0;
+        for (int i = 0; i < intervals.length; i++) {
+            if (pq.isEmpty()) {
                 pq.offer(intervals[i]);
-                rs=Math.max(rs,pq.size());
-            }else{
-                while (!pq.isEmpty()&&pq.peek().end<=intervals[i].start){
+                rs = Math.max(rs, pq.size());
+            } else {
+                while (!pq.isEmpty() && pq.peek().end <= intervals[i].start) {
                     pq.poll();
                 }
                 pq.offer(intervals[i]);
-                rs=Math.max(rs,pq.size());
+                rs = Math.max(rs, pq.size());
             }
 
         }
         return rs;
     }
+
     //这个是numberofairplaneinthesky直接copy过来的改了对应变量名而已，直接accept了。说明不需要priorityqueue也行，就是要新建个class
     public int minMeetingRooms2(Interval[] intervals) {
         int rs = 0;
@@ -92,102 +94,138 @@ public class MeetingRoomsII {
         }
         return rs;
     }
-    class point{
+
+    class point {
         int time;
         int flag;
-        public point(int time,int flag){
-            this.time=time;
-            this.flag=flag;
+
+        public point(int time, int flag) {
+            this.time = time;
+            this.flag = flag;
         }
     }
-//9/12/2018,以为肯定会结果还差点做不出来,而写错了几次
+
+    //9/12/2018,以为肯定会结果还差点做不出来,而写错了几次
     public int minMeetingRooms3(Interval[] intervals) {
-        int rs=0;
+        int rs = 0;
         Arrays.sort(intervals, new Comparator<Interval>() {
             @Override
             public int compare(Interval o1, Interval o2) {
-                if(o1.start==o2.start){
-                    return o1.end-o2.end;
+                if (o1.start == o2.start) {
+                    return o1.end - o2.end;
                 }
-                return o1.start-o2.start;
+                return o1.start - o2.start;
             }
         });
-        PriorityQueue<Interval> pq=new PriorityQueue<>(new Comparator<Interval>() {
+        PriorityQueue<Interval> pq = new PriorityQueue<>(new Comparator<Interval>() {
             @Override
             public int compare(Interval o1, Interval o2) {
-                return o1.end-o2.end;//我只关心谁先end，如果end一样，谁先出来都一样,但是前面interval排序的时候是要看谁先start的
+                return o1.end - o2.end;//我只关心谁先end，如果end一样，谁先出来都一样,但是前面interval排序的时候是要看谁先start的
             }
         });
-        for(int i=0;i<intervals.length;i++){
-            if(pq.isEmpty()){
+        for (int i = 0; i < intervals.length; i++) {
+            if (pq.isEmpty()) {
                 pq.offer(intervals[i]);
-                rs=Math.max(rs,pq.size());
-            }else{
-                while (!pq.isEmpty()&&pq.peek().end<=intervals[i].start){
+                rs = Math.max(rs, pq.size());
+            } else {
+                while (!pq.isEmpty() && pq.peek().end <= intervals[i].start) {
                     pq.poll();
                 }
                 pq.offer(intervals[i]);
-                rs=Math.max(rs,pq.size());
+                rs = Math.max(rs, pq.size());
             }
         }
         return rs;
 
     }
+
     //9/25/2018
     public int minMeetingRooms4(Interval[] intervals) {
-        int rs=0;
+        int rs = 0;
         Arrays.sort(intervals, new Comparator<Interval>() {
             @Override
             public int compare(Interval o1, Interval o2) {
-                if(o1.start==o2.start){
-                    return o1.end-o2.end;
+                if (o1.start == o2.start) {
+                    return o1.end - o2.end;
                 }
-                return o1.start-o2.start;
+                return o1.start - o2.start;
             }
         });
-        PriorityQueue<Interval> pq=new PriorityQueue<>(new Comparator<Interval>() {
+        PriorityQueue<Interval> pq = new PriorityQueue<>(new Comparator<Interval>() {
             @Override
             public int compare(Interval o1, Interval o2) {
-                return o1.end-o2.end;
+                return o1.end - o2.end;
             }
         });
 
-        for(int i=0;i<intervals.length;i++){
-            while (!pq.isEmpty()&&pq.peek().end<=intervals[i].start){
+        for (int i = 0; i < intervals.length; i++) {
+            while (!pq.isEmpty() && pq.peek().end <= intervals[i].start) {
                 pq.poll();
             }
             pq.offer(intervals[i]);
-            rs=Math.max(rs,pq.size());
+            rs = Math.max(rs, pq.size());
         }
         return rs;
     }
-//04/13/2020,写的还行
+
+    //04/13/2020,写的还行
     public int minMeetingRooms5(Interval[] intervals) {
         Arrays.sort(intervals, new Comparator<Interval>() {
             @Override
             public int compare(Interval o1, Interval o2) {
-                return o1.start-o2.start;//如果start相同，end相不相同应该无所谓把
+                return o1.start - o2.start;//如果start相同，end相不相同应该无所谓把
             }
         });
 
-        PriorityQueue<Interval> pq=new PriorityQueue<>(new Comparator<Interval>() {
+        PriorityQueue<Interval> pq = new PriorityQueue<>(new Comparator<Interval>() {
             @Override
             public int compare(Interval o1, Interval o2) {
 
-                return o1.end-o2.end;
+                return o1.end - o2.end;
             }
         });
-        int size=0;
+        int size = 0;
         pq.offer(intervals[0]);
-        for(int i=1;i<intervals.length;i++){
-            while (!pq.isEmpty()&&pq.peek().end<=intervals[i].start){
+        for (int i = 1; i < intervals.length; i++) {
+            while (!pq.isEmpty() && pq.peek().end <= intervals[i].start) {
                 pq.poll();
             }
             pq.offer(intervals[i]);
-            size=Math.max(pq.size(),size);
+            size = Math.max(pq.size(), size);
         }
         return size;
 
     }
+
+    //6/24/2021 用pq的，还真是和以前犯了同样的错，pq里要按结束的排序
+    public int minMeetingRooms6(int[][] intervals) {
+        Arrays.sort(intervals, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[0]==o2[0]){
+                    return o1[1]-o2[1];//不管终点也行
+                }
+                return o1[0]-o2[0];
+            }
+         });
+        PriorityQueue<int[]> pq=new PriorityQueue<>(new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[1]-o2[1];
+            }
+        });
+        int rs=Integer.MIN_VALUE;
+        for (int i=0;i<intervals.length;i++){
+            while (!pq.isEmpty()&&pq.peek()[1]<=intervals[i][0]){
+                pq.poll();
+            }
+            pq.offer(intervals[i]);
+            rs=Math.max(rs,pq.size());
+
+        }
+        return rs;
+
+    }
+}
 
 

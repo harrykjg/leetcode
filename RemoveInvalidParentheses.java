@@ -220,5 +220,121 @@ public class RemoveInvalidParentheses {
         return rs;
     }
 
+    //7/7/2021只能想的暴力找出最小的删法再去dfs找所有可能。
+    //其实看最上面这个解法也行了，就是bfs，q里poll出来的string如果不valid的话，在它的基础上把删除1个括号的所有可能都弄出来，放到q里，q里poll出
+    // 来的每个都检查是否valid，valid的放进result里。若result不为空的话，就算当前poll出来不valid也不会在基于他去再删括号了
+    //https://leetcode.com/problems/remove-invalid-parentheses/discuss/75032/Share-my-Java-BFS-solution
+    public List<String> removeInvalidParentheses4(String s) {
+        List<String> rs=new ArrayList<>();
+        Queue<String> q=new LinkedList<>();
+        HashSet<String> set=new HashSet<>();
+        q.offer(s);
+        while (!q.isEmpty()){
+            String cur=q.poll();
+            if (valid4(cur)){
+                rs.add(cur);
+            }else if (rs.isEmpty()){
+                String temp="";
+                for (int i=0;i<cur.length();i++){
+                    if (Character.isAlphabetic(cur.charAt(i))){
+                        continue;
+                    }
+                    if (i==0){
+                        temp=cur.substring(i+1);
+                    }else {
+                        temp=cur.substring(0,i)+cur.substring(i+1);
+                    }
+                    if (!set.contains(temp)){
+                        set.add(temp);
+                        q.offer(temp);
+                    }
+                }
+            }
+        }
+        return rs;
+    }
+    boolean valid4(String s){
+        if (s.length()==0){
+            return true;
+        }
+        Stack<Character> st=new Stack<>();
+        for (int i=0;i<s.length();i++){
+            if (s.charAt(i)=='('){
+                st.push('(');
+            }
+            if (s.charAt(i)=='{'){
+                st.push('{');
+            }
+            if (s.charAt(i)=='['){
+                st.push('[');
+            }
+            if (s.charAt(i)==')'){
+                if (st.isEmpty()||st.peek()!='(') {
+                    return false;
+                }
+                st.pop();
+            }
+            if (s.charAt(i)==']'){
+                if (st.isEmpty()||st.peek()!='[') {
+                    return false;
+                }
+                st.pop();
+            }
+            if (s.charAt(i)=='}'){
+                if (st.isEmpty()||st.peek()!='{') {
+                    return false;
+                }
+                st.pop();
+            }
+        }
+        return st.isEmpty();
+    }
+//8/25/2021 忘了用set去重，想着反正是一个一个删除就不会有重复的，其实不是的，有些string你删这个和删那个得出来的是一样的
+    public  List<String> removeInvalidParentheses5(String s) {
+        List<String> rs=new ArrayList<>();
+        Queue<String> q=new LinkedList<>();
+        HashSet<String> set=new HashSet<>();
+        q.offer(s);
+        set.add(s);
+        while (!q.isEmpty()){
+            int size=q.size();
+            for (int i=0;i<size;i++){
+                String cur=q.poll();
+                if (valid5(cur)){
+                    rs.add(cur);
+                }else {
+                    for (int j=0;j<cur.length();j++){
+                        if (Character.isAlphabetic(cur.charAt(j))){
+                            continue;
+                        }
+                        String next=cur.substring(0,j)+cur.substring(j+1);
+                        if (!set.contains(next)){
+                            q.offer(next);
+                            set.add(next);
+                        }
+                    }
+                }
+            }
+            if (rs.size()!=0){
+                break;
+            }
+        }
+        return rs;
+    }
+    boolean valid5(String s){
+        char[] ch=s.toCharArray();
+        int left=0;
+        for (int i=0;i<ch.length;i++){
+            if (ch[i]=='('){
+                left++;
+            }else if (ch[i]==')'){
+                if (left<=0){
+                    return false;
+                }
+                left--;
+            }
+        }
+        return left==0;
+    }
 
 }

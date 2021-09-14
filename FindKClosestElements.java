@@ -64,4 +64,53 @@ public class FindKClosestElements {
 //        Collections.sort(rs);//因为上面的while用了addfirst和addlast就省了后面再sort了，但是leetcode的runtime反而更慢
         return rs;
     }
+//8/21/2021没想到最优解，最优看不懂
+    //https://leetcode.com/problems/find-k-closest-elements/discuss/202785/Very-simple-Java-O(n)-solution-using-two-pointers 看他的on的解不错，其实
+    //还不如自己的想法就是二分法先找到该插入x的点，在左右扩张，那样是lonN+k还挺不好写的
+    public List<Integer> findClosestElements2(int[] arr, int k, int x) {
+        List<Integer> rs=new ArrayList<>();
+        int b=0;
+        int e=arr.length-1;
+        int index=-1;
+        while (b<e){
+            int m=(b+e)/2;
+            if (arr[m]==x){
+                index=m;
+                break;
+            }
+            if (arr[m]>x){
+                e=m;
+            }else {
+                b=m+1;
+            }
+        }
+        if (index==-1){//这里还容易漏，如果直接找到x了就index直接用，否则才赋值b
+            index=b;
+        }
+        int left=index-1;//这里也很噁心，一定是left=index-1开始，说明index这一点要不是就是x本身，要不是就是x的右边第一个数。然后left和index这2者需要比较谁小
+        int right=index;//这个while循环条件也很恶心，想法应该是我要找到left和right中间夹着的元素（不包括left和right）的个数要等于k，因此我要不断扩left和right
+        //知道right-left的值大于等于k，比如k=1，right=1，left=0，中间只有1-0-1=0个元素，所以不够，所以得进入循环取扩。最后面填结果集的时候也是只要left和right中间
+        //的元素，不需要left和right本身
+        while (right-left<=k){//这里不好想，总感觉可以在这里依靠左右向外扩的时候就加进结果集了，其实很多人都没这样做，可能是做不了，因此只能左右扩，记录left和right，
+            if (left<0){//完了再遍历left到right加进结果集
+                right++;
+                continue;
+            }
+            if (right>=arr.length){
+                left--;
+                continue;
+            }
+            if (Math.abs(arr[index]-arr[left])>Math.abs(arr[index]-arr[right])){//左边严格大于右边的差值时，才取右边，若是等于就还是取左边
+                right++;
+            }else {
+                left--;
+            }
+        }
+        for (int i=left+1;i<right;i++){
+            rs.add(arr[i]);
+        }
+        return rs;
+
+    }
+
 }

@@ -113,4 +113,54 @@ public class WallsandGates {
             }
         }
     }
+
+    //7/7/2021,改了几次对了，关键还是看回上次写的，只要是room=max就行了，很多判断都省了
+    public void wallsAndGates3(int[][] rooms) {
+        Queue<int[]> q=new LinkedList<>();
+        for (int i=0;i<rooms.length;i++){
+            for (int j=0;j<rooms[0].length;j++){
+                if (rooms[i][j]==0){
+                    q.offer(new int[]{i,j});
+                }
+            }
+        }
+        int max=Integer.MAX_VALUE;
+        int count=q.size();
+        int count2=0;
+        int level=0;
+        while (!q.isEmpty()){
+            count--;
+            int[] cur=q.poll();
+            if (cur[0]>0&&rooms[cur[0]-1][cur[1]]==max){
+                rooms[cur[0]-1][cur[1]]=level+1;
+                q.offer(new int[]{cur[0]-1,cur[1]});
+                count2++;
+            }
+            if (cur[1]+1<rooms[0].length&&rooms[cur[0]][cur[1]+1]==max){
+                    rooms[cur[0]][cur[1]+1]=level+1;
+                    q.offer(new int[]{cur[0],cur[1]+1});
+                    count2++;
+
+            }
+            if (cur[0]+1<rooms.length&&rooms[cur[0]+1][cur[1]]==max){
+                rooms[cur[0]+1][cur[1]]=level+1;
+                q.offer(new int[]{cur[0]+1,cur[1]});
+                count2++;
+
+            }
+            if (cur[1]>0&&rooms[cur[0]][cur[1]-1]==max){
+                rooms[cur[0]][cur[1] - 1] = level + 1;
+                q.offer(new int[]{cur[0], cur[1] - 1});
+                count2++;
+
+
+            }
+
+            if (count==0){
+                count=count2;
+                count2 = 0;
+                level++;
+            }
+        }
+    }
 }

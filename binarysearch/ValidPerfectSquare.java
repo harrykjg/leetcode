@@ -34,4 +34,29 @@ public class ValidPerfectSquare {
         return e*e==num;
 
     }
+    //8/14/2021
+    public boolean isPerfectSquare2(int num) {
+        if(num<=0){
+            return false;
+        }
+        if(num==1){
+            return true;
+        }
+        int b=1;
+        int e=num/2;
+        int m=0;
+        while(b<e){
+            m=(b+e)/2;
+            long l=m*m;
+            if(l==num){
+                return true;
+            }
+            if(m<num/m){//奇怪这里用l<num就过不了某个case，这样写就对
+                b=m+1;
+            }else{
+                e=m;
+            }
+        }
+        return e*e==num;
+    }
 }

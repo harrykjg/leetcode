@@ -10,7 +10,7 @@ public class InsertDeleteGetRandomO1Duplicatesallowed {
 //开始自己想的就是map里存的时key和这个key在数组中的下标的数组,然后删除某个元素的时候,如果这个元素有多个,则删除index最大的那个,如果inset一个重复的元素
 //那么也是添加到数组最后一位,所以说添加和删除都应该发生在这个下标数组的最后一位应该没问题,但是如果说删除某个元素的时候,要把al里的最后一个元素换到删掉的那个
 //元素的位置上,那么也要更新这个最后元素的下标,这一更新就可能使这个元素的下标数组打乱了,原本这个下标数组的最后一位肯定使最大的,现在可能不是了(那又怎样？举个例子，现在数组有334377，然后删除3再删除3，就直到错误了）,看网上说
-//用priorityqueue 来代替list数组,但是这样的话不就不是O(1)操作了,然后自己写了priorityqueue的写法就accept了
+//用priorityqueue 来代替list数组,但是这样的话不就不是O(1)操作了,然后自己写了priorityqueue的写法就accept了,答案是用linkedHashset的
 //http://www.cnblogs.com/grandyang/p/5756148.html
 //https://segmentfault.com/a/1190000008119229
  class RandomizedCollection {
@@ -122,4 +122,7 @@ public class InsertDeleteGetRandomO1Duplicatesallowed {
             return al.get(r);
         }
     }
+    //8/11/2021想的是map里面用arraylist装这个数对应的下标，应该可以但是写了很久没写对。看别人的是用map里装linkedhashset，这样用iterator取这个
+    //linkedhashset里的值时都是取的第一个放进去的数。比我之前用pq写的应该更合适
+
 }

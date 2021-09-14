@@ -21,4 +21,18 @@ public class SortLettersbyCase {
             }
         }
     }
+//6/3/2021
+    public void sortLetters2(char[] chars) {//3种想法，一是partition array里别人写的for循环的写法，2是quick sort里while的写法，3是上面这样写
+        int b=0;
+        for(int i=0;i<chars.length;i++){
+            if(Character.isLowerCase(chars[i])){//这是第一种写法，有点反直觉
+                char temp=chars[b];
+                chars[b]=chars[i];
+                chars[i]=temp;
+                b++;
+            }
+
+        }
+        return;
+    }
 }

@@ -35,7 +35,7 @@ public class ReadNCharactersGivenRead4IICallmultipletimes {
 
     //8/16/2018还是不会
     Queue<Character> queue=new LinkedList<>();
-    public int read(char[] buf, int n) {
+    public int read2(char[] buf, int n) {
         if(n==0){
             return 0;
         }
@@ -57,5 +57,33 @@ public class ReadNCharactersGivenRead4IICallmultipletimes {
             buf[i++]=queue.poll();
         }
         return i;
+    }
+
+    //8/22/2021还是不会，看回以前的
+    //https://blog.csdn.net/weixin_30949361/article/details/97989997 看他的好懂些
+    Queue<Character> q3=new LinkedList<>();
+    public int read3(char[] buf, int n) {//他这个返回的数字不是说要返回全局中buf的位置，就是当前读了几个
+        int index=0;
+        int nn=n;
+        while (nn>0&&!queue.isEmpty()){//先读q里的
+            buf[index++]= q3.poll(); //这里也不需要找全局的index，就是从0开始就行了
+            nn--;
+        }
+        while (nn>0){
+            char[] temp=new char[4];//不够的话再用read4读
+            int acutal=read4(temp);
+            if (acutal==0){
+                break;
+            }
+            int i=0;
+            for (;i<acutal&&index<n;i++){
+                buf[index++]=temp[i];
+                nn--;
+            }
+            while (i<acutal){//如果还有剩的加进q里
+                q3.offer(temp[i++]);
+            }
+        }
+        return index;
     }
 }

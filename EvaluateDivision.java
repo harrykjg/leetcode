@@ -272,4 +272,64 @@ public class EvaluateDivision {
         }
         memo.remove(cur);
     }
+
+    //7/6/2021,漏了dfs去重,以前是用Map<String,Map<String，double>>，我这另外用了个Map<String,Double> val=new HashMap<>()去存value，其实以前那样好点
+    public double[] calcEquation5(List<List<String>> equations, double[] values, List<List<String>> queries) {
+        Map<String,Set<String>> map=new HashMap<>();
+        Map<String,Double> val=new HashMap<>();
+        for (int i=0;i<equations.size();i++){
+            String a=equations.get(i).get(0);
+            String b=equations.get(i).get(1);
+            double value=values[i];
+            if (!map.containsKey(a)){
+                Set<String> set=new HashSet<>();
+                map.put(a,set);
+            }
+            map.get(a).add(b);
+            if (!map.containsKey(b)){
+                Set<String> set=new HashSet<>();
+                set.add(a);
+                map.put(b,set);
+            }
+            map.get(b).add(a);
+            String ab=a+"#"+b;
+            String ba=b+"#"+a;
+
+            val.put(ab,value);//还可以加上a#a这样的直接存上1，否则其实是进行了dfs去找的
+            val.put(ba,1.0/value);
+
+        }
+        Set<String> memo=new HashSet<>();
+        double[] rs=new double[queries.size()];
+        Arrays.fill(rs,-1.0);
+        for (int i=0;i<queries.size();i++){
+            memo.add(queries.get(i).get(0));
+            dfs5(queries.get(i).get(0),queries.get(i).get(1),1,map,val,rs,i,memo);
+            memo.remove(queries.get(i).get(0));
+        }
+        return rs;
+    }
+    void dfs5(String cur,String e,double carry,Map<String,Set<String>> map,Map<String,Double> values,double[] rs,int index,Set<String> memo){
+        String key=cur+"#"+e;
+        if(values.containsKey(key)){
+            rs[index]=carry*values.get(key);
+            return ;
+        }
+        if (!map.containsKey(cur)){
+            return;
+        }
+        for(String nei:map.get(cur)){
+            if (memo.contains(nei)){
+                continue;
+            }
+            key=cur+"#"+nei;
+            if (values.containsKey(key)){
+                memo.add(nei);
+                double v=values.get(key);
+                double nextCarry=carry*v;
+                dfs5(nei,e,nextCarry,map,values,rs,index,memo);
+                memo.remove(nei);
+            }
+        }
+    }
 }

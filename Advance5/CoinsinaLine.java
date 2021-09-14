@@ -44,4 +44,25 @@ public class CoinsinaLine {
         }
         return dp[dp.length-1];
     }
+
+    //6/19/2021,不会了，这个逻辑没想明白
+    public boolean firstWillWin3(int n) {
+        if(n<=0){
+            return false;
+        }
+        boolean[] dp=new boolean[n];
+        if (n<=2){
+            return true;
+        }
+        dp[0]=true;
+        dp[1]=true;
+        for (int i=2;i<n;i++){
+            if (dp[i-1]&&dp[i-2]){
+                dp[i]=false;
+            }else {
+                dp[i]=true;
+            }
+        }
+        return dp[dp.length-1];
+    }
 }

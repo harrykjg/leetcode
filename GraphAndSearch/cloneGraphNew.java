@@ -86,6 +86,72 @@ public class cloneGraphNew {
         }
         return map.get(node);
     }
+
+    //6/11/2021,写的不太好
+    public Node cloneGraph4(Node node) {
+        if(node==null){
+            return node;
+        }
+        Map<Node,Node> map=new HashMap<>();
+        Queue<Node> queue=new LinkedList<>();
+        queue.offer(node);
+        while (!queue.isEmpty()){
+            Node cur=queue.poll();
+            Node copy=null;
+            if(map.containsKey(cur)){
+                copy=map.get(cur);
+            }else{
+                copy=new Node(cur.val);
+                map.put(cur,copy);
+            }
+            for(Node nei:cur.neighbors){
+                Node neiCopy=null;
+                if(map.containsKey(nei)){
+                    neiCopy=map.get(nei);
+                }else{
+                    neiCopy=new Node(nei.val);
+                    map.put(nei,neiCopy);
+                    queue.offer(nei);//基本的bfs去重忘了，只要每个node走一次那么就不用担心node的neibour会加到重复的。map正好作为去重用
+                }
+                copy.neighbors.add(neiCopy);
+            }
+        }
+        return map.get(node);
+    }
+//8/22/2021 多写了个set，其实用看以前的用map判断就好了
+    public Node cloneGraph5(Node node) {
+        if(node==null){
+            return null;
+        }
+        Map<Node ,Node> map=new HashMap<>();
+        Queue<Node> q=new LinkedList<>();
+        q.offer(node);
+        Set<Node> set=new HashSet<>();
+        set.add(node);
+        while(!q.isEmpty()){
+            Node cur=q.poll();
+            Node cp=null;
+            if(!map.containsKey(cur)){
+                cp=new Node(cur.val);
+                map.put(cur,cp);
+            }
+            cp=map.get(cur);
+            for(Node nei:cur.neighbors){
+                if(!map.containsKey(nei)){
+                    Node cpNei=new Node(nei.val);
+                    map.put(nei,cpNei);
+                    cp.neighbors.add(cpNei);
+                }else{
+                    cp.neighbors.add(map.get(nei));
+                }
+                if(!set.contains(nei)){
+                    q.offer(nei);
+                    set.add(nei);
+                }
+            }
+        }
+        return map.get(node);
+    }
 }
 
 class Node {

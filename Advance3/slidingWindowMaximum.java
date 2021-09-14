@@ -72,4 +72,9 @@ public class slidingWindowMaximum {
         return rs;
     }
 
+    //6/17/2021,除了用pq之外想不到别的方法
+    public int[] maxSlidingWindow3(int[] nums, int k) {
+
+    }
+
 }

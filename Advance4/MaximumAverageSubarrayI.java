@@ -27,4 +27,9 @@ public class MaximumAverageSubarrayI {
         }
         return rs/k;
     }
+
+    //6/17/2021,想的prefix sum，答案也是这样的，没必要二分on 值也不好想
+    public double findMaxAverage2(int[] nums, int k) {
+
+    }
 }

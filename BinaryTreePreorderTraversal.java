@@ -7,15 +7,15 @@ import java.util.Stack;
  */
 public class BinaryTreePreorderTraversal {
     //july2017 有点虚也一次过,记住是由于是stack,所以先加又再加左
-    public List<Integer> preorderTraversal(DataStruct.tree.TreeNode root) {
+    public List<Integer> preorderTraversal(tree.TreeNode root) {
         List<Integer> rs=new ArrayList<>();
         if(root==null){
             return rs;
         }
-        Stack<DataStruct.tree.TreeNode> st=new Stack();
+        Stack<tree.TreeNode> st=new Stack();
         st.push(root);
         while(!st.isEmpty()){
-            DataStruct.tree.TreeNode temp=st.pop();
+            tree.TreeNode temp=st.pop();
             rs.add(temp.val);
             if(temp.right!=null){
                 st.push(temp.right);

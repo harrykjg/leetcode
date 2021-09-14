@@ -70,4 +70,11 @@ public class BackpackIV {
         return dp[target];
     }
 
+    //6/21/2021不会,画图都挺难理解
+    //https://www.liangzl.com/get-article-detail-127410.html，这个好理解一些，图画出来找到规律，用dp[][]=new int[nums.length][target+1]，第一列初始化
+    //为1
+    public int backPackIV3(int[] nums, int target) {
+
+    }
+
 }

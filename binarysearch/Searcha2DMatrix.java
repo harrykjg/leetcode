@@ -48,4 +48,46 @@ public class Searcha2DMatrix {
         }
         return false;
     }
+
+    //6/9/2021,注意下标容易写错
+    public boolean searchMatrix2(int[][] matrix, int target) {
+        int b=0;
+        int e=matrix.length-1;
+        int m=0;
+        while (b<e-1){
+            m=b+(e-b)/2;
+            if(matrix[m][0]==target){
+                return true;
+            }
+            if(matrix[m][0]>target){
+                e=m;
+            }else {
+                b=m;
+            }
+        }
+        int row=0;
+        if(matrix[e][0]>target){
+            row=b;
+        }else {
+            row=e;
+        }
+        b=0;
+        e=matrix[0].length-1;
+        while (b<e-1){
+            m=b+(e-b)/2;
+            if(matrix[row][m]==target){
+                return true;
+            }
+            if(matrix[row][m]>target){
+                e=m;
+                continue;
+            }else {
+                b=m;
+            }
+        }
+        if(matrix[row][b]==target){
+            return true;
+        }
+        return matrix[row][e]==target;
+    }
 }

@@ -38,4 +38,36 @@ public class ThreeSumClosest {
         }
         return rs;
     }
+//8/28/2021 一次过
+    public int threeSumClosest2(int[] nums, int target) {
+        int diff=Integer.MAX_VALUE;
+        int rs=0;
+        Arrays.sort(nums);
+        for(int i=0;i<nums.length-2;i++){
+            int b=i+1;
+            int e=nums.length-1;
+            while(b<e){
+                int sum=nums[i]+nums[b]+nums[e];
+                if(Math.abs(sum-target)==0){
+                    return target;
+                }else if(Math.abs(sum-target)<diff){
+                    rs=sum;
+                    diff=Math.abs(sum-target);
+                    if(sum>target){
+                        e--;
+                    }else{
+                        b++;
+                    }
+                }else{
+                    if(sum>target){
+                        e--;
+                    }else{
+                        b++;
+                    }
+                }
+            }
+
+        }
+        return rs;
+    }
 }

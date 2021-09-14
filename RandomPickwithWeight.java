@@ -76,4 +76,61 @@ public class RandomPickwithWeight {
         }
         return b;
     }
+    //8/12/2021 这次sum是长度+1的。长度加一的原因是因为一般取subarray 当前这个index的值的时候是要减去sum【i-1】这样，所以方便起见多加前面一个位置把。
+    //这里是不需要的
+    int[] sum;
+    public void Solution(int[] w) {
+        sum=new int[w.length+1];
+        for(int i=1;i<sum.length;i++){
+            sum[i]=sum[i-1]+w[i-1];
+        }
+    }
+
+    public int pickIndex3() {//比如说现在w是2，3，4，前缀和是 0 ，2， 5  9。现在random出来一个数是【1，9】之间，二分法找，若是值是【1，2】则落到第一个值
+        Random ran=new Random(); //若是【3，5】则第二个，若【6，9】则第三个。那么二分法这里刚好sum[m]==r，比如2，的话就肯定是落在那个第一个区间上了，sum对应
+        int r=ran.nextInt(sum[sum.length-1])+1; //的下标是1，返回m-1刚好对。
+        int b=0;
+        int e=sum.length-1;
+        while(b<e){
+            int m=(b+e)/2;
+            if(sum[m]==r){
+                return m-1;
+            }else if(sum[m]>r){
+                e=m;
+            }else{
+                b=m+1;
+            }
+        }
+        return b-1;
+    }
+
+    //8/24/2021 这次写的sum就是没有长度加1的，原因是我觉得不需要找某个区间的sum像sum【i】-sum【j】这样，因此也没有j小于0这种情况。我到时random出来一个数
+    //我只需要找到第一个大于这个random的数就是他所在的区间。比如ran出来是0，那么第一个区间就是第一个大于他的数，0就是要返回的值。
+    int[] sum4;
+    public void Solution4(int[] w) {
+        sum=new int[w.length];
+        sum[0]=w[0];
+        for(int i=1;i<sum.length;i++){
+            sum[i]=sum[i-1]+w[i];
+        }
+    }
+
+    public int pickIndex4() {
+        Random ran=new Random();
+        int n=ran.nextInt(sum[sum.length-1]);//正好ran出来0到最大值-1，因此只要找到第一个sum大于n的index就是结果
+        int b=0;
+        int e=sum.length-1;
+        while(b<e){
+            int m=(b+e)/2;
+            if(sum[m]>n){//发现当前值大于n了，但是不知道是不是第一个大于n的，因此向左继续找
+                e=m;
+            }else{
+                b=m+1;
+            }
+        }
+        if(sum[b]<n){//由于while里是不断试左边的，因此最后退出来是b可能是不符合条件的，就+1，结果不限这个判断直接返回b也对。
+            return b+1;
+        }
+        return b;
+    }
 }

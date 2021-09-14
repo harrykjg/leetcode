@@ -50,4 +50,28 @@ public class Sqrtx {
         }
         return e;
     }
+
+    //6/9/2021
+    public int sqrt3(int x) {
+        if(x==0||x==1){
+            return x;
+        }
+        int b=1;
+        int e=x/2;
+        while (b<e-1){
+            int m=b+(e-b)/2;
+            if(x/m==m){
+                return m;
+            }
+            if(x/m>m){
+                b=m;
+            }else {
+                e=m;
+            }
+        }
+        if(x/e<e){
+            return b;
+        }
+        return e;
+    }
 }

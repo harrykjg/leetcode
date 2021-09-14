@@ -81,4 +81,32 @@ public class DeleteNodeinaBST {
         }
         return root;
     }
+//8/13/2021 还是很想的要换地址，那样很麻烦的。貌似一般要删的话都是node有父引用的。这里直接换值就好了。因此也不用需要父节点取操作当前节点，直接到当前节点操作就行
+    public TreeNode deleteNode3(TreeNode root, int key) {
+        if(root==null){
+            return null;
+        }
+        if (root.val==key){
+            if (root.right==null){
+                return root.left;
+            }
+            TreeNode suc=successor3(root.right);
+            root.val=suc.val;
+            root.right=deleteNode3(root.right,suc.val);//这里不太好想，开始写的直接deleteNode没有再asign给root。right就错了
+            return root;
+        }
+        if(root.val>key){
+            root.left=deleteNode3(root.left,key);//开始写的没asign回给left也错了
+        }else{
+            root.right= deleteNode3(root.right,key);
+        }
+        return root;
+
+    }
+    TreeNode successor3(TreeNode n){
+        if (n.left==null){
+            return n;
+        }
+        return successor3(n.left);
+    }
 }

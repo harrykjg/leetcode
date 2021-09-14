@@ -1,9 +1,6 @@
 package GraphAndSearch;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by 502575560 on 7/13/17.
@@ -130,6 +127,32 @@ public class Permutations {
                 dfs4(al,nums,rs,memo);
                 al.remove(al.size()-1);
                 memo[i]=false;
+            }
+        }
+    }
+//6/11/2021,dfs一次过
+    public List<List<Integer>> permute5(int[] nums) {
+        List<List<Integer>> rs=new ArrayList<>();
+        List<Integer> al=new ArrayList<>();
+        if(nums.length==0){
+            return rs;
+        }
+        Set<Integer> set=new HashSet<>();
+        dfs5(nums,al,rs,set);
+        return rs;
+    }
+    void dfs5(int[] n,List<Integer> al,List<List<Integer>> rs,Set<Integer> set){
+        if(al.size()==n.length){
+            rs.add(new ArrayList<>(al));
+            return;
+        }
+        for (int i=0;i<n.length;i++){
+            if (!set.contains(n[i])){
+                al.add(n[i]);
+                set.add(n[i]);
+                dfs5(n,al,rs,set);
+                al.remove(al.size()-1);
+                set.remove(n[i]);
             }
         }
     }

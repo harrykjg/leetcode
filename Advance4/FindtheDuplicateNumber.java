@@ -36,7 +36,28 @@ public class FindtheDuplicateNumber {
 
     }
 //05/21/2020,还是不会，看回以前的解释
+    //6/17/2021还是不会，看以前的
     public int findDuplicate2(int[] nums) {
-
+        int b=0;
+        int e=nums.length-1;
+        while (b<e){
+            int m=b+(e-b)/2;
+            int count=count2(nums,m);
+            if (count>m){
+                e=m;
+            }else {
+                b=m+1;
+            }
+        }
+        return b;
+    }
+    int count2(int[] nums,int m){
+        int rs=0;
+        for (int i=0;i<nums.length;i++){
+            if (nums[i]<=m){
+                rs++;
+            }
+        }
+        return rs;
     }
 }
