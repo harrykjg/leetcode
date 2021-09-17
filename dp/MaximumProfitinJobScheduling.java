@@ -8,7 +8,7 @@ public class MaximumProfitinJobScheduling {
         int[] s={1,2,3,4,6};
         int[] e={3,5,10,6,9};
         int[] p={20,20,100,70,60};
-        System.out.println(mp.jobScheduling2(s,e,p));
+        System.out.println(mp.jobScheduling3(s,e,p));
 
     }
     //8/10/2021 不会
@@ -104,6 +104,44 @@ public class MaximumProfitinJobScheduling {
         }
         return -1;
     }
+
+    //9/14/2021 写不对了，以为以star排序可以，其实不行，非得按end排序，按start肯定也行就是不会写
+    public int jobScheduling3(int[] startTime, int[] endTime, int[] profit) {
+        int[] dp=new int[profit.length+1];//注意这里是dp长度加1了，
+        List<Pair> ls=new ArrayList<>();
+        for(int i=0;i<startTime.length;i++){
+            ls.add(new Pair(startTime[i],endTime[i],profit[i]));
+        }
+        Collections.sort(ls, new Comparator<Pair>() {
+            @Override
+            public int compare(Pair o1, Pair o2) {
+                return o1.end-o2.end;
+            }
+        });
+        int rs=0;
+        for(int i=1;i<dp.length;i++){
+            dp[i]=Math.max(ls.get(i-1).profit+find3(ls,i-1,dp) ,dp[i-1]);//这里find3直接找出dp的最大值，可能是0，和以前写的不一样
+        }
+        return dp[dp.length-1];
+    }
+    int find3(List<Pair> ls,int index,int[] dp){
+        int bound=ls.get(index).start;
+        int b=0;
+        int e=ls.size()-1;
+        while (b<e){
+            int m=(b+e)/2;
+            if (ls.get(m).end<bound){
+                b=m+1;
+            }else {
+                e=m;
+            }
+        }
+        if (ls.get(b).end<=bound){
+            return dp[b+1];//这里由于是dp比ls的size长一位所以比较恶心。
+        }
+        return dp[b];
+    }
+
     class Pair{
         int start;
         int end;
