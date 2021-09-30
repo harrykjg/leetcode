@@ -9,11 +9,11 @@ public class RangeSumofBST {
             return 0;
         }
         int right=0;
-        if (root.val<=high){
+        if (root.val<high){
             right=rangeSumBST(root.right,low,high);
         }
         int left=0;
-        if (root.val>=low){
+        if (root.val>low){
             left=rangeSumBST(root.left,low,high);
         }
 
@@ -23,7 +23,7 @@ public class RangeSumofBST {
         return rs+left+right;
 
     }
-    //8/25/2021想的又不一样了
+    //9/23/2021想的又不一样了
     int rs=0;
     public int rangeSumBST2(TreeNode root, int low, int high) {
         helper(root,low,high);
@@ -33,17 +33,12 @@ public class RangeSumofBST {
         if(root==null){
             return;
         }
-        if(root==null){
-            return;
-        }
-        if(root.val<=high&&root.val>=low){
-            rs+=root.val;
-        }
-        if(root.val>high){//这样应该好理解一些，如果大于high了，则至于左边有可能。同理如果小于low了只有右边有可能，否则两边都有可能
-            helper(root.left,low,high);
-        }else if(root.val<low){
+        if(root.val<low){
             helper(root.right,low,high);
+        }else if(root.val>high){
+            helper(root.left,low,high);
         }else{
+            rs+=root.val;
             helper(root.left,low,high);
             helper(root.right,low,high);
         }

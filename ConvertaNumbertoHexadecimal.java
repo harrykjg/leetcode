@@ -31,4 +31,22 @@ public class ConvertaNumbertoHexadecimal {
 
         return rs.isEmpty()?"0":rs;
     }
+
+    //9/25/2021  不会。看回以前的
+    //https://leetcode.com/problems/convert-a -number-to-hexadecimal/discuss/824192/Java-100-Time-with-Detailed-Explanation
+    public String toHex2(int num) {
+        if (num==0){
+            return "0";
+        }
+        char[] ch=new char[]{'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f',};
+        int i=0;
+        StringBuilder rs=new StringBuilder();
+        while (i<8&&num!=0){//不写num!=0的话,num=0之后就一直append 0
+            char c=ch[num&15];
+            rs.append(c);
+            num=num>>>4;
+            i++;
+        }
+        return rs.reverse().toString();
+    }
 }

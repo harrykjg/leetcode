@@ -149,4 +149,78 @@ public class twentyfourGame {
         return false;
 
     }
+
+    //9/21/2021 看以前的思路写的
+    public boolean judgePoint243(int[] nums) {
+        List<Double> ls=new ArrayList<>();
+        for (double i:nums){
+            ls.add(i);
+        }
+        return dfs3(ls);
+    }
+    boolean dfs3(List<Double> ls){//不知道哪里错了，第65个case错了。不改了
+        if (ls.size()==1){
+            return Math.abs(ls.get(0)-24d)<0.001;
+        }
+        for (int i=0;i<ls.size();i++){
+            for (int j=i+1;j<ls.size();j++){
+                double d1=ls.get(i);
+                double d2=ls.get(j);
+
+                double case1=d1+d2;
+                double case2=d1*d2;
+                double case3=d1-d2;
+                double case4=d2-d1;
+                ArrayList<Double> al=new ArrayList<>();
+                for (int k=0;k<al.size();k++){
+                    if (k==i||k==j){
+                        continue;
+                    }
+                    al.add(al.get(k));
+                }
+                al.add(case1);
+                if (dfs3(al)){
+                    return true;
+                }
+                al.remove(al.size()-1);
+
+                al.add(case2);
+                if (dfs3(al)){
+                    return true;
+                }
+                al.remove(al.size()-1);
+
+                al.add(case3);
+                if (dfs3(al)){
+                    return true;
+                }
+                al.remove(al.size()-1);
+
+                al.add(case4);
+                if (dfs3(al)){
+                    return true;
+                }
+                al.remove(al.size()-1);
+
+                if (d1!=0){
+                    double temp=d2/d1;
+                    al.add(temp);
+                    if (dfs3(al)){
+                        return true;
+                    }
+                    al.remove(al.size()-1);
+                }
+                if (d2!=0){
+                    double temp=d2/d1;
+                    al.add(temp);
+                    if (dfs3(al)){
+                        return true;
+                    }
+                    al.remove(al.size()-1);
+                }
+            }
+        }
+
+        return false;
+    }
 }

@@ -8,9 +8,17 @@ public class RangeSumQueryMutable {
     //http://www.2cto.com/kf/201406/306699.html
     // http://www.raychase.net/3534#range-sum-query-mutable
 
+    public static void main(String[] args){
+        RangeSumQueryMutable rs=new RangeSumQueryMutable();
+        rs.NumArray2(new int[]{9,-8});
+        rs.update2(0,3);
+        System.out.println(rs.sumRange2(1,1));
+
+        System.out.println(rs.sumRange2(0,1));
+    }
     SegmentTree root=new SegmentTree();
 
-    public RangeSumQueryMutable(int[] nums) {
+    public void RangeSumQueryMutable(int[] nums) {
         if(nums!=null&&nums.length!=0){
             buildTree(0,nums.length-1,nums,root);
         }
@@ -38,7 +46,7 @@ public class RangeSumQueryMutable {
         }
         updateTree(i,val,root);
     }
-    public int updateTree(int i,int val,SegmentTree root){//自底向上更新
+    public int updateTree(int i,int val,SegmentTree root){//自底向上更新,居然是返回int的
         if(root.begin==root.end&&root.begin==i){
             int diff=val-root.sum;
             root.sum=root.sum+diff;
@@ -71,6 +79,69 @@ public class RangeSumQueryMutable {
         }
     }
 
+    SegmentTree root2;
+    public void NumArray2(int[] nums) {
+        root2=buildTree2(0,nums.length-1,nums);
+    }
+    SegmentTree buildTree2(int b,int e,int[] nums){
+        if (b==e){
+            return new SegmentTree(b,e,nums[b]);
+        }
+        int m=(b+e)/2;
+        SegmentTree left=buildTree2(b,m,nums);
+        SegmentTree right=buildTree2(m+1,e,nums);
+        SegmentTree root=new SegmentTree(b,e,left.sum+right.sum);
+        root.left=left;
+        root.right=right;
+        return root;
+    }
+    public void update2(int index, int val) {
+        if (index<root2.begin||index>root2.end){
+            return;
+        }
+        updateHelper2(root2,index,val);
+    }
+    void updateHelper2(SegmentTree node, int index,int val){
+        if(node==null){
+            return;
+        }
+        if (node.begin==index&&node.end==index){
+            node.sum=val;
+            return;
+        }
+        int m=node.begin+(node.end-node.begin)/2;
+        if (index<=m){
+            updateHelper2(node.left,index,val);
+        }else {
+            updateHelper2(node.right,index,val);
+        }
+        node.sum=node.left.sum+node.right.sum;
+    }
+
+    public int sumRange2(int left, int right) {
+        return helper2(root2,left,right);
+    }
+
+    int helper2(SegmentTree root,int begin,int end){
+        if (root==null){
+            return 0;
+        }
+        if (root.begin>end||root.end<begin){
+            return 0;
+        }
+        if (root.begin==begin&&root.end==end){
+            return root.sum;
+        }
+        int m=(root.begin+root.end)/2;//他这个query不是基于输入的begin和end，而是基于root的begin和end判断,不是很好想
+        if (end<=m){
+            return helper2(root.left,begin,end);
+        }else if (begin>m){
+            return helper2(root.right,begin,end);
+        }
+        return helper2(root.left,begin,m)+helper2(root.right,m+1,end);
+    }
+
+
 }
 class SegmentTree {
     SegmentTree left;
@@ -78,4 +149,10 @@ class SegmentTree {
     int begin;
     int end;
     int sum;
+    public SegmentTree(){};
+    public SegmentTree(int begin,int end,int sum){
+        this.begin=begin;
+        this.end=end;
+        this.sum=sum;
+    }
 }

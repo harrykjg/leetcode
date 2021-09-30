@@ -8,7 +8,7 @@ public class DesignTicTacToe {
     int[] rows;
     int[] cols;
     int dig1;
-    int dig2;
+    int adig;
     public DesignTicTacToe(int n) {
         rows=new int[n];
         cols=new int[n];
@@ -31,7 +31,7 @@ public class DesignTicTacToe {
                 dig1++;
             }
             if(row==rows.length-1-col){
-                dig2++;
+                adig++;
             }
         }else {
             rows[row]--;
@@ -40,16 +40,66 @@ public class DesignTicTacToe {
                 dig1--;
             }
             if(row==rows.length-1-col){
-                dig2--;
+                adig--;
             }
         }
 
-        if(rows[row]==rows.length||cols[col]==rows.length||dig1==rows.length||dig2==rows.length){
+        if(rows[row]==rows.length||cols[col]==rows.length||dig1==rows.length|| adig ==rows.length){
             return 1;
         }
-        if(rows[row]==-rows.length||cols[col]==-rows.length||dig1==-rows.length||dig2==-rows.length){
+        if(rows[row]==-rows.length||cols[col]==-rows.length||dig1==-rows.length|| adig ==-rows.length){
             return 2;
         }
         return 0;
+    }
+
+    //9/22/2021 看回以前的才会
+    int[] row2;
+    int[] col2;
+    int dig2;
+    int adig2;
+    int len;
+    public void TicTacToe2(int n) {
+        row2=new int[n];
+        col2=new int[n];
+        len=n;
+    }
+
+    /** Player {player} makes a move at ({row}, {col}).
+     @param row The row of the board.
+     @param col The column of the board.
+     @param player The player, can be either 1 or 2.
+     @return The current winning condition, can be either:
+     0: No one wins.
+     1: Player 1 wins.
+     2: Player 2 wins. */
+    public int move2(int row, int col, int player) {
+        if (player==1){
+            row2[row]++;
+            col2[col]++;
+            if (row==col){
+                dig2++;
+            }
+            if (row+col==len-1){
+                adig2++;
+            }
+        }else {
+            row2[row]--;
+            col2[col]--;
+            if (row==col){
+                dig2--;
+            }
+            if (row+col==len-1){
+                adig2--;
+            }
+        }
+        if (row2[row]==len||col2[col]==len||dig2==len||adig2==len){
+            return 1;
+        }
+        if (row2[row]==-len||col2[col]==-len||dig2==-len||adig2==-len){
+            return 2;
+        }
+        return 0;
+
     }
 }

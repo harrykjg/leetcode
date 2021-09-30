@@ -133,4 +133,33 @@ public class RandomPickwithWeight {
         }
         return b;
     }
+
+    //9/28/2021,这次二分法写的好一些。
+    int[] sums5;
+    Random ran5=new Random();
+    public void Solution5(int[] w) {
+        sums=new int[w.length+1];
+        for(int i=1;i<sums.length;i++){
+            sums[i]=w[i-1]+sums[i-1];
+        }
+    }
+
+    public int pickIndex5() {//就是举例子看，比如【1。3】那么sums是【0，1，4】，那么random出来的int应该是nextInt（4），得出0，1，2，3，然后就要找
+        //0，1，2，3回落到sums【0，1，4】的哪个区间，这个sums的index就是结果。二分法b=0，e=sums。length-1，判断r<sums[m+1]&&r>=sums[m]的话就是找到
+        //区间了，return m。否则走左边或右边。完了直接返回b
+        int r=ran.nextInt(sums[sums.length-1]);
+        int b=0;
+        int e=sums.length-1;
+        while(b<e){
+            int m=(b+e)/2;
+            if(r<sums[m+1]&&r>=sums[m]){
+                return m;
+            }else if(r<sums[m]){
+                e=m;
+            }else{
+                b=m+1;
+            }
+        }
+        return b;
+    }
 }

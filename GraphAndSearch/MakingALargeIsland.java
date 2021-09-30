@@ -7,8 +7,8 @@ import java.util.Set;
 public class MakingALargeIsland {
     public static void main(String[] args){
         MakingALargeIsland ma=new MakingALargeIsland();
-        int[][] g={{1,1},{1,0}};
-        ma.largestIsland(g);
+        int[][] g={{1,1},{1,1}};
+        System.out.println(ma.largestIsland2(g));
     }
     //8/18/2021 明显unionfind 但是实现起来还不是那么容易，尤其是把其中一个0变成1时，怎么检测4个方向上的1都加起来
     //https://leetcode.com/problems/making-a-large-island/discuss/127980/Java-Solution-using-Union-Find
@@ -77,6 +77,73 @@ public class MakingALargeIsland {
             ids[root2]=root1;
             size[root1]+=size[root2];//谁加谁想清楚，把别人加到root1上
             size[root2]=size[root1];//这行加了也对，不加也对
+        }
+    }
+
+    public int largestIsland2(int[][] grid) {
+        int[] ids=new int[grid.length*grid[0].length];
+        int[] count=new int[grid.length*grid[0].length];
+        int col=grid[0].length;
+        int[] dx={-1,0,1,0};
+        int[] dy={0,1,0,-1};
+        for (int i=0;i<grid.length;i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j]==1){
+                    ids[i*col+j]=i*col+j;//这里不是1的我就没初始化，会导致0的点id为0，也行，因为不影响。
+                    count[i*col+j]=1;
+                }
+            }
+        }
+        int rs=0;
+        for (int i=0;i<grid.length;i++){
+            for (int j=0;j<grid[0].length;j++){
+                if (grid[i][j]==1){
+                    for (int k=0;k<4;k++){
+                        int r=i+dx[k];
+                        int c=j+dy[k];
+                        if(r>=0&&r<grid.length&&c>=0&&c<grid[0].length&&grid[r][c]==1){
+                            union2(i*col+j,r*col+c,ids,count);
+                        }
+                    }
+                    rs=Math.max(rs,count[find2(i*col+j,ids)]);//这里find容易漏
+                }
+            }
+        }
+        for (int i=0;i<grid.length;i++){
+            for (int j=0;j<col;j++){
+                if (grid[i][j]==0){
+                    HashSet<Integer> set=new HashSet<>();
+                    int num=1;
+                    for (int k=0;k<4;k++){
+                        int r=i+dx[k];
+                        int c=j+dy[k];
+                        if(r>=0&&r<grid.length&&c>=0&&c<grid[0].length&&grid[r][c]==1){
+                           int idd=find2(r*col+c,ids);
+                           if (!set.contains(idd)){
+                               set.add(idd);
+                               num+=count[idd];
+                           }
+                        }
+                    }
+                    rs=Math.max(rs,num);
+                }
+            }
+        }
+        return rs;
+    }
+    int find2(int a,int[] ids){
+        if(ids[a]==a){
+            return a;
+        }
+        ids[a]=find(ids[a],ids);
+        return ids[a];
+    }
+    void union2(int a,int b,int[] ids,int[] counts){
+        int id1=find2(a,ids);
+        int id2=find2(b,ids);
+        if (id1!=id2){
+            ids[id2]=id1;
+            counts[id1]+=counts[id2];
         }
     }
 

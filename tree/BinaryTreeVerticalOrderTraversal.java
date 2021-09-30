@@ -137,6 +137,45 @@ public class BinaryTreeVerticalOrderTraversal {
         dfs(root.right,row+1,col+1);
     }
 
-
+    //9/28/2021就是用level order，treemap的key是col，value就是个arraylist就可以按顺序装了，这里其实我间的node class不需要row，只要col就行了
+    public List<List<Integer>> verticalOrder2(TreeNode root) {
+        List<List<Integer>> rs=new ArrayList<>();
+        if(root==null){
+            return rs;
+        }
+        TreeMap<Integer,ArrayList<Integer>> map=new TreeMap<>();
+        Queue<Node> q=new LinkedList<>();
+        Node n=new Node(root,0,0);
+        q.offer(n);
+        while(!q.isEmpty()){
+            Node cur=q.poll();
+            if(!map.containsKey(cur.col)){
+                map.put(cur.col,new ArrayList<Integer>());
+            }
+            map.get(cur.col).add(cur.node.val);
+            if(cur.node.left!=null){
+                Node left=new Node(cur.node.left,cur.row-1,cur.col-1);
+                q.offer(left);
+            }
+            if(cur.node.right!=null){
+                Node right=new Node(cur.node.right,cur.row-1,cur.col+ 1);
+                q.offer(right);
+            }
+        }
+        for(Map.Entry<Integer,ArrayList<Integer>> entry:map.entrySet()){
+            rs.add(entry.getValue());
+        }
+        return rs;
+    }
+    class Node{
+        TreeNode node;
+        int row;
+        int col;
+        public Node(TreeNode n,int row,int col){
+            this.node=n;
+            this.row=row;
+            this.col=col;
+        }
+    }
 
 }

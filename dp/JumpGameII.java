@@ -112,6 +112,9 @@ public class JumpGameII {
             }
         }
         return dp[dp.length-1];
+    }
+    //9/25/2021贪心还是写不出来
+    public int jump6(int[] nums) {
 
     }
 }

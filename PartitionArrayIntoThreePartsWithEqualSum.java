@@ -26,4 +26,29 @@ public class PartitionArrayIntoThreePartsWithEqualSum {
         return false;
 
     }
+//9/21/2021 这次想的用prefix sum，先从左到右找到第一个区间0到i的sum==target，然后看i+1到最后的sum是否等于2倍target，是的话再在这i+1开始看能否找到一个点使得
+    //中间这段的sum是否等于target，下标有点不好想。
+    public boolean canThreePartsEqualSum2(int[] arr) {
+        int sum=0;
+        for(int i:arr){
+            sum+=i;
+        }
+        int target=sum/3;
+        int[] prefix=new int[arr.length+1];
+        for(int i=1;i<prefix.length;i++){
+            prefix[i]=prefix[i-1]+arr[i-1];
+        }
+        for(int i=0;i<arr.length-2;i++){
+            if(prefix[i+1]-prefix[0]==target){
+                if(prefix[prefix.length-1]-prefix[i+1]==2*target){
+                    for(int j=i+1;j<arr.length-1;j++){
+                        if(prefix[j+1]-prefix[i+1]==target){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }

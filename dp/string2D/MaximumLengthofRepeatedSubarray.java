@@ -34,6 +34,8 @@ public class MaximumLengthofRepeatedSubarray {
     }
     //谷歌follow up打印其中一个解,画图的话，可以之间看谁是最大的，然后从这一点往前数max这个长度就得到了一个substring就是答案了？貌似没那么简单，还要想清楚这个index是A还是B的index
     //https://www.geeksforgeeks.org/print-longest-common-substring/ 但是这个要用rol和col去记录
+
+    //9/17/2021 karat貌似也是这个要求
     public String findLength2(int[] A, int[] B) {
         if(A.length==0&&B.length==0){
             return null;
@@ -78,6 +80,23 @@ public class MaximumLengthofRepeatedSubarray {
                     dp[i][j]=dp[i-1][j-1]+1;
                 }else {
                     dp[i][j]=0;//这里不太好理解了
+                }
+                rs=Math.max(rs,dp[i][j]);
+            }
+        }
+        return rs;
+    }
+
+    //9/17/2021 又不会了
+    public int findLength4(int[] a, int[] b) {
+        int rs=0;
+        int[][] dp=new int[a.length+1][b.length+1];
+        for (int i=1;i<=a.length;i++){
+            for (int j=1;j<=b.length;j++){
+                if (a[i-1]==b[j-1]){
+                    dp[i][j]=dp[i-1][j-1]+1;
+                }else {
+                    dp[i][j]=0;
                 }
                 rs=Math.max(rs,dp[i][j]);
             }

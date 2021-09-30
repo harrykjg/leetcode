@@ -51,4 +51,56 @@ public class VerticalOrderTraversalofaBinaryTree {
             this.val=val;
         }
     }
+//9/28/2021 和binary tree vertical order traversal差不多，就是map里的arraylist装node，用row和value排序就行了,我觉得比上面的dfs好理解，还容易一起记
+    public List<List<Integer>> verticalTraversal2(TreeNode root) {
+        List<List<Integer>> rs=new ArrayList<>();
+        if(root==null){
+            return rs;
+        }
+        TreeMap<Integer,ArrayList<Node>> map=new TreeMap<>();
+        Queue<Node> q=new LinkedList<>();
+        Node n=new Node(root,0,0);
+        q.offer(n);
+        while(!q.isEmpty()){
+            Node cur=q.poll();
+            if(!map.containsKey(cur.col)){
+                map.put(cur.col,new ArrayList<Node>());
+            }
+            map.get(cur.col).add(cur);
+            if(cur.node.left!=null){
+                Node left=new Node(cur.node.left,cur.row-1,cur.col-1);
+                q.offer(left);
+            }
+            if(cur.node.right!=null){
+                Node right=new Node(cur.node.right,cur.row-1,cur.col+ 1);
+                q.offer(right);
+            }
+        }
+        for(ArrayList<Node> list:map.values()){
+            Collections.sort(list,new Comparator<Node>(){
+                public int compare(Node n1,Node n2){
+                    if(n1.row==n2.row){
+                        return n1.node.val-n2.node.val;
+                    }
+                    return n2.row-n1.row;
+                }
+            });
+            ArrayList<Integer> al=new ArrayList<>();
+            for(Node nn:list){
+                al.add(nn.node.val);
+            }
+            rs.add(al);
+        }
+        return rs;
+    }
+    class Node{
+        TreeNode node;
+        int row;
+        int col;
+        public Node(TreeNode n,int row,int col){
+            this.node=n;
+            this.row=row;
+            this.col=col;
+        }
+    }
 }

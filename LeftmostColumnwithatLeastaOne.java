@@ -25,6 +25,25 @@ public class LeftmostColumnwithatLeastaOne {
         }
         return -1;
     }
+    //9/27/2021 写的很烂
+    public int leftMostColumnWithOne2(BinaryMatrix binaryMatrix) {
+        List<Integer> ls=binaryMatrix.dimensions();
+        int r=0;
+        int c=ls.get(1)-1;
+        int rs=0;
+        boolean found=false;
+        while(r<ls.get(0)&&c>=0){
+            if(binaryMatrix.get(r,c)==1){
+                found=true;
+                c--;
+            }else{
+                r++;
+            }
+        }
+        return found? c+1:-1;
+
+
+    }
 }
 class BinaryMatrix {
       public int get(int row, int col)

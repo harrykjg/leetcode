@@ -23,7 +23,7 @@ public class ConvertBinarySearchTreetoSortedDoublyLinkedList {
                 first=cur;
                 last=cur;
             }else {
-                cur.left=last;
+                cur.left=last;//这个容易漏，容易想成左边本来就是连上，其实是要连上last才对
                 last.right=cur;
                 last=cur;
             }

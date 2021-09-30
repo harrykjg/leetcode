@@ -89,4 +89,68 @@ public class TextJustification {
         }
         return rs;
     }
+
+    //9/29/2021 这个稍微简化一点，区别是当前行加了第一个word之后，i++，看下一个word的长度加空格加上当前的长度能不能加进来
+    public List<String> fullJustify2(String[] words, int len) {
+        int i=0;
+        List<String> rs=new ArrayList<>();
+        while (i<words.length){
+            List<String> al=new ArrayList<>();
+            String cur=words[i];
+            al.add(cur);
+            int l=cur.length();//用来记录一个单词加一个空格的长度
+            int wordlen=cur.length();//用来记录单纯的单词的长度
+            l++;
+            i++;
+            while (i<words.length&&l+words[i].length()<=len){
+                al.add(words[i]);
+                wordlen+=words[i].length();
+                l+=words[i].length()+1;
+                i++;
+
+            }
+            int spaces=len-wordlen;
+            StringBuilder sb=new StringBuilder();
+            if (al.size()==1){//如果只有一个单词
+                sb.append(al.get(0));
+                for (int j=0;j<spaces;j++){
+                    sb.append(" ");
+                }
+                rs.add(sb.toString());
+            }else{//对每个al里的单词apend空格
+                if(i==words.length){
+                    for(int j=0;j<al.size();j++){
+                        sb.append(al.get(j));
+                        if(j!=al.size()-1){
+                            sb.append(" ");
+                            spaces--;
+                        }
+                    }
+                    while(spaces>0){
+                        sb.append(" ");
+                        spaces--;
+                    }
+                    rs.add(sb.toString());
+                }else{
+                    while (spaces>0){
+                        for (int j=0;j<al.size()-1;j++){//最后那个单词不需要append空格
+                            String temp=al.get(j);
+                            temp+=" ";
+                            al.set(j,temp);
+                            spaces--;
+                            if (spaces==0){
+                                break;
+                            }
+                        }
+                    }
+                    for (String ss:al){
+                        sb.append(ss);
+                    }
+                    rs.add(sb.toString());
+                }
+            }
+
+        }
+        return rs;
+    }
 }

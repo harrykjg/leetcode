@@ -262,4 +262,29 @@ public class ExclusiveTimeofFunctions {
 
         return rs;
     }
+    //9/28/2021
+    public int[] exclusiveTime7(int n, List<String> logs) {
+        int pre=0;
+        Stack<Integer> st=new Stack<>();//stack里只需要装task的number
+        int[] rs=new int[n];
+        for(int i=0;i<logs.size();i++){
+            String[] log=logs.get(i).split(":");
+            int task=Integer.parseInt(log[0]);
+            String action=log[1];
+            int time=Integer.parseInt(log[2]);
+            if(action.equals("start")){
+                if(!st.isEmpty()){
+                    int t=st.peek();
+                    rs[t]+=time-pre;
+                }
+                st.push(task);
+                pre=time;
+            }else{
+                rs[task]+=time-pre+1;
+                st.pop();
+                pre=time+1;
+            }
+        }
+        return rs;
+    }
 }

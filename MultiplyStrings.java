@@ -1,7 +1,7 @@
 public class MultiplyStrings {
     public static void main(String[] args){
         MultiplyStrings ms=new MultiplyStrings();
-        System.out.println(ms.multiply("9","99"));
+        System.out.println(ms.multiply2("123","456"));
     }
     //8/20/2021 还是很恶心，记要用一个array来记录算出来的数字。还是得模拟.看以前的index，是怎么设的，但是后面填数那怎么取carry啥的我这写的比较直观
     public String multiply(String num1, String num2) {
@@ -39,5 +39,37 @@ public class MultiplyStrings {
             return "0";
         }
         return rs;
+    }
+
+    //9/21/2021
+    public String multiply2(String num1, String num2) {
+        int[] rs=new int[num1.length()+num2.length()];
+        for (int i=num2.length()-1;i>=0;i--){
+            int index=rs.length-1-(num2.length()-i-1);
+            int carry=0;
+            for (int j=num1.length()-1;j>=0;j--){
+                int temp=(num1.charAt(j)-'0')*(num2.charAt(i)-'0');
+                int total=temp+rs[index]+carry;
+                rs[index]=total%10;
+                if (total>=10){
+                    carry=total/10;
+                }else {
+                    carry=0;
+                }
+                index--;
+            }
+            rs[index]+=carry;
+        }
+        StringBuilder sb=new StringBuilder();
+        for (int i:rs){
+            sb.append(i);
+        }
+        if (sb.charAt(0)=='0'){
+            if (sb.length()>1&&sb.charAt(1)=='0'){
+                return "0";
+            }
+            return sb.substring(1);
+        }
+        return sb.toString();
     }
 }

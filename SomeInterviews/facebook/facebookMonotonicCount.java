@@ -1,4 +1,4 @@
-package SomeInterviews;
+package SomeInterviews.facebook;
 
 public class facebookMonotonicCount {
     public static void main(String[] args){

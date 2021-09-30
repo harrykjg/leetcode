@@ -193,7 +193,7 @@ public class AccountsMerge {
             }
         }
         for(List<String> ac:accounts){
-            String rootEmail=find4(ac.get(1),ids);
+            String rootEmail=find5(ids,ac.get(1));
             if (!map.containsKey(rootEmail)){
                 map.put(rootEmail,new TreeSet<>());
             }
@@ -221,5 +221,64 @@ public class AccountsMerge {
             String root1=find4(e1,ids);
             String root2=find4(e2,ids);
             ids.put(root2,root1);
+    }
+    //9/28/2021
+    public List<List<String>> accountsMerge5(List<List<String>> accounts) {
+        Map<String,String> owners=new HashMap<>();
+        Map<String,String> ids=new HashMap<>();
+        Map<String,TreeSet<String>> map=new HashMap<>();
+        List<List<String>> rs=new ArrayList<>();
+        for (List<String> ac:accounts){
+            String name=ac.get(0);
+            for (int i=1;i<ac.size();i++){
+                if (!owners.containsKey(ac.get(i))){
+                    owners.put(ac.get(i),name);
+                }
+                if (!ids.containsKey(ac.get(i))){
+                    ids.put(ac.get(i),ac.get(i));
+                }
+            }
+        }
+        for (List<String> ac:accounts){
+            for (int i=2;i<ac.size();i++){
+                String email1=ac.get(i-1);
+                String email2=ac.get(i);
+                union5(ids,email1,email2);
+            }
+        }
+        for (List<String> ac:accounts){
+            String root=find5(ids,ac.get(1));
+            if (!map.containsKey(root)){
+                map.put(root,new TreeSet<>());
+            }
+            for (int i=2;i<ac.size();i++){
+                map.get(root).add(ac.get(i));
+            }
+        }
+        for (Map.Entry<String,TreeSet<String>> entry:map.entrySet()){
+            List<String> al=new ArrayList<>();
+            String name=entry.getKey();
+            al.add(owners.get(name));
+            al.addAll(entry.getValue());
+            rs.add(al);
+        }
+
+        return rs;
+
+    }
+    String find5(Map<String,String> ids,String email){
+        if (ids.get(email).equals(email)){
+            return email;
+        }
+        String father=ids.get(email);
+        ids.put(email,find5(ids,father));
+        return ids.get(father);
+    }
+    void union5(Map<String,String> ids,String email1,String email2){
+        String f1=find5(ids,email1);
+        String f2=find5(ids,email2);
+        if (!f1.equals(f2)){
+            ids.put(f2,f1);
+        }
     }
 }

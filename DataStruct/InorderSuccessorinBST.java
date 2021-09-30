@@ -43,4 +43,32 @@ public class InorderSuccessorinBST {
         return rs;
     }
 
+    //9/19/2021  自己想的，就是用stack inorder。找到p之后，设一个flag=true，则下一个pop出来的就是successor。这样应该是没利用bst，所以会慢一些
+    public TreeNode inorderSuccessor2(TreeNode root, TreeNode p) {
+        Stack<TreeNode> st=new Stack<>();
+        if (root==null){
+            return null;
+        }
+        boolean found=false;
+        while (root!=null){
+            st.push(root);
+            root=root.left;
+        }
+        while (!st.isEmpty()){
+            TreeNode cur=st.pop();
+            if (found==true){
+                return cur;
+            }
+            if (cur.val==p.val){
+                found=true;
+            }
+            if (cur.right!=null){
+                TreeNode next=cur.right;
+                while (next!=null){
+                    st.push(next);
+                }
+            }
+        }
+        return null;
+    }
 }
