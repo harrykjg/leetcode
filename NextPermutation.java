@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class NextPermutation {
     //8/22/2021 凑活，还可以写的更好
     //https://leetcode.com/problems/next-permutation/solution/
@@ -39,5 +41,41 @@ public class NextPermutation {
             b++;
             e--;
         }
+    }
+//10/3/2021
+    public void nextPermutation2(int[] nums) {
+        int t=-1;
+        for(int i=nums.length-1;i>0;i--){
+            if(nums[i]>nums[i-1]){
+                t=i-1;
+                break;
+            }
+        }
+        if(t==-1){
+            int b=0;
+            int e=nums.length-1;
+            while(b<e){
+                int temp=nums[e];
+                nums[e]=nums[b];
+                nums[b]=temp;
+                b++;
+                e--;
+            }
+            return;
+        }
+        int index=0;
+        for(int i=nums.length-1;i>=0;i--){
+            if(nums[i]>nums[t]){
+                index=i;
+                break;
+            }
+        }
+        int temp=nums[t];
+        nums[t]=nums[index];
+        nums[index]=temp;
+        Arrays.sort(nums,t+1,nums.length);//排序也对，reverse也对
+
+        return;
+
     }
 }

@@ -9,7 +9,7 @@ public class LongestIncreasingPathinaMatrix {
     public static void main(String[] args){
         LongestIncreasingPathinaMatrix li=new LongestIncreasingPathinaMatrix();
         int[][] m={{9,9,4},{6,6,8},{2,1,1}};
-        System.out.print(li.longestIncreasingPath2(m));
+        System.out.print(li.longestIncreasingPath5(m));
     }
 
     //以前的代码
@@ -196,5 +196,37 @@ public class LongestIncreasingPathinaMatrix {
             dp[row][col]=Math.max(dp[row][col],1+dp[row][col-1]);
         }
        rs4=Math.max(rs4,dp[row][col]);
+    }
+//9/30/2021 还是没写好，关键是如何记录当前点作为起点的最大长度，dfs不需要包含一个cur distance，因为当前点作为起点那么他自己肯定是1，而且dfs是void，
+// 然后看四个邻居，邻居dfs出来的时候memo已经更新了，因此当前点的距离只要拿邻居的memo+1就行了。如果想成是用dfs返回int的话很容易想歪
+    int rs5=0;
+    public int longestIncreasingPath5(int[][] m) {
+        int[][] memo=new int[m.length][m[0].length];
+        for (int i=0;i<m.length;i++){
+            for (int j=0;j<m[0].length;j++){
+                if (memo[i][j]==0){
+                    dfs5(i,j,m,memo);
+                }
+            }
+        }
+        return rs5;
+    }
+    void dfs5(int row,int col,int[][] m,int[][] memo){
+        if (memo[row][col]!=0){
+            return ;
+        }
+        int[] dx={-1,0,1,0};
+        int[] dy={0,1,0,-1};
+        memo[row][col]=1;
+        for (int i=0;i<4;i++){
+            int r=row+dx[i];
+            int c=col+dy[i];
+            if(r>=0&&r<m.length&&c>=0&&c<m[0].length&&m[r][c]>m[row][col]){
+                dfs5(r,c,m,memo);
+                memo[row][col]=Math.max(memo[r][c]+1,memo[row][col]);
+            }
+        }
+        rs5=Math.max(rs5,memo[row][col]);
+
     }
 }

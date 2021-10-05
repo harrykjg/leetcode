@@ -161,7 +161,7 @@ public class WordBreakII {
 
         LinkedList<String>res = new LinkedList<String>();
         if (s.length() == 0) {
-            res.add("");
+            res.add("");//为什么要加上这个，不加不行吗
             return res;
         }
         for (String word : wordDict) {//比如aaaa，【a，aa】他等于直接dfs到最右边的a，然后对这个a dfs进去发现s是空则返回一个空。然后sublist就装了一个空字符，

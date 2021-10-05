@@ -1,6 +1,7 @@
 import java.math.BigInteger;
 
 public class AddBinary {
+    //8/25/2021
     public String addBinary(String a, String b) {
         int i1=a.length()-1;
         int i2=b.length()-1;
@@ -43,17 +44,47 @@ public class AddBinary {
         }
         return sb.reverse().toString();
     }
-    //他答案里说facebook的题是给你两个number。不同加号加起来
-    public String addBinary2(String a, String b) {//这个不怎么看得懂
+    //10/3/2021 这样写好一些
+    public String addBinary2(String a, String b) {
+        StringBuilder sb=new StringBuilder();
+        int carry=0;
+        int i1=a.length()-1;
+        int i2=b.length()-1;
+        while(i1>=0&&i2>=0){
+            int temp=a.charAt(i1)-'0'+b.charAt(i2)-'0'+carry;
+            sb.append(temp%2);
+            carry=temp/2;
+            i1--;
+            i2--;
+        }
+        while(i1>=0){
+            int temp=a.charAt(i1)-'0'+carry;
+            sb.append(temp%2);
+            carry=temp/2;
+            i1--;
+        }
+        while(i2>=0){
+            int temp=b.charAt(i2)-'0'+carry;
+            sb.append(temp%2);
+            carry=temp/2;
+            i2--;
+        }
+        if(carry==1){
+            sb.append(1);
+        }
+        return sb.reverse().toString();//居然是不会有leading 0的。因为有leading 0说明计算时的最后一位是0，但是如果计算时最后一位是0的话只可能是2个数的那一位都是0，但输入不会这样。
+
+    }
+    //lc答案里说facebook的题是给你两个number。不用加号加起来
+    public String addBinary3(String a, String b) {//这个不怎么看得懂
         BigInteger x = new BigInteger(a, 2);
         BigInteger y = new BigInteger(b, 2);
         BigInteger zero = new BigInteger("0", 2);
         BigInteger carry, answer;
         while (y.compareTo(zero) != 0) {
-            answer = x.xor(y);
-            carry = x.and(y).shiftLeft(1);
-            x = answer;
-            y = carry;
+            carry = x.and(y);
+            x = x.xor(y);
+            y = carry.shiftLeft(1);
         }
         return x.toString(2);
     }
@@ -79,5 +110,16 @@ public class AddBinary {
             y = carry << 1;
         }
         return x;
+    }
+    //这样写string会越界。因此还得像答案那样转成biginteger才行
+    public String addBinary4(String a, String b) {
+        int aa=Integer.parseInt(a, 2);
+        int bb=Integer.parseInt(b, 2);
+        while(bb>0){
+            int carry=aa&bb;
+            aa=aa^bb;
+            bb=carry<<1;
+        }
+        return Integer.toBinaryString(aa);
     }
 }

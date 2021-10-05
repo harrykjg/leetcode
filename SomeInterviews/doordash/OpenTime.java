@@ -12,7 +12,7 @@ public class OpenTime {
         for (String s : rs) {
             System.out.println(s);
         }
-        System.out.println(Math.round(42d/5d)*5);//要round42到40，43到45这样的话可以这样写
+        System.out.println(Math.round(43d/5d)*5);//要round42到40，43到45这样的话可以这样写
         int i=56;
         int temp=i/5;
         int possible1=temp*5;

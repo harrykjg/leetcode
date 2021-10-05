@@ -3,7 +3,7 @@ import javafx.util.Pair;
 import java.util.Stack;
 
 public class RemoveAllAdjacentDuplicatesInString {
-    //8/24/2021 直接用第二题的解法做。其实不需要pair 的，stack里直接放char然后检测stack里的是不是当前的就行了
+    //8/24/2021 直接用第二题的解法做。其实不需要pair 的，stack里直接放char然后检测stack里的是不是当前的就行了,比如abbbc答案是abc而不是ac
     public String removeDuplicates(String s) {
             Stack<Pair> st=new Stack<>();
             if (s.length()<=1){

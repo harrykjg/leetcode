@@ -98,10 +98,26 @@ public class WordBreak {
         Set<String> set=new HashSet<>();
         set.addAll(wordDict);
         for(int i=1;i<dp.length;i++){
-            for(int j=0;j<i;j++){
+            for(int j=0;j<i;j++){//有等号也对
                 if(dp[j]&&set.contains(s.substring(j,i))){//开始没想清楚i的意义，就是string的结尾，之前想成ValidPalindromeIII那样是end是j+i
                     dp[i]=true;
                     break;
+                }
+            }
+        }
+        return dp[dp.length-1];
+    }
+    //10/3/2021 想的又不一样了，不太好，以前的好些
+    public boolean wordBreak7(String s, List<String> wordDict) {
+        boolean[] dp=new boolean[s.length()+1];
+        Set<String> set=new HashSet<>(wordDict);
+        dp[0]=true;
+        for(int i=1;i<dp.length;i++){
+            for(int j=0;j+i<=s.length();j++){
+                int end=j+i;
+                String temp=s.substring(i-1,end);
+                if(dp[i-1]&&set.contains(temp)){
+                    dp[end]=true;
                 }
             }
         }

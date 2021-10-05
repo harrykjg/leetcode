@@ -82,6 +82,21 @@ public class RangeSumQuery2DImmutable {
     public int sumRegion2(int row1, int col1, int row2, int col2) {
         return sums[row2+1][col2+1]-sums[row1][col2+1]-sums[row2+1][col1]+sums[row1][col1];
     }
+
+    //10/4/2021 prefixsum由于sums3是长宽+1了。直接知道公式就写就行了，不用担心越界
+    int[][] sums3;
+    public void NumMatrix3(int[][] matrix) {
+        sums3=new int[matrix.length+1][matrix[0].length+1];
+        for (int i=1;i<sums3.length;i++){
+            for (int j=1;j<sums3[0].length;j++){
+                sums3[i][j]=matrix[i-1][j-1]+sums3[i-1][j]+sums3[i][j-1]-sums3[i-1][j-1];
+            }
+        }
+    }
+
+    public int sumRegion3(int row1, int col1, int row2, int col2) {//注意是和sums偏移了一位的
+        return sums3[row2+1][col2+1]-sums3[row1][col2+1]-sums3[row2+1][col1]+sums3[row1][col1];
+    }
 }
 
 /**

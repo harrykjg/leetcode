@@ -55,4 +55,47 @@ public class ProductofTwoRunLengthEncodedArrays {
 
         return rs;
     }
+    //10/4/2021
+    public List<List<Integer>> findRLEArray2(int[][] encoded1, int[][] encoded2) {
+        List<int[]> temp=new ArrayList<>();
+        int i=0;
+        int j=0;
+        while(i<encoded1.length&&j<encoded2.length){
+            int[] a=encoded1[i];
+            int[] b=encoded2[j];
+            int min=Math.min(a[1],b[1]);
+            int[] cur=new int[2];
+            cur[0]=a[0]*b[0];
+            cur[1]=min;
+            if(a[1]==b[1]){
+                i++;
+                j++;
+            }else if(a[1]==min){
+                i++;
+                b[1]=b[1]-min;
+            }else{
+                j++;
+                a[1]=a[1]-min;
+            }
+            temp.add(cur);
+        }
+        List<List<Integer>> rs=new ArrayList<>();
+        ArrayList<Integer> al=new ArrayList<>();
+        al.add(temp.get(0)[0]);
+        al.add(temp.get(0)[1]);
+        rs.add(al);
+
+        for(i=1;i<temp.size();i++){
+            List<Integer> pre=rs.get(rs.size()-1);
+            if(pre.get(0)==temp.get(i)[0]){
+                pre.set(1,pre.get(1)+temp.get(i)[1]);
+            }else{
+                List<Integer> ls=new ArrayList<>();
+                ls.add(temp.get(i)[0]);
+                ls.add(temp.get(i)[1]);
+                rs.add(ls);
+            }
+        }
+        return rs;
+    }
 }

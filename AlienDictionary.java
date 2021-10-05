@@ -251,4 +251,71 @@ public class AlienDictionary {
         }
         return sb.toString();
     }
+
+    //10/2/2021 还凑活，改了几次，和上面不同的主要时候单独扫一遍所有words的所有字符加进map里，省的在比较两个word的时候找到不容的char之后还要继续扫完2个word
+    public String alienOrder4(String[] words) {
+        HashMap<Character,Set<Character>> map=new HashMap<>();
+        HashMap<Character,Integer> degree=new HashMap<>();
+        for(int i=0;i<words.length-1;i++){
+            String word1=words[i];
+            String word2=words[i+1];
+            int i1=0;
+            int i2=0;
+            boolean found=false;
+            while(i1<word1.length()&&i2<word2.length()){
+                if(word1.charAt(i1)==word2.charAt(i2)){
+                    map.put(word1.charAt(i1),new HashSet<Character>());
+                    i1++;
+                    i2++;
+                }else{
+                    found=true;
+                    if(!map.containsKey(word1.charAt(i1))){
+                        map.put(word1.charAt(i1),new HashSet<Character>());
+                    }
+                    if(!map.get(word1.charAt(i1)).contains(word2.charAt(i2))){
+                        map.get(word1.charAt(i1)).add(word2.charAt(i2));
+                        degree.put(word2.charAt(i2),degree.getOrDefault(word2.charAt(i2),0)+1);
+                    }
+                    break;
+                }
+            }
+            if(!found&&i2==word2.length()&&i1<word1.length()){
+                return "";
+            }
+        }
+        for(String w:words){//
+            char[] ch=w.toCharArray();
+            for(char c:ch){
+                if(!map.containsKey(c)){
+                    map.put(c,new HashSet<Character>());
+                }
+            }
+        }
+        Queue<Character> q=new LinkedList<>();
+        for(Character c:map.keySet()){
+            if(!degree.containsKey(c)){
+                q.offer(c);
+            }
+        }
+        StringBuilder sb=new StringBuilder();
+        int count=map.size();
+        while(!q.isEmpty()){
+            char c=q.poll();
+            sb.append(c);
+            if(map.containsKey(c)){
+                for(Character n:map.get(c)){
+                    degree.put(n,degree.get(n)-1);
+                    if(degree.get(n)==0){
+                        q.offer(n);
+                        degree.remove(n);
+                    }
+                }
+            }
+        }
+
+        if(sb.length()==count){
+            return sb.toString();
+        }
+        return "";
+    }
 }

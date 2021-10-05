@@ -42,4 +42,35 @@ public class BalanceaBinarySearchTree {
         mid.right=right;
         return mid;
     }
+
+    //10/3/2021 用的递归inorder应该简单些
+    List<Integer> ls=new ArrayList();
+    public TreeNode balanceBST2(TreeNode root) {
+        List<Integer> al=new ArrayList<>();
+        inorder(root,al);
+        ls=al;
+        return build(0,ls.size()-1);
+    }
+
+    TreeNode build(int b,int e){
+        if(b>e){
+            return null;
+        }
+        int m=(b+e)/2;
+        TreeNode left=build(b,m-1);
+        TreeNode node=new TreeNode(ls.get(m));
+        TreeNode right=build(m+1,e);
+        node.left=left;
+        node.right=right;
+        return node;
+    }
+
+    void inorder(TreeNode root,List<Integer> al){
+        if(root==null){
+            return;
+        }
+        inorder(root.left,al);
+        al.add(root.val);
+        inorder(root.right,al);
+    }
 }

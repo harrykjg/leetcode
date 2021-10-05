@@ -122,4 +122,57 @@ public class ShortestDistancefromAllBuildings {
         }
         return;
     }
+//10/3/2021
+    int[][] dist3;
+    int[][] count3;
+    public int shortestDistance3(int[][] grid) {
+        dist3=new int[grid.length][grid[0].length];
+        count3=new int[grid.length][grid[0].length];
+        int num=0;
+        for (int i=0;i<grid.length;i++){
+            for(int j=0;j<grid[0].length;j++){
+                if (grid[i][j]==1){
+                    num++;
+                    bfs3(i,j,grid);
+                }
+            }
+        }
+        int min=Integer.MAX_VALUE;
+        for (int i=0;i<dist3.length;i++){
+            for (int j=0;j<dist3[0].length;j++){
+                if (count3[i][j]==num&&dist3[i][j]<min){
+                    min=dist3[i][j];
+                }
+            }
+        }
+        return min==Integer.MAX_VALUE?-1:min;
+    }
+    void bfs3(int row,int col,int[][] grid){
+        boolean[][] memo=new boolean[grid.length][grid[0].length];
+        Queue<int[]> q=new LinkedList<>();
+        q.offer(new int[]{row,col});
+        memo[row][col]=true;
+        int rs=0;
+        int[] dx={-1,0,1,0};
+        int[] dy={0,1,0,-1};
+        while (!q.isEmpty()){
+            int size=q.size();
+            for (int i=0;i<size;i++){
+                int[] cur=q.poll();
+//                dist3[cur[0]][cur[1]]+=rs;
+//                count3[cur[0]][cur[1]]++;//开始写在这里其实不太对，因为这个点可能是1本身，不应该count++，应该放在下面那
+                for (int j=0;j<4;j++){
+                    int r=cur[0]+dx[j];
+                    int c=cur[1]+dy[j];
+                    if (r>=0&&r<grid.length&&c>=0&&c<grid[0].length&&!memo[r][c]&&grid[r][c]==0){
+                        q.offer(new int[]{r,c});
+                        memo[r][c]=true;
+                        dist3[r][c]+=rs+1;
+                        count3[r][c]++;
+                    }
+                }
+            }
+            rs++;
+        }
+    }
 }
