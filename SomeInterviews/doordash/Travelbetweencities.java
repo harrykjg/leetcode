@@ -15,7 +15,7 @@ public class Travelbetweencities {
         roads.add(new int[]{1, 3, 2});
         roads.add(new int[]{5, 3, 1});
 
-        boolean[]rs=tb.shortestPaths2(roads,1,5);
+        boolean[]rs=tb.shortestPaths3(roads,1,5);
         for (boolean b:rs){
             System.out.println(b);
         }
@@ -168,6 +168,75 @@ public class Travelbetweencities {
                 path.remove(index);
             }
         }
+    }
+
+    //10/6/2021
+    public boolean[] shortestPaths3(List<int[]> roads,int source, int target){
+        HashMap<Integer,List<int[]>> map=new HashMap<>();
+        for (int i=0;i<roads.size();i++){
+            if (!map.containsKey(roads.get(i)[0])){
+                map.put(roads.get(i)[0],new ArrayList<>());
+            }
+            if (!map.containsKey(roads.get(i)[1])){
+                map.put(roads.get(i)[1],new ArrayList<>());
+            }
+            map.get(roads.get(i)[0]).add(new int[]{roads.get(i)[1],roads.get(i)[2],i});
+            map.get(roads.get(i)[1]).add(new int[]{roads.get(i)[0],roads.get(i)[2],i});
+        }
+        HashSet<Integer> set=new HashSet<>();
+        int[] dist=new int[roads.size()+1];
+        Arrays.fill(dist,Integer.MAX_VALUE);
+        dist[source]=0;
+        List<Set<Integer>> path=new ArrayList<>();
+        for (int i=0;i<map.size()+1;i++){
+            path.add(new HashSet<>());
+        }
+        PriorityQueue<int[]> pq=new PriorityQueue<>((a,b)->a[1]-b[1]);
+        pq.offer(new int[]{source,0});
+        while (set.size()<map.size()){
+            int[] cur=pq.poll();
+            set.add(cur[0]);
+            if (cur[0]==target){
+                break;
+            }
+            if (map.containsKey(cur[0])){
+                for (int[] nei:map.get(cur[0])){
+                    if (set.contains(nei[0])){
+                        continue;
+                    }
+                    int temp=nei[1]+dist[cur[0]];
+                    if (temp<=dist[nei[0]]){
+                        if (temp<dist[nei[0]]){
+                            path.get(nei[0]).clear();
+                        }
+                        dist[nei[0]]=temp;
+                        path.get(nei[0]).add(cur[0]);
+                    }
+                    pq.offer(new int[]{nei[0],temp});
+                }
+            }
+        }
+
+        System.out.println(dist[target]);
+        boolean[] rs=new boolean[roads.size()];
+        dfs3(target,source,path,map,rs);
+        return rs;
+    }
+    void dfs3(int source,int target,List<Set<Integer>> path,HashMap<Integer,List<int[]>> map,boolean[] rs){
+        if (source==target){
+            return;
+        }
+        for (int p:path.get(source)){
+            List<int[]> nei=map.get(p);
+            for (int[] n:nei){
+                if (n[0]==source){
+                    rs[n[2]]=true;
+                }
+            }
+
+            dfs3(p,target,path,map,rs);
+        }
+
     }
 
 }

@@ -113,4 +113,24 @@ public class FindKClosestElements {
 
     }
 
+    //10/9/2021
+    //https://leetcode.com/problems/find-k-closest-elements/discuss/202785/Very-simple-Java-O(n)-solution-using-two-pointers 学这个写法吧,
+    //应该就是直接夹逼，复杂度应该比上面的慢
+    public List<Integer> findClosestElements3(int[] arr, int k, int x) {
+        int low=0;
+        int high=arr.length-1;
+        while(high-low>=k){
+            if(Math.abs(arr[low]-x)>Math.abs(arr[high]-x)){
+                low++;
+            }else{
+                high--;
+            }
+        }
+        List<Integer> rs=new ArrayList<>();
+        for (int i=low;i<=high;i++){
+            rs.add(arr[i]);
+        }
+        return rs;
+    }
+
 }

@@ -50,4 +50,27 @@ public class FindLeavesofBinaryTree {
         rs.get(curL).add(node.val);
         return curL;
     }
+
+    //10/22/2021 我这里node是null的时候返回0也行
+    List<List<Integer>> rs=new ArrayList<>();
+    public List<List<Integer>> findLeaves3(TreeNode root) {
+        if(root==null){
+            return rs;
+        }
+        dfs(root);
+        return rs;
+    }
+    int dfs(TreeNode node){
+        if(node==null){
+            return 0;
+        }
+        int l=dfs(node.left);
+        int r=dfs(node.right);
+        int height=Math.max(l,r);
+        if(height==rs.size()){
+            rs.add(new ArrayList<Integer>());
+        }
+        rs.get(height).add(node.val);
+        return height+1;
+    }
 }

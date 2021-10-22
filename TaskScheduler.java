@@ -161,5 +161,47 @@ public class TaskScheduler {
             this.value=value;
         }
     }
+    //10/9/2021，还是没写对，2个while循环，里面的循环条件不是说要把pq遍历完才进入下一个n+1 bucket，而是维护一个count，当count到达
+    //n+1的时候就把temp里的node加回进pq进入下一个循环
+    public int leastInterval4(char[] tasks, int n) {
+        if (n==0){
+            return tasks.length;
+        }
+        int[] a=new int[26];
+        for (char c:tasks){
+            a[c-'A']++;
+        }
+        PriorityQueue<Integer> pq=new PriorityQueue<>(Collections.reverseOrder());
+        for (int i:a){
+            if(i!=0){
+                pq.offer(i);
+            }
+        }
+        int rs=0;
+        while (true){
+            List<Integer> temp=new ArrayList<>();
+            int i=0;
+            while (i<n+1){
+                if (!pq.isEmpty()){
+                    int t=pq.poll();
+                    if (t-1>0){
+                        temp.add(t-1);
+                    }
+                }
+                i++;
+                rs++;
+                if(temp.isEmpty()&&pq.isEmpty()){
+                    break;
+                }
+
+            }
+            pq.addAll(temp);
+            if (pq.isEmpty()){
+                break;
+            }
+        }
+        return rs;
+
+    }
 
 }

@@ -51,4 +51,52 @@ public class MinimumAreaRectangle {
             return Objects.hash(x,y);
         }
     }
+
+    //10/13/2021 忘了，看回以前的
+    public int minAreaRect2(int[][] points) {
+        HashSet<Pair2> set=new HashSet<>();
+        for (int i=0;i<points.length;i++){
+            Pair2 p=new Pair2(points[i][0],points[i][1]);
+            set.add(p);
+        }
+        int rs=Integer.MAX_VALUE;
+        for (int i=0;i<points.length;i++){
+            for (int j=i+1;j<points.length;j++){
+                int[] leftTop=points[i];
+                int[] rightBut=points[j];
+                Pair2 rightTop=new Pair2(rightBut[0],leftTop[1]);
+                Pair2 leftBut=new Pair2(leftTop[0],rightBut[1]);
+                if (set.contains(rightTop)&&set.contains(leftBut)){
+                    if (leftTop[0]==rightTop.x||leftTop[1]==leftBut.y){
+                        continue;
+                    }
+                    int area=Math.abs(leftTop[0]-rightTop.x)*Math.abs(leftTop[1]-leftBut.y);
+                    rs=Math.min(area,rs);
+                }
+            }
+        }
+        return rs==Integer.MAX_VALUE?0:rs;
+    }
+    class Pair2{
+        int x;
+        int y;
+        public Pair2(int x,int y){
+            this.x=x;
+            this.y=y;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Pair2 pair2 = (Pair2) o;
+            return x == pair2.x &&
+                    y == pair2.y;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y);
+        }
+    }
 }

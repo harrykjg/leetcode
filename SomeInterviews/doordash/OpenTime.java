@@ -8,7 +8,7 @@ import java.util.Map;
 public class OpenTime {
     public static void main(String[] args) {
         OpenTime ot = new OpenTime();
-        List<String> rs = ot.convertToTokens("mon 10:00 am", "mon 12:00 am");
+        List<String> rs = ot.open("mon 10:06 am", "mon 12:03 am");
         for (String s : rs) {
             System.out.println(s);
         }
@@ -28,6 +28,8 @@ public class OpenTime {
     }
 
     public List<String> open(String start, String end) {
+        start=start.trim();
+        end=end.trim();
         Map<String, Integer> map = new HashMap<>();
         map.put("mon", 1);
         map.put("tue", 2);
@@ -38,9 +40,13 @@ public class OpenTime {
         map.put("sun", 7);
         List<String> rs = new ArrayList<>();
         String[] s = start.split(" ");
+        if (!valid(s,map)){
+            return null;
+        }
         int startDay = map.get(s[0]);
         int startHour = Integer.parseInt(s[1].substring(0, 2));
-        int startMin = Integer.parseInt(s[1].substring(3, 5));
+        double temp=Double.parseDouble(s[1].substring(3, 5));
+        int startMin = (int)Math.round(temp/5d)*5;
         boolean startAm = s[2].equals("am") ? true : false;
         if (!startAm) {
             if (startHour != 12) {//12:pm的话实际上就是12点中午,所以只有12pm不用加12
@@ -48,12 +54,18 @@ public class OpenTime {
             }
         }else if (startHour==12){//真恶心这些题，要是是12点am的话实际上是24点，然后后面construct里要单独判断hour是不是24
             startHour+=12;
-
         }
         String[] e = end.split(" ");
+        if (!valid(s,map)){
+            return null;
+        }
+        if ((e.length!=3)){
+            return null;
+        }
         int endDay = map.get(e[0]);
         int endHour = Integer.parseInt(e[1].substring(0, 2));
-        int endMin = Integer.parseInt(e[1].substring(3, 5));
+        double temp2=Double.parseDouble(s[1].substring(3, 5));
+        int endMin = (int)Math.round(temp2/5d)*5;
         boolean endAm = e[2].equals("am") ? true : false;
         if (!endAm) {
             if (endHour != 12) {//12:pm的话实际上就是12点中午
@@ -120,6 +132,15 @@ public class OpenTime {
             sb.append(min);
         }
         return sb.toString();
+    }
+    boolean valid(String[] s,Map<String,Integer> map){
+        if (s.length!=3){
+            return false;
+        }
+        if (!map.containsKey(s[0])){
+            return false;
+        }
+        return true;
     }
 
 //这个是别人的方法，把day，hour，min都转化成min，然后+5，然后再从min可推出day和hour和min，叼

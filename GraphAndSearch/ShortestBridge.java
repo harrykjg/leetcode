@@ -115,4 +115,57 @@ public class ShortestBridge {
             dfs(i,j-1,grid,set);
         }
     }
+
+    //10/12/2021 简化一些，只需要dfs所有起点并memo记起来，然后bfs再遇到memo里没有的1就是终点了
+    int[] dx={-1,0,1,0};
+    int[] dy={0,1,0,-1};
+    public int shortestBridge2(int[][] grid) {
+        int m=grid.length;
+        int n=grid[0].length;
+        boolean[][] memo=new boolean[m][n];
+        Queue<int[]> q=new LinkedList<>();
+        boolean found=false;
+        for(int i=0;i<grid.length;i++){
+            for(int j=0;j<grid[0].length;j++){
+                if(!found&&grid[i][j]==1){
+                    memo[i][j]=true;
+                    q.offer(new int[]{i,j});
+                    dfs(i,j,grid,q,memo);
+                    found=true;
+                }
+            }
+        }
+        int rs=0;
+        while(!q.isEmpty()){
+            int size=q.size();
+            for(int i=0;i<size;i++){
+                int[] cur=q.poll();
+                for(int j=0;j<4;j++){
+                    int r=cur[0]+dx[j];
+                    int c=cur[1]+dy[j];
+                    if(r>=0&&r<m&&c>=0&&c<n&&!memo[r][c]&&grid[r][c]==1){
+                        return rs;
+                    }
+                    if(r>=0&&r<m&&c>=0&&c<n&&!memo[r][c]&&grid[r][c]==0){
+                        memo[r][c]=true;
+                        q.offer(new int[]{r,c});
+                    }
+                }
+            }
+            rs++;
+        }
+        return -1;
+    }
+    void dfs(int row,int col,int[][] grid,Queue<int[]>q,boolean[][] memo){
+
+        for(int i=0;i<4;i++){
+            int r=row+dx[i];
+            int c=col+dy[i];
+            if(r>=0&&r<grid.length&&c>=0&&c<grid[0].length&&!memo[r][c]&&grid[r][c]==1){
+                memo[r][c]=true;
+                q.offer(new int[]{r,c});
+                dfs(r,c,grid,q,memo);
+            }
+        }
+    }
 }

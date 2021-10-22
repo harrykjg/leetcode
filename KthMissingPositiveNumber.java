@@ -60,4 +60,22 @@ missing numbers in [0, A[l-1]] is A[l-1] - (l - 1) - 1 = A[l-1] - l. Counting fr
         // arr[right] + k - (arr[right] - right - 1) = k + left  注意他这个while循环是left <= right，因此退出的时候left=right+1。arr[right]+k是啥意义呢
         return left + k;
     }
+//10/9/2021 n的方法，比第一次的方法应该快点，那里有gap的话是一个一个加上去的
+    public int findKthPositive4(int[] arr, int k) {
+        int low=1;
+        for(int i=0;i<arr.length;i++){
+            if(low<arr[i]){
+                int gap=arr[i]-low;
+                if(gap>=k){
+                    return low+k-1;
+                }else{
+                    low=arr[i]+1;
+                    k-=gap;
+                }
+            }else{
+                low++;
+            }
+        }
+        return low+k-1;
+    }
 }

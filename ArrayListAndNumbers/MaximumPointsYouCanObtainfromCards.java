@@ -16,4 +16,29 @@ public class MaximumPointsYouCanObtainfromCards {
         }
         return rs;
     }
+//10/22/2021 下标还是很恶心
+    //  0 1 2 3
+    //  1 2 4 5
+    //  0 1 3 7 12
+
+    // 0 1 2
+    // 2 2 2
+    // 0 2 4 6
+    public int maxScore2(int[] cardPoints, int k) {
+        int[] sums=new int[cardPoints.length+1];
+        for(int i=1;i<sums.length;i++){
+            sums[i]=cardPoints[i-1]+sums[i-1];
+        }
+        int rs=0;
+        for (int i=0;i<=k;i++){
+            int left=i;
+            int right=cardPoints.length-k+i;//真恶心，这里的right意思时候中间window的右侧，left指中间window的左侧，left可以看作就是这个移动窗口的左侧，
+            //那么其右侧就是窗口的长度+left，而窗口长度就是length-k，然后prefixsum的gap刚好是这一段。
+
+            int midsum=sums[right]-sums[left];
+            rs=Math.max(sums[sums.length-1]-midsum,rs);
+        }
+        return rs;
+
+    }
 }

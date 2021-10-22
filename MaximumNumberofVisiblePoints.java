@@ -25,7 +25,7 @@ public class MaximumNumberofVisiblePoints {
 
     //9/1/2021 思路不难关键是角度的处理难，就是把每个点到location的斜率转化成一个角度，然后这个角度从小到达排序，然后就可以用sliding window找angle范围
     //之内包含多少个点了。
-    //https://leetcode.com/problems/maximum-number-of-visible-points/discuss/877845/JAVA-Sliding-Window
+    //https://leetcode.com/problems/maximum-number-of-visible-points/discuss/877845/JAVA-Sliding-Window  注意他的tmp里是原有的角度里再加了一圈。不好理解
     //https://leetcode.com/problems/maximum-number-of-visible-points/discuss/877721/What-is-the-freaking-d-here
     //https://www.youtube.com/watch?v=7i9GMNGxShk  9分05有解释角度的
     public int visiblePoints(List<List<Integer>> points, int angle, List<Integer> location) {

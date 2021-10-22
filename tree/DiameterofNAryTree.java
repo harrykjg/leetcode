@@ -61,6 +61,37 @@ public class DiameterofNAryTree {
         return max1+1;
 
     }
+
+    //10/8/2021这个写的最好，看这个。
+    int rs3=0;
+    public int diameter3(Node root) {
+        if(root==null){
+            return 0;
+        }
+        helper3(root);
+        return rs;
+    }
+    int helper3(Node n){
+        if(n==null){
+            return 0;
+        }
+        int first=0;
+        int second=0;
+        for(Node child:n.children){//判断最大的两个数更好一些
+            int next=helper3(child);
+            if(next>first){//大于第一个的话，不管第一本来是不是0，值直接给第二个就行
+                second=first;
+                first=next;
+            }else if(next==first){
+                second=first;
+            }else if(next>second){
+                second=next;
+            }
+        }
+        rs=Math.max(first+second,rs);//注意这里容易多写first+second+1
+        return Math.max(first,second)+1;
+
+    }
     class Node {
         public int val;
         public List<Node> children;

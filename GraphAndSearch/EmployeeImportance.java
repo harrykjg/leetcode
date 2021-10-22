@@ -24,6 +24,24 @@ public class EmployeeImportance {
 
     }
 
+    //10/21/2021 一次过
+    int rs2=0;
+    public int getImportance2(List<Employee> employees, int id) {
+        HashMap<Integer,Employee> map=new HashMap<>();
+        for (Employee em:employees){
+            map.put(em.id,em);
+        }
+        dfs2(id,map);
+        return rs2;
+    }
+    void dfs2(int id,HashMap<Integer,Employee> map){
+        Employee cur=map.get(id);
+        rs2+=cur.importance;
+        for(int nei:cur.subordinates){
+            dfs2(nei,map);
+        }
+    }
+
     class Employee {
         public int id;
         public int importance;

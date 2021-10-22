@@ -34,7 +34,7 @@ public class TreeNodeChange {
         r6.children.add(o8);
 
         TreeNodeChange tc=new TreeNodeChange();
-        System.out.println(tc.change(old,root));
+        System.out.println(tc.change2(old,root));
 
     }
     /*
@@ -57,6 +57,9 @@ d(4, T) e(5, T) f(6, T)    g(7, F)
 
 
      */
+    //https://www.1point3acres.com/bbs/thread-789286-1-1.html
+    //https://leetcode.com/discuss/interview-question/1367130/Doordash-Phone-Interview
+    //https://leetcode.com/discuss/interview-question/1265810/Doordash-PhoneScreen
     int rs=0;//就是递归判断，先判断root是否有改变，然后看他们所有的孩子是否各自存在于对方的children里，递归调用，不同就rs++。
     public int change(TreeNode old,TreeNode root){
         if (root==null){//其中一个是空的话，另一个所有的子树都是新的
@@ -110,6 +113,60 @@ d(4, T) e(5, T) f(6, T)    g(7, F)
         }
     }
     //follow up是打印出删改的node
+
+
+    int rs2;
+    public int change2(TreeNode old,TreeNode root){
+        if(old==null){
+            allChildren2(root);
+            return rs2;
+        }
+        if(root==null){
+            allChildren2(old);
+            return rs2;
+        }
+        if (old.key!=root.key){
+            allChildren2(root);
+            allChildren2(old);
+            return rs2;
+        }
+        if (old.value!=root.value){
+            rs2++;
+        }else if (old.active!=root.active){
+            rs2++;
+        }
+        HashMap<String, TreeNode> ch1=new HashMap<>();
+        HashMap<String, TreeNode> ch2=new HashMap<>();
+        for (int i=0;i<old.children.size();i++){
+            ch1.put(old.children.get(i).key,old.children.get(i));
+        }
+        for (int i=0;i<root.children.size();i++){
+            ch2.put(root.children.get(i).key,root.children.get(i));
+        }
+        for (TreeNode n:ch1.values()){
+            if (ch2.containsKey(n.key)){
+                change2(n,ch2.get(n.key));
+            }else{
+                allChildren2(n);
+            }
+        }
+        for (TreeNode n:ch2.values()){
+            if (!ch1.containsKey(n.key)){
+                allChildren2(n);
+            }
+        }
+        return rs2;
+    }
+    void allChildren2(TreeNode n){
+        if (n!=null){
+            rs2++;
+        }else{
+            return;
+        }
+        for(TreeNode c:n.children){
+            allChildren2(c);
+        }
+    }
 
     static class TreeNode {
         String key;

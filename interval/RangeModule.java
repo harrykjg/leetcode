@@ -6,6 +6,26 @@ import java.util.List;
 import java.util.TreeMap;
 
 public class RangeModule {
+    public static void main(String[] args){
+        RangeModule rm=new RangeModule();
+        rm.addRange2(6,8);
+        rm.removeRange2(7,8);
+        rm.removeRange2(8,9);
+        rm.addRange2(8,9);
+        rm.removeRange2(1,3);
+        rm.addRange2(1,8);
+        rm.queryRange2(2,4);
+        rm.queryRange2(2,9);
+        rm.queryRange2(4,6);
+
+
+        /*
+                10        22
+                                   30   35
+remove 20 33    10        20      33 35
+         */
+    }
+
     //9/8/2021 不会，看了用treemap挺巧妙的，map的key是start，value是end.用treemap其实很难写。
     //https://leetcode.com/problems/range-module/discuss/112694/Concise-Java-Solution-With-TreeMap
     //https://www.cnblogs.com/silentteller/p/12842653.html 他就是用linkedlist搞的，代码参考他的
@@ -90,5 +110,52 @@ public class RangeModule {
             i++;
         }
         ls=al;
+    }
+
+    //10//11/2021
+    //https://leetcode.com/problems/range-module/discuss/108910/Java-TreeMap 参考他和下面第一个评论的
+    TreeMap<Integer,Integer> map=new TreeMap<>();
+    public void RangeModule2() {
+
+    }
+
+    public void addRange2(int left, int right) {
+        Integer l=map.lowerKey(left);
+        Integer r=map.floorKey(right);//很恶心，这里是lowerkey就不行
+        if (l!=null){
+            if (map.get(l)>=left){
+               left=l;
+            }
+        }
+        if(r!=null){
+            if (right<map.get(r)){
+                right=map.get(r);
+            }
+        }
+        map.put(left,right);
+        map.subMap(left,false,right,true).clear();
+    }
+
+    public boolean queryRange2(int left, int right) {
+        Integer l=map.floorKey(left);
+        if (l==null){
+            return false;
+        }
+        return map.get(l)>=right;
+    }
+
+    public void removeRange2(int left, int right) {
+        Integer l=map.floorKey(left);
+        Integer r=map.floorKey(right);
+        if (r!=null){//这里很容易错，先搞右边的，如果先搞左边的，则l的值会被更新，然后l和r相同的话，即mao。get（r）就会更新掉，会错
+            if (map.get(r)>right){
+                map.put(right,map.get(r));
+            }
+        }
+        if (l!=null){
+            map.put(l,Math.min(map.get(l),left));
+        }
+
+        map.subMap(left,true,right,false).clear();
     }
 }

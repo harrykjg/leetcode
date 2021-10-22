@@ -56,4 +56,8 @@ public class ShortestPathinaGridwithObstaclesElimination {
         }
         return -1;
     }
+
+    public int shortestPath2(int[][] grid, int k) {
+
+    }
 }

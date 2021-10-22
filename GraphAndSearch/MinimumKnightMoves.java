@@ -6,7 +6,7 @@ import java.util.Queue;
 public class MinimumKnightMoves {
     public static void main(String[] args){
         MinimumKnightMoves mm=new MinimumKnightMoves();
-        System.out.println(mm.minKnightMoves(1,1));
+        System.out.println(mm.minKnightMoves2(300,0));
     }
     //8/20/2021一位是简单的bfs，结果他的因为是没有边界的（说了小于300），所以判断四个方向是否越界时不同，其实就是要把（0，0）点挪到memo数组中间,然后边界那里就不用考虑row col
     //是否小于0或者越觉了；
@@ -38,6 +38,37 @@ public class MinimumKnightMoves {
                     }
                     q.offer(new int[]{r,c});
                     memo[r+499][c+499]=true;
+                }
+            }
+            rs++;
+        }
+        return rs;
+    }
+//10/13/2021又没有那么容易了
+    public int minKnightMoves2(int x, int y) {
+        int[] start=new int[]{0,0};
+        boolean[][] memo=new boolean[605][605];//最少要605。
+        Queue<int[]> q=new LinkedList<>();
+        q.offer(start);
+        memo[0][0]=true;
+        int rs=0;
+        int[] dx={-1,-1,-2,-2,1,1,2,2};
+        int[] dy={2,-2,1,-1,2,-2,1,-1};
+        while (!q.isEmpty()){
+            int size=q.size();
+            for (int i=0;i<size;i++){
+                int[] cur=q.poll();
+                if (cur[0]==x&&cur[1]==y){
+                    return rs;
+                }
+                for (int j=0;j<dy.length;j++){
+                    int r=cur[0]+dx[j];
+                    int c=cur[1]+dy[j];
+                    if (memo[r+302][c+302]==true){
+                        continue;
+                    }
+                    q.offer(new int[]{r,c});
+                    memo[r+302][c+302]=true;
                 }
             }
             rs++;

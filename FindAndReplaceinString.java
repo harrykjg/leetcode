@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * Created by yufengzhu on 10/20/18.
@@ -6,7 +7,7 @@ import java.util.Arrays;
 public class FindAndReplaceinString {
     public static void main(String[] args){
         FindAndReplaceinString fr=new FindAndReplaceinString();
-        System.out.print(fr.findReplaceString("abcd",new int[]{0,2},new String[]{"a","cd"},new String[]{"eee","ffff"}));
+        System.out.print(fr.findReplaceString2("abcd",new int[]{0,2},new String[]{"a","cd"},new String[]{"eee","ffff"}));
     }
 
     //这题恶心在于index还不是升序的，可以是乱来的
@@ -37,5 +38,39 @@ public class FindAndReplaceinString {
         }
 
         return sb.toString();
+    }
+
+    //10/21/2021
+    //https://leetcode.com/problems/find-and-replace-in-string/discuss/134758/Java-O(n)-solution 参考这个然后自己写的，和他不太一样，我建了个class
+    //思路就是建一个class把indices和sources和targets装起来，放进map里，注意map的key是indices[i]而不是i。然后遍历输入string（for循环但是i++的条件不写，而是下面
+    // 判断是否match的时候才决定），同时构建另一个结果集（不是在原string上replace），每遇到一个char，看map里是否存在这个index，存在的话用startwith检测
+    // source是否符合，符合的话append上对应target，然后i+=source的长度，否则append上原来的char，i++
+    public String findReplaceString2(String s, int[] indices, String[] sources, String[] targets) {
+        StringBuilder sb=new StringBuilder();
+        HashMap<Integer,Pair> map=new HashMap<>();
+        for (int i=0;i<indices.length;i++){
+            Pair p=new Pair(indices[i],sources[i],targets[i]);
+            map.put(indices[i],p);
+        }
+        for (int i=0;i<s.length();){
+            if (map.containsKey(i)&&s.startsWith(map.get(i).source,i)){
+                sb.append(map.get(i).target);
+                i+=map.get(i).source.length();
+            }else{
+                sb.append(s.charAt(i));
+                i++;
+            }
+        }
+        return sb.toString();
+    }
+    class Pair{
+        int index;
+        String source;
+        String target;
+        public Pair(int index,String source,String target){
+            this.index=index;
+            this.source=source;
+            this.target=target;
+        }
     }
 }

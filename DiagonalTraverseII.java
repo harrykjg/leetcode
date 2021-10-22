@@ -25,4 +25,29 @@ public class DiagonalTraverseII {
         }
         return rs;
     }
+
+    //10/12/2021 写个从最后一行开始从左到右遍历的
+    public int[] findDiagonalOrder2(List<List<Integer>> nums) {
+        List<Integer> al=new ArrayList<>();
+        HashMap<Integer,List<Integer>> map=new HashMap<>();
+        int count=0;
+        for (int i=nums.size()-1;i>=0;i--){
+            for(int j=0;j<nums.get(i).size();j++){
+                int key=i+j;
+                if (!map.containsKey(key)){
+                    map.put(key,new ArrayList<>());
+                }
+                map.get(key).add(nums.get(i).get(j));
+                count++;
+            }
+        }
+        int[] rs=new int[count];
+        int index=0;
+        for (int i=0;i<map.size();i++){
+            for (int j=0;j<map.get(i).size();j++){
+                rs[index++]=map.get(i).get(j);
+            }
+        }
+        return rs;
+    }
 }

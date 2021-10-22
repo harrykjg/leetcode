@@ -1,5 +1,6 @@
 package ArrayListAndNumbers;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class NumberofGoodWaystoSplitaString {
@@ -23,5 +24,28 @@ public class NumberofGoodWaystoSplitaString {
             }
         }
         return rs;
+    }
+//10/21/2021,左右2个map，更直观一些
+    public int numSplits2(String s) {
+        HashMap<Character,Integer> right=new HashMap<>();
+        HashMap<Character,Integer> left=new HashMap<>();
+        for (char ch :s.toCharArray()){
+            right.put(ch,right.getOrDefault(ch,0)+1);
+        }
+        int rs=0;
+        for (int i=0;i<s.length();i++){
+            char c=s.charAt(i);
+            left.put(s.charAt(i),left.getOrDefault(s.charAt(i),0)+1);
+            right.put(c,right.get(c)-1);
+            if (right.get(c)==0){
+                right.remove(c);
+            }
+            if (right.size()==left.size()){
+                rs++;
+            }
+        }
+        return rs;
+
+
     }
 }

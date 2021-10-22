@@ -111,4 +111,62 @@ public class FindFirstandLastPositionofElementinSortedArray {
         }
         return rs;
     }
+    //10/10/2021 用b+1<e的挺顺
+    public int[] searchRange3(int[] nums, int target) {
+        int[] rs=new int[2];
+        rs[0]=-1;
+        rs[1]=-1;
+        if(nums.length==0){
+            return rs;
+        }
+        if(nums.length==1){
+            if(nums[0]==target){
+                return new int[]{0,0};
+            }
+            return rs;
+        }
+        int b=0;
+        int e=nums.length-1;
+        while(b+1<e){
+            int m=(b+e)/2;
+            if(nums[m]==target){
+                e=m;
+                continue;
+            }
+            if(nums[m]<target){
+                b=m;
+            }else{
+                e=m;
+            }
+        }
+        if(nums[b]==target){
+            rs[0]=b;
+        }else if(nums[e]==target){
+            rs[0]=e;
+        }
+        if(rs[0]==-1){
+            return rs;
+        }
+        b=0;
+        e=nums.length-1;
+        while(b+1<e){
+            int m=(b+e)/2;
+            if(nums[m]==target){
+                b=m;
+                continue;
+            }
+            if(nums[m]<target){
+                b=m;
+            }else{
+                e=m;
+            }
+        }
+        if(nums[e]==target){
+            rs[1]=e;
+        }else if(nums[b]==target){
+            rs[1]=b;
+        }
+        return rs;
+
+    }
 }

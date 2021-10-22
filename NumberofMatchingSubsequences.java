@@ -8,9 +8,9 @@ public class NumberofMatchingSubsequences {
         NumberofMatchingSubsequences nm=new NumberofMatchingSubsequences();
 //        String s="btovxbkumc";
 //        String[] w={"btovxbku","to","zueoxxxjme","yjkclbkbtl"};
-        String s="abcde";
+        String s="abcbde";
         String[] w={"a","bb","acd","ace"};
-        System.out.println(nm.numMatchingSubseq2(s,w));
+        System.out.println(nm.numMatchingSubseq3(s,w));
     }
     //不会，https://leetcode.com/problems/number-of-matching-subsequences/discuss/117634/Efficient-and-simple-go-through-words-in-parallel-with-explanation/ 真是吊
     //自己写debug了很久才高对，是关于concurrentModification的东西，
@@ -89,4 +89,40 @@ public class NumberofMatchingSubsequences {
         return rs;
 
     }
+
+    //10/21/2021 自己想的，用一个map里面装s里的所有char出现的index，HashMap<Character,TreeSet<Integer>>。这样遍历每个word，比如输入s=abcbde，
+    //则其map是 a0 b13 c2 d4 e5 。然后看adb，扫描第一个a，发现map有a，并且a出现在0位置上，此时index初始化为0，没毛病，取了第一a之后update一下index=0+1，说明
+    // 下一个出现的字符必须在1或者1后面。然后扫描到d，发现有d并且出现的位置是4，大于1，然后把index=4+1，然后扫描到b，发现有b，但是b的出现位置是1，3，没有大于等于5的
+    //因此不行，
+    public int numMatchingSubseq3(String s, String[] words) {
+        HashMap<Character,TreeSet<Integer>> map=new HashMap<>();
+        int rs=0;
+        for (int i=0;i<s.length();i++){
+            if (!map.containsKey(s.charAt(i))) {
+                map.put(s.charAt(i),new TreeSet<>());
+            }
+            map.get(s.charAt(i)).add(i);
+        }
+        for (String w:words){
+            char[] ch=w.toCharArray();
+            int i=0;
+            int index=0;//代表现在char出现的位置必须在大于等于index的位置上
+            for (;i<ch.length;i++){
+                if (!map.containsKey(ch[i])){
+                    break;
+                }else{
+                    if (map.get(ch[i]).ceiling(index)!=null){
+                        index=map.get(ch[i]).ceiling(index)+1;
+                    }else{
+                        break;
+                    }
+                }
+            }
+            if (i==ch.length){//到达最后的说明都找到了，只要有一个没找到都会提前break
+                rs++;
+            }
+        }
+        return rs;
+    }
+
 }

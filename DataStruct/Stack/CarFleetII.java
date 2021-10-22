@@ -47,4 +47,42 @@ public class CarFleetII {
         }
         return rs;
     }
+//10/11/2021 大概思路有，还是不好写，看回前面的代码吧
+    public double[] getCollisionTimes2(int[][] cars) {
+        Stack<Integer> st=new Stack<>();
+        double[] rs=new double[cars.length];
+        st.push(cars.length-1);
+        rs[rs.length-1]=-1d;
+        for (int i=cars.length-2;i>=0;i--){
+            while (!st.isEmpty()){
+                int preSpeed=cars[st.peek()][1];
+                int prePos=cars[st.peek()][0];
+                int curSpeed=cars[i][1];
+                int curPos=cars[i][0];
+                int speedDiff=curSpeed-preSpeed;
+                int dist=prePos-curPos;
+                if (speedDiff>0){
+                    double curTime=(double) dist/(double) speedDiff;
+                    double preTime=rs[st.peek()];
+                    if (preTime==-1){
+                        rs[i]=curTime;
+                        break;//是break while循环了
+                    }else if(preTime>curTime){
+                        rs[i]=curTime;
+                        break;
+                    }else {
+                        st.pop();
+                    }
+                }else {
+                    st.pop();
+                }
+            }
+            if(rs[i]==0){
+                rs[i]=-1;
+            }
+            st.push(i);
+        }
+        return rs;
+
+    }
 }

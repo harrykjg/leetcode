@@ -32,4 +32,30 @@ public class PalindromicSubstrings {
         }
         count++;
     }
+
+    //10/10/2021 改了几次过了，是n方复杂度
+    public int countSubstrings2(String s) {
+        int rs=0;
+        boolean[][] dp=new boolean[s.length()][s.length()];
+        for(int i=0;i<s.length();i++){
+            dp[i][i]=true;
+            rs++;
+        }
+        for(int i=0;i+1<s.length();i++){
+            if(s.charAt(i)==s.charAt(i+1)){
+                dp[i][i+1]=true;
+                rs++;
+            }
+        }
+        for(int i=2;i<=s.length();i++){
+            for(int j=0;j+i<s.length();j++){
+                int end=j+i;
+                if(s.charAt(j)==s.charAt(end)&&dp[j+1][end-1]){
+                    dp[j][end]=true;
+                    rs++;
+                }
+            }
+        }
+        return rs;
+    }
 }

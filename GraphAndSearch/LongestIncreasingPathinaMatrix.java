@@ -229,4 +229,35 @@ public class LongestIncreasingPathinaMatrix {
         rs5=Math.max(rs5,memo[row][col]);
 
     }
+
+    //10/14/2021感觉这样写比较符合直觉，就是dfs要返回int的。以前那样不反回东西的没那么直觉
+    public int longestIncreasingPath6(int[][] m) {
+        int[][] memo=new int[m.length][m[0].length];
+        int rs=0;
+
+        for(int i=0;i<m.length;i++){
+            for(int j=0;j<m[0].length;j++){
+                int temp=dfs6(i,j,m,memo);
+                rs=Math.max(temp,rs);
+            }
+        }
+        return rs;
+    }
+    int dfs6(int row,int col,int[][] m,int[][] memo){
+        if(memo[row][col]!=0){
+            return memo[row][col];
+        }
+        int[] dx={-1,0,1,0};
+        int[] dy={0,1,0,-1};
+        int rs=1;
+        for(int i=0;i<4;i++){
+            int r=row+dx[i];
+            int c=col+dy[i];
+            if(r>=0&&r<m.length&&c>=0&&c<m[0].length&&m[r][c]>m[row][col]){
+                int temp=dfs(r,c,m,memo);
+                rs=Math.max(1+temp,rs);
+            }
+        }
+        return memo[row][col]=rs;
+    }
 }

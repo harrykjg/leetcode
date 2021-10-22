@@ -50,4 +50,23 @@ public class SentenceScreenFitting {
         return rs;
 
     }
+
+    //10/21/2021 直接暴力法一次过。说明lc改了，以前暴力法是过不了的
+    public int wordsTyping2(String[] sentence, int rows, int cols) {
+        int rs=0;
+        int index=0;
+        int n=sentence.length;
+        for(int i=0;i<rows;i++){
+            int j=0;
+            while(j+sentence[index].length()<=cols){
+                j+=sentence[index].length()+1;
+                index++;
+                if(index==n){
+                    rs++;
+                    index =0;
+                }
+            }
+        }
+        return rs;
+    }
 }

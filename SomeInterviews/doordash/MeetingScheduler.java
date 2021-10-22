@@ -1,4 +1,4 @@
-package interval;
+package SomeInterviews.doordash;
 
 import java.util.ArrayList;
 import java.util.Arrays;

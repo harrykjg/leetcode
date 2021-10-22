@@ -105,4 +105,56 @@ public class ExpressionAddOperators {
         }
         return true;
     }
+//10/10/2021
+    public List<String> addOperators3(String num, int target) {
+        List<String> rs=new ArrayList<>();
+        if (num.length()==0){
+            return rs;
+        }
+        for (int i=1;i<=num.length();i++){
+            String sub=num.substring(0,i);
+            if (valid3(sub)){
+                long n=Long.parseLong(sub);
+                dfs3(n,i,n,sub,'+',target,rs,num);
+            }
+        }
+        return rs;
+    }
+    void dfs3(long presum,int begin,long last,String path,char op,int target,List<String> rs,String num){
+        if (begin==num.length()&&presum==target){
+            rs.add(path);
+            return;
+        }
+        for (int i=1;i+begin<=num.length();i++){
+            int end=i+begin;
+            String cur=num.substring(begin,end);
+            if (valid3(cur)){
+                long curNum=Long.parseLong(cur);
+                if (op=='+'){
+                    dfs3(presum+curNum,end,curNum,path+"+"+curNum,'+',target,rs,num);
+                    dfs3(presum-curNum,end,curNum,path+"-"+curNum,'+',target,rs,num);
+                    long temp=presum-last+curNum*last;
+                    dfs3(temp,end,last*curNum,path+"*"+curNum,'+',target,rs,num);
+                }else if (op=='-'){
+                    dfs3(presum+curNum,end,curNum,path+"+"+curNum,'+',target,rs,num);
+                    dfs3(presum-curNum,end,curNum,path+"-"+curNum,'+',target,rs,num);
+                    long temp=presum+last-curNum*last;
+                    dfs3(temp,end,last*curNum,path+"*"+curNum,'-',target,rs,num);
+                }
+            }
+        }
+    }
+    boolean valid3(String num){
+        if (num.length()==1){//这个容易漏
+            return true;
+        }
+        for (int i=0;i<num.length();i++){
+            if (num.charAt(i)=='0'){
+                return false;
+            }else {
+                break;
+            }
+        }
+        return true;
+    }
 }

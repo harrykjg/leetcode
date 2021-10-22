@@ -9,7 +9,8 @@ public class DesignAddandSearchWordsDataStructure {
         da.addWord("bad");
         da.addWord("dad");
         da.addWord("mad");
-        System.out.println(da.search("b..."));
+        System.out.println(da.search(".ad"));
+        System.out.println(da.search("."));
     }
     Trie root;
     public void WordDictionary() {
@@ -44,30 +45,62 @@ public class DesignAddandSearchWordsDataStructure {
                 cur=cur.children.get(ch[i]);
             }
         }
-         boolean search (Trie root,String word){
-             char[] ch=word.toCharArray();
-             Trie cur= root;
-             for (int i=0;i<ch.length;i++){
-                 if (ch[i]=='.'){
-                     for (char c:cur.children.keySet()){
-                         if (i==word.length()-1&&cur.children.get(c).isEnd){//如果到了最后一位
-                             return true;
-                         }
-                         if (search(cur.children.get(c),word.substring(i+1))){
-                             return true;
-                         }
-                     }
-                     return false;//开始写成了continue就错了
-                 }
-                 if (!cur.children.containsKey(ch[i])){
-                     return false;
-                 }
-                 if (i==ch.length-1&&cur.children.get(ch[i]).isEnd){
-                     return true;
-                 }
-                 cur=cur.children.get(ch[i]);
-             }
-             return false;
+//         boolean search (Trie root,String word){
+//             char[] ch=word.toCharArray();
+//             Trie cur= root;
+//             for (int i=0;i<ch.length;i++){
+//                 if (ch[i]=='.'){
+//                     for (char c:cur.children.keySet()){
+//                         if (i==word.length()-1&&cur.children.get(c).isEnd){//如果到了最后一位
+//                             return true;
+//                         }
+//                         if (search(cur.children.get(c),word.substring(i+1))){
+//                             return true;
+//                         }
+//                     }
+//                     return false;//开始写成了continue就错了
+//                 }
+//                 if (!cur.children.containsKey(ch[i])){
+//                     return false;
+//                 }
+//                 if (i==ch.length-1&&cur.children.get(ch[i]).isEnd){
+//                     return true;
+//                 }
+//                 cur=cur.children.get(ch[i]);
+//             }
+//             return false;
+//        }
+
+        boolean search (Trie root,String word){
+            Trie cur=root;
+            char[] ch=word.toCharArray();
+            for(int i=0;i<ch.length;i++){
+                if(ch[i]=='.'){
+                    if(cur.children.size()==0){
+                        return false;
+                    }
+                    for(Trie n:cur.children.values()){
+                        if (n.isEnd&&i==ch.length-1){
+                            return true;
+                        }
+                        if(search(n,word.substring(i+1))){
+                            return true;
+                        }
+                    }
+                    return false;
+                }else{
+                    if(cur.children.containsKey(ch[i])){
+                        cur=cur.children.get(ch[i]);
+                        if(i==ch.length-1&&cur.isEnd){
+                            return true;
+                        }
+                    }else{
+                        return false;
+                    }
+                }
+
+            }
+            return false;
         }
     }
 }
