@@ -1,0 +1,7 @@
+dijistra---单个起点，不能有负权值边    time E*logV space应该是V 存dist数组吧
+bellman ford---算单个起点，可以有负权值边  Time O(V·E), Space O(V)
+floyd---算所每一个点到所有点的最短距离。 Time O(n³), Space O(n²)
+https://mp.weixin.qq.com/mp/wappoc_appmsgcaptcha?poc_token=HJ7oFmmjoEbR5aH4u5Zzyc6Ry5hLN3MPRvvv9JPX&target_url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzU4NDE3MTEyMA%3D%3D%26mid%3D2247488007%26idx%3D1%26sn%3D9d0dcfdf475168d26a5a4bd6fcd3505d
+
+minimum spanning tree最小生成树没看，题目不多
+

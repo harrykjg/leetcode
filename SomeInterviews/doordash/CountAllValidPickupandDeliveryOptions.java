@@ -42,7 +42,7 @@ public class CountAllValidPickupandDeliveryOptions {
     public int countOrders2(int n) {
         boolean[] memo1=new boolean[n];
         boolean[] memo2=new boolean[n];
-        dfs2(0,memo1,memo2,);
+        dfs2(0,memo1,memo2);
         return (int)rs2%mod;
     }
     void dfs2(int count, boolean[] memo1,boolean[] memo2){

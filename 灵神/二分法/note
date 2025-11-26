@@ -1,0 +1,3 @@
+还是按原来的b+1<e然后验证b和e谁是答案比较好，灵神的开区间写法最后不好想明白谁是答案
+以前不知道的写法：找大于某个数的第一个数，可以把这个数+1再找call lowerbound方法，既lowerBound(nums, target + 1)  如FindFirstandLastPositionofElementinSortedArray34
+对有顺序的矩阵怎么排除不符合条件的数，如KthSmallestNumberinMultiplicationTable668，Searcha2DMatrix74

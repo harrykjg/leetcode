@@ -255,7 +255,7 @@ public class SurroundedRegions {
                     for (int k=0;k<dirx.length;k++){
                         if (i+dirx[k]>=0&&j+diry[k]>=0&&i+dirx[k]<board.length&&j+diry[k]<board[0].length){
                             if (board[i+dirx[k]][j+diry[k]]=='O'){
-                                ids[i+dirx[k]]
+//                                ids[i+dirx[k]]
                             }
                         }
                     }

@@ -29,19 +29,24 @@ public class ValidTriangleNumber {
     }
     //8/15/2021 忘了是右边先确定一个点，左边的话貌似不好做(没想明白）.其实还是忘了left和right还需要把right左移
     public int triangleNumber2(int[] nums) {
-        int rs=0;
         Arrays.sort(nums);
+        int rs=0;
         for (int i=nums.length-1;i>=2;i--){
-            int left=0;
-            int right=i-1;
-            while (left<right){
-                if (nums[left]+nums[right]>nums[i]){
-                    rs+=right-left;
-                    right--;
+            int l=0;
+            int r=i-1;
+            int a=nums[i];
+            while (l<r){
+                int b=nums[l];
+                int c=nums[r];
+                if (b+c>a){//我以为是要a+b>c&&b+c>a&&a+c>b。结果只要b+c>a就行了
+                    rs+=r-l;//注意不是break，而是r左移。
+                    r--;
+                }else {
+                    l++;
                 }
-                left++;
             }
         }
+
         return rs;
     }
 
