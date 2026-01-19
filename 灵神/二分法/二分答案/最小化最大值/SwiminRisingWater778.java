@@ -2,7 +2,7 @@ package 灵神.二分法.二分答案.最小化最大值;
 
 public class SwiminRisingWater778 {
 
-    //想不到用二分法
+    //想不到用二分法,还是看回以前bfs的方法把
     //https://leetcode.cn/problems/swim-in-rising-water/solutions/3799008/liang-chong-fang-fa-er-fen-da-an-dijkstr-xfcn/
     public int swimInWater(int[][] grid) {
         int b=0;

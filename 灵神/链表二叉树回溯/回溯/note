@@ -1,0 +1,3 @@
+MaximumLengthofaConcatenatedStringwithUniqueCharacters1239 这里有新东西：
+1：用bit统计字符出现与否
+2：dfs是分取和不取，不需要for循环

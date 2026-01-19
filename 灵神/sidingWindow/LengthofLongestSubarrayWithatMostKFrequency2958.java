@@ -43,4 +43,9 @@ public class LengthofLongestSubarrayWithatMostKFrequency2958 {
 
         return rs;
     }
+
+    //1/17/2026,应该是基本操作
+    public static int maxSubarrayLength2(int[] nums, int k) {
+
+    }
 }

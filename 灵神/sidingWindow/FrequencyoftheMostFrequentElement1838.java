@@ -2,7 +2,7 @@ package 灵神.sidingWindow;
 
 import java.util.Arrays;
 
-public class FrequencyoftheMostFrequentElement1838 {
+public class  FrequencyoftheMostFrequentElement1838 {
     public static void main(String[] args) {
         int[] nums={7,1,5,5};
         System.out.println(        maxFrequency(nums,2));
@@ -44,6 +44,32 @@ public class FrequencyoftheMostFrequentElement1838 {
                 b++;
             }
             e++;
+        }
+        return rs;
+    }
+//1/16/2026第二次想错了，以为就是sliding window 设b和e，只要b+k能reach到e那就能把他们连在一块就是答案，其实不对，其实是要把b到e-1的所有的
+    //数增加到e才行
+    public static int maxFrequency2(int[] nums, int k) {
+        Arrays.sort(nums);
+        int b=0;
+        int e=1;
+        long sum=nums[0];
+        int rs=1;
+        while (e<nums.length){
+            int len=e-b+1;
+            sum+=nums[e];
+            long target=nums[e]*len;
+            if (target-sum<=k){
+                e++;
+                rs=Math.max(rs,len);
+            }else{
+                while (b<=e&&b<nums.length&&target-sum>k){
+                    sum-=nums[b];
+                    target-=nums[e];//这里也漏了更新target！
+                    b++;
+                }
+                e++;
+            }
         }
         return rs;
     }

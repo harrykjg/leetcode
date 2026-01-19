@@ -24,4 +24,7 @@ public class SumofSquareNumbers633 {
         return false;
 
     }
+
+    //1/16/2026还是不会，想是不是要同时枚举a和b，其实不用，只要枚举a那么b就能通过a方+b方=c得到
+    //https://www.bilibili.com/video/BV1XPDHY7ErC/
 }

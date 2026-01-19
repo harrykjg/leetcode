@@ -14,7 +14,6 @@ public class TheSkylineProblem {
     //不会,九章的题目返回的是三个数，leetcode返回的是点就行了，不一样
     //http://blog.csdn.net/qq508618087/article/details/51311778  看他第二个解法的思路
     //https://codesolutiony.wordpress.com/2015/06/01/leetcode-the-skyline-problem-lintcode-building-outline/ 代码可以看他的
-    //https://briangordon.github.io/2014/08/the-skyline-problem.html 动图
     //http://blog.csdn.net/xudli/article/details/46349383   它的compartor不同,而且edge的高度可以是负的
     public List<int[]> getSkyline(int[][] buildings) {
         List<int[]> rs=new ArrayList<>();
@@ -27,8 +26,8 @@ public class TheSkylineProblem {
                 if(!o1.isRight&&!o2.isRight){//如果横坐标相同,还要分是做还是右edge,如果都是左edge则按高度降序排,因为假如有2个edge横坐标相同,
                     return o2.h-o1.h;//我要先poll出纵坐标高的,否则不对,举个例子看
                 }
-                if(o1.isRight&&o2.isRight){//如果都是右edge则要按高度升序排,否则也不行
-                    return o1.h-o2.h;
+                if(o1.isRight&&o2.isRight){//如果都是右edge则要按高度升序排,否则也不行。因为先处理小的时候，把它remove之后，pq还不是空，
+                    return o1.h-o2.h;   //所以不会加进一个高度为0 的点，只会再最后一个被remove的时候才会产生一个
                 }
                 //横坐标相同,o1 和o2是一左一右,则左的排前面
                 return o1.isRight?1:-1;//想,一般升序就是o1-o2,则如果o1-o2>0则o1就排去后面了
@@ -90,8 +89,10 @@ public class TheSkylineProblem {
         while (!pq.isEmpty()){
             edge cur=pq.poll();
             if(cur.isRight){//注意，还就是要先按isRight与否来判断，否则判断很复杂而且容易错
-                heap.remove(cur.h);//在想如果有两栋楼有高度，那么remove了一个高度那不就把另一个也remove了？结果不会，因为heap可以有重复的元素。。可以画图理解
-                if(heap.isEmpty()){
+                heap.remove(cur.h);//在想如果有两栋楼有高度，那么remove了一个高度那不就把另一个也remove了？结果不会，因为heap可以有重复的元素。
+                if(heap.isEmpty()){//我们根本不关心删掉的是“第一个楼”还是“第二个楼”，只关心“高度 10 的楼数量少了一个”。
+                                    //从“当前最高高度”的角度来看，这两栋楼是完全等价的。因为就算删的是第一个楼的高度，那么pq peek出来还是有一个
+                                    //高度是10 的楼
                     rs.add(new int[]{cur.x,0});
                 }else{
                     if(heap.peek()<cur.h){

@@ -4,12 +4,12 @@ import java.util.*;
 
 public class FindtheLongestEqualSubarray2831 {
     public static void main(String[] args) {
-        int[] nums={1,1,2,2,1,1};
+        int[] nums={4,4,4,3,4};
         ArrayList<Integer> al=new ArrayList<>();
         for (int i:nums){
             al.add(i);
         }
-        System.out.println(longestEqualSubarray(al,2));
+        System.out.println(longestEqualSubarray2(al,1));
     }
     //想法就是while的时候先检测e能不能放进来。能放进来的条件是map为空，或者最大的元素加别的元素<=k。那么如果这个新的元素加进来的话会使得有两个元素都是最大的呢？那也不用管，是他大还是别的大
     //反正无论哪一个大，其余剩余元素和最大元素之和要<=k。但是写到后面几个case出错，比较麻烦，尤其是当b缩掉之后要如何更新curmax.这样可以但是最后超时
@@ -43,6 +43,32 @@ public class FindtheLongestEqualSubarray2831 {
         }
         return rs;
 
+    }
+
+    //1/15/2026这次也是不会，但是看了第一次的思路，这样写感觉容易理解些
+    public static int longestEqualSubarray2(List<Integer> nums, int k) {
+        Map<Integer,Integer> map=new TreeMap<>();
+        int rs=0;
+        int maxFreq=0;
+        int b=0;
+        int e=0;
+        while (e<nums.size()){//每次都是先把e先加进来，如果多了就缩1个b，都是一个一个推进的
+            int cur=nums.get(e);
+            map.put(cur,map.getOrDefault(cur,0)+1);
+            int curFre=map.get(cur);
+            maxFreq=Math.max(maxFreq,curFre);
+            int len=e-b+1;
+            int other=len-maxFreq;
+
+            if(other<=k){
+                rs=Math.max(rs,curFre);
+            }else {
+                map.put(nums.get(b),map.get(nums.get(b))-1);
+                b++;
+            }
+            e++;
+        }
+        return rs;
     }
 
 }

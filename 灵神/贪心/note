@@ -1,0 +1,123 @@
+枚举类型的比如固定i 然后维护左右之类的还是不行，如 MaximumDistanceinArrays624
+
+同时要考虑两种因素的，如course scheduleiii630，反悔的顺序也是不能乱来的。对比1353
+
+DFS + Memoization 专项题单（强烈推荐顺序刷）
+🟢 第一阶段：一维状态（最容易建立 memo 直觉）
+
+目标：
+看到 dfs(index) 就能条件反射地想到 memo[index]
+1️⃣ Climbing Stairs（爬楼梯）
+LeetCode 70
+DFS：dfs(i) 表示从第 i 阶到顶的走法数
+Memo：memo[i]
+关键训练点：
+base case
+重复子问题
+👉 这是所有 DFS + memo 的“母题”
+2️⃣ Min Cost Climbing Stairs
+LeetCode 746
+DFS：dfs(i) 表示从第 i 阶到顶的最小花费
+Memo：memo[i]
+训练点：
+返回“最优值”而不是“方案数”
+3️⃣ House Robber
+LeetCode 198
+DFS：dfs(i) = 从 i 开始偷的最大收益
+Memo：memo[i]
+训练点：
+“选 / 不选”经典分叉
+memo 极其自然
+🟡 第二阶段：二维状态（你现在卡住的关键层）
+目标：
+知道什么时候 memo 必须是 memo[i][state]，而不是 memo[i]
+4️⃣ Coin Change（最少硬币数）
+LeetCode 322
+DFS：dfs(remain)
+Memo：memo[remain]
+训练点：
+不可达状态（返回 INF / -1）
+memo 避免指数爆炸
+5️⃣ Decode Ways
+LeetCode 91
+DFS：dfs(i) 表示从 i 开始解码的方式数
+Memo：memo[i]
+训练点：
+剪枝（非法字符）
+多分支 + memo
+6️⃣ Target Sum
+LeetCode 494
+DFS：dfs(i, sum)
+Memo：memo[i][sum]
+⭐ 重点训练：
+状态不只一个变量
+为什么 memo 少一维就会错
+🟠 第三阶段：区间 / 子数组类 DFS（抽象开始变难）
+目标：
+看到“区间”就想到 dfs(l, r)
+7️⃣ Longest Palindromic Subsequence
+LeetCode 516
+DFS：dfs(l, r)
+Memo：memo[l][r]
+训练点：
+区间型 DFS
+左右收缩
+8️⃣ Burst Balloons
+LeetCode 312
+DFS：dfs(l, r) 表示区间 (l, r) 内最大得分
+Memo：memo[l][r]
+⭐ 非常重要的一题：
+“最后一个选择”的 DFS 思维
+DFS → DP 的桥梁
+🔴 第四阶段：组合 / 选择型 DFS（你最近问得最多的）
+目标
+搞清楚：状态里到底该不该带“历史信息”
+9️⃣ Word Break II
+LeetCode 140
+DFS：dfs(i) 表示从 i 开始能组成的所有句子
+Memo：memo[i] = List<String>
+⭐ 关键训练点：
+memo 不一定是 int
+memo 可以存“结果集合”
+🔟 Can I Win
+LeetCode 464
+DFS：dfs(usedMask)
+Memo：memo[mask]
+⭐ 核心训练点：
+位压缩状态
+为什么“当前和”不需要进 memo
+1️⃣1️⃣ Maximum Value of Two Events
+LeetCode 2054（你刚做的）
+DFS：dfs(i, picked)
+Memo：memo[i][picked]
+⭐ 重点：
+“不要把 endDay 放进 memo”
+用 nextIdx 固化状态
+🧩 第五阶段：图 + DFS + Memo（高阶）
+目标
+避免重复 DFS 子图
+1️⃣2️⃣ Evaluate Division
+LeetCode 399
+DFS：dfs(node, target)
+Memo（可选）：缓存 (u,v) 的结果
+训练点：
+图上的 DFS + 剪枝
+1️⃣3️⃣ Longest Increasing Path in a Matrix
+LeetCode 329
+DFS：dfs(i, j)
+Memo：memo[i][j]
+⭐ 非常推荐：
+图上 DFS + memo
+“方向 + 有向无环”的本质
+🧠 一条你现在最该记住的黄金法则
+DFS 的“参数列表”，必须完整描述未来选择空间；
+memo 的 key，必须覆盖这些参数。
+你之前写不对 memo，本质都是因为：
+DFS 参数有 (endDay, b, picked)
+memo 只用了 (b, picked)
+❌ 状态信息丢失 → 复用错误
+问自己一句话：
+“如果我第二次进入这个 dfs，这个子问题是不是和上次一模一样？”
+如果是 → 这个参数必须进 memo key
+然后再把 DFS 改成 memo
+

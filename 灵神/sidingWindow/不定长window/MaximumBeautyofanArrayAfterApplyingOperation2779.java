@@ -26,7 +26,9 @@ public class MaximumBeautyofanArrayAfterApplyingOperation2779 {
         }
         return rs;
 
-
     }
+    //第二轮还是没想出来，但是有想到差分数组或者二分答案（应该不行），这个答案说了几种写法。
+    //难点还是直接想到这个不等式等价于sliding window这一步不好想
+    //https://leetcode.cn/problems/maximum-beauty-of-an-array-after-applying-operation/solutions/2346307/python3javac-er-fen-hua-dong-chuang-kou-rdkls/#%E4%BA%8C%E5%88%86%E8%A7%A3%E6%B3%95
 
 }

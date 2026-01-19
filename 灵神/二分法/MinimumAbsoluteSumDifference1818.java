@@ -8,4 +8,12 @@ public class MinimumAbsoluteSumDifference1818 {
     public int minAbsoluteSumDiff(int[] nums1, int[] nums2) {
 
     }
+
+    //1/17/2026第二轮想的就是对于每一位i，知道nums1[i]-nums2[i]的绝对值，那现在要找另一个j，使得nums1[j]-nums2[i]的绝对值变得更小
+    //那普通写法就是n方了，优化就是查找的时候写二分法。并且要记录这些所有替换方案中最好的那个。代码见
+    //https://leetcode.cn/problems/minimum-absolute-sum-difference/solutions/874665/gong-shui-san-xie-tong-guo-er-fen-zhao-z-vrmq/
+    public int minAbsoluteSumDiff2(int[] nums1, int[] nums2) {
+
+    }
+
 }

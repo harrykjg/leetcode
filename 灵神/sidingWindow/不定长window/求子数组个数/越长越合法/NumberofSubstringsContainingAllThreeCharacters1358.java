@@ -4,6 +4,7 @@ public class NumberofSubstringsContainingAllThreeCharacters1358 {
     public static void main(String[] args) {
 
     }
+    //1/13/2026第二轮还是不会
     //https://leetcode.cn/problems/number-of-substrings-containing-all-three-characters/solutions/2990226/mo-ban-yue-chang-yue-he-fa-xing-hua-dong-2g7a/
     //不会，看人家的解释。这种求子数组个数的都不太好想
     public int numberOfSubstrings(String s) {

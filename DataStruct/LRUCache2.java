@@ -85,7 +85,7 @@ public class LRUCache2{
             node.next=head;
             node.pre=head.pre;
             head.pre=node;
-            node.pre.next=node;
+            node.pre.next=node;//node.pre就是end了
             head=node;
         }
     }

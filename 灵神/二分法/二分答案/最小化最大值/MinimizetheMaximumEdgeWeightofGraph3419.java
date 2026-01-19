@@ -22,7 +22,7 @@ public class MinimizetheMaximumEdgeWeightofGraph3419 {
         }
         while (b+1<e){
             int m=e-(e-b)/2;
-            boolean good=dfs(0,edges,m,n,new HashSet<Integer>(),map);
+            boolean good=dfs(0,edges,m,n,new HashSet<Integer>(),map);//就是看从0出发能否到所有的点，并且路径权限不能大于m
             if(good){
                 e=m;
             }else {
@@ -49,7 +49,7 @@ public class MinimizetheMaximumEdgeWeightofGraph3419 {
         for(int i=0;i<map.get(begin).size();i++){
             int next=map.get(begin).get(i)[0];
             int weight=map.get(begin).get(i)[1];
-            if(weight>m){
+            if(weight>m){//应该是大于的就是要删掉的边，所以略过他
                 continue;
             }
             if(!set.contains(next)){

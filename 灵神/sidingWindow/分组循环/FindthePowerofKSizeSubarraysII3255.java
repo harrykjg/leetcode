@@ -37,4 +37,6 @@ public class FindthePowerofKSizeSubarraysII3255 {
 
         return rs;
     }
+    //1/16/2026
+    //https://leetcode.cn/problems/find-the-power-of-k-size-subarrays-ii/solutions/2973325/3255-chang-du-wei-k-de-zi-shu-zu-de-neng-9n2z/
 }
