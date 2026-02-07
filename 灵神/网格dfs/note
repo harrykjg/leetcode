@@ -1,1 +1,3 @@
-01网格的几个题貌似都是一样的做法。dijstra简化版或者三维memo数组。选2990或者3286做一次就行了
+01网格的几个题貌似都是一样的做法。dijstra简化版或者三维memo数组。选2290或者3286做一次就行了
+3286---》dijistra或者01 bfs（用dequeue instead of priorityqueue），不熟
+1293--->memo的第三维是要k+1个状态（0到k），而queue里也要记录3个数，第三维是记录用了几个k

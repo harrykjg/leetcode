@@ -11,6 +11,7 @@ public class NearestExitfromEntranceinMaze1926 {
         System.out.println(nearestExit(m,ent));
 
     }
+    //就是bfs
     public static int nearestExit(char[][] maze, int[] entrance) {
         boolean[][] memo=new boolean[maze.length][maze[0].length];
         Queue<int[]> q=new LinkedList<>();

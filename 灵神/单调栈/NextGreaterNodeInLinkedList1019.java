@@ -5,7 +5,7 @@ import java.util.Stack;
 
 public class NextGreaterNodeInLinkedList1019 {
 
-    //就是比起array的题要多久下标
+    //就是比起array的题要多了下标
     public int[] nextLargerNodes(ListNode head) {
         ArrayList<Integer> al=new ArrayList<>();
         ListNode cur=head;
@@ -30,6 +30,11 @@ public class NextGreaterNodeInLinkedList1019 {
         }
         return rs;
     }
+
+
+    //1/21/2026 懒得写，应该就是先loop放进arraylist就行了，或者直接只记录length都行
+    // https://leetcode.cn/problems/next-greater-node-in-linked-list/solutions/2217563/tu-jie-dan-diao-zhan-liang-chong-fang-fa-v9ab/
+
 
       public class ListNode {
       int val;

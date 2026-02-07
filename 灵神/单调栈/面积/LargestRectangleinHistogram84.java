@@ -6,7 +6,7 @@ import java.util.Stack;
 
 public class LargestRectangleinHistogram84 {
     public static void main(String[] args) {
-        int[] nums={0,0};
+        int[] nums={2,1,5,6,2,3};
         System.out.println(largestRectangleArea(nums));
     }
 

@@ -5,7 +5,7 @@ public class MaximumBinaryTree654 {
 
     }
 
-    //这题要用单调栈的话太烦直觉了，看不懂
+    //这题要用单调栈的话太烦直觉了，看不懂，第二轮还是不好想
     public TreeNode constructMaximumBinaryTree(int[] nums) {
 
     }

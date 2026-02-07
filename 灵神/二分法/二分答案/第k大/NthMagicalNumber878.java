@@ -67,4 +67,42 @@ public class NthMagicalNumber878 {
         return (int) (right%mod);//
     }
 
+    //1/19/2026，看回以前的答案，就是要会算怎么算某个数是a和b的第几个公倍数，涉及怎么算最小公倍数lowest common multiple
+    public static int nthMagicalNumber3(int n, int a, int b) {
+        long one=(long)a*n;//注意这里不是说long one=a*n这样就行了，必须右边也先转化成long，否则a*n就已经越界了
+        long sec=(long)b*n;
+        long begin=Math.min(a,b);//开始写成Math.min(one,sec)就错了，比如a=2，b=3，n=5，如果这么写的话begin就是10了，然后答案是8
+        long end=Math.max(one,sec);
+        int aa=a;
+        int bb=b;
+        long mod=(long) Math.pow(10,9)+7;
+        while (aa!=0){
+            int temp=aa;
+            aa=bb%aa;
+            bb=temp;
+        }
+        int gcd=bb;
+        long lcm=((long)a*b)/gcd;
+        while (begin+1<end){
+            long m=end-(end-begin)/2;
+            if(tooSmall(m,n,a,b,lcm)){
+                begin=m;
+            }else{
+                end=m;
+            }
+        }
+        if(tooSmall(begin,n,a,b,lcm)){
+            return (int)(end%mod);
+        }
+        return (int)(begin%mod);
+    }
+    static boolean tooSmall(long target,int n,int a,int b,long lcm){
+        long count1=target/a;
+        long count2=target/b;
+        long total=count1+count2-target/lcm;
+        if (total<n){
+            return true;
+        }
+        return false;
+    }
 }

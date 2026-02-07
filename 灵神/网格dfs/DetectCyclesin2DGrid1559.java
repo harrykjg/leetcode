@@ -11,7 +11,7 @@ public class DetectCyclesin2DGrid1559 {
     }
 
     //我想的是记录路径，最后会不会到达起始的点，结果不行，
-    //                      如  x a x
+    //                      如 x a x
     //                         a a a
     //                         a a x  这种上面凸起来的a开始，走到最后是【1,0】这个a往右看是【1，1】，不是起始点【0,1】，因此找不到环，实际上是有环的
     //
@@ -58,4 +58,40 @@ public class DetectCyclesin2DGrid1559 {
         return false;
 
     }
+//1/23/2026居然一次过，开始还想得要记录距离，发现是不行的，只要记录source，dfs的时候避开访问source就行了
+    public static boolean containsCycle2(char[][] grid) {
+        boolean[][] memo=new boolean[grid.length][grid[0].length];
+        for (int i=0;i<grid.length;i++){
+            for (int j=0;j<grid[0].length;j++){
+                if(!memo[i][j]){
+                    if(dfs2(i,j,-1,-1,memo,grid)){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+     static boolean dfs2(int r,int c,int sr,int sc,boolean[][] memo,char[][] grid){
+        memo[r][c]=true;
+        int[] dx={0,-1,0,1};
+        int[] dy={1,0,-1,0};
+        for (int i=0;i<4;i++){
+            int row=r+dx[i];
+            int col=c+dy[i];
+            if(row>=0&&row<grid.length&&col>=0&&col<grid[0].length&&grid[row][col]==grid[r][c]){
+                if(row==sr&&col==sc){
+                    continue;
+                }
+                if(memo[row][col]){
+                    return true;
+                }
+                if(dfs2(row,col,r,c,memo,grid)){
+                    return true;
+                }
+            }
+
+        }
+        return false;
+     }
 }

@@ -10,6 +10,7 @@ public class DailyTemperatures739 {
             System.out.println(i);
         }
     }
+    //1/20/2026没问题
     public static int[] dailyTemperatures(int[] temperatures) {
         int[] rs=new int[temperatures.length];
         Stack<Integer> st=new Stack<>();

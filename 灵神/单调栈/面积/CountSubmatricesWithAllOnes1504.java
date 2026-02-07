@@ -32,7 +32,7 @@ public class CountSubmatricesWithAllOnes1504 {
                 int cur=dp[i][j];
                 rs+=cur;
                 for(int k=i-1;k>=0;k--){
-                    cur=Math.min(cur,dp[k][j]);
+                    cur=Math.min(cur,dp[k][j]);//这里很难想， 刚好就是要加最小值，看图理解
                     if(dp[k][j]==0){
                         break;
                     }
@@ -42,5 +42,15 @@ public class CountSubmatricesWithAllOnes1504 {
         }
         return rs;
     }
+    //1/21/2026 还是很不好想，画图理解
+    /*
+     0 1 1 0
+     0 1 1 0
+     1 1 1 0
+     对应dp就是
+     0 1 2 0
+     0 1 2 0
+     1 2 3 0
+     */
 
 }

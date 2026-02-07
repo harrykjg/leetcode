@@ -25,4 +25,23 @@ public class MaxChunksToMakeSortedII768 {
         }
         return st.size();
     }
+    //1/20/2026想的直接单调栈其实还是不会，没想清楚规则，看之前的解法2。想2，2，3，2这个例子，答案是3
+    public int maxChunksToSorted2(int[] arr) {
+        Stack<Integer> st=new Stack<>();
+        int rs=1;
+        for (int i=0;i<arr.length;i++){
+
+            if(st.isEmpty()||st.peek()<=arr[i]){
+                st.push(arr[i]);
+                continue;
+            }
+            int max=st.pop();
+            while (!st.isEmpty()&&st.peek()>arr[i]){//这里写>=就过不了0,3,0,3,2这个例子
+                st.pop();
+            }
+            st.push(max);
+
+        }
+        return st.size();
+    }
 }

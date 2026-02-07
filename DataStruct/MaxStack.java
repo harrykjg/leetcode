@@ -14,8 +14,9 @@ public class MaxStack {
         ms.pop2();
         ms.peekMax2();
     }
-    //8/6/2021比minstack要难，那里不需要pop min而这里需要。所以更难
+    //8/6/2021比minstack要难，那里不需要pop min而这里需要pop max。所以更难
     //https://leetcode.com/problems/max-stack/discuss/108938/Java-AC-solution 2 stack的
+    //这个是o（n）解法
     Stack<Integer> stack1=new Stack<>();
     Stack<Integer> stack2=new Stack<>();//开始多写了个max变量，其实就check stack2的就行了
     public MaxStack() {
@@ -65,7 +66,7 @@ public class MaxStack {
         }
         return temp;
     }
-//写个用treemap的,node的操作很难写对
+//写个用treemap的,node的操作很难写对，下面写的不能ac
     //https://leetcode.com/problems/max-stack/discuss/129922/Java-simple-solution-with-strict-O(logN)-push()popMax()pop() 他这个其实是先设一个
     //dummy head，然后入栈的node一直插入到head的前一个，所以pop的时候就是拿head。pre。而不是向list那样append到后面，如果是像list那样append的话应该需要
     //维护last才行.不写了
