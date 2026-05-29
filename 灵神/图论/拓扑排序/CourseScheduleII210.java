@@ -52,4 +52,39 @@ public class CourseScheduleII210 {
 
         return rs;
     }
+    //2/28/2026基本一次过
+    public static int[] findOrder2(int numCourses, int[][] prerequisites) {
+        int[] indegree=new int[numCourses];
+        Queue<Integer> q=new LinkedList<>();
+        Map<Integer,Set<Integer>> map=new HashMap<>();
+        for (int i=0;i<prerequisites.length;i++){
+            map.putIfAbsent(prerequisites[i][1],new HashSet<>());
+            map.get(prerequisites[i][1]).add(prerequisites[i][0]);
+            indegree[prerequisites[i][0]]++;
+        }
+        for (int i=0;i<indegree.length;i++){
+            if(indegree[i]==0){
+                q.offer(i);
+            }
+        }
+        int[] rs=new int[numCourses];
+        int index=0;
+        while (!q.isEmpty()){
+            int cur=q.poll();
+            rs[index++]=cur;
+            Set<Integer> neighbour=map.get(cur);
+            if(neighbour!=null){
+                for(int nei:neighbour){
+                    indegree[nei]--;
+                    if(indegree[nei]==0){
+                        q.offer(nei);
+                    }
+                }
+            }
+        }
+        if(index!=numCourses){
+            return new int[0];
+        }
+        return rs;
+    }
 }

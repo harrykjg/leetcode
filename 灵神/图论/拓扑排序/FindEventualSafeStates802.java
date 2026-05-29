@@ -5,7 +5,8 @@ import java.util.*;
 public class FindEventualSafeStates802 {
     public static void main(String[] args) {
         int[][] g={{1,2},{2,3},{5},{0},{5},{},{}};
-        List<Integer> rs=eventualSafeNodes(g);
+        FindEventualSafeStates802 fe=new FindEventualSafeStates802();
+        List<Integer> rs=fe.eventualSafeNodes2(g);
         for(int i:rs){
             System.out.println(i);
         }
@@ -45,5 +46,40 @@ public class FindEventualSafeStates802 {
         }
         map.put(cur,true);
         return true;
+    }
+
+    //3/1/2026 gpt说这不能用dfs加memo找环，那是用在无向图的，这个是有向的因此要三色法，这不是二分图的染色法。可以再练练
+    public  List<Integer> eventualSafeNodes2(int[][] graph) {
+        Map<Integer,Boolean> map=new HashMap<>();//用来记录这个点是不是有环
+        int[] memo=new int[graph.length];//三种状态0,1,2代表没访问，正在dfs，已经访问
+        List<Integer> rs=new ArrayList<>();
+        for (int i=0;i<graph.length;i++){
+            if(!dfs2(i,graph,map,memo)){
+                rs.add(i);
+            }
+        }
+        return rs;
+    }
+    //dfs2意义是看有没环,true就是有环
+    boolean dfs2(int begin,int[][] graph,Map<Integer,Boolean> map, int[] memo){
+        if(memo[begin]==2){
+            return map.get(begin);//
+        }
+        memo[begin]=1;
+        boolean rs=false;
+        for (int i=0;i<graph[begin].length;i++){
+            if(memo[graph[begin][i]]==1){
+                rs=true;
+                break;
+            }else {
+                if(dfs2(graph[begin][i],graph,map,memo)){
+                    rs= true;
+                    break;
+                }
+            }
+        }
+        memo[begin]=2;
+        map.put(begin,rs);
+        return rs;
     }
 }

@@ -1,9 +1,14 @@
 package 灵神.图论.二分图;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 public class IsGraphBipartite785 {
     public static void main(String[] args) {
-        int[][] g={{1,2,3},{0,2},{0,1,3},{0,2}};
-        System.out.println(isBipartite(g));
+        int[][] g={{4},{},{4},{4},{0,2,3}};
+        System.out.println(isBipartite2(g));
 
     }
     //比以前的写的好些
@@ -45,6 +50,51 @@ public class IsGraphBipartite785 {
             }else{//开始漏了这里
                 if(memo[g[cur][i]]==v){
                     return false;
+                }
+            }
+        }
+        return true;
+    }
+    public  static boolean isBipartite2(int[][] graph) {
+        Map<Integer, Set<Integer>> map=new HashMap<>();
+        for (int i=0;i<graph.length;i++){
+            map.putIfAbsent(i,new HashSet<>());
+            for (int j=0;j<graph[i].length;j++){
+                map.get(i).add(graph[i][j]);
+            }
+        }
+        int[] color=new int[graph.length];
+
+        for (int i=0;i<graph.length;i++){
+            if(color[i]!=0){
+                 continue;
+            }
+            if(!dfs2(i,map,color)){
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+    //2/28/2026还是写错，我觉得是所有点都要连一起才算biparty，其实不是，题目是说所有存在的边。
+    static boolean dfs2(int begin,Map<Integer,Set<Integer>> map,int[] color){
+        if(color[begin]==0){
+            color[begin]=1;
+        }
+        Set<Integer> neighbour=map.get(begin);
+        if(neighbour!=null){
+            for (int nei:neighbour){
+                if(color[nei]==0){
+                    int nc=color[begin]==1?2:1;
+                    color[nei]=nc;
+                    if(!dfs2(nei,map,color)){
+                        return false;
+                    }
+                }else{
+                    if(color[nei]==color[begin]){
+                        return false;
+                    }
                 }
             }
         }

@@ -180,4 +180,40 @@ public class KthLargestElement {
         return helper4(b+1,end,nums,k);
     }
 
+    //5/19/2026,基本写出来了，下标改了一次
+    public int kthLargestElement5(int k, int[] nums) {
+        int n=nums.length;
+        int kk=n-k;//举例想清楚
+        return helper5(nums,0,n-1,kk);
+    }
+    int helper5(int[] nums,int begin,int end,int k){
+        int x=nums[begin];
+        int b=begin;
+        int e=end;
+        while (b<e){
+            while (e>b&&nums[e]>x){
+                e--;
+            }
+            if(e>b){
+                nums[b]=nums[e];
+                b++;
+            }
+            while (b<e&&nums[b]<=x){
+                b++;
+            }
+            if(e>b){
+                nums[e]=nums[b];
+                e--;
+            }
+        }
+        nums[b]=x;
+        if(b==k){
+            return nums[b];
+        }
+        if(b>k){
+            return helper5(nums,begin,b-1,k);
+        }
+        return helper5(nums,b+1,end,k);
+    }
+
 }

@@ -68,4 +68,34 @@ public class LongestConsecutiveSequence {
         }
         return rs;
     }
+
+    //5/20/2026,我想的直接用一个set，装所有元素，然后遍历nums，遇到一个就往左和往右看能走多远。貌似这样复杂度可能是n方，但是我走的过程遇到的元素
+    //我就删掉，这样应该每个元素就遍历最多1次吧。但是你边遍历set边删不会concurrentmodification吗？
+    public int longestConsecutive3(int[] nums) {
+        Set<Integer> set=new HashSet<>();
+        for (int i:nums){
+            set.add(i);
+        }
+        int rs=0;
+        for (int i=0;i<nums.length;i++){
+            int cur=nums[i];
+            if(!set.contains(cur)){
+                continue;
+            }
+            int count=1;
+            while (set.contains(cur-1)){//这个不是for（int i：set）这样的可能就不会concurrent modification 吧
+                count++;
+                set.remove(cur-1);
+                cur--;
+            }
+            cur=nums[i];
+            while (set.contains(cur+1)){
+                count++;
+                set.remove(cur+1);
+                cur++;
+            }
+            rs=Math.max(count,rs);
+        }
+        return rs;
+    }
 }

@@ -33,7 +33,7 @@ public class LoggerRateLimiter {
     //又结合uber的面经，http://www.1point3acres.com/bbs/forum.php?mod=viewthread&tid=437519
     /*
     while(!queue.isEmpty() && timestamp-queue.peek()>1){
-        queue.poll();-google 1point3acres
+        queue.poll();-SomeInterviews.google 1point3acres
      }
     if(queue.size()<qps){
         queue.add(timestamp);

@@ -17,7 +17,6 @@ public class WordBreakII140 {
         Set<String> set=new HashSet<>(wordDict);
         return backtrack(0,s,set,memo);
     }
-
     List<String> backtrack(int b,String s,Set<String> set,Map<Integer,List<String>> memo){
         if(memo.containsKey(b)){
             return memo.get(b);
@@ -28,7 +27,6 @@ public class WordBreakII140 {
             memo.put(b,al);
             return al;
         }
-
         for(int j=b;j<=s.length();j++){
             String temp=s.substring(b,j);
             if(set.contains(temp)){

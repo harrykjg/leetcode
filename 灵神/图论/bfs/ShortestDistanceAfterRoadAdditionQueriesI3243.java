@@ -48,4 +48,8 @@ public class ShortestDistanceAfterRoadAdditionQueriesI3243 {
         }
         return 0;
     }
+
+    public static int[] shortestDistanceAfterQueries2(int n, int[][] queries) {
+
+    }
 }

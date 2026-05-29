@@ -31,7 +31,7 @@ public class ValidParenthesisString678 {
                 }
             }
         }
-        while (!st.isEmpty()){//这个就是来对付*（这种情况的
+        while (!st.isEmpty()){//这个就是来对付“*（”这种情况的
             if(st2.isEmpty()){
                 return false;
             }
@@ -42,6 +42,11 @@ public class ValidParenthesisString678 {
             st.pop();
         }
         return true;
+    }
+
+    //3/12/2026还是没有什么想法，看上面的，原来star也要stack来装，因为也是有位置的约束，因为星号不能跨区域用
+    public static boolean checkValidString(String s) {
+
     }
 
 }

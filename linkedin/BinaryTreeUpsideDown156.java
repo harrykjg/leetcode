@@ -2,6 +2,8 @@ package linkedin;
 
 import 灵神.链表二叉树回溯.树.TreeNode;
 
+import java.util.Stack;
+
 public class BinaryTreeUpsideDown156 {
     static void main() {
 
@@ -26,5 +28,39 @@ public class BinaryTreeUpsideDown156 {
         root.right=null;
 
         return l;
+    }
+
+    //5/28/2026还是不太好写，想的是用stack装一个pari[parent,node】这样就可以操作了，但是还是没写对
+    public TreeNode upsideDownBinaryTree2(TreeNode root) {
+        Stack<Pair> st=new Stack<>();
+        TreeNode parent=null;
+        TreeNode cur=root;
+        while (cur!=null){
+            st.push(new Pair(parent,cur));
+            parent=cur;
+            cur=cur.left;
+        }
+        TreeNode head=null;
+        while (!st.isEmpty()){
+            Pair p=st.pop();
+            if(p.parent==null){
+                break;
+            }
+            cur=p.node;
+            if(head==null){
+                head=cur;
+            }
+            cur.left=parent.right;
+            cur.right=parent;
+        }
+        return head;
+    }
+}
+class Pair{
+    TreeNode parent;
+    TreeNode node;
+    public  Pair(TreeNode p, TreeNode n){
+        parent=p;
+        node=n;
     }
 }

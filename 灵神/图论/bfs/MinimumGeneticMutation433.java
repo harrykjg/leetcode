@@ -55,4 +55,43 @@ public class MinimumGeneticMutation433 {
         }
         return -1;
     }
+    //2/15/2026 基本一次过
+    public int minMutation2(String startGene, String endGene, String[] bank) {
+        int rs=0;
+        Queue<StringBuilder> q=new LinkedList<>();
+        q.offer(new StringBuilder(startGene));
+        Set<String> set=new HashSet<>();
+        for(String s:bank){
+            set.add(s);
+        }
+        Set<String> memo=new HashSet<>();
+        memo.add(startGene);
+        char[] gene={'A','C','T','G'};
+        while (!q.isEmpty()){
+            int size=q.size();
+            for (int i=0;i<size;i++){
+                StringBuilder sb=q.poll();
+                if(sb.toString().equals(endGene)){
+                    return rs;
+                }
+                for (int j=0;j<sb.length();j++){
+                    char orig=sb.charAt(j);
+                    for (int k=0;k<gene.length;k++){
+                        if(sb.charAt(j)==gene[k]){
+                            continue;
+                        }
+                        sb.setCharAt(j,gene[k]);
+                        String next=sb.toString();
+                        if(set.contains(next)&&!memo.contains(next)){
+                            memo.add(next);
+                            q.offer(new StringBuilder(next));
+                        }
+                    }
+                    sb.setCharAt(j,orig);
+                }
+            }
+            rs++;
+        }
+        return -1;
+    }
 }

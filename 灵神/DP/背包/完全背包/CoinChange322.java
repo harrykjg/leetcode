@@ -73,4 +73,20 @@ j - coin >= 0（金额足够大，从理论上可以试图用当前硬币）
         }
         return dp[dp.length-1][dp[0].length-1];
     }
+
+    //4/22/2026 一维dp就行了
+    public static int coinChange2(int[] coins, int amount) {
+        int[] dp=new int[amount+1];
+        Arrays.fill(dp,Integer.MAX_VALUE-1);
+        dp[0]=0;
+        Arrays.sort(coins);
+        for (int i=1;i<=amount;i++){
+            for (int j=0;j<coins.length;j++){
+                if(coins[j]<=i){
+                    dp[i]=Math.min(dp[i],dp[i-coins[j]]+1);
+                }
+            }
+        }
+        return dp[dp.length-1]==Integer.MAX_VALUE-1?-1:dp[dp.length-1];
+    }
 }

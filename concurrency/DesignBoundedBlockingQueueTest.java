@@ -193,3 +193,69 @@ class DesignBoundedBlockingQueue {
         return q.size();
     }
 }
+/*
+go 的版本。 2/6/2026
+package main
+
+import (
+	"container/list"
+	"sync"
+)
+
+type BoundedBlockingQueue struct {
+	capacity int
+	q        *list.List
+
+	mu       sync.Mutex
+	notFull  *sync.Cond
+	notEmpty *sync.Cond
+}
+
+func Constructor(capacity int) *BoundedBlockingQueue {
+	b := &BoundedBlockingQueue{
+		capacity: capacity,
+		q:        list.New(),
+	}
+	b.notFull = sync.NewCond(&b.mu)
+	b.notEmpty = sync.NewCond(&b.mu)
+	return b
+}
+
+// Adds to the front. Block if full.
+func (b *BoundedBlockingQueue) Enqueue(x int) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+
+	for b.q.Len() == b.capacity {
+		b.notFull.Wait()
+	}
+
+	b.q.PushFront(x)     // O(1)
+	b.notEmpty.Signal()  // wake one waiting consumer
+}
+
+// Removes from the rear. Block if empty.
+func (b *BoundedBlockingQueue) Dequeue() int {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+
+	for b.q.Len() == 0 {
+		b.notEmpty.Wait()
+	}
+
+	e := b.q.Back()      // last element
+	v := e.Value.(int)   // type assert
+	b.q.Remove(e)        // O(1)
+
+	b.notFull.Signal()   // wake one waiting producer
+	return v
+}
+
+func (b *BoundedBlockingQueue) Size() int {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	return b.q.Len()
+}
+
+
+ */

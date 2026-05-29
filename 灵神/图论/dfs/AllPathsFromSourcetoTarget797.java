@@ -24,4 +24,28 @@ public class AllPathsFromSourcetoTarget797 {
         }
         al.remove(al.size()-1);
     }
+
+    public List<List<Integer>> allPathsSourceTarget2(int[][] graph) {
+        List<List<Integer>> rs=new ArrayList<>();
+        boolean[] memo=new boolean[graph.length];
+        List<Integer> al=new ArrayList<>();
+        al.add(0);
+        dfs2(0,graph,memo,al,rs);
+        return rs;
+    }
+    void dfs2(int b,int[][] graph,boolean[] memo,List<Integer> al, List<List<Integer>> rs){
+        if(b==graph.length-1){
+            rs.add(new ArrayList<>(al));
+            return;
+        }
+        memo[b]=true;
+        for (int nei:graph[b]){
+            if(!memo[nei]){
+                al.add(nei);
+                dfs2(nei,graph,memo,al,rs);
+                al.remove(al.size()-1);
+            }
+        }
+        memo[b]=false;
+    }
 }

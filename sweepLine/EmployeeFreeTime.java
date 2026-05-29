@@ -102,4 +102,46 @@ public class EmployeeFreeTime {
         }
         return rs;
     }
+
+    //3/15/2026 基本一次过，没用pq，就是所有interval排序，然后merge，然后遍历interval找slot就行了。再看以前的思路，其实不用merge，
+    //可以直接判断得出答案
+    public List<Interval> employeeFreeTime4(List<List<Interval>> schedule) {
+        List<Interval> all=new ArrayList<>();
+        for (List<Interval> l:schedule){
+            for (int i=0;i<l.size();i++){
+                all.add(l.get(i));
+            }
+        }
+        Collections.sort(all,(a,b)->{
+            if(a.start==b.start){
+                return a.end-b.end;
+            }
+            return a.start-b.start;
+        });
+        Interval pre=all.get(0);
+//        List<Interval> merge=new ArrayList<>();
+//        for (int i=1;i<all.size();i++){
+//            if(all.get(i).start>pre.end){
+//                merge.add(pre);
+//                pre=all.get(i);
+//            }else if(all.get(i).start<=pre.end){
+//                pre.end=Math.max(all.get(i).end,pre.end);
+//            }
+//        }
+//        merge.add(pre);
+        List<Interval> rs=new ArrayList<>();
+        pre=all.get(0);
+        for (int i=1;i<all.size();i++){
+            if(all.get(i).start<=pre.end){
+                pre.end=Math.max(pre.end,all.get(i).end);//省去merge的写法，只更新end就行了，和不merge的有些不一样
+            }else{
+                int start=pre.end;
+                int end=all.get(i).start;
+                rs.add(new Interval(start,end));
+                pre.end=Math.max(pre.end,all.get(i).end);
+            }
+
+        }
+        return rs;
+    }
 }

@@ -4,13 +4,9 @@ import java.util.Stack;
 
 public class DecodeString394 {
     static void main() {
-        System.out.println(decodeString("3[a]2[bc]"));
+        System.out.println(decodeString2("3[a2[c]]"));
     }
-    //由856启发也先加入一个空string进st2里，但是这样处理不了这种情况
-    //2[a2[b]c] 的结构里：
-    //a2[b]c 整体是被 2[...] 包起来的
-    //但我的算法在外层 ] 时，只拿了 最后那个 "c" 当成要重复的子串 cur
-    //而之前已经变成 "abb" 的那一段，被当成外层已有的 temp，结果只重复了 "c"，而不是整个 "abbc"
+
     public static String decodeString(String s) {
         Stack<Integer> st=new Stack<>();
         Stack<String> st2=new Stack<>();
@@ -61,7 +57,7 @@ public class DecodeString394 {
         return st2.pop();
     }
     /*
-    这个是gpt的写法更好
+    这个是gpt的写法更好，但是他这个用cur并且cur需要重置回上一层的不好想，过一段时间写起来还是会按照以前的模拟法写
     public static String decodeString(String s) {
     Deque<Integer> countStack = new ArrayDeque<>();
     Deque<StringBuilder> strStack = new ArrayDeque<>();
@@ -82,7 +78,7 @@ public class DecodeString394 {
             for (int i = 0; i < count; i++) {
                 prev.append(cur);
             }
-            cur = prev; // 回到上一层
+            cur = prev; // 回到上一层，这个不好想
         } else { // 字母
             cur.append(c);
         }
@@ -90,4 +86,55 @@ public class DecodeString394 {
     return cur.toString();
 }
      */
+
+    //3/9/2026 还是不好写，得一点点想，还有有初始化cur=“”的写法也有不用的写法，basic calculator1有cur=0；
+    public static String decodeString2(String s) {
+        Stack<Integer> st1=new Stack<>();
+        Stack<String> st2=new Stack<>();
+        st2.push("");
+
+        char[] ch=s.toCharArray();
+        int i=0;
+        String cur="";
+
+        String rs="";
+        while (i<ch.length){
+            if(ch[i]==']'){
+                int count=st1.pop();
+                String temp=st2.pop();
+                String temp2=st2.pop();
+                for (int j=0;j<count;j++){
+                    temp2+=temp;
+                }
+
+                st2.push(temp2);
+                cur="";
+                i++;
+            }
+            else if(Character.isDigit(ch[i])){
+                st2.push(st2.pop()+cur);//加进rs还是加进st2，应该不是加进rs吧，因为nested的情况如3[cd4[f]]，现在cur是cd遇到4，那肯定不是加进rs
+                cur="";
+                int count=0;
+                while (i<ch.length&&Character.isDigit(ch[i])){
+                    count=count*10+ch[i]-'0';
+                    i++;
+                }
+                st1.push(count);//现在i就必然是‘[’
+                st2.push("");//这个真的很难想
+                i++;
+            }else if(Character.isAlphabetic(ch[i])){
+                while (i<ch.length&&Character.isAlphabetic(ch[i])){
+                    cur+=ch[i];
+                    i++;
+                }
+                st2.push(st2.pop()+cur);
+                cur="";
+            }
+        }
+        if(!st2.isEmpty()){
+            rs+=st2.pop();
+        }
+        return rs;
+
+    }
 }

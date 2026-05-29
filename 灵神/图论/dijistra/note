@@ -5,3 +5,6 @@ https://mp.weixin.qq.com/mp/wappoc_appmsgcaptcha?poc_token=HJ7oFmmjoEbR5aH4u5Zzy
 
 minimum spanning tree最小生成树没看，题目不多
 
+787--->bellman ford, 我以为是dijistra也写不出来
+1334--->多源起点用floyd，记住就是三重循环必须最外层k是中转点，内两层是dist[i][j]。 dist数组先用edge初始化
+743--->基本是标准dijistra可以练

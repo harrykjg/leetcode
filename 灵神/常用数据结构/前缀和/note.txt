@@ -1,0 +1,2 @@
+974---->用prefixsum +hashmap，由于要求（a+b）%k=0，即a%k==b%k,用hashmap的key装这个prefix[i]，value是出现的次数，个关键，就是遍历prefix
+的时候先看这个数取模的值在不在map的，然后再更新map把当前prexif【i】%k的值在map里加1

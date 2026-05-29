@@ -50,4 +50,48 @@ public class MeetingRoomsIII2402 {
         }
         return rs;
     }
+
+
+    //3/14/2026,和第一次想的大多数一样，就是有个情况没考虑，就是所有会议室都有会了，但是下一个会来的时候所有会议室都空了，此时要选编号最小的那个会议室，
+    //不是最早free的那个,写的不好,这里testcase改了，pq里面要用long才行，否则应该有越界
+    public static int mostBooked2(int n, int[][] meetings) {
+        PriorityQueue<long[]> pq=new PriorityQueue<>((a,b)->{
+            if(a[1]==b[1]){
+                return (int)a[0]-(int)a[1];
+            }
+            return (int) a[1]-(int) b[1];
+        });
+        for (int i=0;i<n;i++){
+            pq.offer(new long[]{i,0,0});
+        }
+        int rs=n;
+        long max=0;
+        Arrays.sort(meetings,(a, b)->a[0]-b[0]);
+        for(int i=0;i<meetings.length;i++){
+            while (!pq.isEmpty()&&pq.peek()[1]<meetings[i][0]){
+                long[] cur=pq.poll();
+                cur[1]=meetings[i][0];//都统一成这个meeting开始的时间
+                pq.offer(cur);
+            }
+
+            long[] cur=pq.poll();
+            long end=cur[1];
+            if(end<=meetings[i][0]){
+                end=meetings[i][1];
+            }else{
+                end+=meetings[i][1]-meetings[i][0];
+            }
+
+            pq.offer(new long[]{cur[0],end,cur[2]+1});
+            if(cur[2]+1==max&&cur[0]<rs){
+                rs=(int)cur[0];
+            }
+            if(cur[2]+1>max){
+                max=cur[2]+1;
+                rs=(int)cur[0];
+            }
+
+        }
+        return rs;
+    }
 }

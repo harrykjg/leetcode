@@ -1,0 +1,2 @@
+212--->用trie先把word list的单词插入，然后遍历矩阵dfs，用trie的其实是不是整个trie从头开始搜索cur的字符串，而是每个trie的节点看有没有这个字符，
+并且tire有个property是完整的word，在最后的这个tire的节点上。

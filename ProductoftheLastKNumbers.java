@@ -28,4 +28,26 @@ public class ProductoftheLastKNumbers {
         }
         return prefix.get(prefix.size()-1)/prefix.get(prefix.size()-1-k);
     }
+
+    //5/19/2026，看回第一次的想法
+    List<Integer> prefix2;
+    public ProductoftheLastKNumbers2() {
+        prefix2=new ArrayList<>();
+        prefix2.add(1);
+    }
+    public void add2(int num) {
+        if(num>0){
+            prefix2.add(num*prefix2.get(prefix2.size()-1));
+        }else{
+            prefix2.clear();
+            prefix2.add(1);
+        }
+    }
+    public int getProduct2(int k) {
+        if(k>=prefix2.size()){
+            return -1;
+        }
+        return prefix2.get(prefix2.size()-1)/prefix2.get(prefix2.size()-1-k);
+    }
+
 }

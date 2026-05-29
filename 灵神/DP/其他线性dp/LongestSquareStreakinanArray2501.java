@@ -1,6 +1,6 @@
 package 灵神.DP.其他线性dp;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class LongestSquareStreakinanArray2501 {
     public static void main(String[] args) {
@@ -25,5 +25,24 @@ public class LongestSquareStreakinanArray2501 {
             max=Math.max(max,dp[i]);
         }
         return max==1?-1:max;
+    }
+    //3/1/2026还是以为是sort再dp,看上面提示,后来觉得得用sqrt。
+    public int longestSquareStreak2(int[] nums) {
+        Map<Integer,Integer> map =new HashMap<>();
+        int rs=-1;
+        Arrays.sort(nums);
+        int[] dp=new int[nums.length];
+        Arrays.fill(dp,1);
+        for (int i=0;i<nums.length;i++){
+            map.put(nums[i],1);
+        }
+        for (int i=1;i<nums.length;i++){
+            int root=(int)Math.sqrt(nums[i]);
+            if(map.containsKey(root)&&Math.pow(root,2)==(double)nums[i]){//开始漏了Math.pow(root,2)==(double)nums[i]就错了
+                map.put(nums[i],map.get(root)+1);
+                rs=Math.max(rs,map.get(nums[i]));
+            }
+        }
+        return rs;
     }
 }

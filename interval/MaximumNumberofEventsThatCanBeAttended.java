@@ -78,4 +78,11 @@ public class MaximumNumberofEventsThatCanBeAttended {
         }
         return rs;
     }
+    //5/26/2026原来题目意思这个[start,end】的event，你只要参加随便一天就算参加了。那就就是看回上面的解法，先sort，再扫描天数，加进pq，
+    //当天只能参加一个event，所以有event就rs++并且poll出来
+     public int maxEvents3(int[][] events) {
+
+     }
+
+
 }

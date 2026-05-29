@@ -71,4 +71,9 @@ public class RemoveInvalidParentheses301 {
         }
         return left==right;
     }
+
+    //2/17/2026还是不会，就是把原string放进q里，取出来试着每一个位置删一个元素再判断是否合法，合法就是找到，不合法就放进q里
+    public static List<String> removeInvalidParentheses2(String s) {
+
+    }
 }

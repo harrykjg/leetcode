@@ -1,5 +1,10 @@
 package 灵神.常用数据结构.堆;
 
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.PriorityQueue;
+import java.util.Set;
+
 public class UglyNumberII264 {
     static void main() {
         System.out.println(nthUglyNumber(10));
@@ -33,5 +38,33 @@ public class UglyNumberII264 {
             }
         }
         return rs[n-1];
+    }
+    //3/14/2026还是没想对。
+    //https://leetcode.com/problems/ugly-number-ii/ 这个人这样也行,但是慢，就是要多用一个set
+    public static int nthUglyNumber2(int n) {
+        PriorityQueue<Long> pq=new PriorityQueue<>();
+        pq.offer(1l);
+        int i1=2;
+        int i2=3;
+        int i3=5;
+        Set<Long> set=new HashSet<>();
+        for (int i=1;i<n;i++){
+            long temp=pq.poll();
+            if(!set.contains(i1*temp)){
+                pq.offer(i1*temp);
+                set.add(i1*temp);
+            }
+            if(!set.contains(i2*temp)){
+                pq.offer(i2*temp);
+                set.add(i2*temp);
+            }
+            if(!set.contains(i3*temp)){
+                pq.offer(i3*temp);
+                set.add(i3*temp);
+            }
+
+        }
+        return pq.peek().intValue();
+
     }
 }

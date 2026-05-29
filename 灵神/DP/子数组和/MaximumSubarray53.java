@@ -25,4 +25,21 @@ https://leetcode.cn/problems/maximum-subarray/solutions/2533977/qian-zhui-he-zuo
         }
         return rs;
     }
+
+    //5/9/2026,自己写的，这个应该比用dp更好
+    public static int maxSubArray2(int[] nums) {
+        int rs=nums[0];
+        int pre=nums[0];
+        for (int i=1;i<nums.length;i++){
+            if(pre>=0){
+                int cur=nums[i]+pre;
+                pre=cur;
+                rs=Math.max(cur,rs);
+            }else{
+                rs=Math.max(rs,nums[i]);
+                pre=nums[i];
+            }
+        }
+        return rs;
+    }
 }

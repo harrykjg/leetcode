@@ -30,4 +30,26 @@ public class ScoreofParentheses856 {
 
         return st.pop();
     }
+
+    //3/10/2026这个还是不会，真的不好想
+    public static int scoreOfParentheses2(String s) {
+        int rs=0;
+        char[] ch=s.toCharArray();
+        int i=0;
+        Stack<Integer> st=new Stack<>();
+        st.push(0);
+        while (i<ch.length){
+            if(ch[i]=='('){
+                st.push(0);
+            }else{
+                int cur=st.pop();
+                if(!st.isEmpty()){
+                    int outer=st.pop();
+                    st.push(outer+Math.max(2*cur,1));
+                }
+            }
+            i++;
+        }
+        return st.pop();
+    }
 }

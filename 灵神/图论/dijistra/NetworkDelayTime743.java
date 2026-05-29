@@ -52,4 +52,47 @@ public class NetworkDelayTime743 {
 
         return rs;
     }
+
+    //2/27/2026 最近距离那就得用dijistra了,dist搞错了，只用一维，不是二维
+    public static int networkDelayTime2(int[][] times, int n, int k) {
+        int[] dist=new int[n+1];
+        Map<Integer,Set<int[]>> map=new HashMap<>();
+        Arrays.fill(dist,Integer.MAX_VALUE);
+        dist[k]=0;
+        for (int i=0;i<times.length;i++){
+            map.putIfAbsent(times[i][0],new HashSet<>());
+            map.get(times[i][0]).add(new int[]{times[i][1],times[i][2]});
+        }
+        PriorityQueue<int[]> pq=new PriorityQueue<>((a,b)->a[1]-b[1]);
+        pq.offer(new int[]{k,0});
+        int rs=0;
+        while (!pq.isEmpty()){
+            int[] cur= pq.poll();
+            if(dist[cur[0]]<cur[1]){//为啥要有这个？应该是代表pq里的这个数据已经过时了，已经找到更近的点了，因此不能基于cur去releax了
+                continue;
+            }
+            Set<int[]> neighbour=map.get(cur[0]);
+            if(neighbour!=null){
+                for (int[] nei:neighbour){
+                    int next=nei[0];
+                    int d=nei[1];
+//                    if(d==Integer.MAX_VALUE){ //并不是用d来是否等于max来skip，因为pq里的肯定是有通路的
+//                        continue;
+//                    }
+
+                    if(dist[next]>cur[1]+d){
+                        dist[next]=cur[1]+d;
+                        pq.offer(new int[]{next,dist[next]});
+                    }
+                }
+            }
+        }
+        for (int i=1;i<dist.length;i++){
+            if (dist[i]==Integer.MAX_VALUE){
+                return -1;
+            }
+            rs=Math.max(rs,dist[i]);
+        }
+        return rs;
+    }
 }

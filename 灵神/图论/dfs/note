@@ -1,1 +1,4 @@
-注意count+=dfs（next）如2101这种算个数的
+注意count+=dfs（next）如2101这种算个数的,695和这个很像
+2092---》加了时间维度的，按时间维度推进。map<Integer,Map<Integer,Set<Integer>>>存时间对应的在这个时间每个人的开会的人
+490----》他这种dfs就不需要memo reset成false，在要求路径或者不能重复用格子的情况下的题目如wordsearch的才需要reset，这题只是表示这个点
+是否访问过，和从哪来的没关系，从哪来都一样，因此不需要reset memo，否则超时
