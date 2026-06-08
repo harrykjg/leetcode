@@ -42,7 +42,6 @@ public class ValidTicTacToeState794 {
                 ywin=true;
             }
         }
-
         //对角线1
         char c=board[0].charAt(0);
         if(c==board[1].charAt(1)&&c==board[2].charAt(2)){
@@ -72,7 +71,6 @@ public class ValidTicTacToeState794 {
         if(ywin){
             return x==o;
         }
-
         if(x-o>=2){
             return false;
         }
@@ -81,5 +79,4 @@ public class ValidTicTacToeState794 {
         }
         return true;
     }
-
 }

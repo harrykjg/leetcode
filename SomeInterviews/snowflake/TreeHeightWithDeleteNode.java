@@ -3,7 +3,6 @@ package SomeInterviews.snowflake;
 import java.util.*;
 
 public class TreeHeightWithDeleteNode {
-
     public static void main(String[] args) {
         System.out.println("===== Test 1 =====");
         // Tree structure:
@@ -142,57 +141,37 @@ public class TreeHeightWithDeleteNode {
         star1.children = Arrays.asList(star2, star3, star4, star5);
         int res8 = (new TreeHeightWithDeleteNode()).calculateHeight(star1, Arrays.asList(2, 3, 4, 5));
         System.out.println(res8); // Expected: 1
-
-}
-
-
+    }
     //https://www.hack2hire.com/companies/snowflake/coding-questions/69bc55471cbff60a929be330/practice?questionId=69bc554c1cbff60a929be332&src=eg1
-    //这题我自己写的就是真的去删除节点的，那样挺难写的，因为你需要从从parent那里看每个children到底该不该删，该删的话要该parent的children，挺不好写的。
-    // 其实看gpt说其实不需要，只需要看当前节点是否被删除，就能判断其是否能贡献1个高度。以下是自己写的，貌似也能通过test case但是比较复杂
+    //这题我自己写的就是真的去删除节点的，那样挺难写的，因为你需要从从parent那里看每个children到底该不该删，
+    // 该删的话要该parent的children，挺不好写的。其实看gpt说其实不需要，只需要看当前节点是否被删除，就能判断其是否能贡献1个高度。
     int height=0;
-    public int calculateHeight(TreeNode root, List<Integer> deletedIds) {
+    public int calculateHeight(TreeNode root,List<Integer> deletedIds) {
         Set<Integer> set=new TreeSet<>(deletedIds);
         if(root==null){
             return 0;
         }
-        height=1;
-        TreeNode parent=new TreeNode(0);
-        parent.children.add(root);
-
-        dfs(parent,set,0);
+        dfs(root,set,0);
         return height;
     }
-    //这个dfs的逻辑和算高度到底怎么结合。从parent看其children，如果parent不为空，height可以+1吗，应该不行，因为你这个parent也可能是被删的。
-    //
-    void dfs(TreeNode parent,Set<Integer> set,int cur){
-        if(parent==null){
+    //这个dfs就看当前node是否是被删的，不是的话就当前height+1继续dfs children，否则就height不加1dfs children
+    void dfs(TreeNode root,Set<Integer> set,int cur){
+        if(root==null){
             return;
         }
-
-        List<TreeNode> children=parent.children;
-        List<TreeNode> newChildren=new ArrayList<>();
-        boolean found=false;
-        for(TreeNode child:children){
-            if(child!=null&&set.contains(child.val)){
-                found=true;
-                List<TreeNode> grandchildren=child.children;
-                newChildren.addAll(grandchildren);
-            }else if(child!=null){
-                newChildren.add(child);
+        if(set.contains(root.val)){
+            if(root.children.size()!=0){
+                for (TreeNode child: root.children){
+                    dfs(child,set,cur);
+                }
             }
-        }
-        parent.children=newChildren;
-        if(found){
-            dfs(parent,set,cur);//找到被删除的，把grandchildren拿过来，那么就要再检测一次
         }else{
-            for (TreeNode child:newChildren){
-                dfs(child,set,cur+1);
+            height=Math.max(cur+1,height);
+            if(root.children.size()!=0){
+                for (TreeNode child: root.children){
+                    dfs(child,set,cur+1);
+                }
             }
-        }
-        if(newChildren.size()!=0){//这个其实挺不好理解，cur到底是指parent的node
-            height=Math.max(height,cur+1);
-        }else{
-            height=Math.max(height,cur);
         }
 
     }
@@ -206,33 +185,86 @@ public class TreeHeightWithDeleteNode {
         if (node == null) {
             return depth;
         }
-
         // 如果当前 node 被删，它不贡献高度
         // 如果没被删，它贡献 1 层
         int newDepth = deleted.contains(node.id) ? depth : depth + 1;
-
         // leaf
         if (node.children == null || node.children.isEmpty()) {
             return newDepth;
         }
-
         int max = newDepth;
-
         for (Node child : node.children) {
             max = Math.max(max, dfs(child, deleted, newDepth));
         }
-
         return max;
     }
      */
 
     //follow-up是反过来：给定一个k，问最少删除多少个节点能让树高度不超过k
+    private Map<String, Integer> memo = new HashMap<>();
+    private static final int INF = 1_000_000_000;
+    public int minDeleteToHeightAtMostK(TreeNode root, int k) {
+        if (root == null) {
+            return 0;
+        }
+        // root 不能删，所以如果 k < 1，一定不可能
+        if (k < 1) {
+            return -1;
+        }
+        // root 必须保留，占用 1 层高度
+        // 所以 root 的 children 最多还能保留 k - 1 个节点
+        int ans = 0;
+        for (TreeNode child : root.children) {
+            ans += dfs(child, k - 1);
+        }
+        return ans;
+    }
+    // dfs(node, remain)
+    // 含义：
+    // 从 node 这个位置开始往下，
+    // 在每条 root-to-leaf 路径上，最多还能保留 remain 个节点。
+    // 返回：
+    // 为了满足这个限制，node 这个 subtree 最少要删除多少个节点。
+    private int dfs(TreeNode node, int remain) {
+        if (node == null) {
+            return 0;
+        }
+        String key = node.val + "#" + remain;
+        if (memo.containsKey(key)) {
+            return memo.get(key);
+        }
+        // 选择 1：删除当前 node
+        // 删除 node 的 cost 是 1。
+        // 但是注意：
+        // 删除 node 后，它的 children 会被提升到 node 的 parent。
+        // 所以 children 仍然要继续处理。
+        // 而且因为 node 被删了，没有占用高度，
+        // children 还能使用同样的 remain。
+        int deleteCost = 1;
+        for (TreeNode child : node.children) {
+            deleteCost += dfs(child,remain);
+        }
+        // 选择 2：保留当前 node
+        // 如果保留 node，那么 node 本身会占用 1 层高度。
+        // 所以 children 只能使用 remain - 1。
+        // 如果 remain == 0，说明已经不能再保留任何节点，
+        // 那当前 node 不能保留。
+        int keepCost = INF;
+        if (remain > 0) {
+            keepCost = 0;
+            for (TreeNode child : node.children) {
+                keepCost += dfs(child, remain - 1);
+            }
+        }
+        int ans = Math.min(deleteCost, keepCost);
+        memo.put(key, ans);
+        return ans;
+    }
 }
 
 class TreeNode {
     int val;
     List<TreeNode> children;
-
     TreeNode(int val) {
         this.val = val;
         this.children = new ArrayList<>();

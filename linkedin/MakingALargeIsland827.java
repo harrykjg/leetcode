@@ -42,7 +42,6 @@ public class MakingALargeIsland827 {
                                 set.add(root);
                                 temp+=uf.count[uf.find(row*grid[0].length+col)];
                             }
-
                         }
                     }
                     rs=Math.max(rs,temp);

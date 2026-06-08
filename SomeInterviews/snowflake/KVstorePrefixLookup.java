@@ -40,21 +40,17 @@ public class KVStore {
     public void begin() {
         txns.push(new HashMap<>());
     }
-
     // 提交当前 transaction
     public void commit() {
         if (txns.isEmpty()) {
             throw new IllegalStateException("No active transaction");
         }
-
         // 弹出当前 transaction
         Map<String, TxnValue> top = txns.pop();
-
         // 如果外面还有 transaction，说明是 nested transaction
         // 那么当前 transaction 的修改合并到父 transaction
         if (!txns.isEmpty()) {
             Map<String, TxnValue> parent = txns.peek();
-
             for (Map.Entry<String, TxnValue> entry : top.entrySet()) {
                 parent.put(entry.getKey(), entry.getValue());
             }
@@ -63,7 +59,6 @@ public class KVStore {
             for (Map.Entry<String, TxnValue> entry : top.entrySet()) {
                 String key = entry.getKey();
                 TxnValue val = entry.getValue();
-
                 // 如果当前 transaction 里删除了这个 key
                 // commit 后 base 里也要删除
                 if (val.deleted) {
@@ -75,24 +70,20 @@ public class KVStore {
             }
         }
     }
-
     // 回滚当前 transaction
     public void rollback() {
         if (txns.isEmpty()) {
             throw new IllegalStateException("No active transaction");
         }
-
         // 直接丢弃当前 transaction layer
         txns.pop();
     }
-
     // 插入新 key
     public void set(String key, int value) {
         // set 要求 key 不存在
         if (containsKey(key)) {
             throw new IllegalArgumentException("Key already exists: " + key);
         }
-
         put(key, value);
     }
 
@@ -103,12 +94,10 @@ public class KVStore {
         for (Map<String, TxnValue> txn : txns) {
             if (txn.containsKey(key)) {
                 TxnValue val = txn.get(key);
-
                 // 如果当前 transaction 标记这个 key 被删除
                 if (val.deleted) {
                     return -1;
                 }
-
                 // 否则返回 transaction 里的最新值
                 return val.value;
             }

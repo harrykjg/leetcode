@@ -64,7 +64,7 @@ public class LongestMountaininArray845 {
         }
         return rs;
     }
-    //5/28/2026
+    //5/28/2026自己写的改了几次，就是左扫一次又扫一次，右扫的时候就用一个变量就行了
     public static int longestMountain3(int[] arr) {
         int[] left=new int[arr.length];
         Arrays.fill(left,1);
@@ -81,7 +81,7 @@ public class LongestMountaininArray845 {
             }else{//这个容易漏
                 right=1;
             }
-            if((left[i]>1&&right>1)){
+            if(left[i]>1&&right>1){//这个条件能防止只有单边上升或下降的情况，也能保证长度必须大于等于3
                 rs=Math.max(rs,left[i]+right-1);
             }
         }

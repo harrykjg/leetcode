@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -5,7 +6,7 @@ public class TimeBasedKeyValueStore {
     //8/9/2021 就是map里装treemap，treemap用timestamp做key，就可以按时间取得value了
     Map<String, TreeMap<Integer,String>> map=new TreeMap<>();
     public TimeMap() {
-
+        map=new HashMap<>();
     }
 
     public void set(String key, String value, int timestamp) {
