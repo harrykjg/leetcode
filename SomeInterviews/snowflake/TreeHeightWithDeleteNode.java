@@ -212,7 +212,7 @@ public class TreeHeightWithDeleteNode {
             return -1;
         }
         // root 必须保留，占用 1 层高度
-        // 所以 root 的 children 最多还能保留 k - 1 个节点
+        // 所以 root 的 children 最多还能保留 k - 1 个高度
         int ans = 0;
         for (TreeNode child : root.children) {
             ans += dfs(child, k - 1);
