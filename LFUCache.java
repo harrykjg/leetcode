@@ -18,9 +18,7 @@ public class LFUCache {//关键是怎么记录谁是最不recently被访问的,�
         frequency=new HashMap<>();
         map=new HashMap<>();
         cap=capacity;
-
     }
-
     public int get(int key) {
         if(!map.containsKey(key)){
             return -1;
@@ -57,7 +55,6 @@ public class LFUCache {//关键是怎么记录谁是最不recently被访问的,�
             minFrequency.get(minFreq).remove(removeKey);
             frequency.remove(removeKey);
             map.remove(removeKey);
-
         }
         map.put(key,value);
         frequency.put(key,1);
@@ -69,7 +66,5 @@ public class LFUCache {//关键是怎么记录谁是最不recently被访问的,�
         }else{
             minFrequency.get(minFreq).add(key);
         }
-
     }
-
 }

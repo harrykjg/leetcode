@@ -65,7 +65,6 @@ public class producerComsumerProblem {
         t5.start();
         p5.start();
     }
-
 }
 class comsumer implements Runnable{
     BlockingQueue<Integer> bq;
@@ -97,7 +96,6 @@ class producer implements Runnable{
         this.bq=bq;
     }
     public void produce(){
-
 //        while (true) {
             try {
                 bq.put(1);
@@ -108,7 +106,6 @@ class producer implements Runnable{
 //        }
 
     }
-
     @Override
     public void run() {
         produce();

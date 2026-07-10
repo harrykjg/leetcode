@@ -1,4 +1,4 @@
-package 灵神.贪心;
+    package 灵神.贪心;
 
 import java.util.Arrays;
 

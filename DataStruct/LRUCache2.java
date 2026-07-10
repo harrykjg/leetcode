@@ -30,11 +30,9 @@ public class LRUCache2{
         }
         return -1;
     }
-
     public void put(int key, int value) {
         if(!map.containsKey(key)){
             DoublyNode node=new DoublyNode(key,value);
-
             if(curCap==0){
                 node.pre=node;
                 node.next=node;
@@ -61,7 +59,6 @@ public class LRUCache2{
             node.val=value;
             putToHead(node);
         }
-
     }
     void putToHead(DoublyNode node){
         if(node==head){
