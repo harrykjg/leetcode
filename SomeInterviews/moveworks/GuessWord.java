@@ -56,7 +56,7 @@ word_pool (字符串列表)：一个包含所有可能单词的候选集合。
                 candidate.add(s);
             }
         }
-        //从candidate中把包含已经猜过的字符的单词删掉。现在已经不需要了，原因是上面if(guessedSet.contains(s.charAt(j))){这
+        //从candidate中把包含已经猜过的字符的单词删掉。---》现在已经不需要了，原因是上面if(guessedSet.contains(s.charAt(j))){这
         //已经保证了包含已经猜过字符的单词不会进入candidate
 //        for (char c:guessed){
 //            if(!pattern.contains(String.valueOf(c))){
@@ -89,5 +89,78 @@ word_pool (字符串列表)：一个包含所有可能单词的候选集合。
         }
         return guess;
 
+    }
+    /*
+    另一个版本
+    output a char that have highest probability in the candidate pools这个probability在题干里面定义很特殊：
+    如果你猜字母x，x要存在在最多的eligible candidate words中eligible的定义来源于mystery word本身的pattern和
+    guessed_char如果不match mysteryword的pattern或是在guessed_char里面那些猜错的字母里有的都不elgibile如果两个字
+    母都match了一样多的eligiblewords就看哪个字母在eligible words里面出现的频率高；如果以上两个条件都是tie那就要看
+    alphabetically两个字母谁排前面）
+     */
+    public char guess(String pattern, List<Character> guessed, List<String> pool) {
+        List<String> candidate=new ArrayList<>();//可以有重复
+        Set<Character> guessedSet=new HashSet<>(guessed);
+        for (String word : pool) {
+            if (word.length() != pattern.length()) {
+                continue;
+            }
+            boolean match = true;
+            char[] ch = word.toCharArray();
+            for (int i = 0; i < ch.length; i++) {
+                if (pattern.charAt(i) == '_') {
+                    if (guessedSet.contains(ch[i])) {
+                        match = false;
+                        break;
+                    }
+                } else if (ch[i] != pattern.charAt(i)) {
+                    match = false;
+                    break;
+                }
+            }
+            if (match) {
+                candidate.add(word);
+            }
+        }
+        //统计某个字符在所有candidate里出现多少次
+        int[] count=new int[26];
+        //统计某个字符在多少个candidate里出现过,这个有点难统计，要等所有char count统计过之后再遍历所有的candidate吗，
+        //不是，巧妙的方法就是用一个seenInThisWord
+        int[] appearcount=new int[26];
+        for (String can:candidate){
+            boolean[] seenInThisWord = new boolean[26];
+            char[] wch=can.toCharArray();
+            for (int i=0;i<wch.length;i++){
+                if(guessedSet.contains(wch[i])){
+                    continue;
+                }
+                int idx=wch[i]-'a';
+                count[idx]++;
+                if(!seenInThisWord[idx]){
+                    seenInThisWord[idx]=true;
+                    appearcount[idx]++;
+                }
+            }
+        }
+        int rs=-1;
+        int max=-1;
+        for (int i=0;i<26;i++){
+            char c = (char) ('a' + i);
+            if (guessedSet.contains(c)) {//这个容易漏
+                continue;
+            }
+            if(appearcount[i]>=max){
+                if(max==appearcount[i]){
+                    if(count[i]>count[rs]){
+                        rs=i;
+                    }
+                }else{
+                    max=appearcount[i];
+                    rs=i;
+                }
+            }
+        }
+
+        return rs == -1 ? '_' : (char) (rs + 'a');
     }
 }
