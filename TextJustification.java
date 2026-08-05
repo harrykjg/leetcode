@@ -107,7 +107,6 @@ public class TextJustification {
                 wordlen+=words[i].length();
                 l+=words[i].length()+1;
                 i++;
-
             }
             int spaces=len-wordlen;
             StringBuilder sb=new StringBuilder();
@@ -149,7 +148,6 @@ public class TextJustification {
                     rs.add(sb.toString());
                 }
             }
-
         }
         return rs;
     }

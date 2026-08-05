@@ -15,8 +15,6 @@ word_pool (字符串列表)：一个包含所有可能单词的候选集合。
 示例：["ball", "bold", "boat", "card", "band"]
 过程
 符合 "b___" 的候选单词为 ["ball", "bold", "boat", "band"]。其中 "band" 含 'n'（已猜过，且不在 pattern 中），需排除。剩余候选为 ["ball", "bold", "boat"]，最后返回"l"。
-
-
     关键1.n已经猜过，但是没在b___里，说明没猜中，如果猜中应该就再b___里,因此有n的待选string要被排除，即band会被排除
     关键2，那么剩下可能得string里，如ball，bold，boat，统计剩余的字符出现的次数得
     ball -> a, l, l
@@ -93,8 +91,8 @@ word_pool (字符串列表)：一个包含所有可能单词的候选集合。
     /*
     另一个版本
     output a char that have highest probability in the candidate pools这个probability在题干里面定义很特殊：
-    如果你猜字母x，x要存在在最多的eligible candidate words中eligible的定义来源于mystery word本身的pattern和
-    guessed_char如果不match mysteryword的pattern或是在guessed_char里面那些猜错的字母里有的都不elgibile如果两个字
+    如果你猜字母x，x要存在在最多的eligible candidate words中（即x出现在几个candidate里）。eligible的定义来源于mystery word本身的pattern和
+    guessed_char。如果不match mysteryword的pattern或是在guessed_char里面那些猜错的字母里有的都不elgibile如果两个字
     母都match了一样多的eligiblewords就看哪个字母在eligible words里面出现的频率高；如果以上两个条件都是tie那就要看
     alphabetically两个字母谁排前面）
      */

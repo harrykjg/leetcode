@@ -12,7 +12,6 @@ public class SmallestProportionString {
     /*
 https://leetcode.com/discuss/post/4520538/moveworks-sde-2-l4-interview-by-anonymou-vgby/
 Part 1
-
 Given a list of strings, select the strings where the most common character has the smallest proportion in its string.
 If multiple strings have the same proportion, select all the strings with the smallest proportion.
 
@@ -25,7 +24,8 @@ Example: ["aba", "ab", "abbcdd"]
 The smallest proportion is 2/6, so we select the last string "abbcdd" and return the characters that are only present in this string: "cdd".
 
 Part 2 (if time allows)
-The 2nd parameter (boolean) is to use Jaccard Similarity instead of most common character. If this parameter is True, refactor your code to select the strings that have the lowest average Jaccard Similarity when compared to every other string.
+The 2nd parameter (boolean) is to use Jaccard Similarity instead of most common character. If this parameter is True,
+ refactor your code to select the strings that have the lowest average Jaccard Similarity when compared to every other string.
 The rest of your code for Part 1 is the same: return a string composed of the characters that are uniquely present in the selected strings across the entire list.
 The Jaccard Similarity is a pair-wise comparision calculated with the formula:
 J(S1,S2) = len(intersection(S1,S2)) / len(union(S1,S2))
@@ -50,7 +50,7 @@ part2, 在part1 的基础上加一个要求，假设有一个function def xyz(s1
 part3, 写part2 假设的function def xyz(s1: str, s2: str) -> float. 来算 similarity score（计算规则我没看到，面试官到时间就关界面了）
      */
     public String solve(List<String> strings) {
-        Map<Character,Integer> map=new HashMap<>();
+        Map<Character,Integer> map=new HashMap<>();//用来统计全局的字符，然后减去selected单词的字符，就知道count=0的是只出现在selected里的
         List<String> selected = new ArrayList<>();
         double proportion=Double.MAX_VALUE;
 
@@ -80,7 +80,6 @@ part3, 写part2 假设的function def xyz(s1: str, s2: str) -> float. 来算 sim
                 map.put(c,map.get(c)-1);
             }
         }
-
         StringBuilder sb=new StringBuilder();
         //题目意思就是所有的selected的字符，并且没再别的地方出现的，就直接append到一起吧
         for (String s: selected) {
@@ -91,16 +90,13 @@ part3, 写part2 假设的function def xyz(s1: str, s2: str) -> float. 来算 sim
                 sb.append(c);
             }
         }
-
         return sb.toString();
     }
-
     //part2 直接抄gpt，solve方法及时多了个flag去选择是用part 1方法得出的结果集还是part 2方法得出的结果集
     public String solve(List<String> strings, boolean useJaccard) {
         if (strings == null || strings.isEmpty()) {
             return "";
         }
-
         Map<Character, Integer> global = new HashMap<>();
         List<String> selected;
 
@@ -114,13 +110,11 @@ part3, 写part2 假设的function def xyz(s1: str, s2: str) -> float. 来算 sim
         } else {
             selected = selectByMostCommonProportion(strings);
         }
-
         for (String s : selected) {
             for (char c : s.toCharArray()) {
                 global.put(c, global.get(c) - 1);
             }
         }
-
         StringBuilder sb = new StringBuilder();
         for (String s : selected) {
             for (char c : s.toCharArray()) {

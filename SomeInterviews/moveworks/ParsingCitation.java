@@ -76,14 +76,10 @@ public class ParsingCitation {
     //part 2，gpt的代码
     public List<int[]> mergeCitationRanges(String s1, String s2) {
         List<int[]> intervals = new ArrayList<>();
-
         intervals.addAll(parseCitations(s1));
         intervals.addAll(parseCitations(s2));
-
         intervals.sort((a, b) -> a[0] - b[0]);
-
         List<int[]> res = new ArrayList<>();
-
         for (int[] cur : intervals) {
             if (res.isEmpty()) {
                 res.add(cur);
@@ -97,8 +93,6 @@ public class ParsingCitation {
                 }
             }
         }
-
         return res;
     }
-
 }

@@ -18,13 +18,14 @@ public class SynonymousSentences1258 {
             union(a, b);
         }
         // 2. Build root -> all words in this connected component
-        Map<String, List<String>> groups = new HashMap<>();
+        Map<String, List<String>> groups = new HashMap<>();//这个里面的list包含了这个root自己
         for (String word : parent.keySet()) {
             String root = find(word);
             groups.putIfAbsent(root, new ArrayList<>());
-            groups.get(root).add(word);
+            groups.get(root).add(word);//如果root就是自己的话，也会加进来
         }
-        // Sort each group so DFS generates lexicographical order more naturally
+        // Sort each group so DFS generates lexicographical order more naturally，不加这一步也行，因为后面sort了，或者这里sort，
+        //结果集不用sort也对
         for (List<String> group : groups.values()) {
             Collections.sort(group);
         }
@@ -33,19 +34,15 @@ public class SynonymousSentences1258 {
         Collections.sort(rs);
         return rs;
     }
-    void dfs(int b,
-             String cur,
-             String[] arr,
-             Map<String, List<String>> groups,
-             List<String> rs) {
+    void dfs(int b, String cur, String[] arr, Map<String, List<String>> groups, List<String> rs) {
         if (b == arr.length) {
             rs.add(cur.trim());
             return;
         }
         String word = arr[b];
-        if (!parent.containsKey(word)) {
+        if (!parent.containsKey(word)) {//之前只对有同义词的进行了id设置，因此没有id就意味着没用同义词，直接用上
             dfs(b + 1, cur + " " + word, arr, groups, rs);
-        } else {
+        } else {//否则用他的邻居+自己。自己已经加在goupds里了
             String root = find(word);
             List<String> options = groups.get(root);
             for (String option : options) {
