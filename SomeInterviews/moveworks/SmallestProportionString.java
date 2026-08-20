@@ -225,7 +225,7 @@ S1 + S2 长度是 6 + 6 = 12，但 union 只需要保留足够多的字符来覆
             union += Math.max(countA, countB);
         }
         if (union == 0) {
-            return 1.0;
+            return 1.0;//?
         }
         return (double) intersection / union;
     }

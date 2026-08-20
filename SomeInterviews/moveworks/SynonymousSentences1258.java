@@ -22,7 +22,7 @@ public class SynonymousSentences1258 {
         for (String word : parent.keySet()) {
             String root = find(word);
             groups.putIfAbsent(root, new ArrayList<>());
-            groups.get(root).add(word);//如果root就是自己的话，也会加进来
+            groups.get(root).add(word);//如果root==word，也会加进来
         }
         // Sort each group so DFS generates lexicographical order more naturally，不加这一步也行，因为后面sort了，或者这里sort，
         //结果集不用sort也对
