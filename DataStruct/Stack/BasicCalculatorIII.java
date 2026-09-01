@@ -207,9 +207,7 @@ public class BasicCalculatorIII {
         return -1;
     }
 
-    //9/8/2021 思路是有的，写出来不太好，关键是判断"（"之后我这写的是直接加入栈，那么2*（xxx）这种就处理不了，要处理的话就要遇到*和/的时候看后面是数字还是括号
-    //那样又不知道咋的写不对，还是看回以前要先弄出first的写法。，看到括号先把括号里的计算出来，否则就是得出第一个数字，再在同一个while里看下一个字符，加减的话
-    // 就直接push第一个数字入栈，乘除
+    //9/8/2021 这个写法还凑活，容易懂
     public int calculate3(String s) {
         s=s.replace(" ","");
         Stack<Integer> st=new Stack<>();

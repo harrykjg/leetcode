@@ -28,7 +28,8 @@ public class LFUCache {//关键是怎么记录谁是最不recently被访问的,�
 
         minFrequency.get(tempFreq).remove(key);//minFrequency也要删除这个freuqncy
         //注意容易漏，而且不好理解，如果这个tempFreq是等于minFreq，并且已经不存在这个minFreq的元素的话，minFreq++，为啥加一就行了？怎么知道倒数第二个frequency是多少？是因为
-        if(tempFreq==minFreq && minFrequency.get(tempFreq).size()==0){//这个frequency肯定是1个一个增长的，既然你当前访问的这个数是最不常被访问的数，你现在get了他一下，那么倒数第二小的frequency当然是++了
+        if(tempFreq==minFreq && minFrequency.get(tempFreq).size()==0){//这个frequency肯定是1个一个增长的，既然你当前访问的这个数是最不常被访问的数,而且这个minfreq里
+            //没有别的了 ，那么minfreq肯定不存在了，那么这个元素作为原来的minFreq，当然要+1了，因为当前就是get的他
             minFreq++;
         }
         if(!minFrequency.containsKey(tempFreq+1)){
@@ -36,7 +37,7 @@ public class LFUCache {//关键是怎么记录谁是最不recently被访问的,�
             lset.add(key);
             minFrequency.put(tempFreq+1,lset);
         }else{
-            minFrequency.get(tempFreq+1).add(key);
+            minFrequency.get(tempFreq+1).add(key);//放在尾部
         }
         return map.get(key);
     }
@@ -45,13 +46,13 @@ public class LFUCache {//关键是怎么记录谁是最不recently被访问的,�
         if(cap<=0) {
             return;
         }
-        if(map.containsKey(key)){
+        if(map.containsKey(key)){//frequency不变
             map.put(key,value);
             get(key);
             return;
         }
         if(map.size()>=cap){
-            int removeKey=minFrequency.get(minFreq).iterator().next();
+            int removeKey=minFrequency.get(minFreq).iterator().next();//由于这个linkedlist里是append在后面得，因此第一个就是最老的
             minFrequency.get(minFreq).remove(removeKey);
             frequency.remove(removeKey);
             map.remove(removeKey);

@@ -46,5 +46,5 @@ public class GuesstheWord {
          }
          return count;
     }
-
+    //8/25/2026,稍微画个图理解一下，假如word A 和master match=2，确实下一个候选的candidate要和word A有2个match才可能是答案。
 }

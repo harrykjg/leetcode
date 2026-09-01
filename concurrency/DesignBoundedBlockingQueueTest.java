@@ -120,8 +120,11 @@ class DesignBoundedBlockingQueue {
 ////        lock.lockInterruptibly();//ReentrantLock.lockInterruptibly允许在等待时由其它线程调用等待线程的Thread.interrupt方法来中断等待线程的
 ////        等待而直接返回，这时不用获取锁，而会抛出一个InterruptedException。 ReentrantLock.lock方法不允许Thread.interrupt中断,即使检测
 ////        到Thread.isInterrupted,一样会继续尝试获取锁，失败则继续休眠。只是在最后获取锁成功后再把当前线程置为interrupted状态,然后再中断线程。
+    //如果我们将 lock.lock() 放在 try 块内部，一旦它抛出异常，程序会跳转到 catch 或 finally 块。
+    //如果在 finally 块中无条件调用 lock.unlock()，而锁从未成功获取，这将导致一个巨大的错误：试图解锁一个未持有的锁，这会抛出IllegalMonitorStateException，会崩
+//        lock.lock();// lock拿不到锁会一直等待。tryLock是去尝试，拿不到就返回false，拿到返回true。
 //        try {
-//            lock.lock();// lock拿不到锁会一直等待。tryLock是去尝试，拿不到就返回false，拿到返回true。
+/
 //            while (q.size()==cap){
 //                producer.await();//await是condition的方法而wait是object的方法，两者差不多。
 //            }

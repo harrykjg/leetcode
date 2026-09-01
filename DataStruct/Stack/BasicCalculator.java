@@ -153,7 +153,7 @@ public class BasicCalculator {
         return rs;
     }
 
-    //9/29/2018,一次过，要记清楚，basiccalculator1，并且stack是存符号的
+    //9/29/2018,一次过，要记清楚，basiccalculator1，并且stack是存符号+-1
     public int calculate4(String s) {
         if(s.length()==0){
             return 0;

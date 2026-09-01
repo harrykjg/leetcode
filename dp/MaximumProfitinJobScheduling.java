@@ -15,6 +15,8 @@ public class MaximumProfitinJobScheduling {
     //思路看他https://www.youtube.com/watch?v=0C7re8lam7M  5分45开始
     //https://blog.csdn.net/u013325815/article/details/106991444 代码参考他
     //不知道为啥还是超时，和第二个链接的代码其实只是他那里创建了一个class去存start end profit而我这用的数组
+    //居然不需要二维dp，一维dp【i】的意义就是在时间0到i区间中能取得的最大profit，则dp[i]=Max（dp[i-1],profit[i]+dp[j]),就是不取当前
+    //i这个结尾的profix，或取当前以i结尾的profit+ 这个i区间start之前的dp[j]
     public int jobScheduling(int[] startTime, int[] endTime, int[] profit) {
         int[][] pairs=new int[startTime.length][startTime.length];
         for (int i=0;i<startTime.length;i++){
@@ -34,8 +36,8 @@ public class MaximumProfitinJobScheduling {
         dp[0]=pairs[0][2];
         for (int i=1;i<dp.length;i++){
             int[] cur=pairs[i];
-            int floor=find(pairs,i);
-            if (floor==-1){
+            int floor=find(pairs,i);//找job的end是小于第i个job的start的那个index
+            if (floor==-1){//前面没有job可以干
                 dp[i]=Math.max(dp[i-1],cur[2]);
                 continue;
             }else {
