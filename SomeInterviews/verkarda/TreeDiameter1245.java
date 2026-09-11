@@ -36,7 +36,6 @@ public class TreeDiameter1245 {
             for (int i=0;i<size;i++){
                 int cur=q.poll();
                 who=cur;//反正最后的肯定是最远的
-
                 Set<Integer> set=map.get(cur);
                 if(!set.isEmpty()){
                     for (int nei:set){

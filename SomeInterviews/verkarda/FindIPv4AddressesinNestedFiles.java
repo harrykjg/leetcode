@@ -34,12 +34,9 @@ public class FindIPv4AddressesinNestedFiles {
         char[] ch=s.toCharArray();
         int index=0;
         while (index<ch.length){
-
             if(Character.isDigit(ch[index])){//找到一个digit就开始看是不是ip
                 // IP 前面不能紧挨 digit 或 '.'
-                if (index > 0 &&
-                        (Character.isDigit(s.charAt(index - 1))
-                                || s.charAt(index - 1) == '.')) {
+                if (index > 0 && (Character.isDigit(s.charAt(index - 1)) || s.charAt(index - 1) == '.')) {
                     index++;
                     continue;
                 }

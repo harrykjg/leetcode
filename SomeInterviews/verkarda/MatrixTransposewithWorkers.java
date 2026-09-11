@@ -37,7 +37,7 @@ Output: [[1, 6, 11, 16, 21], [2, 7, 12, 17, 22], [3, 8, 13, 18, 23], [4, 9, 14, 
         }
         return matrix;
     }
-    //这个是答案依据hack2hire的答案叫gpt改写的
+    //多线程版，这个是答案依据hack2hire的答案叫gpt改写的
     public int[][] transpose2(int[][] matrix, int numThreads) {
         int n = matrix.length;
         if (n <= 1) {
@@ -62,7 +62,7 @@ Output: [[1, 6, 11, 16, 21], [2, 7, 12, 17, 22], [3, 8, 13, 18, 23], [4, 9, 14, 
                      */
                     for (int i = tid; i < n - 1; i += workers) {
                         // 只处理主对角线上方 (i, j) 和 (j, i) 交换
-                        for (int j = i + 1; j < n; j++) {
+                        for (int j = i + 1; j < n; j++) {//j=i+1即j>i
                             int temp = matrix[i][j];
                             matrix[i][j] = matrix[j][i];
                             matrix[j][i] = temp;

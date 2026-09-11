@@ -80,7 +80,7 @@ Map the Rank enum to its corresponding integer value (A=1 ... K=13) to simplify 
                 hand.sort(new Comparator<Card>() {//注意comparator的写法
                     @Override
                     public int compare(Card o1, Card o2) {
-                        int suitCompare = o1.suit.compareTo(o2.suit);//注意enum类怎么比较
+                        int suitCompare = o1.suit.compareTo(o2.suit);//注意enum类怎么比较，就是按声明的顺序
                         if(suitCompare==0){
                             return o1.rank.getValue()-o2.rank.getValue();
                         }
@@ -117,7 +117,6 @@ Map the Rank enum to its corresponding integer value (A=1 ... K=13) to simplify 
         public String toString() {
             return "{" + rank.getValue() + ":" + suit + "}";
         }
-
         @Override
         public boolean equals(Object o) {
             if (this == o)
@@ -127,7 +126,6 @@ Map the Rank enum to its corresponding integer value (A=1 ... K=13) to simplify 
             Card card = (Card) o;
             return suit == card.suit && rank == card.rank;
         }
-
         @Override
         public int hashCode() {
             return 31 * suit.hashCode() + rank.hashCode();

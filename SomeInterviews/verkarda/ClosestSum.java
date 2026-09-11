@@ -23,7 +23,7 @@ public class ClosestSum {
         for (int i=0;i<nums.length;i++){
             //这里写j>=nums[i]也行，那么里面的if j-nums[i]>=0就不用写了
             for (int j=target;j>=0;j--){//这里注意，这是0/1背包即每个数字只能用一次，因此必须从后往前，否则同一个数字可能被用多次
-                //这里要从后往前的话是因为他压缩成1维dp了，二维的话还是从0往target走的吧
+                //这里要从后往前的话是因为他压缩成1维dp了，二维的话还是从0往target走的吧，见下面
                 if(j-nums[i]>=0&&dp[j-nums[i]]){
                     dp[j]=true;
                 }
@@ -35,6 +35,39 @@ public class ClosestSum {
             }
         }
         return rs;
-
+    }
+    //二维的写法
+    public int minDifference2(int[] nums) {
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        int target = sum / 2;
+        int n = nums.length;
+        // dp[i][j]:
+        // 前 i 个数能否组成 sum = j
+        boolean[][] dp = new boolean[n + 1][target + 1];
+        // 什么都不选，可以组成 0
+        for (int i = 0; i <= n; i++) {
+            dp[i][0] = true;
+        }
+        for (int i = 1; i <= n; i++) {
+            int num = nums[i - 1];
+            for (int j = 1; j <= target; j++) {
+                // 不选当前 nums[i - 1]
+                dp[i][j] = dp[i - 1][j];
+                // 选当前 nums[i - 1]
+                if (j >= num) {
+                    dp[i][j] = dp[i][j] || dp[i - 1][j - num];
+                }
+            }
+        }
+        // 找最接近 sum / 2 的可达值
+        for (int j = target; j >= 0; j--) {
+            if (dp[n][j]) {
+                return sum - 2 * j;
+            }
+        }
+        return 0;
     }
 }

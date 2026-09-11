@@ -62,16 +62,16 @@ public class FunctionRegister {
             return true;
         }
         while (b1<s.length&&b2<t.length){
-            if (t[b2].equals("null")){
+            if (t[b2].equals("null")){//应该是题目特殊条件吧，是null就代表任意参数都可以
                 b1++;
                 b2++;
                 continue;
             }
             if (t[b2].indexOf("...")!=-1){
-                String varid=t[b2].substring(0,t[b2].indexOf("..."));
-                if(s[b1].equals(varid)&&checkIfRemaingMatch(s,b1+1,varid)){//假设可变参数必须是最后一个参数
+                String varid=t[b2].substring(0,t[b2].indexOf("..."));//假设可变参数必须是最后一个参数
+                if(s[b1].equals(varid)&&checkIfRemaingMatch(s,b1+1,varid)){//即varid的b2和s[b1]这个参数对应了，并且检查后面都对应，那就对了
                     return true;
-                }else if (isMatch(s,t,b1,b2+1)){
+                }else if (isMatch(s,t,b1,b2+1)){//或者varid可以是空的，然后调用ismatch，b1和b2都结束的话才对
                     return true;
                 }else {
                     return false;

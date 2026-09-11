@@ -55,7 +55,6 @@ public class DesignAmbientLightSensorSystem {
         static class Reading {
             final int timestamp;
             final double lux;
-
             Reading(int timestamp, double lux) {
                 this.timestamp = timestamp;
                 this.lux = lux;
@@ -63,14 +62,10 @@ public class DesignAmbientLightSensorSystem {
         }
         // timestamp -> lux
         // ConcurrentHashMap 支持并发读写
-        private final ConcurrentHashMap<Integer, Double> map =
-                new ConcurrentHashMap<>();
-
+        private final ConcurrentHashMap<Integer, Double> map = new ConcurrentHashMap<>();
         // 最新的一条 valid reading
         // 把 timestamp 和 lux 放一起，保证一起更新
-        private final AtomicReference<Reading> latest =
-                new AtomicReference<>(null);
-
+        private final AtomicReference<Reading> latest = new AtomicReference<>(null);
         public void record(int status, double lux, int timestamp) {
             if (status == 0) {
                 return;

@@ -5,7 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 /*
 就是地里的camera group 变形
-就是有一个string organization, site, camera表示这个camera fail了，也可以输入是site fail也可以是organization fail，输入是一个array，表示有几个不同的camera，site，或者是organization fail，求最后合并之后是有谁fail了
+就是有一个string organization, site, camera表示这个camera fail了，也可以输入是site fail也可以是organization fail，输入是一个array，表示有几
+个不同的camera，site，或者是organization fail，求最后合并之后是有谁fail了
 比如输入是["o1,s1,c1","o1,s1","o1,s2,c1"]输出的就是["o1,s1","o1,s2,c1"]
 因为一旦更高一层的已经fail了就可以直接合并这个camera的failure了
  */
@@ -21,7 +22,7 @@ public class RemoveSubFoldersfromtheFilesystem1233 {
         rs.add(folder[0]);
         for(int i=1;i<folder.length;i++){
             String cur=folder[i];
-            if(cur.startsWith(rs.get(rs.size()-1)+'/')){
+            if(cur.startsWith(rs.get(rs.size()-1)+'/')){//是subfolder，不加入结果集
                 continue;
             }else{
                 rs.add(cur);

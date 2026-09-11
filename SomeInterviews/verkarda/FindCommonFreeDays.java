@@ -135,4 +135,104 @@ Increment a global freeCount[day] for every day the person is free.
 Traverse freeCount and find contiguous ranges where at least P people are free.
 For every such streak that is at least X days long, add all those days to the result.
      */
+    //gpt写的，就是先merge每个人的，然后和followup1一样线扫描，用一个数组记录每一天的freeday，再对这个freeday数组用sliding window找
+    //连续的一段符合条件的free days
+    public List<Integer> findFreeDays(int[][] intervals, int p, int x) {
+        // personId -> busy intervals
+        Map<Integer, List<int[]>> map = new HashMap<>();
+
+        int maxDay = 0;
+
+        for (int[] in : intervals) {
+            int person = in[0];
+            int start = in[1];
+            int end = in[2];
+
+            map.putIfAbsent(person, new ArrayList<>());
+            map.get(person).add(new int[]{start, end});
+
+            maxDay = Math.max(maxDay, end);
+        }
+
+        int totalPeople = map.size();
+
+        // day -> busy人数变化
+        TreeMap<Integer, Integer> events = new TreeMap<>();
+
+        // 1. 每个人先 merge 自己的 busy intervals
+        for (List<int[]> list : map.values()) {
+            list.sort((a, b) -> a[0] - b[0]);
+
+            int start = list.get(0)[0];
+            int end = list.get(0)[1];
+
+            for (int i = 1; i < list.size(); i++) {
+                int[] cur = list.get(i);
+
+                // overlap / back-to-back
+                if (cur[0] <= end + 1) {
+                    end = Math.max(end, cur[1]);
+                } else {
+                    addEvent(events, start, end);
+
+                    start = cur[0];
+                    end = cur[1];
+                }
+            }
+
+            addEvent(events, start, end);
+        }
+
+        // 2. sweep line 得到每天有多少人 free
+        int[] freeCount = new int[maxDay + 1];
+
+        int busy = 0;
+
+        for (int day = 1; day <= maxDay; day++) {
+            busy += events.getOrDefault(day, 0);
+
+            freeCount[day] = totalPeople - busy;
+        }
+
+        // 3. while sliding window / two pointers
+        List<Integer> rs = new ArrayList<>();
+
+        int left = 1;
+
+        while (left <= maxDay) {
+
+            // 当前天不满足，直接跳过
+            if (freeCount[left] < p) {
+                left++;
+                continue;
+            }
+
+            // 找到一个满足的起点
+            int right = left;
+
+            // 一直向右 expand
+            while (right <= maxDay && freeCount[right] >= p) {
+                right++;
+            }
+
+            // 实际满足的区间是 [left, right - 1]
+            int len = right - left;
+
+            if (len >= x) {
+                for (int day = left; day < right; day++) {
+                    rs.add(day);
+                }
+            }
+            // right现在要么越界，要么是不满足的那一天
+            left = right + 1;
+        }
+        return rs;
+    }
+
+    private void addEvent(TreeMap<Integer, Integer> events,
+                          int start, int end) {
+        // [start, end] inclusive
+        events.put(start, events.getOrDefault(start, 0) + 1);
+        events.put(end + 1, events.getOrDefault(end + 1, 0) - 1);
+    }
 }
