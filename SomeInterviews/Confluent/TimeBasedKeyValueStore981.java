@@ -3,7 +3,7 @@ package SomeInterviews.Confluent;
 import java.util.*;
 
 public class TimeBasedKeyValueStore981 {
-    //比lc原题981多了getaverage，那就是value要变成int，原题是string没法搞average（start，end）
+    //confluent面经，比lc原题981多了getaverage，那就是value要变成int，原题是string没法搞average（start，end）
     //做法是原有的基础上把value做成一个entry class，里面还额外包含了prfixsum，set的时候就要设置好，这样找range的时候就用prefixsum找就快
     //否就就用treemap的submap方法直接加起算平均值
     class TimeMap {
@@ -48,12 +48,11 @@ public class TimeBasedKeyValueStore981 {
             Map.Entry<Integer, Entry> left = tm.ceilingEntry(start);
             // 最后一个 <= end
             Map.Entry<Integer, Entry> right = tm.floorEntry(end);
-
             if (left == null || right == null || left.getKey() > right.getKey()) {
                 return 0.0;
             }
             long rightPrefix = right.getValue().prefixSum;
-            // 找 left 前一个 entry
+            // 找 left 前一个 entry,要include start的话，就要找前一个
             Map.Entry<Integer, Entry> beforeLeft = tm.lowerEntry(left.getKey());
             long leftPrefix = beforeLeft == null ? 0 : beforeLeft.getValue().prefixSum;
             long sum = rightPrefix - leftPrefix;
