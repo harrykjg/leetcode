@@ -12,6 +12,7 @@ public class QuickSelect {//用于快速选择第k小的东西
     }
     //自己写的联系quickselect
     public int slect(int[] nums,int k){
+
         return quick(nums,0,nums.length-1,k-1);
     }
     int quick(int[] nums,int b,int e,int k){
@@ -80,4 +81,53 @@ public class QuickSelect {//用于快速选择第k小的东西
         return partition(nums,b,bb-1,k);
     }
 
+    //quicksort
+    public void quickSort(int[] nums) {
+        if (nums == null || nums.length <= 1) {
+            return;
+        }
+        quickSort(nums, 0, nums.length - 1);
+    }
+
+    // 2. 递归排序的核心函数
+    private void quickSort(int[] nums, int b, int e) {
+        if (b < e) {
+            // 先进行分区，返回基准值的最终索引位置
+            int pivotIndex = partition(nums, b, e);
+
+            // 递归排序左半部分（排基准值左边的元素）
+            quickSort(nums, b, pivotIndex - 1);
+
+            // 递归排序右半部分（排基准值右边的元素）
+            quickSort(nums, pivotIndex + 1, e);
+        }
+    }
+
+    // 3. 完全保留你原本的核心分区逻辑，仅修改了返回值
+    private int partition(int[] nums, int b, int e) {
+        //这里把b做成random的index也行
+        int x = nums[b];
+        int bb = b;
+        int ee = e;
+        while (bb < ee) {
+            while (bb < ee && nums[ee] > x) {
+                ee--;
+            }
+            if (bb < ee) {
+                nums[bb] = nums[ee];
+                bb++;
+            }
+            while (bb < ee && nums[bb] <= x) {
+                bb++;
+            }
+            if (bb < ee) {
+                nums[ee] = nums[bb];
+                ee--;
+            }
+        }
+        nums[bb] = x;
+
+        // 【关键改动】：不再判断 k，直接返回当前的基准点索引位置
+        return bb;
+    }
 }

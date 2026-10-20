@@ -183,7 +183,7 @@ public class WordLadder {
             int size=q.size();
             for(int i=0;i<size;i++){
                 String cur=q.poll();
-                set.remove(cur);
+                set.remove(cur);//用来去重，可以少用一个set。其实写在offer里就行
                 char[] ch=cur.toCharArray();
                 for(int j=0;j<ch.length;j++){
                     char ori=ch[j];
